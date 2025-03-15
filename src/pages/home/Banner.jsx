@@ -1,17 +1,18 @@
 import { Button } from "antd";
-import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
+import { CaretRightOutlined } from "@ant-design/icons";
+
 export const Banner = () => {
   return (
-    <div className="bg-[url('/bg-1.png')] bg-[#050505] w-full   bg-no-repeat bg-auto bg-right-top h-[92vh] ">
-      <div className=" max-w-xl  broder border-red-600 ml-[384px] pt-[199px] ">
-        <h1 className="text-[#B1ADAA] text-[70px] leading-20 font-bold">
+    <div className="bg-[url('/bg-1.png')] bg-[#050505] w-full bg-no-repeat bg-cover bg-right-top lg:min-h-screen lg:pt-[159px] px-4 ">
+      <div className="max-w-xl  lg:py-0 py-4 px-6 md:px-0 lg:ml-[155px] text-center  md:text-left">
+        <h1 className="text-[#B1ADAA] text-[30px] md:text-[60px] lg:text-[70px] leading-tight font-bold">
           Empowering women through healing & hope.
         </h1>
-        <p className="text-white my-6 ">
-          Our mission is to empower women to heal and thrive. We <br /> provide
-          resources, education, and support for women who <br /> have
-          experienced trauma. Join us in our mission to create a <br /> world
-          where all women can heal and thrive.
+        <p className="text-white lg:my-10 my-3 text-sm md:text-base">
+          Our mission is to empower women to heal and thrive. We provide
+          resources, education, and support for women who have experienced
+          trauma. Join us in our mission to create a world where all women can
+          heal and thrive.
         </p>
         <Button
           style={{
@@ -20,13 +21,13 @@ export const Banner = () => {
             color: "white",
             cursor: "pointer",
             fontWeight: "bold",
-            padding: "19px 25px",
+            padding: "19px 24px",
             borderRadius: "5px",
           }}
           icon={<CaretRightOutlined />}
-          className="hover:!bg-[#403730] hover:!text-white focus:!bg-[#403730] focus:!text-white active:!bg-[#403730] active:!text-white text-sm "
+          className="hover:!bg-[#403730] hover:!text-white focus:!bg-[#403730] focus:!text-white active:!bg-[#403730] active:!text-white text-sm"
         >
-          Download
+          Explore our Works
         </Button>
       </div>
     </div>

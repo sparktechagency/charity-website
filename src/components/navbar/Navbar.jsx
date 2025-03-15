@@ -18,7 +18,7 @@ const Navbar = () => {
       </Link>
 
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex">
+      <nav className="hidden lg:flex">
         <ul className="flex items-center gap-x-6 mt-1.5">
           {[
             "about",
@@ -45,12 +45,12 @@ const Navbar = () => {
       </nav>
 
       {/* Support Button (Desktop Only) */}
-      <button className="hidden md:block bg-[#403730] px-4 py-2.5 text-white rounded-md font-medium text-sm">
+      <button className="hidden lg:block bg-[#403730] px-4 py-2.5 text-white rounded-md font-medium text-sm">
         Support Survivors
       </button>
 
       {/* Mobile Menu Button */}
-      <button onClick={toggleDrawer} className="md:hidden">
+      <button onClick={toggleDrawer} className="lg:hidden">
         <MenuOutlined className="text-2xl text-[#263234]" />
       </button>
 
