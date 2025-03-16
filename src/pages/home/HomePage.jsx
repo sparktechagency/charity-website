@@ -3,6 +3,7 @@ import { Banner } from './Banner'
 import { MissionVission } from './MissionVission'
 import { PodcastStory } from './PodcastStory'
 import Faq from './Faq'
+import HelpSection from './HelpSection'
 
 const HomePage = () => {
   return (
@@ -11,6 +12,7 @@ const HomePage = () => {
         <div className=' max-w-[1512px] bg-[#ecebea]  mx-auto ' >
           <MissionVission></MissionVission>
           <PodcastStory></PodcastStory>
+          {/* <HelpSection></HelpSection> */}
           <Faq></Faq>
         </div>
     </div>

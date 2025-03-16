@@ -1,17 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
-export const MissionVission = () => {
-  // State to control the modal visibility
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Function to open the modal
-  const openModal = () => setIsModalOpen(true);
-
-  // Function to close the modal
-  const closeModal = () => setIsModalOpen(false);
-
+const AboutMissionVission = () => {
   return (
-    <div className="py-5 px-4 max-w-[1512px] mx-auto bg-[#ecebea]">
+    <div className=" bg-[#ecebea] p-4   ">
       <div className="">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Left Side - Image */}
@@ -47,7 +38,6 @@ export const MissionVission = () => {
             {/* Buttons */}
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
               <button
-                onClick={openModal}
                 className="bg-[#403730] text-white py-3 px-6 rounded-md font-medium hover:bg-[#2E2A26]"
               >
                 Support survivors
@@ -59,30 +49,8 @@ export const MissionVission = () => {
           </div>
         </div>
       </div>
-
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0  bg-opacity-50 z-50 flex items-center justify-center">
-          <div className=" rounded-lg max-w-[498px] border transform transition-all duration-300 scale-100">
-            <h2 className="text-xl font-bold text-[#403730]">
-              Support Survivors
-            </h2>
-            <p className="mt-2 text-gray-700">
-              Thank you for your interest in supporting survivors! Your
-              contribution is valuable in making a difference.
-              {/* You can add more content or a form here. */}
-            </p>
-            <div className="mt-4 flex justify-end">
-              <button
-                onClick={closeModal}
-                className="bg-[#403730] text-white py-2 px-6 rounded-md"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
+
+export default AboutMissionVission;
