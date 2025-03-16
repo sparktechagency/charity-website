@@ -33,7 +33,7 @@ const Navbar = () => {
                 to={`/${item}`}
                 className={({ isActive }) =>
                   isActive
-                    ? "text-[#263234] font-bold px-6 py-2 bg-[#dee1e6] rounded-md text-sm"
+                    ? "text-[#263234] font-bold px-6 py-3 bg-[#dee1e6] rounded-4xl text-sm"
                     : "text-[#263234] text-sm"
                 }
               >
@@ -76,7 +76,7 @@ const Navbar = () => {
                 to={`/${item}`}
                 className={({ isActive }) =>
                   isActive
-                    ? "text-[#263234] font-bold px-4 py-2 bg-[#dee1e6] rounded-md text-sm block"
+                    ? "text-[#263234] font-bold pt-3 px-4 bg-[#e6dede]  rounded-md text-sm block"
                     : "text-[#263234] text-sm block"
                 }
                 onClick={toggleDrawer} // Close drawer on link click

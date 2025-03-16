@@ -40,7 +40,7 @@ const Footer = () => {
   ];
 
   return (
-    <div className="bg-[#ECEBEA] pt-8 lg:pt-16 lg:pb-12 pb-6 w-full">
+    <div className="bg-[#ECEBEA] max-w-[1510px] pt-8 lg:pt-16 lg:pb-12 pb-6 mx-auto   ">
       <div className="max-w-[1074px]   mx-auto">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-0 justify-between items-center lg:items-start">
           {/* Section 1 - Logo & Text */}
