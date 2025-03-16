@@ -2,7 +2,7 @@ import React from "react";
 
 export const LuxerySection = () => {
   return (
-    <div className=" bg-[#ecebea] lg:mt-16 mt-4 py-4 p-2 lg:p-0">
+    <div className=" bg-[#ecebea] lg:mt-16 mt-4  py-4 p-2 lg:p-0">
       <div className=" max-w-[1480px] mx-auto ">
         <div className=" flex lg:flex-row flex-col pt-4 items-center lg:justify-between gap-5  ">
           <div className=" lg:max-w-[635px]  " >
