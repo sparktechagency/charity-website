@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+
+
+span.ant-menu-title-content {
+    color:#403730;
+    font-weight: 600;
+    margin-top:2px;
+}
+
+
+.custom-menu .ant-menu-item:hover {
+    background-color: transparent !important;
+  }
+
+  .custom-menu .ant-menu-item {
+    margin-bottom: -15px;
+
+  }

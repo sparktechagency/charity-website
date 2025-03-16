@@ -2,7 +2,7 @@ import React from "react";
 
 export const MissionVission = () => {
   return (
-    <div className="py-5 px-4 max-w-[1480px] mx-auto ">
+    <div className="py-5 px-4 max-w-[1512px] mx-auto bg-[#ecebea] ">
       <div className="">
         <div className="grid grid-cols-1 lg:grid-cols-2  gap-10">
           {/* Left Side - Image */}
