@@ -4,7 +4,7 @@ const { Paragraph } = Typography;
 const AboutBanner = () => {
   return (
     <div>
-      <div className="lg:mt-10 mt-3 max-w-[960px] mx-auto ">
+      <div className="pt-16 max-w-[960px] mx-auto ">
         <Paragraph
           style={{ color: "#403730", fontWeight: "600", textAlign: "center" }}
         >

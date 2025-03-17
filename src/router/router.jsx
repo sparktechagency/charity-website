@@ -3,6 +3,7 @@ import Layout from "../layout/Layout";
 import HomePage from "../pages/home/HomePage";
 import AboutPage from "../pages/about/AboutPage";
 import ServicePage from "../pages/service/ServicePage";
+import FundraisingPage from "../pages/fundraising/FundraisingPage";
 
 
 export const router = createBrowserRouter([
@@ -23,12 +24,12 @@ export const router = createBrowserRouter([
                 element : <ServicePage></ServicePage>
             },
             {
-                path : "involved",
-                element : <h1>Involved</h1>
+                path : "fundraising-get-involved",
+                element : <FundraisingPage></FundraisingPage>
             },
             {
                 path : "auction",
-                element : <h1>Auction</h1>
+                element : <h1 className="pt-16" >Auction</h1>
             },
             {
                 path : "contact",
