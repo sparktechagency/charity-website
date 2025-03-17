@@ -4,6 +4,7 @@ import HomePage from "../pages/home/HomePage";
 import AboutPage from "../pages/about/AboutPage";
 import ServicePage from "../pages/service/ServicePage";
 import FundraisingPage from "../pages/fundraising/FundraisingPage";
+import PodcastPage from "../pages/podcast/PodcastPage";
 
 
 export const router = createBrowserRouter([
@@ -37,7 +38,7 @@ export const router = createBrowserRouter([
             },
             {
                 path : "podcast",
-                element : <h1>Podcast</h1>
+                element : <PodcastPage></PodcastPage>
             }
         ]
     }
