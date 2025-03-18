@@ -146,10 +146,7 @@ const HomeSlider = () => {
               Go Back
             </button>
             <button
-              onClick={() => {
-                alert("Final step confirmed! 🎉");
-                setThirdModalOpen(false);
-              }}
+              
               className="bg-[#403730] text-white hover:bg-[#363533] transition-all duration-700 px-6 text-sm font-bold py-2 rounded "
             >
               Complete process

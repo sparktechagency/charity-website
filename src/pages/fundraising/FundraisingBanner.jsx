@@ -5,7 +5,7 @@ const FundraisingBanner = () => {
     <div className=" max-w-[1512px] mx-auto  ">
       <div className="relative w-full h-[90vh] -z-0  bg-[url('/funderingBannerImg.jpg')] bg-cover bg-center">
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/60"></div>
+        {/* <div className="absolute inset-0 bg-black/60"></div> */}
 
         {/* Content */}
         <div className="relative flex flex-col items-center justify-center h-full text-white px-6 text-center">

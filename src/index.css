@@ -17,3 +17,12 @@ span.ant-menu-title-content {
     margin-bottom: -15px;
 
   }
+
+  .swiper-pagination-bullet{
+    background-color: #403730 !important;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin-top: 90px !important;
+    display: block;
+  }

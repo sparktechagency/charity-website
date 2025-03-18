@@ -77,9 +77,7 @@ const Navbar = () => {
 
         {/* Support Button (Desktop Only) */}
         <button
-          className={`hidden lg:block px-4 py-2.5 text-sm font-medium rounded-md transition-all duration-300 ${
-            isScrolled ? "bg-[#403730] text-white" : "bg-white text-[#263234]"
-          }`}
+          className={`hidden lg:block px-4 py-2.5 text-sm font-medium rounded-md transition-all duration-300 bg-[#403730] text-white`}
         >
           Support Survivors
         </button>
@@ -128,6 +126,9 @@ const Navbar = () => {
           </button>
         </Drawer>
       </div>
+
+      {/* modal */}
+      
     </nav>
   );
 };
