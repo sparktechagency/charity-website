@@ -66,15 +66,15 @@ export default function AutoCarousel() {
                 <img
                   src={item.img}
                   alt={item.title}
-                  className=" lg:w-[542px] w-ful p-1 bg-amber-50  lg:h-[608px] object-cover rounded-lg"
+                  className=" lg:w-[542px] w-full p-1 bg-amber-50  lg:h-[608px] h-60 object-cover rounded-lg"
                 />
                 {/* Gradient Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 h-auto bg-gradient-to-t from-black/40 to-black/40 rounded-b-lg"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/90 to-transparent rounded-b-lg"></div>
                 {/* Text Content */}
                 <div className="absolute bottom-5 left-5 text-white">
-                  <h2 className="text-3xl font-bold">{item.heading}</h2>
-                  <p className="text-lg mt-2 ">{item.title}</p>
-                  <p className="text-2xl font-semibold">{item.price} <span>(sold out)</span> </p>
+                  <h2 className="lg:text-3xl text-xl font-bold">{item.heading}</h2>
+                  <p className="lg:text-lg text-xl lg:mt-2 ">{item.title}</p>
+                  <p className="lg:text-2xl font-semibold">{item.price} <span>(sold out)</span> </p>
                 </div>
               </div>
             ))}
