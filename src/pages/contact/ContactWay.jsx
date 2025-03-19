@@ -2,7 +2,7 @@ import React from "react";
 
 const ContactWay = () => {
   return (
-    <div className="bg-[#ecebea] pt-5 pb-5 border ">
+    <div className="bg-[#ecebea] pt-5 pb-5  ">
       <div className="bg-white" >
         <div className=" text-center lg:pt-24 pt-5 lg:pb-24 pb-5 ">
           <p className=" font-semibold text-[#403730] ">
@@ -14,7 +14,6 @@ const ContactWay = () => {
           <p className=" lg:text-xl text-lg text-[#263234] lg:leading-7 " >Email: give@virtuehope.com</p>
           <p className=" lg:text-xl text-lg text-[#263234] lg:leading-7 lg:mt-2 mt-1 " >Telephone: +123 4567 78958</p>
           <p className=" lg:text-xl text-lg text-[#263234] lg:leading-7 lg:mt-2 mt-1 " >Location: St Florence, Tenby, UK</p>
-          
         </div>
       </div>
     </div>

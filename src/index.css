@@ -26,3 +26,58 @@ span.ant-menu-title-content {
     margin-top: 90px !important;
     display: block;
   }
+
+
+
+  /* .custom-select {
+    border: 0px solid red !important;
+    outline: none !important;
+  } */
+  
+  .custom-select:hover,
+  .custom-select:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important; /* Remove any additional focus styles */
+  }
+
+  .ant-select-selector {
+    border: 1px solid gray !important;
+    outline: 1px solid gray !important;
+  }
+  
+  .ant-select-selector:hover,
+  .ant-select-selector:focus {
+    border: 1px solid gray  !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .ant-btn:hover {
+    background-color: #3a342f !important;
+    color: #FFFFFF !important;
+    outline: none;
+    border: none;
+  }
+
+
+
+  .ant-btn {
+    margin-left: 70%; /* Reduce margin on tablets */
+  }
+  
+
+  
+  @media (max-width: 768px) {
+    .ant-btn {
+      margin-left: 40%; /* Reduce margin on tablets */
+    }
+  }
+  
+  
+  @media (max-width: 480px) {
+    .ant-btn {
+      background-color: red;
+      margin-left: 40%; /* Further reduce margin on mobile */
+    }
+  }
