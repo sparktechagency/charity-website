@@ -27,7 +27,7 @@ const Navbar = () => {
     { name: "About", path: "about" },
     { name: "Service", path: "service" },
     { name: "Fundraising & Get Involved", path: "fundraising-get-involved" },
-    { name: "Auction", path: "auction" },
+    { name: "Auction listing & salec", path: "auction" },
     { name: "Contact", path: "contact" },
     { name: "Podcast", path: "podcast" },
   ];

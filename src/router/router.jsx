@@ -6,6 +6,7 @@ import ServicePage from "../pages/service/ServicePage";
 import FundraisingPage from "../pages/fundraising/FundraisingPage";
 import PodcastPage from "../pages/podcast/PodcastPage";
 import AuctionPage from "../pages/auction/AuctionPage";
+import ContactPage from "../pages/contact/ContactPage";
 
 
 export const router = createBrowserRouter([
@@ -35,7 +36,7 @@ export const router = createBrowserRouter([
             },
             {
                 path : "contact",
-                element : <h1>Contact</h1>
+                element : <ContactPage></ContactPage>
             },
             {
                 path : "podcast",
