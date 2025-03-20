@@ -81,3 +81,27 @@ span.ant-menu-title-content {
       margin-left: 40%; /* Further reduce margin on mobile */
     }
   }
+
+
+  .ant-progress-bg{
+    background-color: red;
+  }
+
+
+/* Custom scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* Adjust scrollbar width */
+  background: #1B2324;
+}
+
+/* Scrollbar Track */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #1f2937; /* Track color */
+  border-left: 20px solid transparent; /* Creates space on the left */
+}
+
+/* Scrollbar Thumb */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4b5563; /* Thumb color */
+  border-radius: 4px;
+}
