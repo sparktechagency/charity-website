@@ -12,9 +12,9 @@ const HomePage = () => {
         <Banner></Banner>
         <div className=' bg-[#ecebea]   ' >
           <MissionVission></MissionVission>
-          <HomeSlider></HomeSlider>
+          {/* <HomeSlider></HomeSlider> */}
           <PodcastStory></PodcastStory>
-          {/* <HelpSection></HelpSection> */}
+          <HelpSection></HelpSection>
           <Faq></Faq>
         </div>
     </div>
