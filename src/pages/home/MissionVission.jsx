@@ -1,30 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Modal, Input, Button, Checkbox, Upload, message } from "antd";
+import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import { Divider } from "antd";
+import { PayCircleOutlined, CreditCardOutlined, BankOutlined } from '@ant-design/icons';
+
+const { Dragger } = Upload;
+
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
 
 export const MissionVission = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [donateModal, setDonateModal] = useState(false);
-  const [donationMethod, setDonationMethod] = useState(null);
 
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
 
   const handleProceed = () => {
-    console.log("Selected Donation Method:", donationMethod);
+    console.log("Selected Donation Method:", );
     setIsModalOpen(false);
     setDonateModal(true);
   };
 
   const handleDonateCancelModal = () => {
+    console.log(`first modal opened: `)
     setDonateModal(false);
     setIsModalOpen(true);
+    
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     showSuccessAlert();
-    console.log("Selected Donation Method:", donationMethod);
+    console.log("Selected Donation Method:", );
     setIsModalOpen(false);
     setDonateModal(false);
   };
@@ -40,7 +47,7 @@ export const MissionVission = () => {
     e.preventDefault();
     console.log("Volunteer Form Submitted");
     setIsVolunterModal(false);
-    showSuccessAlert()
+    showSuccessAlert();
   };
 
   useEffect(() => {
@@ -78,7 +85,6 @@ export const MissionVission = () => {
       document.body.style.overflow = "auto"; // Ensure scroll is enabled when component unmounts
     };
   }, [isVolunterModal]);
-
 
   useEffect(() => {
     if (isVolunterModal) {
@@ -133,13 +139,17 @@ export const MissionVission = () => {
             </button>
             <button
               onClick={openModal}
-              className="bg-[#F6F6F7] text-gray-800 py-3 px-6 rounded-md font-bold"
+              className="bg-[#F6F6F7] text-gray-800 cursor-pointer py-3 px-6 rounded-md font-bold"
             >
               Become a volunteer
             </button>
           </div>
         </div>
       </div>
+
+
+
+
 
       {/* Custom Static Modal */}
       {isModalOpen && (
@@ -162,7 +172,6 @@ export const MissionVission = () => {
                         name="donation"
                         value="card"
                         className="py-4 border "
-                        onChange={(e) => setDonationMethod(e.target.value)}
                       />
                       <span className="text-[#263234] font-medium ">Card</span>
                     </div>
@@ -332,7 +341,6 @@ export const MissionVission = () => {
                         type="radio"
                         name="donation"
                         value="paypal"
-                        onChange={(e) => setDonationMethod(e.target.value)}
                       />
                       <span className=" text-[#263234] font-medium ">
                         Donate with PayPal
@@ -369,7 +377,6 @@ export const MissionVission = () => {
                         type="radio"
                         name="donation"
                         value="stripe"
-                        onChange={(e) => setDonationMethod(e.target.value)}
                       />
                       <span className="text-[#263234] font-medium ">
                         Donate with Stripe
@@ -400,7 +407,6 @@ export const MissionVission = () => {
                       type="radio"
                       name="donation"
                       value="luxurious"
-                      onChange={(e) => setDonationMethod(e.target.value)}
                     />
                     <span className="text-[#263234] font-medium">
                       With Luxurious Retreat
@@ -414,13 +420,13 @@ export const MissionVission = () => {
             <div className="flex justify-between mt-5 mb-2 lg:mt-6">
               <button
                 onClick={handleCancel}
-                className=" text-[#403730] text-sm font-bold "
+                className=" text-[#403730] cursor-pointer text-sm font-bold "
               >
                 Cancel
               </button>
               <button
                 onClick={handleProceed}
-                className="bg-[#403730] text-white px-4 py-2 rounded-md hover:bg-[#2E2A26]"
+                className="bg-[#403730] text-white px-4 py-2 cursor-pointer rounded-md hover:bg-[#2E2A26]"
               >
                 Proceed next step
               </button>
@@ -429,226 +435,108 @@ export const MissionVission = () => {
         </div>
       )}
 
+
+
+
+
+
+
+
+
       {/* Donate from */}
 
-      {donateModal && (
-        <div className="fixed w-full inset-0 flex items-center justify-center max-w-[600px]  bg-opacity-50 z-50">
-          {/* Donation Options */}
-          <div className="fixed inset-0 flex items-center justify-center ">
-            <div className="bg-white w-[500px] lg:py-6 lg:px-6 px-2 rounded-2xl shadow-lg">
-              {/* Title */}
-              <h2 className="lg:text-2xl text-xl font-semibold leading-8 lg:py-6 text-[#263234] lg:mb-4">
-                Donate with Luxury retreats
-              </h2>
+      <Modal
+        open={donateModal}
+        
+        footer={null}
+        width={500}
+        closable={false}
+      >
+        <h2 className="text-2xl font-semibold leading-8 text-[#263234] mb-4">
+          Donate with Luxury Retreats
+        </h2>
 
-              <form action="">
-                {/* Name Field */}
-                <div className="lg:mb-4 mb-3 ">
-                  <label className="block text-sm font-medium text-[#263234] ">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter your name"
-                    className="w-full mt-2 py-2.5 px-3.5 border border-[#A6ABAC] rounded-md focus:outline-none focus:ring focus:ring-gray-300"
-                  />
-                </div>
-
-                {/* text Field */}
-                <div className="lg:mb-4 mb-3 ">
-                  <label className="block text-sm font-medium text-[#263234]">
-                    Email (optional)
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="Enter your email address"
-                    className="w-full mt-2 py-2.5 px-3.5 border border-[#A6ABAC] rounded-md focus:outline-none focus:ring focus:ring-gray-300"
-                  />
-                </div>
-
-                {/* Item Name Field */}
-                <div className="lg:mb-4 mb-3 ">
-                  <label className="block text-sm font-medium text-[#263234]">
-                    Item
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter item name"
-                    className="w-full mt-2 py-2.5 px-3.5 border border-[#A6ABAC] rounded-md focus:outline-none focus:ring focus:ring-gray-300"
-                  />
-                </div>
-
-                {/* Item Description */}
-                <div className="lg:mb-4 mt-3 ">
-                  <label className="block text-sm font-medium text-[#263234]">
-                    Item description
-                  </label>
-                  <textarea
-                    placeholder="Enter a description..."
-                    className="w-full mt-2 py-2.5 px-3.5 border border-[#A6ABAC] rounded-md focus:outline-none focus:ring focus:ring-gray-300 h-24 resize-none"
-                  />
-                </div>
-
-                {/* File Upload */}
-                <div className="border-2 border-dashed border-gray-400 rounded-lg p-4 cursor-pointer hover:bg-gray-100">
-                  <label className="w-full text-center text-gray-500 text-sm cursor-pointer">
-                    <input
-                      type="file"
-                      className="hidden"
-                      // onChange={handleFileChange}
-                    />
-                    <div className="flex flex-col px-6 gap-2">
-                      {/* Icon */}
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M3 14C3.55228 14 4 14.4477 4 15V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V15C20 14.4477 20.4477 14 21 14C21.5523 14 22 14.4477 22 15V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7956 2 19V15C2 14.4477 2.44772 14 3 14Z"
-                          fill="#4B5557"
-                        />
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M11.2929 2.29289C11.6834 1.90237 12.3166 1.90237 12.7071 2.29289L17.7071 7.29289C18.0976 7.68342 18.0976 8.31658 17.7071 8.70711C17.3166 9.09763 16.6834 9.09763 16.2929 8.70711L12 4.41421L7.70711 8.70711C7.31658 9.09763 6.68342 9.09763 6.29289 8.70711C5.90237 8.31658 5.90237 7.68342 6.29289 7.29289L11.2929 2.29289Z"
-                          fill="#4B5557"
-                        />
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M12 2C12.5523 2 13 2.44772 13 3V15C13 15.5523 12.5523 16 12 16C11.4477 16 11 15.5523 11 15V3C11 2.44772 11.4477 2 12 2Z"
-                          fill="#4B5557"
-                        />
-                      </svg>
-
-                      {/* Text */}
-                      <div className="flex flex-col items-start">
-                        <p className=" text-[#263234] font-semibold pt-1 ">
-                          Upload photo or drag & drop here.
-                        </p>
-                        <p className="font-semibold text-[#263234] mt-1 pb-6 ">
-                          Supported format JPG, JPEG, PNG, PDF.
-                        </p>
-                      </div>
-                    </div>
-                  </label>
-                </div>
-                {/* Terms & Conditions */}
-                <div className="mt-4 flex items-center">
-                  <input type="checkbox" className="w-4 h-4" />
-                  <span className="ml-2 text-sm text-[#263234]">
-                    I agree with Virtue Hope's{" "}
-                    <a href="#" className="text-[] underline">
-                      terms & conditions.
-                    </a>
-                  </span>
-                </div>
-                {/* Modal Buttons */}
-                <div className="flex justify-between lg:mt-6 mt-2 mb-5 ">
-                  <button
-                    onClick={handleDonateCancelModal}
-                    className=" text-[#403730] text-sm font-bold "
-                  >
-                    Back
-                  </button>
-                  <button
-                    onClick={handleSubmit}
-                    className="bg-[#403730] text-white px-4 py-2 rounded-md hover:bg-[#2E2A26]"
-                  >
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Name
+            </label>
+            <Input
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                lineHeight: "24px",
+                fontSize: "16px",
+                marginTop: "6px",
+              }}
+              placeholder="Enter your name"
+              className="mt-2"
+            />
           </div>
-        </div>
-      )}
 
-      {/* volunteer modal form */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Email (optional)
+            </label>
+            <Input
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                lineHeight: "24px",
+                fontSize: "16px",
+                marginTop: "6px",
+              }}
+              type="email"
+              placeholder="Enter your email address"
+              className="mt-2"
+            />
+          </div>
 
-      {isVolunterModal && (
-        <div className="fixed inset-0 flex items-center justify-center ">
-          <div className="bg-white   lg:w-[500px]  lg:py-6 lg:px-6 px-2 rounded-2xl shadow-lg">
-            {/* Title */}
-            <h2 className="lg:text-2xl text-xl font-semibold leading-8 lg:py-6 text-[#263234] lg:mb-4">
-              Get Involved as a Volunteer
-            </h2>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Item
+            </label>
+            <Input
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                lineHeight: "24px",
+                fontSize: "16px",
+                marginTop: "6px",
+              }}
+              placeholder="Enter item name"
+              className="mt-2"
+            />
+          </div>
 
-            <form action="">
-              {/* Name Field */}
-              <div className="lg:mb-4 mb-3 ">
-                <label className="block text-sm font-medium text-[#263234] ">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  className="w-full shadow mt-2 py-2.5 px-3.5 border border-[#A6ABAC] rounded-md focus:outline-none focus:ring focus:ring-gray-300"
-                />
-              </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Item Description
+            </label>
+            <Input.TextArea
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                lineHeight: "24px",
+                fontSize: "16px",
+                marginTop: "6px",
+              }}
+              placeholder="Enter a description..."
+              className="mt-2"
+              rows={4}
+            />
+          </div>
 
-              {/* Email Field */}
-              <div className="lg:mb-4 mb-3 ">
-                <label className="block text-sm font-medium text-[#263234]">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="w-full shadow mt-2 py-2.5 px-3.5 border border-[#A6ABAC] rounded-md focus:outline-none focus:ring focus:ring-gray-300"
-                />
-              </div>
-
-              {/* Contact number */}
-              <div className="lg:mb-4 mb-3 ">
-                <label className="block text-sm font-medium text-[#263234]">
-                  Contact number
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your contact number"
-                  className="w-full shadow mt-2 py-2.5 px-3.5 border  border-[#A6ABAC] rounded-md focus:outline-none focus:ring focus:ring-gray-300"
-                />
-              </div>
-
-              {/* Location */}
-              <div className="lg:mb-4 mb-3 ">
-                <label className="block text-sm font-medium text-[#263234]">
-                  Location
-                </label>
-                <input
-                  type="text"
-                  placeholder="Street, City name & State name"
-                  className="w-full shadow mt-2 py-2.5 px-3.5 border  border-[#A6ABAC] rounded-md focus:outline-none focus:ring focus:ring-gray-300"
-                />
-              </div>
-
-              {/* Why do you want to be a Volunteer */}
-              <div className="lg:mb-4 mt-3 ">
-                <label className="block text-sm font-medium text-[#263234]">
-                  Why do you want to be a Volunteer
-                </label>
-                <textarea
-                  placeholder="Enter a description..."
-                  className="w-full mt-2 shadow py-2.5 px-3.5 border border-[#A6ABAC] rounded-md focus:outline-none focus:ring focus:ring-gray-300 h-28 resize-none"
-                />
-              </div>
-
-              {/* File Upload */}
-              <div className="border-2 border-dashed border-gray-400 rounded-lg p-4 cursor-pointer hover:bg-gray-100">
-                <label className="w-full text-center text-gray-500 text-sm cursor-pointer">
-                  <input
-                    type="file"
-                    className="hidden"
-                    // onChange={handleFileChange}
-                  />
-                  <div className="flex flex-col px-6 gap-2">
-                    {/* Icon */}
+          {/* File Upload Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Upload your photo
+            </label>
+            <Dragger
+              style={{ marginTop: "6px", border: "2px dotted #E9EBEB " }}
+            >
+              <div className=" text-start  ">
+                <p className="ant-upload-drag-icon">
+                  <span>
                     <svg
                       width="24"
                       height="24"
@@ -675,45 +563,236 @@ export const MissionVission = () => {
                         fill="#4B5557"
                       />
                     </svg>
-
-                    {/* Text */}
-                    <div className="flex flex-col items-start">
-                      <p className=" text-[#263234] font-semibold pt-1 ">
-                        Upload photo or drag & drop here.
-                      </p>
-                      <p className="font-semibold text-[#4B5557] text-sm mt-1 pb-4 ">
-                        Supported format JPG, JPEG, PNG, PDF.
-                      </p>
-                    </div>
-                  </div>
-                </label>
+                  </span>
+                </p>
+                <p className="ant-upload-text text-[#263234] font-semibold text-[16px] mb-1 ">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="text-sm text-[#4B5557] leading-5 mt-2 mb-6 ">
+                  Supported format: JPG, JPEG, PNG, PDF
+                </p>
               </div>
-              {/* Terms & Conditions */}
-              <div className="mt-4 flex items-center">
-                <input type="checkbox" className="w-4 h-4" />
-                <span className="ml-2 text-sm text-[#263234]">
-                  I agree with Virtue Hope's{" "}
-                  <a href="#" className="text-[] underline">
-                    terms & conditions.
-                  </a>
-                </span>
-              </div>
-              {/* Modal Buttons */}
-              <div className="flex justify-end gap-16 lg:mt-6 mt-2  ">
-                <button onClick={closeModal} className=" text-[#403730] text-sm font-bold ">
-                  Cancel
-                </button>
-                <button
-                  onClick={handleVolunterSubmit}
-                  className="bg-[#403730] text-white px-4 py-2 rounded-md hover:bg-[#2E2A26]"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
+            </Dragger>
           </div>
-        </div>
-      )}
+
+          <div className="mb-4">
+            <Checkbox>
+              I agree with Virtue Hope's{" "}
+              <a href="#" className="underline">
+                terms & conditions
+              </a>
+              .
+            </Checkbox>
+          </div>
+
+          {/* Modal Buttons */}
+          <div className="   flex justify-end gap-7 mr-2 ">
+            <div>
+              <button
+                onClick={handleDonateCancelModal}
+                className=" px-6 py-2 text-[#403730] cursor-pointer font-bold text-sm "
+                type="text"
+              >
+                Back
+              </button>
+            </div>
+            <div>
+              <button
+                className=" px-6 py-2  bg-[#403730] text-white rounded shadow cursor-pointer font-bold text-sm "
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+      </Modal>
+
+
+
+
+
+
+      {/* volunteer modal form */}
+
+      <div className=" w-[600px]  z-50 ">
+        <Modal
+          visible={isVolunterModal}
+          footer={null}
+          width={500}
+          // bodyStyle={{ padding: "20px" }}
+          destroyOnClose
+          closable={false}
+        >
+          <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
+            Get Involved as a Volunteer
+          </h1>
+
+          {/* Name Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Name
+            </label>
+            <Input
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                lineHeight: "24px",
+                fontSize: "16px",
+                marginTop: "6px",
+              }}
+              placeholder="Enter your name"
+            />
+          </div>
+
+          {/* Email Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Email
+            </label>
+            <Input
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                marginTop: "6px",
+              }}
+              type="email"
+              placeholder="Enter your email address"
+            />
+          </div>
+
+          {/* Contact Number Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Contact number
+            </label>
+            <Input
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                lineHeight: "24px",
+                fontSize: "16px",
+                marginTop: "6px",
+              }}
+              placeholder="Enter your contact number"
+            />
+          </div>
+
+          {/* Location Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Location
+            </label>
+            <Input
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                lineHeight: "24px",
+                fontSize: "16px",
+                marginTop: "6px",
+              }}
+              placeholder="Street, City name & State name"
+            />
+          </div>
+
+          {/* Why do you want to be a Volunteer Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Why do you want to be a Volunteer
+            </label>
+            <Input.TextArea
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                lineHeight: "24px",
+                fontSize: "16px",
+                marginTop: "6px",
+              }}
+              placeholder="Enter a description..."
+              rows={4}
+            />
+          </div>
+
+          {/* File Upload Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Upload your photo
+            </label>
+            <Dragger
+              style={{ marginTop: "6px", border: "2px dotted #E9EBEB " }}
+            >
+              <div className=" text-start  ">
+                <p className="ant-upload-drag-icon">
+                  <span>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M3 14C3.55228 14 4 14.4477 4 15V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V15C20 14.4477 20.4477 14 21 14C21.5523 14 22 14.4477 22 15V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7956 2 19V15C2 14.4477 2.44772 14 3 14Z"
+                        fill="#4B5557"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M11.2929 2.29289C11.6834 1.90237 12.3166 1.90237 12.7071 2.29289L17.7071 7.29289C18.0976 7.68342 18.0976 8.31658 17.7071 8.70711C17.3166 9.09763 16.6834 9.09763 16.2929 8.70711L12 4.41421L7.70711 8.70711C7.31658 9.09763 6.68342 9.09763 6.29289 8.70711C5.90237 8.31658 5.90237 7.68342 6.29289 7.29289L11.2929 2.29289Z"
+                        fill="#4B5557"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M12 2C12.5523 2 13 2.44772 13 3V15C13 15.5523 12.5523 16 12 16C11.4477 16 11 15.5523 11 15V3C11 2.44772 11.4477 2 12 2Z"
+                        fill="#4B5557"
+                      />
+                    </svg>
+                  </span>
+                </p>
+                <p className="ant-upload-text text-[#263234] font-semibold text-[16px] mb-1 ">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="text-sm text-[#4B5557] leading-5 mt-2 mb-6 ">
+                  Supported format: JPG, JPEG, PNG, PDF
+                </p>
+              </div>
+            </Dragger>
+          </div>
+
+          {/* Terms & Conditions Checkbox */}
+          <div className="mb-4">
+            <Checkbox style={{ color: "" }}>
+              I agree with Virtue Hope's{" "}
+              <a href="#" className="underline">
+                terms & conditions.
+              </a>
+            </Checkbox>
+          </div>
+
+          {/* Modal Buttons */}
+          <div className="   flex justify-end gap-7 mr-2 ">
+            <div>
+              <button
+                onClick={closeModal}
+                className=" px-6 py-2 text-[#403730] cursor-pointer font-bold text-sm "
+                type="text"
+              >
+                Cancel
+              </button>
+            </div>
+            <div>
+              <button
+                className=" px-6 py-2  bg-[#403730] text-white rounded shadow cursor-pointer font-bold text-sm "
+                onClick={handleVolunterSubmit}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </Modal>
+      </div>
     </div>
   );
 };

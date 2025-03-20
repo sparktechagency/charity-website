@@ -7,7 +7,7 @@ export const showSuccessAlert = () => {
     html: "<p class='text-left text-gray-600 text-sm lg:text-lg'>Your application is under review. Once we're done, we will notify you via email that you have provided. Get in touch with us. Thanks.</p>",
     showConfirmButton: false, // Hide default button
     footer:
-      "<div class='flex justify-end'><button id='custom-btn' class='bg-black text-white px-4 py-2 rounded hover:bg-gray-800'>Done</button></div>",
+      "<div class='flex justify-end'><button id='custom-btn' class='bg-black text-white px-4 py-2 rounded hover:bg-gray-800 cursor-pointer '>Done</button></div>",
     customClass: {
       popup: "rounded-lg shadow-lg lg:p-6",
     },

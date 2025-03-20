@@ -2,8 +2,8 @@ import React from "react";
 
 const FundraisingBanner = () => {
   return (
-    <div className=" max-w-[1512px] mx-auto  ">
-      <div className="relative w-full h-[90vh] -z-0  bg-[url('/funderingBannerImg.jpg')] bg-cover bg-center">
+    <div className="z-0 ">
+      <div className="relative w-full h-[90vh]  bg-[url('/funderingBannerImg.jpg')] bg-cover bg-center">
         {/* Overlay */}
         {/* <div className="absolute inset-0 bg-black/60"></div> */}
 
