@@ -10,7 +10,7 @@ const HomePage = () => {
   return (
     <div  >
         <Banner></Banner>
-        <div className=' max-w-[1512px] bg-[#ecebea]  mx-auto ' >
+        <div className=' bg-[#ecebea]   ' >
           <MissionVission></MissionVission>
           <HomeSlider></HomeSlider>
           <PodcastStory></PodcastStory>

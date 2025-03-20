@@ -105,3 +105,21 @@ span.ant-menu-title-content {
   background-color: #4b5563; /* Thumb color */
   border-radius: 4px;
 }
+
+
+/* banner btn */
+
+
+.bannerBtn {
+  display: block;
+  margin-left: 0;
+  color: "white";
+  padding: "30px 24px";
+  font-weight: 700;
+  background-color: #403730;
+  color: white !important;;
+}
+
+
+                
+                

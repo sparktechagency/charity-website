@@ -6,9 +6,9 @@ import SupportSection from './SupportSection'
 
 const ServicePage = () => {
   return (
-    <div className=' max-w-[1512px] mx-auto ' >
+    <div className='  ' >
         <ServiceBanner></ServiceBanner>
-        <ArtSection></ArtSection>
+         <ArtSection></ArtSection>
         <LuxerySection></LuxerySection>
         <SupportSection></SupportSection>
     </div>
