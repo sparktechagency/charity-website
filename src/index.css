@@ -117,18 +117,55 @@ span.ant-menu-title-content {
   padding: "30px 24px";
   font-weight: 700;
   background-color: #403730;
-  color: white !important;;
+  color: white !important;
 }
 
 
                 
-/* volonterBtn1 */
 
-.volonterBtn {
-  padding: 0px 24px ;
-  background-color: transparent !important;
+/* podcastBtn */
+
+.podcastBtn{
+  color: "white";
+  padding: "30px 24px";
+  font-weight: 700;
+  background-color: #403730;
+  color: white !important;
+  border: none;
 }
 
-.volonterBtn:hover{
+
+/* Common Styles for Both Buttons */
+.donatedBtn1, .donatedBtn2 {
+  border: none;
+  font-size: 1rem; /* Responsive font size */
+  padding: 23px 20px ; /* Responsive padding */
+   /* Slightly rounded corners for better design */
+  transition: all 0.3s ease-in-out; /* Smooth hover effect */
+  text-align: center;
+  /* Default display */
+}
+
+/* Style for donatedBtn1 */
+.donatedBtn1 {
+  background-color: #403730;
+  color: white !important;
+}
+
+/* Hover Effect for donatedBtn1 */
+
+
+/* Style for donatedBtn2 */
+.donatedBtn2 {
   background-color: transparent !important;
+  color: #403730 !important;
+  font-weight: bold;
+}
+
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .donatedBtn1, .donatedBtn2 {
+    width: 100%; /* Full width on smaller screens */
+  }
 }
