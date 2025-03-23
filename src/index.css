@@ -1,1 +1,171 @@
 @import "tailwindcss";
+
+
+
+span.ant-menu-title-content {
+    color:#403730;
+    font-weight: 600;
+    margin-top:2px;
+}
+
+
+.custom-menu .ant-menu-item:hover {
+    background-color: transparent !important;
+  }
+
+  .custom-menu .ant-menu-item {
+    margin-bottom: -15px;
+
+  }
+
+  .swiper-pagination-bullet{
+    background-color: #403730 !important;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin-top: 90px !important;
+    display: block;
+  }
+
+
+
+  /* .custom-select {
+    border: 0px solid red !important;
+    outline: none !important;
+  } */
+  
+  .custom-select:hover,
+  .custom-select:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important; /* Remove any additional focus styles */
+  }
+
+  .ant-select-selector {
+    border: 1px solid gray !important;
+    outline: 1px solid gray !important;
+  }
+  
+  .ant-select-selector:hover,
+  .ant-select-selector:focus {
+    border: 1px solid gray  !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .ant-btn:hover {
+    background-color: #363432 !important;
+    color: #FFFFFF !important;
+    outline: none;
+    border: none;
+  }
+
+
+
+  .ant-btn {
+    margin-left: 70%; /* Reduce margin on tablets */
+  }
+  
+
+  
+  @media (max-width: 768px) {
+    .ant-btn {
+      margin-left: 40%; /* Reduce margin on tablets */
+    }
+  }
+  
+  
+  @media (max-width: 480px) {
+    .ant-btn {
+      background-color: red;
+      margin-left: 40%; /* Further reduce margin on mobile */
+    }
+  }
+
+
+  .ant-progress-bg{
+    background-color: red;
+  }
+
+
+/* Custom scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* Adjust scrollbar width */
+  background: #1B2324;
+}
+
+/* Scrollbar Track */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #1f2937; /* Track color */
+  border-left: 20px solid transparent; /* Creates space on the left */
+}
+
+/* Scrollbar Thumb */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4b5563; /* Thumb color */
+  border-radius: 4px;
+}
+
+
+/* banner btn */
+
+
+.bannerBtn {
+  display: block;
+  margin-left: 0;
+  color: "white";
+  padding: "30px 24px";
+  font-weight: 700;
+  background-color: #403730;
+  color: white !important;
+}
+
+
+                
+
+/* podcastBtn */
+
+.podcastBtn{
+  color: "white";
+  padding: "30px 24px";
+  font-weight: 700;
+  background-color: #403730;
+  color: white !important;
+  border: none;
+}
+
+
+/* Common Styles for Both Buttons */
+.donatedBtn1, .donatedBtn2 {
+  border: none;
+  font-size: 1rem; /* Responsive font size */
+  padding: 23px 20px ; /* Responsive padding */
+   /* Slightly rounded corners for better design */
+  transition: all 0.3s ease-in-out; /* Smooth hover effect */
+  text-align: center;
+  /* Default display */
+}
+
+/* Style for donatedBtn1 */
+.donatedBtn1 {
+  background-color: #403730;
+  color: white !important;
+}
+
+/* Hover Effect for donatedBtn1 */
+
+
+/* Style for donatedBtn2 */
+.donatedBtn2 {
+  background-color: transparent !important;
+  color: #403730 !important;
+  font-weight: bold;
+}
+
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .donatedBtn1, .donatedBtn2 {
+    width: 100%; /* Full width on smaller screens */
+  }
+}
