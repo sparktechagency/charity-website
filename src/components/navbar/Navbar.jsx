@@ -14,6 +14,7 @@ import {
 import { SiStripe } from "react-icons/si";
 import logo from "../../assets/image/logo.svg";
 import Dragger from "antd/es/upload/Dragger";
+import { showSuccessAlert } from "../../helper/showSuccessAlert";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -46,6 +47,16 @@ const handleSecondCancelModal = ()=>{
 }
 
 
+// from submit 
+
+
+const handleSubmit = () => { 
+  console.log("Form Submitted");
+  setSecondModalOpen(false);
+  showSuccessAlert();
+}
+
+
 
 
   const [paymentMethod, setPaymentMethod] = useState(null);
@@ -57,6 +68,8 @@ const handleSecondCancelModal = ()=>{
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+
 
   const menuItems = [
     { name: "About", path: "about" },
@@ -621,7 +634,7 @@ const handleSecondCancelModal = ()=>{
           <div>
             <button
               className=" px-6 py-2  bg-[#403730] text-white rounded shadow cursor-pointer font-bold text-sm "
-              // onClick={handleSubmit}
+              onClick={handleSubmit}
             >
               Submit
             </button>
