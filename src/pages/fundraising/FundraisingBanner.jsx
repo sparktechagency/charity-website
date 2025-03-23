@@ -3,16 +3,16 @@ import React from "react";
 const FundraisingBanner = () => {
   return (
     <div className="z-0 pt-20 relative">
-      <div className="relative w-full h-[90vh] bg-cover bg-center bg-[url('/funderingBannerImg.jpg')] before:absolute before:inset-0 before:bg-gradient-to-b before:from-black/50 before:to-black/80">
+      <div className="relative w-full lg:h-[55vh] h-[40vh] bg-cover bg-center bg-[url('/funderingBannerImg.jpg')] before:absolute before:inset-0 before:bg-gradient-to-b before:from-black/50 before:to-black/80">
         {/* Content */}
         <div className="relative flex flex-col items-center justify-center text-white px-6 text-center ">
-          <p className="text-lg mb-2 uppercase tracking-wide mt-10 text-[16px] font-semibold leading-6 ">Way to help</p>
-          <h1 className="text-4xl  lg:text-5xl leading-16 text-white font-semibold mt-4 ">
+          <p className="text-lg mb-2 uppercase tracking-wide lg:mt-10 mt-5 text-[16px] font-semibold leading-6 ">Way to help</p>
+          <h1 className="text-2xl  lg:text-5xl lg:leading-16 text-white font-semibold lg:mt-4 ">
             Support our mission by-
           </h1>
 
           {/* List */}
-          <ul className="mt-6 space-y-3 text-lg lg:text-xl">
+          <ul className="lg:mt-6 lg:space-y-3 text-lg lg:text-xl">
             {[
               "Participating in art auctions",
               "Donating antiques",
@@ -34,7 +34,7 @@ const FundraisingBanner = () => {
                     fill="white"
                   />
                 </svg>
-                <span className=" font-medium leading-8 text-xl " >{item}</span>
+                <span className=" font-medium leading-8 lg:text-xl text-sm   " >{item}</span>
               </li>
             ))}
           </ul>

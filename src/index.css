@@ -169,3 +169,42 @@ span.ant-menu-title-content {
     width: 100%; /* Full width on smaller screens */
   }
 }
+
+
+/* applayBtn */
+
+.applayBtn{
+  width: 120px;
+  height: 40px;
+  color: "white";
+  font-weight: 700;
+  background-color: white ;
+  color: #403730 !important;
+  border: none;
+  display: block; 
+  margin-left:0;
+}
+
+.applayBtn:hover{
+  background-color: #6A55441A;
+  color: white !important;
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .applayBtn {
+     /* Full width on smaller screens */
+     display: block !important;
+     margin-left: 43%;
+  }
+}
+
+
+@media screen and (max-width: 480px) {
+  .applayBtn {
+     /* Full width on smaller screens */
+     display: block !important;
+     margin-left: 32%;
+  }
+}

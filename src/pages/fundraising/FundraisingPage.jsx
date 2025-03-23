@@ -1,10 +1,15 @@
-import FundraisingBanner from "./FundraisingBanner"
-
+import FundraisingBanner from "./FundraisingBanner";
+import JoinVoenture from "./JoinVoenture";
+import { SponserSection } from "./SponserSection";
 
 const FundraisingPage = () => {
   return (
-    <div><FundraisingBanner></FundraisingBanner></div>
-  )
-}
+    <div>
+      <FundraisingBanner></FundraisingBanner>
+      <SponserSection></SponserSection>
+      <JoinVoenture></JoinVoenture>
+    </div>
+  );
+};
 
-export default FundraisingPage
+export default FundraisingPage;

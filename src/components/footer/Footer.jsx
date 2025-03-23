@@ -113,7 +113,7 @@ const Footer = () => {
                 placeholder="Enter your email address"
                 size="large"
               />
-              <button className="px-6 py-2 rounded text-sm font-bold text-white bg-[#403730]">
+              <button className="px-6 py-2 cursor-pointer rounded text-sm font-bold text-white bg-[#403730]">
                 Subscribe
               </button>
             </div>
