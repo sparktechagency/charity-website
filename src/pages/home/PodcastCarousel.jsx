@@ -105,7 +105,7 @@ export default function PodcastCarousel() {
       {/* Left Button */}
       <button
         onClick={prevSlide}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white text-black z-40 p-2 rounded-full shadow-md"
+        className="absolute left-0 top-1/2 hover:bg-[#403730] hover:text-white transition-all duration-700 cursor-pointer transform -translate-y-1/2 bg-white text-black z-40 p-2 rounded-full shadow-md"
       >
         <ChevronLeft size={24} />
       </button>
@@ -113,7 +113,7 @@ export default function PodcastCarousel() {
       {/* Right Button */}
       <button
         onClick={nextSlide}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white text-black p-2 rounded-full shadow-md"
+        className="absolute right-0 hover:bg-[#403730] hover:text-white transition-all duration-700 top-1/2 transform cursor-pointer -translate-y-1/2 bg-white text-black p-2 rounded-full shadow-md"
       >
         <ChevronRight size={24} />
       </button>

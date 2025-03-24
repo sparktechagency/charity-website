@@ -208,3 +208,23 @@ span.ant-menu-title-content {
      margin-left: 32%;
   }
 }
+
+.slick-arrow{
+  display: none !important;
+}
+
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-in-out;
+}

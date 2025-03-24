@@ -47,7 +47,7 @@ const HelpBanner = () => {
             {/* Text Overlay */}
             <div className="absolute bottom-4 left-4 sm:left-8 text-white z-10">
               <span className="text-lg sm:text-2xl">By</span>
-              <p className="text-2xl sm:text-[36px] leading-8 sm:leading-11 font-semibold">
+              <p className="text-2xl sm:text-[36px] leading-8 sm:leading-11 cursor-pointer font-semibold">
                 Supporting survivors
               </p>
             </div>
@@ -71,7 +71,7 @@ const HelpBanner = () => {
             {/* Text Overlay */}
             <div className="absolute bottom-4 left-4 sm:left-8 text-white z-10">
               <span className="text-lg sm:text-2xl">By</span>
-              <p className="text-2xl sm:text-[36px] leading-8 sm:leading-11 font-semibold">
+              <p className="text-2xl sm:text-[36px] leading-8 sm:leading-11 cursor-pointer font-semibold">
                 Supporting survivors
               </p>
             </div>

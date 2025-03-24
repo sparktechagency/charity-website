@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "antd";
 import PodcastCarousel from "./PodcastCarousel";
@@ -20,7 +19,7 @@ export default function PodcastStory() {
           strength of the human spirit
         </p>
         <div className="  mt-6 lg:mt-12">
-          <button className="bg-[#FFFFFF] block mx-auto text-black px-6 py-3 font-semibold text-sm rounded-lg hover:bg-[#6A55441A] hover:text-white ">
+          <button className="bg-[#FFFFFF] block mx-auto cursor-pointer text-black px-6 py-3 font-semibold text-sm rounded-lg hover:bg-[#6A55441A] hover:text-white ">
             Explore more
           </button>
         </div>

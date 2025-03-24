@@ -38,11 +38,11 @@ const AboutMissionVission = () => {
             {/* Buttons */}
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
               <button
-                className="bg-[#403730] text-white py-3 px-6 rounded-md font-medium hover:bg-[#2E2A26]"
+                className="bg-[#403730] cursor-pointer text-white py-3 px-6 rounded-md font-medium hover:bg-[#2E2A26]"
               >
                 Support survivors
               </button>
-              <button className="bg-[#F6F6F7] text-gray-800 py-3 ml-4 px-6 rounded-md font-bold">
+              <button className="bg-[#F6F6F7] cursor-pointer text-gray-800 py-3 ml-4 px-6 rounded-md font-bold">
                 Become a volunteer
               </button>
             </div>

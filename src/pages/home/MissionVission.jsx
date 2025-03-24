@@ -132,7 +132,7 @@ export const MissionVission = () => {
           {/* Buttons */}
           <div className="mt-6 flex flex-col sm:flex-row gap-4">
             <button
-              className="bg-[#403730] text-white py-3 px-6 rounded-md font-medium hover:bg-[#2E2A26]"
+              className="bg-[#403730] text-white py-3 cursor-pointer px-6 rounded-md font-medium hover:bg-[#2E2A26]"
               onClick={showModal}
             >
               Support survivors
@@ -152,6 +152,10 @@ export const MissionVission = () => {
 
 
       {/* Custom Static Modal */}
+
+      {/* 1 st modal */}
+
+      
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center transition-all duration-1000 p-4 lg:p-0 bg-opacity-50 z-50">
           <div className="bg-white  lg:w-96 lg:p-6 p-2 rounded-lg shadow-lg relative">

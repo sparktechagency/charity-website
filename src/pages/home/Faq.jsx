@@ -55,7 +55,7 @@ const Faq = () => {
                   <p className=" px-2 text-[#263234] text-xl font-semibold mt-6 ">
                     {item.question}
                   </p>
-                  <span>
+                  <span className=" cursor-pointer " >
                     {openIndex === index ? (
                       <>
                         <svg
@@ -161,7 +161,7 @@ const Faq = () => {
             charities and fundraising. Let us help you make a bigger impact.
           </p>
           <div className=" lg:mt-20 mt-5  " >
-            <button className="block mx-auto bg-[#403730] px-6 text-white py-3 text-sm font-bold rounded " >Hit a mail us</button>
+            <button className="block mx-auto bg-[#403730] px-6 text-white py-3 text-sm font-bold rounded cursor-pointer " >Hit a mail us</button>
           </div>
         </div>
       </div>

@@ -62,7 +62,7 @@ export default function AutoCarousel() {
                   visibleCount === 1 ? "w-full" : "w-1/3"
                 }`}
               >
-                <button className=" text-[#263234] text-sm font-medium px-3 bg-white py-1 rounded absolute mt-3 ml-6 " >Sold out</button>
+                <button className=" text-[#263234] cursor-pointer text-sm font-medium px-3 bg-white py-1 rounded absolute mt-3 ml-6 " >Sold out</button>
                 <img
                   src={item.img}
                   alt={item.title}
