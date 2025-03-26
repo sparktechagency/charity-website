@@ -10,40 +10,33 @@ import SecondSection from "./home-slider-section/SecondSection";
 const HomeSlider = () => {
   var settings = {
     dots: true,
-    infinite: true,
+    infinite: false, // Prevents wrapping issues
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 1, // Show 4 slides at a time
     slidesToScroll: 1,
+    variableWidth: true, // Ensures each slide keeps its width
+    adaptiveHeight: false, // Prevents height jumps
+    centerMode: false, // Keeps slides inline
   };
 
   return (
-    <div className=" bg-[#ecebea] py-4 mb-5 " >
+    <div className=" bg-[#ecebea] py-4 mb-5   ">
       <div className=" max-w-[1512px] mx-auto ">
-      <div className="relative">
-        <Slider {...settings}>
-          <div>
-            {/* Slide 1 */}
-
-            <FirstSection></FirstSection>
-          </div>
-          <div>
-            <SecondSection></SecondSection>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div>
-        </Slider>
+        <div className="relative">
+          <Slider {...settings} className="w-full">
+            <div>
+              <FirstSection />
+            </div>
+            <div>
+              <SecondSection />
+            </div>
+            <div>
+              <SecondSection />
+            </div>
+            
+          </Slider>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

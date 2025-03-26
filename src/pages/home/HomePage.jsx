@@ -3,8 +3,8 @@ import { Banner } from './Banner'
 import { MissionVission } from './MissionVission'
 import Faq from './Faq'
 import HelpSection from './HelpSection'
-import HomeSlider from './HomeSlider'
 import PodcastStory from './PodcastStory'
+import HomeSlider from './HomeSlider'
 
 const HomePage = () => {
   return (
@@ -13,6 +13,7 @@ const HomePage = () => {
         <div className=' bg-[#ecebea]   ' >
           <MissionVission></MissionVission>
           <HomeSlider></HomeSlider>
+          
           <PodcastStory></PodcastStory>
           <HelpSection></HelpSection>
           <Faq></Faq>

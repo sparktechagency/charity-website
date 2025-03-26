@@ -63,13 +63,13 @@ const FirstSection = () => {
 
   return (
     <div>
-      <div className="relative h-[70vh] -z-50 w-auto">
+      <div className="relative lg:w-[715px] w-full h-auto lg:h-[70vh]">
         <img
           src="/auctionBg-img.jpg"
           className="w-full h-full object-cover rounded-2xl "
           alt=""
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/80 to-transparent rounded-2xl "></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/80 to-transparent "></div>
         <div className="absolute left-0 pl-6 bottom-0">
           <p className="lg:text-5xl text-2xl text-white lg:pb-8 pb-2">
             Empower women to <br />
@@ -297,7 +297,7 @@ const FirstSection = () => {
 
       {/* Second Modal */}
 
-      <div className=" top-0 border ">
+      <div className=" ">
         <Modal
           centered
           open={secondModalOpen}
