@@ -22,7 +22,7 @@ const HomeSlider = () => {
   return (
     <div className=" bg-[#ecebea] py-4 mb-5   ">
       <div className=" max-w-[1512px] mx-auto ">
-        <div className="relative">
+        <div className="relative hidden lg:flex ">
           <Slider {...settings} className="w-full">
             <div>
               <FirstSection />
@@ -35,6 +35,18 @@ const HomeSlider = () => {
             </div>
             
           </Slider>
+        </div>
+        <div className="relative lg:hidden ">
+            <div>
+              <FirstSection />
+            </div>
+            <div>
+              <SecondSection />
+            </div>
+            <div>
+              <SecondSection />
+            </div>
+            
         </div>
       </div>
     </div>

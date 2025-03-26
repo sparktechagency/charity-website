@@ -15,7 +15,7 @@ const Footer = () => {
           key: "podcast",
           label: <Link to="/podcast">Podcast & success stories</Link>,
         },
-        { key: "help", label: <Link to="/help">Way to help</Link> },
+        { key: "help", label: <Link to={""}>Way to help</Link> },
         { key: "contact", label: <Link to="/contact">Contact us</Link> },
       ],
     },

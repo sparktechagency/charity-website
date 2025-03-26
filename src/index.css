@@ -307,3 +307,31 @@ span.ant-menu-title-content {
   background-color: #2c241f !important ;
   outline: none;
 }
+
+
+@media screen and (max-width: 768px) {
+  .sliderBtn1 {
+     /* Full width on smaller screens */
+     display: block !important;
+     margin-left: 33%;
+  }
+}
+
+
+@media screen and (max-width: 480px) {
+  
+  .sliderBtn1 {
+    /* Full width on smaller screens */
+    display: block !important;
+  margin-left: 3%;
+  background-color: red;
+ }
+ .sliderBtn2 {
+  /* Full width on smaller screens */
+    display: block !important;
+  margin-left: 3%;
+  background-color: red;
+ 
+}
+
+}

@@ -23,7 +23,7 @@ const HelpBanner = () => {
             {/* Text Overlay */}
             <div className="absolute top-4 left-4 sm:left-8 text-white z-10">
               <span className="text-2xl text-[#403730] sm:text-2xl">Discover</span>
-              <p className="text-7xl text-[#403730] sm:text-[36px] leading-8 sm:leading-11 font-semibold">
+              <p className="lg:text-7xl text-3xl text-[#403730] sm:text-[36px] leading-8 sm:leading-11 font-semibold">
                 The way to <br />help
               </p>
             </div>
