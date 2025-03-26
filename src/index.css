@@ -62,10 +62,7 @@ span.ant-menu-title-content {
 
 
 
-  .ant-btn {
-    margin-left: 70%; /* Reduce margin on tablets */
-  }
-  
+ 
 
   
   @media (max-width: 768px) {
@@ -168,4 +165,145 @@ span.ant-menu-title-content {
   .donatedBtn1, .donatedBtn2 {
     width: 100%; /* Full width on smaller screens */
   }
+}
+
+
+/* applayBtn */
+
+.applayBtn{
+  width: 120px;
+  height: 40px;
+  color: "white";
+  font-weight: 700;
+  background-color: white ;
+  color: #403730 !important;
+  border: none;
+  display: block; 
+  margin-left:0;
+}
+
+.applayBtn:hover{
+  background-color: #6A55441A;
+  color: white !important;
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .applayBtn {
+     /* Full width on smaller screens */
+     display: block !important;
+     margin-left: 43%;
+  }
+}
+
+
+@media screen and (max-width: 480px) {
+  .applayBtn {
+     /* Full width on smaller screens */
+     display: block !important;
+     margin-left: 32%;
+  }
+}
+
+.slick-arrow{
+  display: none !important;
+}
+
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-in-out;
+}
+
+
+.ant-dropdown-trigger{
+  display: block;
+  margin-left: 0px;
+  background-color: #403730;
+  border: none;
+  border-radius: 0px ;
+  outline: none !important ;
+  height: 40px;
+  
+}
+
+.ant-dropdown-trigger:hover{
+  background-color: #403730 !important ;
+}
+
+.custom-dropdown-item{
+  display: block;
+}
+
+.ant-dropdown-menu{
+  width: 160px;
+  display: block;
+  margin-right: 110px !important; 
+  color: #1E1E1E;
+  font-size: larger;
+}
+
+.custom-dropdown-item {
+  display: block;
+  
+  transition: transform 0.2s ease-in-out;
+}
+.custom-dropdown-item:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+  background-color: #f0f0f0;
+}
+
+
+
+/* home page slider button */
+.sliderBtn1{
+  border: none !important ;
+  background-color: transparent !important;
+  font-weight: 600;
+  box-shadow: none;
+  width: 92px;
+  min-height: 32px;
+  padding: 0 24px;
+  box-shadow: none;
+
+  width: 155px;
+
+  height: 45px;
+
+}
+
+.sliderBtn1:hover{
+  background-color: transparent !important;
+  color: black !important ;
+  outline: none;
+}
+
+.sliderBtn2{
+  
+  border: none !important ;
+  background-color: #403730 !important;
+  color: white !important ; 
+  font-weight: 600;
+  box-shadow: none;
+  width: 155px;
+  min-height: 32px;
+  padding: 10px 34px;
+  height: 45px;
+
+}
+
+.sliderBtn2:hover{
+  background-color: #2c241f !important ;
+  outline: none;
 }

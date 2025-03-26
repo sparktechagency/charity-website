@@ -17,7 +17,7 @@ const AuctionBanner = () => {
           </h1>
 
           {/* Button */}
-          <button className="mt-4 sm:mt-6 text-[#403730] bg-[#FFFFFF] font-bold text-sm sm:text-base hover:bg-[#403730] hover:text-white transition-all duration-500 rounded px-6 py-2.5">
+          <button className="mt-4 sm:mt-6 cursor-pointer text-[#403730] bg-[#FFFFFF] font-bold text-sm sm:text-base hover:bg-[#403730] hover:text-white transition-all duration-500 rounded px-6 py-2.5">
             Contribute your Auction
           </button>
         </div>
