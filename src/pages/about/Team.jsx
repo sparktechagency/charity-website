@@ -65,9 +65,10 @@ const Team = () => {
           </h1>
           <div className=" max-w-3xl mx-auto ">
             <p className=" lg:text-center text-justify p-2 lg:p-0 lg:mt-6 text-[#535862] font-light leading-7 lg:text-xl text-[18px] ">
-              We’re a small team that loves to create great experiences and make
-              meaningful connections between people and survivor women. Join our
-              team!
+              Our dedicated team brings over 30 years of combined experience in
+              trauma-informed care. Together, we create safe, nurturing
+              environments where women can rebuild their confidence, rediscover
+              their sense of self, and take steps toward a brighter future.
             </p>
           </div>
         </div>
