@@ -342,6 +342,7 @@ span.ant-menu-title-content {
   font-weight: bold !important;
   height: 46px !important ;
   outline: none !important;
+  border: none !important;
 }
 
 .homeBtn:hover{
@@ -350,4 +351,51 @@ span.ant-menu-title-content {
   outline: none !important;
   border: none !important;
   transition: all 0.3s ease-in-out;
+}
+
+
+.supportBtn{
+  width: 158px !important;
+  color: #FFFFFF !important ;
+  font-weight: bold !important;
+}
+
+.volunteerBtn{
+  width: 209px !important;
+  height: 44px !important;
+  color: #403730 !important ;
+  font-weight: bold !important;
+  line-height: 20px !important;
+  background-color: #fcfcff !important ;
+  border: none !important;
+}
+
+.volunteerBtn:hover{
+  color: #403730 !important ;
+  background-color: #d9d9e6 !important;
+}
+
+.missionModalBtn1{
+  border: none !important;
+  color: #403730 !important;
+  font-weight: 700;
+  font-size: 14px;
+  width: 155px !important;
+  height: 44px !important;
+}
+
+.missionModalBtn1:hover{
+  border: none !important;
+  background-color: transparent !important;
+  color: #403730 !important;
+}
+
+.missionModalBtn2{
+  border: none !important;
+  background-color: #403730 !important;
+  font-weight: 700;
+  font-size: 14px;
+  color: #FFFFFF !important;
+  width: 155px !important;
+  height: 44px !important;
 }
