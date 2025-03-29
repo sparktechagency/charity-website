@@ -1,38 +1,64 @@
+import React from "react";
 import { Button } from "antd";
-import { CaretRightOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 
-export const Banner = () => {
+const Banner = () => {
   return (
-    <div className="pt-16">
-      <div className="bg-[url('/bg-1.png')] bg-[#050505] w-full bg-no-repeat bg-cover bg-right-top h-auto pb-24 lg:pb-48 lg:pt-[159px] px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="max-w-3xl text-center md:text-left">
-            <h1 className="text-[#B1ADAA] text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight font-bold">
-              Empowering women through healing & hope.
-            </h1>
-            <p className="text-white mt-4 md:mt-6 text-sm sm:text-base md:text-lg">
-              Our mission is to empower women to heal and thrive. We provide
-              resources, education, and support for women who have experienced
-              trauma. Join us in our mission to create a world where all women
-              can heal and thrive.
+    <div className="pt-20 max-w-7xl mx-auto px-4">
+      <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start">
+        {/* left side */}
+        <div className="mt-10 lg:mt-20 px-4 text-center lg:text-left">
+          <div className="text-[40px] sm:text-[60px] lg:text-[70px] font-bold leading-tight text-[#263234] mb-6">
+            <p>Empowering</p>
+            <p>women through</p>
+            <p className="bg-gradient-to-b from-[#1F2B2F] to-gray-300 bg-clip-text text-transparent">
+              healing & hope.
             </p>
-            <div className="mt-6 md:mt-10">
-              <Button
-                style={{
-                  backgroundColor: "#403730",
-                  border: "none",
-
-                  borderRadius: "5px",
-                }}
-                icon={<CaretRightOutlined />}
-                className="hover:!bg-[#403730] hover:!text-white focus:!bg-[#403730] focus:!text-white active:!bg-[#403730] active:!text-white text-sm bannerBtn "
-              >
-                Explore our Works
-              </Button>
-            </div>
           </div>
+          <span className="text-[#263234] text-base sm:text-lg lg:text-xl leading-6 sm:leading-7">
+            Our mission is to empower women to heal and thrive. We provide
+            resources, education, and support for women who have experienced
+            trauma. Join us in our mission to create a world where all women can
+            heal and thrive.
+          </span>
+          <div className="mt-8 sm:mt-10 lg:mt-12">
+            <Button
+              className="homeBtn"
+              icon={
+                <span className="mt-0.5 block">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M3.01387 1.41485C3.22792 1.29799 3.4887 1.30733 3.69384 1.43921L13.0272 7.43921C13.218 7.56188 13.3333 7.77315 13.3333 8C13.3333 8.22684 13.218 8.43811 13.0272 8.56078L3.69384 14.5608C3.4887 14.6927 3.22792 14.702 3.01387 14.5851C2.79982 14.4683 2.66666 14.2439 2.66666 14V2C2.66666 1.75612 2.79982 1.53171 3.01387 1.41485ZM4 3.22111V12.7789L11.4338 8L4 3.22111Z"
+                      fill="white"
+                    />
+                  </svg>
+                </span>
+              }
+            >
+              Explore our Works
+            </Button>
+          </div>
+        </div>
+
+        {/* right side */}
+        <div className="mt-10 lg:mt-0 w-full lg:w-auto">
+          <img
+            src="/homePageUpdateImg.jpg"
+            className="w-full lg:h-[874px] object-cover rounded-lg"
+            alt="Empowering women through healing and hope"
+          />
         </div>
       </div>
     </div>
   );
 };
+
+export default Banner;

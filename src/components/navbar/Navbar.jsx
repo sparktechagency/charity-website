@@ -106,7 +106,7 @@ const handleSubmit = () => {
         isScrolled ? "bg-[#F9F9F9] shadow" : "bg-transparent"
       }`}
     >
-      <div className="max-w-6xl mx-auto py-3 flex items-center justify-between px-4 md:px-3">
+      <div className="max-w-6xl  mx-auto py-3 flex items-center justify-between px-4 md:px-3">
         {/* Logo */}
         <Link className="flex items-center gap-4" to="/">
           <img src={logo} alt="Virtue Hope Logo" className="h-10" />
