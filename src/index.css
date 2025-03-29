@@ -336,6 +336,8 @@ span.ant-menu-title-content {
 
 }
 
+/* home page css  */
+
 .homeBtn{
   background-color: #403730 !important ;
   color: white !important ;
@@ -398,4 +400,17 @@ span.ant-menu-title-content {
   color: #FFFFFF !important;
   width: 155px !important;
   height: 44px !important;
+}
+
+
+
+/* sevice page css  */
+
+.seviceBtn{
+  background-color: #403730 !important ;
+  color: white !important ;
+  font-weight: bold !important;
+  height: 46px !important ;
+  outline: none !important;
+  border: none !important;
 }
