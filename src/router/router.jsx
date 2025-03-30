@@ -7,6 +7,7 @@ import FundraisingPage from "../pages/fundraising/FundraisingPage";
 import PodcastPage from "../pages/podcast/PodcastPage";
 import AuctionPage from "../pages/auction/AuctionPage";
 import ContactPage from "../pages/contact/ContactPage";
+import TermPage from "../pages/term/TermPage";
 
 
 export const router = createBrowserRouter([
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
             {
                 path : "podcast",
                 element : <PodcastPage></PodcastPage>
+            },
+            {
+                path : "/terms",
+                element : <TermPage></TermPage>
             }
         ]
     }

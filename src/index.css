@@ -290,12 +290,14 @@ span.ant-menu-title-content {
     display: block !important;
     margin-left: 3%;
     background-color: red;
+    
   }
   .sliderBtn2 {
     /* Full width on smaller screens */
     display: block !important;
     margin-left: 3%;
     background-color: red;
+    margin-top: 3px;
   }
 }
 
@@ -349,6 +351,7 @@ span.ant-menu-title-content {
   line-height: 20px !important;
   background-color: #fcfcff !important ;
   border: none !important;
+  box-shadow: none !important;
 }
 
 .volunteerBtn:hover {
@@ -403,7 +406,7 @@ span.ant-menu-title-content {
   font-weight: 700;
   font-size: 14px;
   color: #ffffff !important;
-  width: 155px !important;
+  width: 185px !important;
   height: 44px !important;
 }
 

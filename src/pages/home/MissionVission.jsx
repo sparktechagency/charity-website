@@ -24,7 +24,6 @@ export const MissionVission = () => {
   const handlieClickNextStep = () => {
     setIsModalOpen(false);
     setLuxuryModal(true);
-
   };
 
   // 1st modal end
@@ -47,7 +46,7 @@ export const MissionVission = () => {
     console.log("Volunteer Form Submitted");
     setIsVolunterModal(false);
     setDonateModal(false);
-    setIsModalOpen(false)
+    setIsModalOpen(false);
     showSuccessAlert();
   };
 
@@ -158,14 +157,11 @@ export const MissionVission = () => {
             Our mission & vision
           </h3>
           <h1 className="font-bold text-[#403730] text-3xl lg:text-[60px] lg:mt-2">
-            Healing support for abused women
+            Healing Support for Women Survivors of Abuse and Trauma
           </h1>
           <p className="text-[#263234] pt-2 lg:pt-6 lg:pb-12 pb-0 leading-6">
-            Our respite care program offers a safe and supportive environment
-            for women to take a much-needed break from their daily stressors. We
-            provide comfortable accommodations where you can relax, reflect, and
-            recharge. This is not just a getaway; it is an opportunity to step
-            away from the chaos and focus on your well-being.
+            Hope is our purpose. Every action we take at Virtue Hope is driven
+            by belief that healing begins with hope.
           </p>
 
           {/* Buttons */}
@@ -175,7 +171,7 @@ export const MissionVission = () => {
             </Button>
 
             <Button onClick={openVolunteerModal} className="   volunteerBtn ">
-              Become a volunteer
+              Join our enthusiastic team{" "}
             </Button>
           </div>
         </div>
@@ -273,7 +269,8 @@ export const MissionVission = () => {
                   className="flex items-center py-3.5! px-2! justify-between w-full  border border-[#A6ABAC] rounded-lg cursor-pointer"
                 >
                   <span className="text-[#263234] font-medium">
-                    With Luxurious Retreat
+                  Donate 
+                  Art, Antique or Collectables
                   </span>
                 </Radio>
               </div>
@@ -289,7 +286,9 @@ export const MissionVission = () => {
             >
               Cancel
             </Button>
-            <Button onClick={handlieClickNextStep} className="missionModalBtn2">Proceed next step</Button>
+            <Button onClick={handlieClickNextStep} className="missionModalBtn2">
+              Proceed next step
+            </Button>
           </div>
         </Form>
       </Modal>

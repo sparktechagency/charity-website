@@ -21,18 +21,10 @@ const AboutMissionVission = () => {
               Our mission & vision
             </h3>
             <h1 className="font-bold text-[#403730] text-3xl lg:text-[60px] lg:mt-2">
-              Healing support for abused women
+            Healing Support for Women Survivors of Abuse and Trauma
             </h1>
             <p className="text-[#263234] pt-2 lg:pt-6 lg:pb-12 pb-6 leading-6">
-              Our respite care program offers a safe and supportive environment
-              for women to take a much-needed break from their daily stressors.
-              We provide comfortable accommodations where you can relax,
-              reflect, and recharge. This is not just a getaway; it is an
-              opportunity to step away from the chaos and focus on your
-              well-being. Our compassionate staff are dedicated to ensuring you
-              feel welcomed and valued, allowing you to embrace the healing
-              process. Join us for a time of rejuvenation that fosters hope and
-              encourages personal growth.
+            Hope is our purpose. Every action we take at Virtue Hope is driven by belief that healing begins with hope.
             </p>
 
             {/* Buttons */}
@@ -43,7 +35,7 @@ const AboutMissionVission = () => {
                 Support survivors
               </button>
               <button className="bg-[#F6F6F7] cursor-pointer text-gray-800 py-3 ml-4 px-6 rounded-md font-bold">
-                Become a volunteer
+              Join our enthusiastic team
               </button>
             </div>
           </div>

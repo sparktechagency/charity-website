@@ -48,7 +48,7 @@ export default function AutoCarousel() {
   }, []);
 
   return (
-    <div className=" bg-[#ecebea] p-4 " >
+    <div className=" bg-[#ecebea] p-4  " >
       <div className="relative max-w-[1512px] mx-auto">
         {/* Carousel Wrapper */}
         <div className="flex overflow-hidden space-x-4 transition-transform duration-700 ease-in-out">

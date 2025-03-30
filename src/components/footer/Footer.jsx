@@ -33,7 +33,11 @@ const Footer = () => {
         { key: "sale", label: <Link to="/sale">Auction Listing & Sale</Link> },
         {
           key: "survivors",
-          label: <Link to="/survivors">Support Survivors</Link>,
+          label: <Link to="">Support Survivors</Link>,
+        },
+        {
+          key: "terms",
+          label: <Link to="terms">Term</Link>,
         },
       ],
     },
