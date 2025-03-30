@@ -21,9 +21,15 @@ export const MissionVission = () => {
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
 
+  const handlieClickNextStep = () => {
+    setIsModalOpen(false);
+    setLuxuryModal(true);
+
+  };
+
   // 1st modal end
 
-  //  Volunter Modal
+  //  Volunter Modal start
 
   const [isVolunterModal, setIsVolunterModal] = useState(false);
 
@@ -41,11 +47,11 @@ export const MissionVission = () => {
     console.log("Volunteer Form Submitted");
     setIsVolunterModal(false);
     setDonateModal(false);
+    setIsModalOpen(false)
     showSuccessAlert();
   };
 
   // Volunter Modal end
-
 
   // Luxury  start
 
@@ -64,7 +70,7 @@ export const MissionVission = () => {
   const submitLuxriousModal = () => {
     console.log("Luxury Form Submitted");
     setLuxuryModal(false);
-    setIsModalOpen(true);
+    setIsModalOpen(false);
     showSuccessAlert();
   };
 
@@ -154,7 +160,7 @@ export const MissionVission = () => {
           <h1 className="font-bold text-[#403730] text-3xl lg:text-[60px] lg:mt-2">
             Healing support for abused women
           </h1>
-          <p className="text-[#263234] pt-2 lg:pt-6 lg:pb-12 pb-6 leading-6">
+          <p className="text-[#263234] pt-2 lg:pt-6 lg:pb-12 pb-0 leading-6">
             Our respite care program offers a safe and supportive environment
             for women to take a much-needed break from their daily stressors. We
             provide comfortable accommodations where you can relax, reflect, and
@@ -163,12 +169,12 @@ export const MissionVission = () => {
           </p>
 
           {/* Buttons */}
-          <div className="mt-6 flex flex-col sm:flex-row gap-4">
+          <div className="lg:mt-6 mt-3 flex flex-col lg:flex-row  md:flex-row   lg:gap-4">
             <Button onClick={showModal} className=" homeBtn supportBtn ">
               Support survivors
             </Button>
 
-            <Button onClick={openVolunteerModal} className="  volunteerBtn ">
+            <Button onClick={openVolunteerModal} className="   volunteerBtn ">
               Become a volunteer
             </Button>
           </div>
@@ -201,7 +207,7 @@ export const MissionVission = () => {
                   <h1 className="block mt-3.5 text-[16px]  text-[#263234] leading-6 font-medium">
                     With Apple Pay
                   </h1>
-                  <span className="block ml-[260px] -mt-6 ">
+                  <span className="block lg:ml-[260px]! md:ml-[240%] ml-[170%] -mt-6 ">
                     {/* Apple Pay Icon */}
                     <svg
                       width="20"
@@ -226,7 +232,7 @@ export const MissionVission = () => {
                   <h1 className="block mt-3.5 text-[16px] text-[#263234] leading-6 font-medium">
                     With Google Pay
                   </h1>
-                  <span className="block  ml-[260px] -mt-6 ">
+                  <span className="lg:ml-[260px]! md:ml-[220%] ml-[155%] block -mt-6 ">
                     {/* Google Pay Icon */}
                     <svg
                       width="24"
@@ -275,7 +281,7 @@ export const MissionVission = () => {
           </Form.Item>
 
           {/* Modal Buttons */}
-          <div className=" flex justify-end mt-5 mb-2">
+          <div className=" flex flex-col md:flex-row md:justify-end  lg:flex-row justify-center lg:justify-end mt-5 mb-2">
             <Button
               onClick={handleCancel}
               type="text"
@@ -283,12 +289,7 @@ export const MissionVission = () => {
             >
               Cancel
             </Button>
-            <Button
-              // onClick={openModal}
-              className="missionModalBtn2"
-            >
-              Proceed next step
-            </Button>
+            <Button onClick={handlieClickNextStep} className="missionModalBtn2">Proceed next step</Button>
           </div>
         </Form>
       </Modal>
@@ -307,7 +308,7 @@ export const MissionVission = () => {
           closable={false}
         >
           <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
-          Donate with Luxury retreats
+            Donate with Luxury retreats
           </h1>
 
           {/* Name Field */}
@@ -346,7 +347,7 @@ export const MissionVission = () => {
           {/* Item field */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-            Item
+              Item
             </label>
             <Input
               style={{
@@ -360,12 +361,10 @@ export const MissionVission = () => {
             />
           </div>
 
-          
-
           {/* Why do you want to be a Volunteer Field */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-            Item description
+              Item description
             </label>
             <Input.TextArea
               style={{
@@ -461,11 +460,6 @@ export const MissionVission = () => {
           </div>
         </Modal>
       </div>
-
-
-
-
-
 
       {/*  Volunter Modal*/}
 

@@ -4,7 +4,7 @@ import { SearchOutlined } from "@ant-design/icons";
 
 const Banner = () => {
   return (
-    <div className="pt-20 max-w-7xl mx-auto px-4">
+    <div className="lg:pt-20 pt-10 max-w-7xl mx-auto px-4">
       <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start">
         {/* left side */}
         <div className="mt-10 lg:mt-20 px-4 text-center lg:text-left">
@@ -21,11 +21,11 @@ const Banner = () => {
             trauma. Join us in our mission to create a world where all women can
             heal and thrive.
           </span>
-          <div className="mt-8 sm:mt-10 lg:mt-12">
+          <div className="mt-8 sm:mt-5 lg:mt-12">
             <Button
               className="homeBtn"
               icon={
-                <span className="mt-0.5 block">
+                <span className="lg:mt-0.5 block hidden lg:flex ">
                   <svg
                     width="16"
                     height="16"
