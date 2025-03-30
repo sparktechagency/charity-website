@@ -384,7 +384,11 @@ span.ant-menu-title-content {
   font-size: 14px;
   width: 155px !important;
   height: 44px !important;
+  box-shadow: none !important;
 }
+
+
+
 
 .missionModalBtn1:hover{
   border: none !important;
@@ -401,6 +405,33 @@ span.ant-menu-title-content {
   width: 155px !important;
   height: 44px !important;
 }
+
+@media screen and (max-width: 768px) {
+  .missionModalBtn1{
+     display: block !important;
+     margin: auto !important; 
+     margin-left: 30%;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .serviceBtn3{
+    display: block !important;
+     margin: auto !important; 
+     margin-left: 30%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .missionModalBtn1{
+     background-color: transparent !important;
+     display: block !important;
+     margin-right: -7% !important;
+  }
+}
+
+
 
 
 
@@ -443,4 +474,52 @@ span.ant-menu-title-content {
   color: #FFFFFF !important;
   font-size: 14px;
   font-weight: bold;
+}
+
+
+@media screen and (max-width: 768px) {
+  .seviceBtn {
+     /* Full width on smaller screens */
+     display: block !important;
+     margin: auto !important;
+     /* margin-left: 30%; */
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .serviceBtn2{
+     display: block !important;
+     margin: auto !important; 
+     margin-left: 30%;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .serviceBtn3{
+    display: block !important;
+     margin: auto !important; 
+     margin-left: 30%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .serviceBtn2{
+     display: block !important;
+     margin: auto !important;
+     margin-left: 10%;
+     border: 2xp solid red;
+  }
+}
+
+
+
+
+@media screen and (max-width: 480px) {
+  .serviceBtn2{
+     background-color: transparent !important;
+     display: block !important;
+     margin-right: -10% !important;
+  }
 }
