@@ -109,7 +109,7 @@ const ServiceBanner = () => {
           creativity, and community, offering practical tools and emotional
           support for survivors of abuse and trauma.
         </p>
-        <div className="lg:pb-24! pb-10! mt-5">
+        <div className="lg:pb-24! pb-3! mt-5">
           <Button className="seviceBtn" onClick={showModal}>
             Start Your Journey
           </Button>
