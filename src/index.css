@@ -414,3 +414,33 @@ span.ant-menu-title-content {
   outline: none !important;
   border: none !important;
 }
+
+.serviceBtn2{
+  background-color: #fcfcff !important ;
+  color: #403730 !important ;
+  font-weight: bold !important;
+  height: 46px !important ;
+  width: 155px;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none;  
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.serviceBtn2:hover{
+  background-color: white !important;
+  color: #403730 !important;
+}
+
+
+.serviceBtn3{
+  background-color: #403730 !important;
+  height: 46px !important ;
+  width: 155px;
+  outline: none !important;
+  border: none !important;
+  color: #FFFFFF !important;
+  font-size: 14px;
+  font-weight: bold;
+}

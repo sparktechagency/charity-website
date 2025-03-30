@@ -61,6 +61,13 @@ export const MissionVission = () => {
     setIsModalOpen(true);
   };
 
+  const submitLuxriousModal = () => {
+    console.log("Luxury Form Submitted");
+    setLuxuryModal(false);
+    setIsModalOpen(true);
+    showSuccessAlert();
+  };
+
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden"; // Disable scroll
@@ -446,7 +453,7 @@ export const MissionVission = () => {
             <div>
               <button
                 className=" px-6 py-2  bg-[#403730] text-white rounded shadow cursor-pointer font-bold text-sm "
-                onClick={handleVolunterSubmit}
+                onClick={submitLuxriousModal}
               >
                 Apply now
               </button>

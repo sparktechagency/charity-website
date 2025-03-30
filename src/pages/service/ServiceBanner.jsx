@@ -192,8 +192,8 @@ const ServiceBanner = () => {
 
           {/* Submit Button */}
           <div className="flex justify-end gap-3">
-            <Button onClick={handleCancel}>Cancel</Button>
-            <Button type="primary" htmlType="submit" className="bg-[#403730]">
+            <Button className=" serviceBtn2 " onClick={handleCancel}>Cancel</Button>
+            <Button className={"serviceBtn3"} htmlType="submit" >
               Confirm Booking
             </Button>
           </div>
