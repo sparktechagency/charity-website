@@ -642,6 +642,9 @@ export const MissionVission = () => {
           </div>
         </Modal>
       </div>
+
+
+      
     </div>
   );
 };

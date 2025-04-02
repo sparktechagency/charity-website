@@ -33,8 +33,8 @@ const Navbar = () => {
   const [secondModalOpen, setSecondModalOpen] = useState(false);
 
   const openSecondModal = () => {
-    setModalOpen(false); // প্রথম Modal বন্ধ হবে
-    setSecondModalOpen(true); // দ্বিতীয় Modal খুলবে
+    setModalOpen(false);
+    setSecondModalOpen(true);
   };
 
   const closeSecondModal = () => setSecondModalOpen(false);
@@ -45,6 +45,34 @@ const Navbar = () => {
     setModalOpen(true);
   };
 
+  // 3rd modal luxuryModal 
+
+  const [luxuryModal,setLuxuryModal] = useState(false);
+
+  const openLuxuryModal = () => {
+    setLuxuryModal(true);
+    setModalOpen(false);
+  };
+
+
+  const closeLuxuryModal = () => {
+    setLuxuryModal(false);
+    // setIsModalOpen(true);
+  };
+
+
+    const submitLuxriousModal = () => {
+      console.log("Luxury Form Submitted");
+      setLuxuryModal(false);
+      // setIsModalOpen(false);
+      showSuccessAlert();
+    };
+
+
+  
+
+
+
   // from submit
 
   const handleSubmit = () => {
@@ -52,8 +80,6 @@ const Navbar = () => {
     setSecondModalOpen(false);
     showSuccessAlert();
   };
-
-  const [paymentMethod, setPaymentMethod] = useState(null);
 
   const toggleDrawer = () => setOpen(!open);
 
@@ -91,6 +117,18 @@ const Navbar = () => {
       document.body.style.overflow = "auto";
     }
   }, [secondModalOpen]);
+
+  useEffect(() => {
+    if (luxuryModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [luxuryModal]);
+
+
+
+
 
   return (
     <nav
@@ -262,20 +300,17 @@ const Navbar = () => {
 
                   {/* Luxurious Retreat Option */}
                   <Radio
-                    // onClick={openLuxuryModal}
+                    onClick={openLuxuryModal}
                     value="luxurious"
                     className="flex items-center py-3.5! px-2! justify-between w-full  border border-[#A6ABAC] rounded-lg cursor-pointer"
                   >
                     <span className="text-[#263234] font-medium">
-                    Donate 
-                    Art, Antique or Collectables
+                      Donate Art, Antique or Collectables
                     </span>
                   </Radio>
                 </div>
               </Radio.Group>
             </Form.Item>
-
-         
 
             {/* Modal Buttons */}
             <div className=" flex flex-col md:flex-row md:justify-end  lg:flex-row justify-center lg:justify-end mt-5 mb-2">
@@ -456,6 +491,175 @@ const Navbar = () => {
           </div>
         </div>
       </Modal>
+
+      {/* 3rd modal  */}
+
+      {/* luxurious modal  */}
+
+      <div className=" w-[600px]  z-50 ">
+        <Modal
+          visible={luxuryModal}
+          onCancel={closeLuxuryModal}
+          footer={null}
+          width={500}
+          height={800}
+          // bodyStyle={{ padding: "20px" }}
+          destroyOnClose
+          closable={false}
+        >
+          <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
+            Donate with Luxury retreats
+          </h1>
+
+          {/* Name Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Name
+            </label>
+            <Input
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                lineHeight: "24px",
+                fontSize: "16px",
+                marginTop: "6px",
+              }}
+              placeholder="Enter your name"
+            />
+          </div>
+
+          {/* Email Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Email
+            </label>
+            <Input
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                marginTop: "6px",
+              }}
+              type="email"
+              placeholder="Enter your email address"
+            />
+          </div>
+
+          {/* Item field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Item
+            </label>
+            <Input
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                lineHeight: "24px",
+                fontSize: "16px",
+                marginTop: "6px",
+              }}
+              placeholder="Enter item name"
+            />
+          </div>
+
+          {/* Why do you want to be a Volunteer Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Item description
+            </label>
+            <Input.TextArea
+              style={{
+                border: "1px solid #A6ABAC  ",
+                padding: "10px 14px ",
+                lineHeight: "24px",
+                fontSize: "16px",
+                marginTop: "6px",
+              }}
+              placeholder="Enter a description..."
+              rows={4}
+            />
+          </div>
+
+          {/* File Upload Field */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
+              Upload your photo
+            </label>
+            <Dragger
+              style={{ marginTop: "6px", border: "2px dotted #E9EBEB " }}
+            >
+              <div className=" text-start  ">
+                <p className="ant-upload-drag-icon">
+                  <span>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M3 14C3.55228 14 4 14.4477 4 15V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V15C20 14.4477 20.4477 14 21 14C21.5523 14 22 14.4477 22 15V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7956 2 19V15C2 14.4477 2.44772 14 3 14Z"
+                        fill="#4B5557"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M11.2929 2.29289C11.6834 1.90237 12.3166 1.90237 12.7071 2.29289L17.7071 7.29289C18.0976 7.68342 18.0976 8.31658 17.7071 8.70711C17.3166 9.09763 16.6834 9.09763 16.2929 8.70711L12 4.41421L7.70711 8.70711C7.31658 9.09763 6.68342 9.09763 6.29289 8.70711C5.90237 8.31658 5.90237 7.68342 6.29289 7.29289L11.2929 2.29289Z"
+                        fill="#4B5557"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M12 2C12.5523 2 13 2.44772 13 3V15C13 15.5523 12.5523 16 12 16C11.4477 16 11 15.5523 11 15V3C11 2.44772 11.4477 2 12 2Z"
+                        fill="#4B5557"
+                      />
+                    </svg>
+                  </span>
+                </p>
+                <p className="ant-upload-text text-[#263234] font-semibold text-[16px] mb-1 ">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="text-sm text-[#4B5557] leading-5 mt-2 mb-6 ">
+                  Supported format: JPG, JPEG, PNG, PDF
+                </p>
+              </div>
+            </Dragger>
+          </div>
+
+          {/* Terms & Conditions Checkbox */}
+          <div className="mb-4">
+            <Checkbox style={{ color: "" }}>
+              I agree with Virtue Hope's{" "}
+              <a href="#" className="underline">
+                terms & conditions.
+              </a>
+            </Checkbox>
+          </div>
+
+          {/* Modal Buttons */}
+          <div className="   flex justify-end gap-7 mr-2 ">
+            <div>
+              <button
+                onClick={closeLuxuryModal}
+                className=" px-6 py-2 text-[#403730] cursor-pointer font-bold text-sm "
+                type="text"
+              >
+                Back
+              </button>
+            </div>
+            <div>
+              <button
+                className=" px-6 py-2  bg-[#403730] text-white rounded shadow cursor-pointer font-bold text-sm "
+                onClick={submitLuxriousModal}
+              >
+                Apply now
+              </button>
+            </div>
+          </div>
+        </Modal>
+      </div>
     </nav>
   );
 };
