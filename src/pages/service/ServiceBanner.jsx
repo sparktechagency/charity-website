@@ -2,9 +2,10 @@ import { Button, Modal, Form, Input, Checkbox, Radio } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
+import { bookingSuccessAlert } from "../../helper/bookingMsg";
 
 const ServiceBanner = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const daysOfWeek = [
     { id: 1, name: "Monday" },
     { id: 2, name: "Tuesday" },
@@ -34,8 +35,71 @@ const ServiceBanner = () => {
     setIsModalOpen(false);
   };
 
-  const handleClick = (e) => {
-    console.log(e);
+  const [form] = Form.useForm();
+
+  // Form submit handler
+  const handleBooking = (values) => {
+    console.log("Form Values:", values);
+    console.log("Name:", values.name);
+    console.log("Phone:", values.number);
+    console.log("Email:", values.email);
+    console.log("Day:", values.day);
+    console.log("Time:", values.time);
+    bookingSuccessAlert();
+    setIsModalOpen(false);
+    form.resetFields()
+    setSelectedDays([])
+    setSelectedTimes([])
+  };
+
+  // State for multiple selected days
+  const [selectedDays, setSelectedDays] = useState([]);
+
+  const handleDayClick = (day) => {
+    const isSelected = selectedDays.includes(day.id);
+    let updatedDays;
+
+    if (isSelected) {
+      // Remove day
+      updatedDays = selectedDays.filter((id) => id !== day.id);
+    } else {
+      // Add day
+      updatedDays = [...selectedDays, day.id];
+    }
+
+    setSelectedDays(updatedDays);
+
+    // Update form value with the selected day names
+    const selectedDayNames = daysOfWeek
+      .filter((d) => updatedDays.includes(d.id))
+      .map((d) => d.name);
+
+    form.setFieldsValue({ day: selectedDayNames });
+  };
+
+  // Handle time selection
+  const [selectedTime, setSelectedTimes] = useState([]);
+
+  const handleTimeClick = (time) => {
+    const isSelected = selectedTime.includes(time.id);
+    let updatedTimes;
+
+    if (isSelected) {
+      // Remove day
+      updatedTimes = selectedTime.filter((id) => id !== time.id);
+    } else {
+      // Add day
+      updatedTimes = [...selectedTime, time.id];
+    }
+
+    setSelectedTimes(updatedTimes);
+
+    // Update form value with the selected day names
+    const selectedTimeNames = timeSlots
+      .filter((d) => updatedTimes.includes(d.id))
+      .map((d) => d.slot);
+
+    form.setFieldsValue({ time: selectedTimeNames });
   };
 
   // booking modal end
@@ -54,28 +118,18 @@ const ServiceBanner = () => {
   const handlePaymentCancel = () => {
     setIsPaymentModalOpen(false);
     setIsModalOpen(true);
-    navigate("/")
-
+    navigate("/");
   };
 
-  const submitDonateModal = ()=>{
-    console.log(`Donate modal opened: `)
+  const submitDonateModal = () => {
+    console.log(`Donate modal opened: `);
     setIsPaymentModalOpen(false);
     setIsModalOpen(true);
-  }
-
+  };
 
   // payment modal end
 
-
-  // submit booking from 
-
-  const submitBookingFrom = async (e) => {
-    e.preventDefault();
-    console.log("Booking Form Submitted");
-    setIsModalOpen(false);
-    showSuccessAlert();
-  };
+  // submit booking from
 
   useEffect(() => {
     if (isModalOpen) {
@@ -117,6 +171,7 @@ const ServiceBanner = () => {
       </div>
 
       {/* booking modal */}
+
       <Modal
         title={
           <span className=" text-[#263234] text-2xl leading-9 font-semibold mt-6 ">
@@ -132,15 +187,19 @@ const ServiceBanner = () => {
         <p className=" text-[#263234] leading-8 font-semibold text-lg ">
           Basic information
         </p>
-        <Form layout="vertical" onFinish={"handleBooking"}>
+
+        <Form form={form} layout="vertical" onFinish={handleBooking}>
           {/* Name */}
           <Form.Item
             style={{ marginBottom: "0px", marginTop: "16px" }}
+
             label={
               <span className=" text-[#263234] font-semibold text-xs ">
                 Name
               </span>
+              
             }
+            rules={[{required:true, message: "Please enter a name"}]}
             name="name"
           >
             <Input
@@ -159,12 +218,13 @@ const ServiceBanner = () => {
           {/* Telephone number */}
           <Form.Item
             style={{ marginBottom: "0px", marginTop: "16px" }}
+            rules={[{required:true,message:"Please enter your telephone number"}]}
             label={
               <span className=" text-[#263234] font-semibold text-xs ">
                 Telephone number
               </span>
             }
-            name="email"
+            name="number"
           >
             <Input
               style={{
@@ -182,9 +242,11 @@ const ServiceBanner = () => {
           <Form.Item
             style={{ marginBottom: "0px", marginTop: "16px" }}
             label="Email Address"
+            rules={[{ required: true, message: "Please enter your email address" }]}
             name="email"
           >
             <Input
+              type="email"
               style={{
                 border: "1px solid #A6ABAC ",
                 outline: "none",
@@ -195,67 +257,121 @@ const ServiceBanner = () => {
               placeholder="Enter your email"
             />
           </Form.Item>
-
-          {/* Date */}
-          <Form.Item>
+          {/* slot day  */}
+          <Form.Item name={"day"}>
             <h2 className="text-lg font-semibold leading-7 text-[#263234] lg:mt-6 mt-3 mb-2 lg:mb-4">
               Available slot
             </h2>
             <ul className="flex flex-col lg:flex-row lg:items-center gap-3 justify-between ">
               {daysOfWeek.map((day) => (
                 <li
-                  onClick={handleClick}
+                  onClick={() => handleDayClick(day)}
                   key={day.id}
-                  className="text-lg text-[#403730] font-semibold cursor-pointer leading-6 text-[16px] border border-[#A6ABAC] py-2 px-4 rounded-4xl "
+                  className={`text-lg text-[#403730] font-semibold cursor-pointer leading-6 text-[16px] border border-[#A6ABAC] py-2 px-2 rounded-4xl ${
+                    selectedDays.includes(day.id)
+                      ? " bg-[#0C66E4] hover:bg-[#044DB2] text-white"
+                      : ""
+                  }`}
                 >
-                  {day.name}
+                  <div className="flex items-center gap-1.5 ">
+                    <span>
+                      {selectedDays.includes(day.id) && (
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M13.8047 3.52861C14.0651 3.78896 14.0651 4.21107 13.8047 4.47141L6.4714 11.8047C6.21106 12.0651 5.78894 12.0651 5.5286 11.8047L2.19526 8.47141C1.93491 8.21107 1.93491 7.78896 2.19526 7.52861C2.45561 7.26826 2.87772 7.26826 3.13807 7.52861L6 10.3905L12.8619 3.52861C13.1223 3.26826 13.5444 3.26826 13.8047 3.52861Z"
+                            fill="white"
+                          />
+                        </svg>
+                      )}
+                    </span>
+                    {day.name}
+                  </div>
                 </li>
               ))}
             </ul>
           </Form.Item>
 
           {/* Choose a time */}
-
-          <Form.Item>
+          <Form.Item name={"time"}
+            
+          >
             <h2 className="text-lg font-semibold leading-7 text-[#263234] mb-4 ">
               Choose a time
             </h2>
-            <ul className="flex flex-col lg:flex-row  lg:items-center  gap-2  ">
+            <ul className="flex flex-col lg:flex-row lg:items-center gap-2">
               {timeSlots.map((time) => (
                 <li
                   key={time.id}
-                  className="text-lg text-[#403730]  font-semibold cursor-pointer leading-6 text-[16px] border border-[#A6ABAC] py-2 px-4 rounded-4xl "
+                  onClick={() => handleTimeClick(time)}
+                  className={`text-lg text-[#403730] font-semibold cursor-pointer leading-6 text-[16px] border border-[#A6ABAC] py-2 px-4 rounded-4xl ${
+                    selectedTime.includes(time.id)
+                      ? "bg-[#0C66E4] hover:bg-[#044DB2] text-white"
+                      : ""
+                  }`}
                 >
-                  {time.slot}
+                  <div className="flex items-center gap-1.5 ">
+                    <span>
+                      {selectedTime.includes(time.id) && (
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M13.8047 3.52861C14.0651 3.78896 14.0651 4.21107 13.8047 4.47141L6.4714 11.8047C6.21106 12.0651 5.78894 12.0651 5.5286 11.8047L2.19526 8.47141C1.93491 8.21107 1.93491 7.78896 2.19526 7.52861C2.45561 7.26826 2.87772 7.26826 3.13807 7.52861L6 10.3905L12.8619 3.52861C13.1223 3.26826 13.5444 3.26826 13.8047 3.52861Z"
+                            fill="white"
+                          />
+                        </svg>
+                      )}
+                    </span>
+                    {time.slot}
+                  </div>
                 </li>
               ))}
             </ul>
           </Form.Item>
 
-          <Form.Item>
+          {/* Terms */}
+          <Form.Item
+            name="terms"
+            valuePropName="checked"
+            rules={[
+              {
+                required: true,
+                message: "Please agree with terms and conditions",
+              }
+            ]}
+          >
             <Checkbox>
               <span className=" text-[#263234] text-[14px] leading-5 ">
                 I agree with Virtue Hope’s{" "}
                 <Link className=" underline decoration-solid " to={""}>
-                  {" "}
                   terms & conditions.
-                </Link>{" "}
+                </Link>
               </span>
             </Checkbox>
           </Form.Item>
 
           {/* Submit Button */}
           <div className="flex justify-end gap-3">
-            <div>
-              <Button className=" serviceBtn2 " onClick={showPaymentModal}>
-                Cancel
-              </Button>
-            </div>
-            <div>
-              <Button onClick={submitBookingFrom} className={"serviceBtn3"} htmlType="submit">
-                Proceed next step
-              </Button>
-            </div>
+            <Button className="serviceBtn2" onClick={showPaymentModal}>
+              Cancel
+            </Button>
+            <Button className="serviceBtn3" htmlType="submit">
+              Proceed next step
+            </Button>
           </div>
         </Form>
       </Modal>
@@ -351,10 +467,7 @@ const ServiceBanner = () => {
             >
               Back
             </Button>
-            <Button
-              onClick={submitDonateModal}
-              className="missionModalBtn2"
-            >
+            <Button onClick={submitDonateModal} className="missionModalBtn2">
               Continue
             </Button>
           </div>
