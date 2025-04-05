@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { MenuOutlined, CreditCardOutlined } from "@ant-design/icons";
+import {
+  MenuOutlined,
+  CreditCardOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import {
   Drawer,
   Modal,
@@ -17,6 +21,7 @@ import Dragger from "antd/es/upload/Dragger";
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
 
 const Navbar = () => {
+  const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -29,57 +34,85 @@ const Navbar = () => {
   };
   const onClose = () => setModalOpen(false);
 
+  // 1st modal end
+
   // second modal
   const [secondModalOpen, setSecondModalOpen] = useState(false);
+
+  const handleSubmit = (values) => {
+    console.log("Form values:", values);
+    console.log(values.email);
+    form.resetFields(); // Reset form after submit
+    closeSecondModal(); // Close modal
+  };
+
+  const handleFileChange = (info) => {
+    console.log("File Upload Info:", info.fileList);
+  };
+
+  const uploadProps = {
+    beforeUpload: () => false,
+    multiple: false,
+    onChange: handleFileChange,
+    accept: ".jpg,.jpeg,.png,.pdf",
+  };
 
   const openSecondModal = () => {
     setModalOpen(false);
     setSecondModalOpen(true);
   };
 
-  const closeSecondModal = () => setSecondModalOpen(false);
-
-  const handleSecondCancelModal = () => {
-    console.log(`second modal opened: `);
-    setSecondModalOpen(false);
+  const closeSecondModal = () => {
     setModalOpen(true);
+    setSecondModalOpen(false);
   };
 
-  // 3rd modal luxuryModal 
+  // const handleSecondCancelModal = () => {
+  //   console.log(`second modal opened: `);
+  //   setSecondModalOpen(false);
+  //   setModalOpen(true);
+  // };
 
-  const [luxuryModal,setLuxuryModal] = useState(false);
+  // second modal end
+
+  // 3rd modal luxuryModal
+
+  const [luxuryModal, setLuxuryModal] = useState(false);
 
   const openLuxuryModal = () => {
     setLuxuryModal(true);
     setModalOpen(false);
   };
 
-
   const closeLuxuryModal = () => {
     setLuxuryModal(false);
-    // setIsModalOpen(true);
+    setModalOpen(true);
   };
 
-
-    const submitLuxriousModal = () => {
-      console.log("Luxury Form Submitted");
-      setLuxuryModal(false);
-      // setIsModalOpen(false);
-      showSuccessAlert();
-    };
-
-
-  
-
-
-
-  // from submit
-
-  const handleSubmit = () => {
-    console.log("Form Submitted");
-    setSecondModalOpen(false);
-    showSuccessAlert();
+  const uploadPropsFrom = {
+    beforeUpload: () => false, // prevent automatic upload
+    multiple: false,
+    accept: ".jpg,.jpeg,.png,.pdf",
+    maxCount: 1,
   };
+
+  const submitLuxriousModal = (values) => {
+    console.log("Form Values:", values);
+    console.log("Name:", values.name);
+    console.log("Email:", values.email);
+    console.log("Item:", values.item);
+    console.log("Description:", values.description);
+    console.log("Image:", values.image?.fileList[0]);
+    console.log("Terms Accepted:", values.terms);
+
+    // Reset form fields
+    form.resetFields();
+
+    // Optional: close the modal
+    closeLuxuryModal();
+  };
+
+  // 3rd modal luxuryModal end
 
   const toggleDrawer = () => setOpen(!open);
 
@@ -98,37 +131,10 @@ const Navbar = () => {
     { name: "Podcast", path: "podcast" },
   ];
 
-  // 1st modal
-
   useEffect(() => {
-    if (modalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [modalOpen]);
-
-  // 2nd modal
-
-  useEffect(() => {
-    if (secondModalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [secondModalOpen]);
-
-  useEffect(() => {
-    if (luxuryModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [luxuryModal]);
-
-
-
-
+    document.body.style.overflow =
+      modalOpen || secondModalOpen || luxuryModal ? "hidden" : "auto";
+  }, [modalOpen, secondModalOpen, luxuryModal]);
 
   return (
     <nav
@@ -239,7 +245,7 @@ const Navbar = () => {
                     <h1 className="block mt-3.5 text-[16px]  text-[#263234] leading-6 font-medium">
                       With Apple Pay
                     </h1>
-                    <span className="block lg:ml-[240px]! md:ml-[240%] ml-[170%] -mt-6 ">
+                    <span className="block lg:ml-[240px]! md:ml-[220%] ml-[145%] -mt-6 ">
                       {/* Apple Pay Icon */}
                       <svg
                         width="20"
@@ -264,7 +270,7 @@ const Navbar = () => {
                     <h1 className="block mt-3.5 text-[16px] text-[#263234] leading-6 font-medium">
                       With Google Pay
                     </h1>
-                    <span className="lg:ml-[240px]! md:ml-[220%] ml-[158%] block -mt-6 ">
+                    <span className="lg:ml-[240px]! md:ml-[200%] ml-[132%] block -mt-6 ">
                       {/* Google Pay Icon */}
                       <svg
                         width="24"
@@ -293,6 +299,39 @@ const Navbar = () => {
                     </span>
                   </Radio>
 
+                  {/* paypal Pay */}
+                  <Radio
+                    value="paypal_pay"
+                    className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                  >
+                    <h1 className="block mt-3.5 text-[16px] text-[#263234] leading-6 font-medium">
+                      With PayPal Pay
+                    </h1>
+                    <span className="block  lg:ml-[240px]! md:ml-[210%] ml-[140%] -mt-6 ">
+                      {/* paypal Pay Icon */}
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18.9861 6.91069C19.0396 4.12819 16.7436 1.99219 13.5866 1.99219H7.05757C6.90538 1.99224 6.7582 2.0466 6.64252 2.14551C6.52685 2.24441 6.45027 2.38135 6.42657 2.53169L3.81007 18.8797C3.79837 18.9538 3.80285 19.0295 3.82323 19.1017C3.8436 19.1738 3.87937 19.2407 3.92808 19.2978C3.97678 19.3548 4.03727 19.4006 4.10537 19.432C4.17348 19.4634 4.24758 19.4797 4.32257 19.4797H8.19107L7.58607 23.2657C7.57436 23.3398 7.57886 23.4156 7.59926 23.4878C7.61966 23.56 7.65548 23.6269 7.70424 23.684C7.753 23.741 7.81355 23.7868 7.88172 23.8181C7.94988 23.8495 8.02403 23.8657 8.09907 23.8657H11.2501C11.4026 23.8657 11.5381 23.8107 11.6536 23.7122C11.7691 23.6132 11.7881 23.4767 11.8116 23.3262L12.7366 17.8837C12.7601 17.7337 12.8366 17.5387 12.9526 17.4397C13.0681 17.3407 13.1691 17.2867 13.3211 17.2862H15.2501C18.3416 17.2862 20.9651 15.0892 21.4446 12.0327C21.7836 9.86269 20.8531 7.88919 18.9861 6.91069Z"
+                          fill="#001C64"
+                        />
+                        <path
+                          d="M9.02798 13.4502L8.06448 19.5602L7.45948 23.3922C7.44777 23.4663 7.45227 23.542 7.47267 23.6143C7.49308 23.6865 7.52889 23.7534 7.57765 23.8104C7.62642 23.8675 7.68697 23.9132 7.75513 23.9446C7.82329 23.976 7.89745 23.9922 7.97248 23.9922H11.3075C11.4596 23.992 11.6066 23.9376 11.7222 23.8387C11.8378 23.7398 11.9143 23.6029 11.938 23.4527L12.817 17.8827C12.8407 17.7325 12.9172 17.5956 13.0328 17.4968C13.1484 17.398 13.2954 17.3437 13.4475 17.3437H15.411C18.5025 17.3437 21.1255 15.0887 21.605 12.0322C21.945 9.86266 20.853 7.88916 18.986 6.91016C18.981 7.14116 18.961 7.37166 18.9255 7.60016C18.446 10.6562 15.8225 12.9117 12.731 12.9117H9.65848C9.5065 12.9117 9.3595 12.9659 9.24393 13.0646C9.12836 13.1633 9.05179 13.3 9.02798 13.4502Z"
+                          fill="#0070E0"
+                        />
+                        <path
+                          d="M8.06398 19.5601H4.18398C4.10896 19.5601 4.03482 19.5439 3.96668 19.5125C3.89853 19.4812 3.83801 19.4354 3.78929 19.3783C3.74056 19.3213 3.70479 19.2544 3.68446 19.1821C3.66412 19.1099 3.65969 19.0342 3.67148 18.9601L6.28748 2.36908C6.31119 2.21879 6.38779 2.08191 6.50348 1.98309C6.61917 1.88427 6.76634 1.83001 6.91848 1.83008H13.587C16.7435 1.83008 19.0395 4.12758 18.986 6.91008C18.2005 6.49808 17.2775 6.26258 16.266 6.26258H10.7065C10.5545 6.26273 10.4075 6.31708 10.2919 6.41587C10.1763 6.51466 10.0998 6.65142 10.076 6.80158L9.02848 13.4501L8.06398 19.5601Z"
+                          fill="#003087"
+                        />
+                      </svg>
+                    </span>
+                  </Radio>
+
                   {/* Divider */}
                   <Divider style={{ borderColor: "#A6ABAC", margin: "20px 0" }}>
                     Or
@@ -313,15 +352,11 @@ const Navbar = () => {
             </Form.Item>
 
             {/* Modal Buttons */}
-            <div className=" flex flex-col md:flex-row md:justify-end  lg:flex-row justify-center lg:justify-end mt-5 mb-2">
-              <Button
-                onClick={onClose}
-                type="text"
-                className=" missionModalBtn1 "
-              >
+            <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
+              <Button onClick={onClose} type="text" className="  navBtn1  ">
                 Cancel
               </Button>
-              <Button onClick={openSecondModal} className="missionModalBtn2">
+              <Button onClick={openSecondModal} className="navBtn2">
                 Proceed next step
               </Button>
             </div>
@@ -330,9 +365,7 @@ const Navbar = () => {
       </div>
 
       {/* second modal */}
-
       <Modal
-        // title="Second Modal"
         open={secondModalOpen}
         onCancel={closeSecondModal}
         footer={null}
@@ -343,155 +376,119 @@ const Navbar = () => {
           Donate with Luxury retreats
         </h2>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-            Name
-          </label>
-          <Input
-            style={{
-              border: "1px solid #A6ABAC  ",
-              padding: "10px 14px ",
-              lineHeight: "24px",
-              fontSize: "16px",
-              marginTop: "6px",
-            }}
-            placeholder="Enter your name"
-            className="mt-2"
-          />
-        </div>
+        <Form form={form} onFinish={handleSubmit} layout="vertical">
+          {/* Name */}
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[
+              { required: true, message: "Please input your name!" },
+              { min: 6, message: "Name must be at least 6 characters!" },
+            ]}
+          >
+            <Input placeholder="Enter your name" />
+          </Form.Item>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-            Email (optional)
-          </label>
-          <Input
-            style={{
-              border: "1px solid #A6ABAC  ",
-              padding: "10px 14px ",
-              lineHeight: "24px",
-              fontSize: "16px",
-              marginTop: "6px",
-            }}
-            type="email"
-            placeholder="Enter your email address"
-            className="mt-2"
-          />
-        </div>
+          {/* Email */}
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              { required: true, message: "Please input your email!" },
+              { type: "email", message: "Enter a valid email!" },
+            ]}
+          >
+            <Input type="email" placeholder="Enter your email address" />
+          </Form.Item>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-            Item
-          </label>
-          <Input
-            style={{
-              border: "1px solid #A6ABAC  ",
-              padding: "10px 14px ",
-              lineHeight: "24px",
-              fontSize: "16px",
-              marginTop: "6px",
-            }}
-            placeholder="Enter item name"
-            className="mt-2"
-          />
-        </div>
+          {/* Item */}
+          <Form.Item
+            name="item"
+            label="Item"
+            rules={[
+              { required: true, message: "Please input the item name!" },
+              { min: 6, message: "Item name must be at least 6 characters!" },
+            ]}
+          >
+            <Input placeholder="Enter item name" />
+          </Form.Item>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-            Item Description
-          </label>
-          <Input.TextArea
-            style={{
-              border: "1px solid #A6ABAC  ",
-              padding: "10px 14px ",
-              lineHeight: "24px",
-              fontSize: "16px",
-              marginTop: "6px",
-            }}
-            placeholder="Enter a description..."
-            className="mt-2"
-            rows={4}
-          />
-        </div>
+          {/* Description */}
+          <Form.Item
+            name="description"
+            label="Item Description"
+            rules={[
+              { required: true, message: "Please input the item description!" },
+              { min: 6, message: "Description must be at least 6 characters!" },
+            ]}
+          >
+            <Input.TextArea placeholder="Enter a description..." rows={4} />
+          </Form.Item>
 
-        {/* File Upload Field */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-            Upload your photo
-          </label>
-          <Dragger style={{ marginTop: "6px", border: "2px dotted #E9EBEB " }}>
-            <div className=" text-start  ">
+          {/* Image Upload */}
+          <Form.Item
+            name="image"
+            label="Upload your photo"
+            rules={[
+              {
+                required: true,
+                message: "Please upload an image!",
+              },
+            ]}
+          >
+            <Dragger {...uploadProps}>
               <p className="ant-upload-drag-icon">
-                <span>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M3 14C3.55228 14 4 14.4477 4 15V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V15C20 14.4477 20.4477 14 21 14C21.5523 14 22 14.4477 22 15V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7956 2 19V15C2 14.4477 2.44772 14 3 14Z"
-                      fill="#4B5557"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M11.2929 2.29289C11.6834 1.90237 12.3166 1.90237 12.7071 2.29289L17.7071 7.29289C18.0976 7.68342 18.0976 8.31658 17.7071 8.70711C17.3166 9.09763 16.6834 9.09763 16.2929 8.70711L12 4.41421L7.70711 8.70711C7.31658 9.09763 6.68342 9.09763 6.29289 8.70711C5.90237 8.31658 5.90237 7.68342 6.29289 7.29289L11.2929 2.29289Z"
-                      fill="#4B5557"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M12 2C12.5523 2 13 2.44772 13 3V15C13 15.5523 12.5523 16 12 16C11.4477 16 11 15.5523 11 15V3C11 2.44772 11.4477 2 12 2Z"
-                      fill="#4B5557"
-                    />
-                  </svg>
-                </span>
+                <UploadOutlined />
               </p>
-              <p className="ant-upload-text text-[#263234] font-semibold text-[16px] mb-1 ">
+              <p className="ant-upload-text">
                 Click or drag file to this area to upload
               </p>
-              <p className="text-sm text-[#4B5557] leading-5 mt-2 mb-6 ">
+              <p className="ant-upload-hint text-sm text-[#4B5557]">
                 Supported format: JPG, JPEG, PNG, PDF
               </p>
-            </div>
-          </Dragger>
-        </div>
+            </Dragger>
+          </Form.Item>
 
-        <div className="mb-4">
-          <Checkbox>
-            I agree with Virtue Hope's{" "}
-            <a href="#" className="underline">
-              terms & conditions
-            </a>
-            .
-          </Checkbox>
-        </div>
+          {/* Checkbox */}
+          <Form.Item
+            name="terms"
+            valuePropName="checked"
+            rules={[
+              {
+                validator: (_, value) =>
+                  value
+                    ? Promise.resolve()
+                    : Promise.reject("Please agree with the terms!"),
+              },
+            ]}
+          >
+            <Checkbox>
+              I agree with Virtue Hope's{" "}
+              <a href="#" className="underline">
+                terms & conditions
+              </a>
+              .
+            </Checkbox>
+          </Form.Item>
 
-        {/* Modal Buttons */}
-        <div className="   flex justify-end gap-7 mr-2 ">
-          <div>
+          {/* Modal Buttons */}
+          <div className="flex justify-end gap-7">
             <button
-              onClick={handleSecondCancelModal}
-              className=" px-6 py-2 text-[#403730] cursor-pointer font-bold text-sm "
-              type="text"
+              onClick={closeSecondModal}
+              className="px-6 py-2 text-[#403730] font-bold text-sm"
+              type="button"
             >
               Back
             </button>
-          </div>
-          <div>
             <button
-              className=" px-6 py-2  bg-[#403730] text-white rounded shadow cursor-pointer font-bold text-sm "
-              onClick={handleSubmit}
+              className="px-6 py-2 bg-[#403730] text-white rounded shadow font-bold text-sm"
+              type="submit"
             >
               Submit
             </button>
           </div>
-        </div>
+        </Form>
       </Modal>
-
       {/* 3rd modal  */}
 
       {/* luxurious modal  */}
@@ -507,157 +504,130 @@ const Navbar = () => {
           destroyOnClose
           closable={false}
         >
-          <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
-            Donate with Luxury retreats
+          <h1 className=" text-[#263234] font-semibold leading-8 text-2xl mb-6  ">
+            Donate Art, Antique or Collectables
           </h1>
 
-          {/* Name Field */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-              Name
-            </label>
-            <Input
-              style={{
-                border: "1px solid #A6ABAC  ",
-                padding: "10px 14px ",
-                lineHeight: "24px",
-                fontSize: "16px",
-                marginTop: "6px",
-              }}
-              placeholder="Enter your name"
-            />
-          </div>
-
-          {/* Email Field */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-              Email
-            </label>
-            <Input
-              style={{
-                border: "1px solid #A6ABAC  ",
-                padding: "10px 14px ",
-                marginTop: "6px",
-              }}
-              type="email"
-              placeholder="Enter your email address"
-            />
-          </div>
-
-          {/* Item field */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-              Item
-            </label>
-            <Input
-              style={{
-                border: "1px solid #A6ABAC  ",
-                padding: "10px 14px ",
-                lineHeight: "24px",
-                fontSize: "16px",
-                marginTop: "6px",
-              }}
-              placeholder="Enter item name"
-            />
-          </div>
-
-          {/* Why do you want to be a Volunteer Field */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-              Item description
-            </label>
-            <Input.TextArea
-              style={{
-                border: "1px solid #A6ABAC  ",
-                padding: "10px 14px ",
-                lineHeight: "24px",
-                fontSize: "16px",
-                marginTop: "6px",
-              }}
-              placeholder="Enter a description..."
-              rows={4}
-            />
-          </div>
-
-          {/* File Upload Field */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 ">
-              Upload your photo
-            </label>
-            <Dragger
-              style={{ marginTop: "6px", border: "2px dotted #E9EBEB " }}
+          <Form form={form} onFinish={submitLuxriousModal} layout="vertical">
+            {/* Name */}
+            <Form.Item
+              name="name"
+              label="Name"
+              rules={[
+                { required: true, message: "Please input your name!" },
+                { min: 6, message: "Name must be at least 6 characters!" },
+              ]}
             >
-              <div className=" text-start  ">
+              <Input placeholder="Enter your name" />
+            </Form.Item>
+
+            {/* Email */}
+            <Form.Item
+              name="email"
+              label="Email"
+              rules={[
+                { required: true, message: "Please input your email!" },
+                { type: "email", message: "Enter a valid email!" },
+              ]}
+            >
+              <Input type="email" placeholder="Enter your email address" />
+            </Form.Item>
+
+            {/* Item */}
+            <Form.Item
+              name="item"
+              label="Item"
+              rules={[
+                { required: true, message: "Please input the item name!" },
+                { min: 6, message: "Item name must be at least 6 characters!" },
+              ]}
+            >
+              <Input placeholder="Enter item name" />
+            </Form.Item>
+
+            {/* Description */}
+            <Form.Item
+              name="description"
+              label="Item Description"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the item description!",
+                },
+                {
+                  min: 6,
+                  message: "Description must be at least 6 characters!",
+                },
+              ]}
+            >
+              <Input.TextArea placeholder="Enter a description..." rows={4} />
+            </Form.Item>
+
+            {/* Image Upload */}
+            <Form.Item
+              name="image"
+              label="Upload your photo"
+              rules={[
+                {
+                  required: true,
+                  message: "Please upload an image!",
+                },
+              ]}
+            >
+              <Dragger {...uploadPropsFrom}>
                 <p className="ant-upload-drag-icon">
-                  <span>
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M3 14C3.55228 14 4 14.4477 4 15V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V15C20 14.4477 20.4477 14 21 14C21.5523 14 22 14.4477 22 15V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7956 2 19V15C2 14.4477 2.44772 14 3 14Z"
-                        fill="#4B5557"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M11.2929 2.29289C11.6834 1.90237 12.3166 1.90237 12.7071 2.29289L17.7071 7.29289C18.0976 7.68342 18.0976 8.31658 17.7071 8.70711C17.3166 9.09763 16.6834 9.09763 16.2929 8.70711L12 4.41421L7.70711 8.70711C7.31658 9.09763 6.68342 9.09763 6.29289 8.70711C5.90237 8.31658 5.90237 7.68342 6.29289 7.29289L11.2929 2.29289Z"
-                        fill="#4B5557"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M12 2C12.5523 2 13 2.44772 13 3V15C13 15.5523 12.5523 16 12 16C11.4477 16 11 15.5523 11 15V3C11 2.44772 11.4477 2 12 2Z"
-                        fill="#4B5557"
-                      />
-                    </svg>
-                  </span>
+                  <UploadOutlined />
                 </p>
-                <p className="ant-upload-text text-[#263234] font-semibold text-[16px] mb-1 ">
+                <p className="ant-upload-text">
                   Click or drag file to this area to upload
                 </p>
-                <p className="text-sm text-[#4B5557] leading-5 mt-2 mb-6 ">
+                <p className="ant-upload-hint text-sm text-[#4B5557]">
                   Supported format: JPG, JPEG, PNG, PDF
                 </p>
-              </div>
-            </Dragger>
-          </div>
+              </Dragger>
+            </Form.Item>
 
-          {/* Terms & Conditions Checkbox */}
-          <div className="mb-4">
-            <Checkbox style={{ color: "" }}>
-              I agree with Virtue Hope's{" "}
-              <a href="#" className="underline">
-                terms & conditions.
-              </a>
-            </Checkbox>
-          </div>
+            {/* Checkbox */}
+            <Form.Item
+              name="terms"
+              valuePropName="checked"
+              rules={[
+                {
+                  validator: (_, value) =>
+                    value
+                      ? Promise.resolve()
+                      : Promise.reject("Please agree with the terms!"),
+                },
+              ]}
+            >
+              <Checkbox>
+                I agree with Virtue Hope's{" "}
+                <a href="#" className="underline">
+                  terms & conditions
+                </a>
+                .
+              </Checkbox>
+            </Form.Item>
 
-          {/* Modal Buttons */}
-          <div className="   flex justify-end gap-7 mr-2 ">
-            <div>
-              <button
+            {/* Modal Buttons */}
+            {/* Modal Buttons */}
+            <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
+              <Button
                 onClick={closeLuxuryModal}
-                className=" px-6 py-2 text-[#403730] cursor-pointer font-bold text-sm "
                 type="text"
+                className="  navBtn1  "
               >
                 Back
-              </button>
-            </div>
-            <div>
-              <button
-                className=" px-6 py-2  bg-[#403730] text-white rounded shadow cursor-pointer font-bold text-sm "
-                onClick={submitLuxriousModal}
+              </Button>
+              <Button
+                htmlType="submit"
+                onClick={openSecondModal}
+                className="navBtn2"
               >
-                Apply now
-              </button>
+                Submit
+              </Button>
             </div>
-          </div>
+          </Form>
         </Modal>
       </div>
     </nav>

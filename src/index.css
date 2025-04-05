@@ -528,3 +528,70 @@ span.ant-menu-title-content {
   border: none !important;
   font-size: 14px !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+/* navbar page css  */
+
+
+
+.navBtn1 {
+  border: none !important;
+  color: #403730 !important;
+  font-weight: 700;
+  font-size: 14px;
+  width: 155px !important;
+  height: 44px !important;
+  box-shadow: none !important;
+}
+
+.navBtn1:hover {
+  border: none !important;
+  background-color: transparent !important;
+  color: #403730 !important;
+}
+
+.navBtn2 {
+  border: none !important;
+  background-color: #403730 !important;
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffffff !important;
+  width: 185px !important;
+  height: 44px !important;
+}
+
+
+@media screen and (max-width: 768px) {
+  .navBtn1 {
+    display: block !important;
+    margin: auto !important;
+    /* margin-right: -230px !important; */
+  }
+  .navBtn2 {
+    display: block !important;
+    margin: auto !important;
+  }
+}
+
+
+
+@media screen and (max-width: 480px) {
+  .navBtn1 {
+    background-color: transparent !important;
+    display: block !important;
+    margin-right: 0% !important;
+    margin-bottom: 10px !important;
+  }
+  .navBtn2{
+    /* background-color: rebeccapurple !important ; */
+  }
+}

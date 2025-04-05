@@ -583,6 +583,8 @@ export const LuxerySection = () => {
           </div>
         </Form>
       </Modal>
+
+      
     </div>
   );
 };
