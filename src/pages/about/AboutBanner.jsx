@@ -57,7 +57,8 @@ const AboutBanner = () => {
             purpose-led initiatives
           </p>
           <div className=" lg:ml-8  ">
-            <span className=" lg:mt-5 block mt-3 ">including:</span>
+            <span className=" lg:mt-5 block mt-3 ">
+              Including:</span>
 
             <ul className="ml-5">
               {donationOptions.map((item, index) => (

@@ -42,8 +42,11 @@ export const MissionVission = () => {
 
   const handleVolunterSubmit = (values) => {
     console.log("Form Submitted: ", values);
+    form.resetFields();
     // You can handle form submission logic here
-    closeVolunteerModal(); // Optional: close modal after submission
+    setIsVolunterModal(false);
+    showSuccessAlert();
+    setIsModalOpen(false)
   };
 
   const uploadProps = {
@@ -70,13 +73,23 @@ export const MissionVission = () => {
     setIsModalOpen(true);
   };
 
-  const submitLuxriousModal = () => {
-    console.log("Luxury Form Submitted");
-    setLuxuryModal(false);
-    setIsModalOpen(false);
-    showSuccessAlert();
-  };
+  const submitLuxriousModal = (values) => {
+    console.log("Form Submitted:", values);
 
+    // Access specific fields like this:
+
+    console.log("Name:", values.name);
+    console.log("Email:", values.email);
+    console.log("Item:", values.item);
+    console.log("Description:", values.description);
+    console.log("Image File:", values.image);
+    console.log("Agreed to Terms:", values.terms);
+    form.resetFields();
+
+    // You can now send the data to backend or close the modal
+    closeLuxuryModal();
+    setIsModalOpen(false)
+  };
   // loxury modal end
 
   useEffect(() => {
@@ -289,21 +302,23 @@ export const MissionVission = () => {
             Donate with Luxury retreats
           </h1>
 
-          <Form form={form} layout="vertical">
+          <Form form={form} onFinish={submitLuxriousModal} layout="vertical">
             {/* Name */}
             <Form.Item
               name="name"
               label="Name"
+              style={{marginBottom:"0px"}}
               rules={[
                 { required: true, message: "Please input your name!" },
                 { min: 6, message: "Name must be at least 6 characters!" },
               ]}
             >
-              <Input placeholder="Enter your name" />
+              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter your name" />
             </Form.Item>
 
             {/* Email */}
             <Form.Item
+            style={{marginBottom:"0px",marginTop:"8px"}}
               name="email"
               label="Email"
               rules={[
@@ -311,11 +326,12 @@ export const MissionVission = () => {
                 { type: "email", message: "Enter a valid email!" },
               ]}
             >
-              <Input type="email" placeholder="Enter your email address" />
+              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} type="email" placeholder="Enter your email address" />
             </Form.Item>
 
             {/* Item */}
             <Form.Item
+            style={{marginBottom:"0px",marginTop:"8px"}}
               name="item"
               label="Item"
               rules={[
@@ -323,11 +339,12 @@ export const MissionVission = () => {
                 { min: 6, message: "Item name must be at least 6 characters!" },
               ]}
             >
-              <Input placeholder="Enter item name" />
+              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter item name" />
             </Form.Item>
 
             {/* Description */}
             <Form.Item
+            style={{marginBottom:"0px",marginTop:"8px"}}
               name="description"
               label="Item Description"
               rules={[
@@ -341,11 +358,12 @@ export const MissionVission = () => {
                 },
               ]}
             >
-              <Input.TextArea placeholder="Enter a description..." rows={4} />
+              <Input.TextArea style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter a description..." rows={4} />
             </Form.Item>
 
             {/* Image Upload */}
             <Form.Item
+            style={{marginBottom:"0px",marginTop:"8px"}}
               name="image"
               label="Upload your photo"
               rules={[
@@ -355,7 +373,7 @@ export const MissionVission = () => {
                 },
               ]}
             >
-              <Dragger>
+              <Dragger {...uploadProps}>
                 <p className="ant-upload-drag-icon">
                   <UploadOutlined />
                 </p>
@@ -396,7 +414,7 @@ export const MissionVission = () => {
               <Button onClick={closeLuxuryModal} className="  navBtn1  ">
                 Back
               </Button>
-              <Button onClick={submitLuxriousModal} className="navBtn2">
+              <Button htmlType="submit" className="navBtn2">
                 Apply now
               </Button>
             </div>
@@ -593,7 +611,10 @@ export const MissionVission = () => {
             >
               <div className="mb-2">
                 <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 "></label>
-                <Dragger {...uploadProps} style={{ border: "2px dotted #E9EBEB " }}>
+                <Dragger
+                  {...uploadProps}
+                  style={{ border: "2px dotted #E9EBEB " }}
+                >
                   <div className=" text-start  ">
                     <p className="ant-upload-drag-icon">
                       <span>
