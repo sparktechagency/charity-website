@@ -13,7 +13,7 @@ const PodcastBanner = () => {
       <div className="relative bg-[url('/podcastBg.png')] bg-cover bg-center">
       <div className=" text-white pt-9 pb-6  text-center">
           <h1 className="text-4xl lg:text-5xl text-[#7c8067] font-bold">
-            Empower <span className="text-[#7c8067]">HER</span> Podcast:
+          EmpowerINFINITY Podcast:
             <span className="text-[#7c8067] lg:text-6xl text-3xl ">
               {" "}
               Healing,

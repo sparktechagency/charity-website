@@ -12,7 +12,7 @@ const JoinVoenture = () => {
           <h1 className=" text-3xl lg:text-7xl text-white leading-14 lg:leading-20 font-semibold ">
             Become a <br /> volunteer
           </h1>
-          <div className=" block mx-auto " >
+          <div className="  " >
             <Button className=" block mx-auto applayBtn lg:mt-12 mt-5 hover:bg-[#6A55441A] px-3 ">
               Apply now
             </Button>

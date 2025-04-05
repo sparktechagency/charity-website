@@ -6,7 +6,7 @@ import BidSection from "./BidSection";
 
 const AuctionPage = () => {
   return (
-    <div>
+    <div className="bg-[#ecebea]" >
         <AuctionBanner></AuctionBanner>
         <AuctionSlider></AuctionSlider>
         <AutionSliderTwo></AutionSliderTwo>
