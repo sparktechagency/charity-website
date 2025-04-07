@@ -2,8 +2,7 @@ import { Button, Modal, Form, Input, Checkbox, Radio } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { bookingSuccessAlert } from "../../helper/bookingMsg";
-import { ArrowRightOutlined } from '@ant-design/icons';
-
+import { ArrowRightOutlined } from "@ant-design/icons";
 
 export const LuxerySection = () => {
   const navigate = useNavigate();
@@ -21,7 +20,6 @@ export const LuxerySection = () => {
     { id: 3, slot: "14 - 16 " },
     { id: 4, slot: "16 - 18" },
   ];
-  
 
   // booking modal start
 
@@ -120,7 +118,6 @@ export const LuxerySection = () => {
 
   // Modal Open Function
 
-  
   const showPaymentModal = () => {
     console.log(`payment modal open`);
     setIsPaymentModalOpen(true);
@@ -128,7 +125,7 @@ export const LuxerySection = () => {
     setSelectedDays([]);
     setSelectedTimes([]);
     form.resetFields();
-    document.body.style.overflow = "hidden"
+    document.body.style.overflow = "hidden";
   };
 
   // Modal Close Function
@@ -146,28 +143,10 @@ export const LuxerySection = () => {
 
   // payment modal end
 
-
-
-
-
-
-
-
   useEffect(() => {
     document.body.style.overflow =
-    isModalOpen || isPaymentModalOpen ? "hidden" : "auto";
+      isModalOpen || isPaymentModalOpen ? "hidden" : "auto";
   }, [isModalOpen, isPaymentModalOpen]);
-
-
-
-
-
-
-
-
-
-
-
 
   return (
     <div className="bg-[#ecebea] lg:mt-16 py-4 p-2 lg:p-0">
@@ -348,7 +327,7 @@ export const LuxerySection = () => {
                   key={day.id}
                   className={`text-lg text-[#403730] font-semibold cursor-pointer leading-6 text-[16px] border border-[#A6ABAC] py-2 px-2 rounded-4xl ${
                     selectedDays.includes(day.id)
-                      ? " bg-[#0C66E4] hover:bg-[#044DB2] text-white"
+                      ? " bg-[#403730] hover:bg-[#2D2722] text-white"
                       : ""
                   }`}
                 >
@@ -379,46 +358,49 @@ export const LuxerySection = () => {
           </Form.Item>
 
           {/* Choose a time */}
-          <Form.Item name={"time"}>
-            <h2 className="text-lg font-semibold leading-7 text-[#263234] mb-4 ">
-              Choose a time
-            </h2>
-            <ul className="flex flex-col lg:flex-row lg:items-center gap-2">
-              {timeSlots.map((time) => (
-                <li
-                  key={time.id}
-                  onClick={() => handleTimeClick(time)}
-                  className={`text-lg text-[#403730] font-semibold cursor-pointer leading-6 text-[16px] border border-[#A6ABAC] py-2 px-4 rounded-4xl ${
-                    selectedTime.includes(time.id)
-                      ? "bg-[#0C66E4] hover:bg-[#044DB2] text-white"
-                      : ""
-                  }`}
-                >
-                  <div className="flex items-center gap-1.5 ">
-                    <span>
-                      {selectedTime.includes(time.id) && (
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M13.8047 3.52861C14.0651 3.78896 14.0651 4.21107 13.8047 4.47141L6.4714 11.8047C6.21106 12.0651 5.78894 12.0651 5.5286 11.8047L2.19526 8.47141C1.93491 8.21107 1.93491 7.78896 2.19526 7.52861C2.45561 7.26826 2.87772 7.26826 3.13807 7.52861L6 10.3905L12.8619 3.52861C13.1223 3.26826 13.5444 3.26826 13.8047 3.52861Z"
-                            fill="white"
-                          />
-                        </svg>
-                      )}
-                    </span>
-                    {time.slot}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </Form.Item>
+
+          {selectedDays.length > 0 && (
+            <Form.Item name={"time"}>
+              <h2 className="text-lg font-semibold leading-7 text-[#263234] mb-4 ">
+                Choose a time
+              </h2>
+              <ul className="flex flex-col lg:flex-row lg:items-center gap-2">
+                {timeSlots.map((time) => (
+                  <li
+                    key={time.id}
+                    onClick={() => handleTimeClick(time)}
+                    className={`text-lg text-[#403730] font-semibold cursor-pointer leading-6 text-[16px] border border-[#A6ABAC] py-2 px-4 rounded-4xl ${
+                      selectedTime.includes(time.id)
+                        ? "bg-[#403730] hover:bg-[#2D2722] text-white"
+                        : ""
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5 ">
+                      <span>
+                        {selectedTime.includes(time.id) && (
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M13.8047 3.52861C14.0651 3.78896 14.0651 4.21107 13.8047 4.47141L6.4714 11.8047C6.21106 12.0651 5.78894 12.0651 5.5286 11.8047L2.19526 8.47141C1.93491 8.21107 1.93491 7.78896 2.19526 7.52861C2.45561 7.26826 2.87772 7.26826 3.13807 7.52861L6 10.3905L12.8619 3.52861C13.1223 3.26826 13.5444 3.26826 13.8047 3.52861Z"
+                              fill="white"
+                            />
+                          </svg>
+                        )}
+                      </span>
+                      {time.slot}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </Form.Item>
+          )}
 
           {/* Terms */}
           <Form.Item
@@ -583,8 +565,6 @@ export const LuxerySection = () => {
           </div>
         </Form>
       </Modal>
-
-      
     </div>
   );
 };

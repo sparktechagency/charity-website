@@ -43,7 +43,8 @@ const Navbar = () => {
     console.log("Form values:", values);
     console.log(values.email);
     form.resetFields(); // Reset form after submit
-    closeSecondModal(); // Close modal
+    setSecondModalOpen(false);
+    showSuccessAlert();
   };
 
   const handleFileChange = (info) => {
@@ -63,6 +64,7 @@ const Navbar = () => {
   };
 
   const closeSecondModal = () => {
+    form.resetFields(); // Reset form after
     setModalOpen(true);
     setSecondModalOpen(false);
   };
@@ -107,9 +109,8 @@ const Navbar = () => {
 
     // Reset form fields
     form.resetFields();
-
-    // Optional: close the modal
-    closeLuxuryModal();
+    setLuxuryModal(false);
+    showSuccessAlert()
   };
 
   // 3rd modal luxuryModal end
@@ -381,54 +382,59 @@ const Navbar = () => {
           <Form.Item
             name="name"
             label="Name"
+            style={{marginBottom:"0px"}}
             rules={[
               { required: true, message: "Please input your name!" },
               { min: 6, message: "Name must be at least 6 characters!" },
             ]}
           >
-            <Input placeholder="Enter your name" />
+            <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} className=" py-2.5! " placeholder="Enter your name" />
           </Form.Item>
 
           {/* Email */}
           <Form.Item
             name="email"
             label="Email"
+            style={{marginBottom:"0px",marginTop:"16px"}}
             rules={[
               { required: true, message: "Please input your email!" },
               { type: "email", message: "Enter a valid email!" },
             ]}
           >
-            <Input type="email" placeholder="Enter your email address" />
+            <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} type="email" placeholder="Enter your email address" />
           </Form.Item>
 
           {/* Item */}
           <Form.Item
             name="item"
             label="Item"
+            style={{marginBottom:"0px",marginTop:"16px"}}
             rules={[
               { required: true, message: "Please input the item name!" },
               { min: 6, message: "Item name must be at least 6 characters!" },
             ]}
           >
-            <Input placeholder="Enter item name" />
+            <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter item name" />
           </Form.Item>
 
           {/* Description */}
           <Form.Item
             name="description"
             label="Item Description"
+            style={{marginBottom:"0px",marginTop:"16px"}}
             rules={[
               { required: true, message: "Please input the item description!" },
               { min: 6, message: "Description must be at least 6 characters!" },
             ]}
           >
-            <Input.TextArea placeholder="Enter a description..." rows={4} />
+            <Input.TextArea style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter a description..." rows={4} />
           </Form.Item>
 
           {/* Image Upload */}
           <Form.Item
             name="image"
             label="Upload your photo"
+            style={{marginBottom:"0px",marginTop:"16px"}}
             rules={[
               {
                 required: true,
@@ -453,6 +459,7 @@ const Navbar = () => {
           <Form.Item
             name="terms"
             valuePropName="checked"
+            style={{marginBottom:"0px",marginTop:"16px"}}
             rules={[
               {
                 validator: (_, value) =>
@@ -464,9 +471,9 @@ const Navbar = () => {
           >
             <Checkbox>
               I agree with Virtue Hope's{" "}
-              <a href="#" className="underline">
+              <Link to="#" className="underline">
                 terms & conditions
-              </a>
+              </Link>
               .
             </Checkbox>
           </Form.Item>
@@ -513,40 +520,45 @@ const Navbar = () => {
             <Form.Item
               name="name"
               label="Name"
+              style={{marginBottom:"0px",marginTop:"16px"}}
               rules={[
                 { required: true, message: "Please input your name!" },
                 { min: 6, message: "Name must be at least 6 characters!" },
               ]}
             >
-              <Input placeholder="Enter your name" />
+              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter your name" />
             </Form.Item>
 
             {/* Email */}
             <Form.Item
               name="email"
               label="Email"
+              style={{marginBottom:"0px",marginTop:"16px"}}
               rules={[
                 { required: true, message: "Please input your email!" },
                 { type: "email", message: "Enter a valid email!" },
               ]}
             >
-              <Input type="email" placeholder="Enter your email address" />
+              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }}  type="email" placeholder="Enter your email address" />
             </Form.Item>
 
             {/* Item */}
             <Form.Item
               name="item"
+              style={{marginBottom:"0px",marginTop:"16px"}}
               label="Item"
               rules={[
                 { required: true, message: "Please input the item name!" },
                 { min: 6, message: "Item name must be at least 6 characters!" },
               ]}
             >
-              <Input placeholder="Enter item name" />
+              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter item name" />
             </Form.Item>
 
             {/* Description */}
             <Form.Item
+              style={{marginBottom:"0px",marginTop:"16px"}}
+
               name="description"
               label="Item Description"
               rules={[
@@ -560,11 +572,13 @@ const Navbar = () => {
                 },
               ]}
             >
-              <Input.TextArea placeholder="Enter a description..." rows={4} />
+              <Input.TextArea style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter a description..." rows={4} />
             </Form.Item>
 
             {/* Image Upload */}
             <Form.Item
+              style={{marginBottom:"0px",marginTop:"16px"}}
+
               name="image"
               label="Upload your photo"
               rules={[
@@ -590,6 +604,7 @@ const Navbar = () => {
             {/* Checkbox */}
             <Form.Item
               name="terms"
+              style={{marginBottom:"0px",marginTop:"16px"}}
               valuePropName="checked"
               rules={[
                 {
@@ -621,7 +636,7 @@ const Navbar = () => {
               </Button>
               <Button
                 htmlType="submit"
-                onClick={openSecondModal}
+              
                 className="navBtn2"
               >
                 Submit

@@ -16,13 +16,17 @@ export const MissionVission = () => {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // retreatModal
+  const [retreatModal, setRetreatModal] = useState(false);
+
+
   // 1st modal start
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
 
   const handlieClickNextStep = () => {
     setIsModalOpen(false);
-    setLuxuryModal(true);
+    setRetreatModal(true);
   };
 
   // 1st modal end
@@ -46,7 +50,7 @@ export const MissionVission = () => {
     // You can handle form submission logic here
     setIsVolunterModal(false);
     showSuccessAlert();
-    setIsModalOpen(false)
+    setIsModalOpen(false);
   };
 
   const uploadProps = {
@@ -86,16 +90,44 @@ export const MissionVission = () => {
     console.log("Agreed to Terms:", values.terms);
     form.resetFields();
 
-    // You can now send the data to backend or close the modal
-    closeLuxuryModal();
-    setIsModalOpen(false)
+    setLuxuryModal(false);
+    showSuccessAlert();
   };
   // loxury modal end
 
+
+  // retret modal start 
+
+  const closeRetretModal = () => {
+    setRetreatModal(false);
+    setIsModalOpen(true);
+  };
+
+  const backRetretModal = () => {
+    setRetreatModal(false);
+    setIsModalOpen(true);
+  };
+
+
+  const handleRetreatSubmit = (values) => {
+    console.log("Form Submitted: ", values);
+    form.resetFields();
+    // You can handle form submission logic here
+    setRetreatModal(false);
+    showSuccessAlert();
+    setIsModalOpen(false);
+  }
+
+
+    // retret modal end
+
+
+
+
   useEffect(() => {
     document.body.style.overflow =
-      isModalOpen || luxuryModal || isVolunterModal ? "hidden" : "auto";
-  }, [isModalOpen, luxuryModal, isVolunterModal]);
+      isModalOpen || luxuryModal || isVolunterModal || retreatModal ? "hidden" : "auto";
+  }, [isModalOpen, luxuryModal, isVolunterModal,retreatModal]);
 
   return (
     <div className="py-5 px-4 max-w-[1512px] mx-auto bg-[#ecebea]">
@@ -292,14 +324,14 @@ export const MissionVission = () => {
           visible={luxuryModal}
           onCancel={closeLuxuryModal}
           footer={null}
-          width={500}
+          width={600}
           height={800}
           // bodyStyle={{ padding: "20px" }}
           destroyOnClose
           closable={false}
         >
           <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
-            Donate with Luxury retreats
+            Donate Art, Antique or Collectables
           </h1>
 
           <Form form={form} onFinish={submitLuxriousModal} layout="vertical">
@@ -307,18 +339,25 @@ export const MissionVission = () => {
             <Form.Item
               name="name"
               label="Name"
-              style={{marginBottom:"0px"}}
+              style={{ marginBottom: "0px" }}
               rules={[
                 { required: true, message: "Please input your name!" },
                 { min: 6, message: "Name must be at least 6 characters!" },
               ]}
             >
-              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter your name" />
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter your name"
+              />
             </Form.Item>
 
             {/* Email */}
             <Form.Item
-            style={{marginBottom:"0px",marginTop:"8px"}}
+              style={{ marginBottom: "0px", marginTop: "8px" }}
               name="email"
               label="Email"
               rules={[
@@ -326,12 +365,20 @@ export const MissionVission = () => {
                 { type: "email", message: "Enter a valid email!" },
               ]}
             >
-              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} type="email" placeholder="Enter your email address" />
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                type="email"
+                placeholder="Enter your email address"
+              />
             </Form.Item>
 
             {/* Item */}
             <Form.Item
-            style={{marginBottom:"0px",marginTop:"8px"}}
+              style={{ marginBottom: "0px", marginTop: "8px" }}
               name="item"
               label="Item"
               rules={[
@@ -339,12 +386,19 @@ export const MissionVission = () => {
                 { min: 6, message: "Item name must be at least 6 characters!" },
               ]}
             >
-              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter item name" />
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter item name"
+              />
             </Form.Item>
 
             {/* Description */}
             <Form.Item
-            style={{marginBottom:"0px",marginTop:"8px"}}
+              style={{ marginBottom: "0px", marginTop: "8px" }}
               name="description"
               label="Item Description"
               rules={[
@@ -358,12 +412,20 @@ export const MissionVission = () => {
                 },
               ]}
             >
-              <Input.TextArea style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter a description..." rows={4} />
+              <Input.TextArea
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter a description..."
+                rows={4}
+              />
             </Form.Item>
 
             {/* Image Upload */}
             <Form.Item
-            style={{marginBottom:"0px",marginTop:"8px"}}
+              style={{ marginBottom: "0px", marginTop: "8px" }}
               name="image"
               label="Upload your photo"
               rules={[
@@ -423,6 +485,175 @@ export const MissionVission = () => {
       </div>
 
       {/* end  luxurious modal  */}
+
+      {/* retret modal start  */}
+
+      <div className=" w-[600px]  z-50 ">
+        <Modal
+          visible={retreatModal}
+          onCancel={closeRetretModal}
+          footer={null}
+          width={600}
+          height={800}
+          // bodyStyle={{ padding: "20px" }}
+          destroyOnClose
+          closable={false}
+        >
+          <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
+            Donate Art, Antique or Collectables
+          </h1>
+
+          <Form form={form} onFinish={handleRetreatSubmit} layout="vertical">
+            {/* Name */}
+            <Form.Item
+              name="name"
+              label="Name"
+              style={{ marginBottom: "0px" }}
+              rules={[
+                { required: true, message: "Please input your name!" },
+                { min: 6, message: "Name must be at least 6 characters!" },
+              ]}
+            >
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter your name"
+              />
+            </Form.Item>
+
+            {/* Email */}
+            <Form.Item
+              style={{ marginBottom: "0px", marginTop: "8px" }}
+              name="email"
+              label="Email"
+              rules={[
+                { required: true, message: "Please input your email!" },
+                { type: "email", message: "Enter a valid email!" },
+              ]}
+            >
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                type="email"
+                placeholder="Enter your email address"
+              />
+            </Form.Item>
+
+            {/* Item */}
+            <Form.Item
+              style={{ marginBottom: "0px", marginTop: "8px" }}
+              name="item"
+              label="Item"
+              rules={[
+                { required: true, message: "Please input the item name!" },
+                { min: 6, message: "Item name must be at least 6 characters!" },
+              ]}
+            >
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter item name"
+              />
+            </Form.Item>
+
+            {/* Description */}
+            <Form.Item
+              style={{ marginBottom: "0px", marginTop: "8px" }}
+              name="description"
+              label="Item Description"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the item description!",
+                },
+                {
+                  min: 6,
+                  message: "Description must be at least 6 characters!",
+                },
+              ]}
+            >
+              <Input.TextArea
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter a description..."
+                rows={4}
+              />
+            </Form.Item>
+
+            {/* Image Upload */}
+            <Form.Item
+              style={{ marginBottom: "0px", marginTop: "8px" }}
+              name="image"
+              label="Upload your photo"
+              rules={[
+                {
+                  required: true,
+                  message: "Please upload an image!",
+                },
+              ]}
+            >
+              <Dragger {...uploadProps}>
+                <p className="ant-upload-drag-icon">
+                  <UploadOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="ant-upload-hint text-sm text-[#4B5557]">
+                  Supported format: JPG, JPEG, PNG, PDF
+                </p>
+              </Dragger>
+            </Form.Item>
+
+            {/* Checkbox */}
+            <Form.Item
+              name="terms"
+              valuePropName="checked"
+              rules={[
+                {
+                  validator: (_, value) =>
+                    value
+                      ? Promise.resolve()
+                      : Promise.reject("Please agree with the terms!"),
+                },
+              ]}
+            >
+              <Checkbox>
+                I agree with Virtue Hope's{" "}
+                <a href="#" className="underline">
+                  terms & conditions
+                </a>
+                .
+              </Checkbox>
+            </Form.Item>
+
+            {/* Modal Buttons */}
+
+            <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
+              <Button onClick={backRetretModal} className="  navBtn1  ">
+                Back
+              </Button>
+              <Button htmlType="submit" className="navBtn2">
+              Submit
+              </Button>
+            </div>
+          </Form>
+        </Modal>
+      </div>
+
+      {/* retret modal end  */}
 
       {/*  Volunter Modal*/}
 

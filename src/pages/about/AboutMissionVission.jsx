@@ -126,7 +126,7 @@ const AboutMissionVission = () => {
             {/* Buttons */}
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
               <button
-              onClick={openVolunteerModal}
+              onClick={showModal}
                 className="bg-[#403730] cursor-pointer text-white py-3 px-6 rounded-md font-medium hover:bg-[#2E2A26]"
               >
                 Support survivors
