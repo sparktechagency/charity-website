@@ -25,11 +25,25 @@ const HomeSlider = () => {
     centerMode: false, // Keeps slides inline
   };
 
+  const [form] = Form.useForm();
+
   // first slider start
 
   // 1st modal start
 
   const [isModal, setIsModal] = useState(false);
+
+
+  const submitActionDetails = (values)=>{
+    console.log("ishan")
+    // Your code here to handle form submission
+    console.log("Form Values:", values);
+    setIsModal(false);
+    showSuccessAlert();
+  }
+
+
+
 
   // first modal end
 
@@ -122,16 +136,16 @@ const HomeSlider = () => {
     setFirstModal(false);
   };
 
+  const submitBuyerInfo = (values)=>{
+    console.log(values)
+    setFirstModal(false);
+    setSecondModal(true)
+  }
+
   // first modal end
 
   // 2nd modal start
 
-  const openSecondModal = () => {
-    console.log(`ishan`);
-    setSecondModal(true);
-    setFirstModal(false);
-    document.body.style.overflow = "hidden"; // Disable scrolling
-  };
   const handleSecondCancelModal = () => {
     console.log("Second modal opened: ");
     setSecondModal(false);
@@ -254,7 +268,7 @@ const HomeSlider = () => {
                       <div className=" w-[33%] h-1.5 bg-[#E9EBEB] "></div>
                     </div>
 
-                    <Form layout="vertical" className=" p-6   rounded-lg">
+                    <Form form={form} onFinish={submitActionDetails} layout="vertical" className=" p-6   rounded-lg">
                       {/* Name Field */}
                       <Form.Item
                         style={{ marginBottom: "0px" }}
@@ -389,10 +403,7 @@ const HomeSlider = () => {
                           Cancel
                         </Button>
                         <Button
-                          onClick={() => {
-                            setIsModal(false);
-                            setSecondModalOpen(true);
-                          }}
+                          
                           className="missionModalBtn2"
                         >
                           Proceed to Next Step
@@ -465,7 +476,7 @@ const HomeSlider = () => {
                         <div className=" w-[33%] h-1.5 bg-[#E9EBEB] "></div>
                       </div>
 
-                      <Form layout="vertical" className=" p-6   rounded-lg">
+                      <Form form={form}   layout="vertical" className=" p-6   rounded-lg">
                         {/* Name Field */}
                         <Form.Item
                           style={{ marginBottom: "0px" }}
@@ -1004,7 +1015,7 @@ const HomeSlider = () => {
                     <div className=" w-[33%] h-1.5 bg-[#E9EBEB] "></div>
                   </div>
 
-                  <Form layout="vertical" className=" p-6   rounded-lg">
+                  <Form  layout="vertical" className=" p-6   rounded-lg">
                     {/* Name Field */}
                     <Form.Item
                       style={{ marginBottom: "0px" }}
@@ -1879,7 +1890,7 @@ const HomeSlider = () => {
                 you.
               </p>
 
-              <Form layout="vertical">
+              <Form onFinish={submitBuyerInfo} form={form} layout="vertical">
                 <Form.Item
                   style={{ marginBottom: "0px" }}
                   label={
@@ -1991,7 +2002,6 @@ const HomeSlider = () => {
                     <Button
                       className=" sliderBtn2"
                       htmlType="submit"
-                      onClick={openSecondModal}
                     >
                       Next
                     </Button>
@@ -2045,7 +2055,7 @@ const HomeSlider = () => {
                 {/* Form Start */}
               </div>
               <div className="mt-4">
-                <Form layout="vertical">
+                <Form form={form} layout="vertical">
                   <Form.Item name="donation">
                     <Radio.Group className="w-full">
                       <div className="flex flex-col gap-4">

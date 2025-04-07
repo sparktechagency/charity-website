@@ -25,6 +25,8 @@ const AuctionSlider = () => {
     centerMode: false, // Keeps slides inline
   };
 
+  const [form] = Form.useForm();
+
   // first slider start
 
   // 1st modal start
@@ -115,6 +117,15 @@ const AuctionSlider = () => {
 
   const handleCancel = () => {
     setFirstModal(false);
+    form.resetFields();
+  };
+
+  const handleSubmitBuyerInfo = (values) => {
+    console.log("Buyer info submitted: ", values);
+    console.log("Form submitted!");
+    setSecondModal(true);
+    setFirstModal(false);
+    form.resetFields();
   };
 
   // first modal end
@@ -2012,9 +2023,19 @@ const AuctionSlider = () => {
                 you.
               </p>
 
-              <Form layout="vertical">
+              <Form
+                form={form}
+                onFinish={handleSubmitBuyerInfo}
+                layout="vertical"
+              >
                 <Form.Item
                   style={{ marginBottom: "0px" }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter your name!",
+                    },
+                  ]}
                   label={
                     <span className=" font-medium text-sm text-[#263234] ">
                       Name
@@ -2041,6 +2062,12 @@ const AuctionSlider = () => {
                       Contact Number
                     </span>
                   }
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter your contact number!",
+                    },
+                  ]}
                   name="contact"
                 >
                   <Input
@@ -2057,6 +2084,13 @@ const AuctionSlider = () => {
 
                 <Form.Item
                   style={{ marginBottom: "0px", marginTop: "16px" }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter your email!",
+                      type: "email",
+                    },
+                  ]}
                   label={
                     <span className=" font-medium text-sm text-[#263234] ">
                       Email
@@ -2080,6 +2114,9 @@ const AuctionSlider = () => {
                   style={{ marginTop: "12px" }}
                   name="agree"
                   valuePropName="checked"
+                  rules={[
+                    { required: true, message: "Please agree to the terms!" },
+                  ]}
                 >
                   <Checkbox
                     style={{
@@ -2100,11 +2137,7 @@ const AuctionSlider = () => {
                     </Button>
                   </div>
                   <div>
-                    <Button
-                      className=" sliderBtn2"
-                      htmlType="submit"
-                      onClick={openSecondModal}
-                    >
+                    <Button className=" sliderBtn2" htmlType="submit">
                       Next
                     </Button>
                   </div>
@@ -2222,6 +2255,39 @@ const AuctionSlider = () => {
                             </svg>
                           </span>
                         </Radio>
+                        {/* paypal  */}
+                        {/* paypal Pay */}
+                        <Radio
+                          value="paypal_pay"
+                          className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                        >
+                          <h1 className="block mt-3.5 text-[16px] text-[#263234] leading-6 font-medium">
+                            With PayPal Pay
+                          </h1>
+                          <span className="block  lg:ml-[260px]! md:ml-[210%] ml-[140%] -mt-6 ">
+                            {/* paypal Pay Icon */}
+                            <svg
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M18.9861 6.91069C19.0396 4.12819 16.7436 1.99219 13.5866 1.99219H7.05757C6.90538 1.99224 6.7582 2.0466 6.64252 2.14551C6.52685 2.24441 6.45027 2.38135 6.42657 2.53169L3.81007 18.8797C3.79837 18.9538 3.80285 19.0295 3.82323 19.1017C3.8436 19.1738 3.87937 19.2407 3.92808 19.2978C3.97678 19.3548 4.03727 19.4006 4.10537 19.432C4.17348 19.4634 4.24758 19.4797 4.32257 19.4797H8.19107L7.58607 23.2657C7.57436 23.3398 7.57886 23.4156 7.59926 23.4878C7.61966 23.56 7.65548 23.6269 7.70424 23.684C7.753 23.741 7.81355 23.7868 7.88172 23.8181C7.94988 23.8495 8.02403 23.8657 8.09907 23.8657H11.2501C11.4026 23.8657 11.5381 23.8107 11.6536 23.7122C11.7691 23.6132 11.7881 23.4767 11.8116 23.3262L12.7366 17.8837C12.7601 17.7337 12.8366 17.5387 12.9526 17.4397C13.0681 17.3407 13.1691 17.2867 13.3211 17.2862H15.2501C18.3416 17.2862 20.9651 15.0892 21.4446 12.0327C21.7836 9.86269 20.8531 7.88919 18.9861 6.91069Z"
+                                fill="#001C64"
+                              />
+                              <path
+                                d="M9.02798 13.4502L8.06448 19.5602L7.45948 23.3922C7.44777 23.4663 7.45227 23.542 7.47267 23.6143C7.49308 23.6865 7.52889 23.7534 7.57765 23.8104C7.62642 23.8675 7.68697 23.9132 7.75513 23.9446C7.82329 23.976 7.89745 23.9922 7.97248 23.9922H11.3075C11.4596 23.992 11.6066 23.9376 11.7222 23.8387C11.8378 23.7398 11.9143 23.6029 11.938 23.4527L12.817 17.8827C12.8407 17.7325 12.9172 17.5956 13.0328 17.4968C13.1484 17.398 13.2954 17.3437 13.4475 17.3437H15.411C18.5025 17.3437 21.1255 15.0887 21.605 12.0322C21.945 9.86266 20.853 7.88916 18.986 6.91016C18.981 7.14116 18.961 7.37166 18.9255 7.60016C18.446 10.6562 15.8225 12.9117 12.731 12.9117H9.65848C9.5065 12.9117 9.3595 12.9659 9.24393 13.0646C9.12836 13.1633 9.05179 13.3 9.02798 13.4502Z"
+                                fill="#0070E0"
+                              />
+                              <path
+                                d="M8.06398 19.5601H4.18398C4.10896 19.5601 4.03482 19.5439 3.96668 19.5125C3.89853 19.4812 3.83801 19.4354 3.78929 19.3783C3.74056 19.3213 3.70479 19.2544 3.68446 19.1821C3.66412 19.1099 3.65969 19.0342 3.67148 18.9601L6.28748 2.36908C6.31119 2.21879 6.38779 2.08191 6.50348 1.98309C6.61917 1.88427 6.76634 1.83001 6.91848 1.83008H13.587C16.7435 1.83008 19.0395 4.12758 18.986 6.91008C18.2005 6.49808 17.2775 6.26258 16.266 6.26258H10.7065C10.5545 6.26273 10.4075 6.31708 10.2919 6.41587C10.1763 6.51466 10.0998 6.65142 10.076 6.80158L9.02848 13.4501L8.06398 19.5601Z"
+                                fill="#003087"
+                              />
+                            </svg>
+                          </span>
+                        </Radio>
                       </div>
                     </Radio.Group>
                   </Form.Item>
@@ -2249,9 +2315,6 @@ const AuctionSlider = () => {
               </div>
             </Modal>
           </div>
-
-
-          
         </div>
       </div>
     </div>
