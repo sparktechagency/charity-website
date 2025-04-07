@@ -12,6 +12,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
+import { FaCcMastercard } from "react-icons/fa";
 
 const HomeSlider = () => {
   var settings = {
@@ -33,17 +34,13 @@ const HomeSlider = () => {
 
   const [isModal, setIsModal] = useState(false);
 
-
-  const submitActionDetails = (values)=>{
-    console.log("ishan")
+  const submitActionDetails = (values) => {
+    console.log("ishan");
     // Your code here to handle form submission
     console.log("Form Values:", values);
     setIsModal(false);
     showSuccessAlert();
-  }
-
-
-
+  };
 
   // first modal end
 
@@ -136,11 +133,11 @@ const HomeSlider = () => {
     setFirstModal(false);
   };
 
-  const submitBuyerInfo = (values)=>{
-    console.log(values)
+  const submitBuyerInfo = (values) => {
+    console.log(values);
     setFirstModal(false);
-    setSecondModal(true)
-  }
+    setSecondModal(true);
+  };
 
   // first modal end
 
@@ -268,7 +265,12 @@ const HomeSlider = () => {
                       <div className=" w-[33%] h-1.5 bg-[#E9EBEB] "></div>
                     </div>
 
-                    <Form form={form} onFinish={submitActionDetails} layout="vertical" className=" p-6   rounded-lg">
+                    <Form
+                      form={form}
+                      onFinish={submitActionDetails}
+                      layout="vertical"
+                      className=" p-6   rounded-lg"
+                    >
                       {/* Name Field */}
                       <Form.Item
                         style={{ marginBottom: "0px" }}
@@ -402,10 +404,7 @@ const HomeSlider = () => {
                         >
                           Cancel
                         </Button>
-                        <Button
-                          
-                          className="missionModalBtn2"
-                        >
+                        <Button className="missionModalBtn2">
                           Proceed to Next Step
                         </Button>
                       </div>
@@ -476,7 +475,11 @@ const HomeSlider = () => {
                         <div className=" w-[33%] h-1.5 bg-[#E9EBEB] "></div>
                       </div>
 
-                      <Form form={form}   layout="vertical" className=" p-6   rounded-lg">
+                      <Form
+                        form={form}
+                        layout="vertical"
+                        className=" p-6   rounded-lg"
+                      >
                         {/* Name Field */}
                         <Form.Item
                           style={{ marginBottom: "0px" }}
@@ -692,6 +695,19 @@ const HomeSlider = () => {
                     <Form.Item name="donation">
                       <Radio.Group className="w-full">
                         <div className="flex flex-col gap-4">
+                          {/* card */}
+                          <Radio
+                            value="card"
+                            className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                          >
+                            <h1 className="block mt-3.5 text-[16px]  text-[#263234] leading-6 font-medium">
+                              Card
+                            </h1>
+                            <span className="block lg:ml-[240px]! md:ml-[220%] ml-[145%] -mt-6 ">
+                              {/* card icon */}
+                              <FaCcMastercard className=" text-2xl " />
+                            </span>
+                          </Radio>
                           {/* Apple Pay */}
                           <Radio
                             value="apple_pay"
@@ -1015,7 +1031,7 @@ const HomeSlider = () => {
                     <div className=" w-[33%] h-1.5 bg-[#E9EBEB] "></div>
                   </div>
 
-                  <Form  layout="vertical" className=" p-6   rounded-lg">
+                  <Form layout="vertical" className=" p-6   rounded-lg">
                     {/* Name Field */}
                     <Form.Item
                       style={{ marginBottom: "0px" }}
@@ -1999,10 +2015,7 @@ const HomeSlider = () => {
                     </Button>
                   </div>
                   <div>
-                    <Button
-                      className=" sliderBtn2"
-                      htmlType="submit"
-                    >
+                    <Button className=" sliderBtn2" htmlType="submit">
                       Next
                     </Button>
                   </div>
@@ -2059,6 +2072,19 @@ const HomeSlider = () => {
                   <Form.Item name="donation">
                     <Radio.Group className="w-full">
                       <div className="flex flex-col gap-4">
+                        {/* card */}
+                        <Radio
+                          value="card"
+                          className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                        >
+                          <h1 className="block mt-3.5 text-[16px]  text-[#263234] leading-6 font-medium">
+                            Card
+                          </h1>
+                          <span className="block lg:ml-[260px]! md:ml-[220%] ml-[145%] -mt-6 ">
+                            {/* Apple Pay Icon */}
+                            <FaCcMastercard className=" text-2xl " />
+                          </span>
+                        </Radio>
                         {/* Apple Pay */}
                         <Radio
                           value="apple_pay"
@@ -2119,7 +2145,7 @@ const HomeSlider = () => {
                             </svg>
                           </span>
                         </Radio>
-                         {/* paypal Pay  */}
+                        {/* paypal Pay  */}
                         <Radio
                           value="paypal_pay"
                           className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
