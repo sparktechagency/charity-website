@@ -11,6 +11,7 @@ import {
 const { Dragger } = Upload;
 
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
+import { FaCcMastercard } from "react-icons/fa";
 
 export const MissionVission = () => {
   const [form] = Form.useForm();
@@ -18,7 +19,6 @@ export const MissionVission = () => {
 
   // retreatModal
   const [retreatModal, setRetreatModal] = useState(false);
-
 
   // 1st modal start
   const showModal = () => setIsModalOpen(true);
@@ -95,8 +95,7 @@ export const MissionVission = () => {
   };
   // loxury modal end
 
-
-  // retret modal start 
+  // retret modal start
 
   const closeRetretModal = () => {
     setRetreatModal(false);
@@ -108,7 +107,6 @@ export const MissionVission = () => {
     setIsModalOpen(true);
   };
 
-
   const handleRetreatSubmit = (values) => {
     console.log("Form Submitted: ", values);
     form.resetFields();
@@ -116,18 +114,16 @@ export const MissionVission = () => {
     setRetreatModal(false);
     showSuccessAlert();
     setIsModalOpen(false);
-  }
+  };
 
-
-    // retret modal end
-
-
-
+  // retret modal end
 
   useEffect(() => {
     document.body.style.overflow =
-      isModalOpen || luxuryModal || isVolunterModal || retreatModal ? "hidden" : "auto";
-  }, [isModalOpen, luxuryModal, isVolunterModal,retreatModal]);
+      isModalOpen || luxuryModal || isVolunterModal || retreatModal
+        ? "hidden"
+        : "auto";
+  }, [isModalOpen, luxuryModal, isVolunterModal, retreatModal]);
 
   return (
     <div className="py-5 px-4 max-w-[1512px] mx-auto bg-[#ecebea]">
@@ -185,6 +181,19 @@ export const MissionVission = () => {
           <Form.Item name="donation">
             <Radio.Group className="w-full">
               <div className="flex flex-col gap-4">
+                {/* card */}
+                <Radio
+                  value="card"
+                  className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                >
+                  <h1 className="block mt-3.5 text-[16px]  text-[#263234] leading-6 font-medium">
+                    Card
+                  </h1>
+                  <span className="block lg:ml-[260px]! md:ml-[220%] ml-[145%] -mt-6 ">
+                    {/* Apple Pay Icon */}
+                    <FaCcMastercard className=" text-2xl " />
+                  </span>
+                </Radio>
                 {/* Apple Pay */}
                 <Radio
                   value="apple_pay"
@@ -646,7 +655,7 @@ export const MissionVission = () => {
                 Back
               </Button>
               <Button htmlType="submit" className="navBtn2">
-              Submit
+                Submit
               </Button>
             </div>
           </Form>

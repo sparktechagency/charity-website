@@ -12,6 +12,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
+import { FaCcMastercard } from "react-icons/fa";
 
 const AuctionSlider = () => {
   var settings = {
@@ -2194,6 +2195,19 @@ const AuctionSlider = () => {
                   <Form.Item name="donation">
                     <Radio.Group className="w-full">
                       <div className="flex flex-col gap-4">
+                        {/* card */}
+                        <Radio
+                          value="card"
+                          className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                        >
+                          <h1 className="block mt-3.5 text-[16px]  text-[#263234] leading-6 font-medium">
+                            Card
+                          </h1>
+                          <span className="block lg:ml-[260px]! md:ml-[220%] ml-[145%] -mt-6 ">
+                            {/* Apple Pay Icon */}
+                            <FaCcMastercard className=" text-2xl " />
+                          </span>
+                        </Radio>
                         {/* Apple Pay */}
                         <Radio
                           value="apple_pay"
