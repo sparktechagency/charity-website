@@ -595,3 +595,14 @@ span.ant-menu-title-content {
     /* background-color: rebeccapurple !important ; */
   }
 }
+
+
+
+
+/* ===================== dashboar component style ================= */
+
+li.ant-menu-item-selected {
+  background-color: #908B87 !important;
+  color: white !important;
+}
+
