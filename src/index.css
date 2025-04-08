@@ -613,3 +613,138 @@ li.ant-menu-item-selected {
   color: white !important;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ========= search input field style start ========= */
+input.ant-input.css-dev-only-do-not-override-1d4w9r2.ant-input-outlined:hover {
+  background-color: transparent !important;
+  border-color: gray !important; /* Keep border color consistent */
+}
+
+/* Ensure no hover effect on the search button */
+button.ant-btn.css-dev-only-do-not-override-1d4w9r2.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.ant-btn-icon-only.ant-input-search-button:hover {
+  background-color: transparent !important; /* Keep the background transparent */
+  border-color: gray !important; /* Keep border color consistent */
+}
+
+/* Customize the input field */
+input.ant-input.css-dev-only-do-not-override-1d4w9r2.ant-input-outlined {
+  background-color: transparent !important; /* Transparent background */
+  border: 1px solid gray !important; /* Gray border */
+  color: white !important; /* Text color white */
+}
+
+input.ant-input::placeholder {
+  color: rgba(255, 255, 255, 0.24) !important; /* White placeholder text */
+}
+
+/* Customize the search button */
+button.ant-btn.css-dev-only-do-not-override-1d4w9r2.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.ant-btn-icon-only.ant-input-search-button {
+  background-color: transparent !important; /* Transparent background */
+  border: 1px solid gray !important; /* Gray border */
+  color: gray !important; /* Icon color */
+}
+
+/* Remove any background and border from the icon */
+button.ant-btn .anticon {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Ensuring the hover effect is removed from the search icon */
+button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.ant-btn-icon-only.ant-input-search-button:hover .anticon {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* ========= search input field style end ========= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Hide table borders and background */
+.custom-ant-table .ant-table {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Remove background from table header */
+.custom-ant-table .ant-table-thead > tr > th {
+  background-color: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.027)!important;
+  box-shadow: none !important;
+  color: rgba(255, 255, 255, 0.781) !important;
+  font-weight: 700!important ;           
+}
+
+/* Remove background from table rows */
+.custom-ant-table .ant-table-tbody > tr > td {
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.233)!important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.027)!important;
+}
+
+/* Optional: remove row hover effect */
+.custom-ant-table .ant-table-tbody > tr:hover > td {
+  background-color: transparent !important;
+}
+
+

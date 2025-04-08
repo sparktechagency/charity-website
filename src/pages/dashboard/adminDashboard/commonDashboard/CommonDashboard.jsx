@@ -41,7 +41,7 @@ const CommonDashboard = () => {
       </div>
 
       {/* chart three components */}
-      <div className="bg-[#1B2324] w-full h-[478px] rounded-lg">
+      <div className="bg-[#1B2324] w-full md:h-[478px] rounded-lg">
         <Donation />
       </div>
     </div>

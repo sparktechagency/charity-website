@@ -76,6 +76,10 @@ const AdminDashboard = () => {
     navigate(`/admin/dashboard/${key}`);
   };
 
+  const handleNavigate = () => {
+    navigate("/");
+  };
+
   return (
     <>
       {/* dashboard header component */}
@@ -92,7 +96,10 @@ const AdminDashboard = () => {
         }}
       >
         <div className="flex justify-between">
-          <div className="flex items-center gap-3">
+          <div
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={handleNavigate}
+          >
             <img src="/dashboardPhoto/dashboardLogo.png" alt="website logo" />
             <h2>Virtue Hope</h2>
           </div>
