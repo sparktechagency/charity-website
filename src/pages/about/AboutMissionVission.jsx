@@ -12,8 +12,6 @@ const { Dragger } = Upload;
 
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
 const AboutMissionVission = () => {
-
-
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -47,7 +45,7 @@ const AboutMissionVission = () => {
     // You can handle form submission logic here
     setIsVolunterModal(false);
     showSuccessAlert();
-    setIsModalOpen(false)
+    setIsModalOpen(false);
   };
 
   const uploadProps = {
@@ -89,7 +87,7 @@ const AboutMissionVission = () => {
 
     // You can now send the data to backend or close the modal
     closeLuxuryModal();
-    setIsModalOpen(false)
+    setIsModalOpen(false);
   };
   // loxury modal end
 
@@ -117,31 +115,32 @@ const AboutMissionVission = () => {
               Our mission & vision
             </h3>
             <h1 className="font-bold text-[#403730] text-3xl lg:text-[60px] lg:mt-2">
-            Healing Support for Women Survivors of Abuse and Trauma
+              Healing Support for Women Survivors of Abuse and Trauma
             </h1>
             <p className="text-[#263234] pt-2 lg:pt-6 lg:pb-12 pb-6 leading-6">
-            Hope is our purpose. Every action we take at Virtue Hope is driven by belief that healing begins with hope.
+              Hope is our purpose. Every action we take at Virtue Hope is driven
+              by belief that healing begins with hope.
             </p>
 
             {/* Buttons */}
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
               <button
-              onClick={showModal}
+                onClick={showModal}
                 className="bg-[#403730] cursor-pointer text-white py-3 px-6 rounded-md font-medium hover:bg-[#2E2A26]"
               >
                 Support survivors
               </button>
-              <button onClick={openVolunteerModal} className="bg-[#F6F6F7] cursor-pointer text-gray-800 py-3 ml-4 px-6 rounded-md font-bold">
-              Join our enthusiastic team
+              <button
+                onClick={openVolunteerModal}
+                className="bg-[#F6F6F7] cursor-pointer text-gray-800 py-3 ml-4 px-6 rounded-md font-bold"
+              >
+                Join our enthusiastic team
               </button>
             </div>
           </div>
         </div>
       </div>
 
-
-
-      
       {/* 1 st modal payment modal  */}
 
       <Modal
@@ -299,14 +298,14 @@ const AboutMissionVission = () => {
           visible={luxuryModal}
           onCancel={closeLuxuryModal}
           footer={null}
-          width={500}
+          width={600}
           height={800}
           // bodyStyle={{ padding: "20px" }}
           destroyOnClose
           closable={false}
         >
           <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
-            Donate with Luxury retreats
+            Donate Art, Antique or Collectables
           </h1>
 
           <Form form={form} onFinish={submitLuxriousModal} layout="vertical">
@@ -314,18 +313,25 @@ const AboutMissionVission = () => {
             <Form.Item
               name="name"
               label="Name"
-              style={{marginBottom:"0px"}}
+              style={{ marginBottom: "0px" }}
               rules={[
                 { required: true, message: "Please input your name!" },
                 { min: 6, message: "Name must be at least 6 characters!" },
               ]}
             >
-              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter your name" />
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter your name"
+              />
             </Form.Item>
 
             {/* Email */}
             <Form.Item
-            style={{marginBottom:"0px",marginTop:"8px"}}
+              style={{ marginBottom: "0px", marginTop: "8px" }}
               name="email"
               label="Email"
               rules={[
@@ -333,12 +339,20 @@ const AboutMissionVission = () => {
                 { type: "email", message: "Enter a valid email!" },
               ]}
             >
-              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} type="email" placeholder="Enter your email address" />
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                type="email"
+                placeholder="Enter your email address"
+              />
             </Form.Item>
 
             {/* Item */}
             <Form.Item
-            style={{marginBottom:"0px",marginTop:"8px"}}
+              style={{ marginBottom: "0px", marginTop: "8px" }}
               name="item"
               label="Item"
               rules={[
@@ -346,12 +360,19 @@ const AboutMissionVission = () => {
                 { min: 6, message: "Item name must be at least 6 characters!" },
               ]}
             >
-              <Input style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter item name" />
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter item name"
+              />
             </Form.Item>
 
             {/* Description */}
             <Form.Item
-            style={{marginBottom:"0px",marginTop:"8px"}}
+              style={{ marginBottom: "0px", marginTop: "8px" }}
               name="description"
               label="Item Description"
               rules={[
@@ -365,14 +386,22 @@ const AboutMissionVission = () => {
                 },
               ]}
             >
-              <Input.TextArea style={{padding:"12px",border:"1px solid #A6ABAC", outline:"none" }} placeholder="Enter a description..." rows={4} />
+              <Input.TextArea
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter a description..."
+                rows={4}
+              />
             </Form.Item>
 
             {/* Image Upload */}
             <Form.Item
-            style={{marginBottom:"0px",marginTop:"8px"}}
+              style={{ marginBottom: "0px", marginTop: "8px" }}
               name="image"
-              label="Upload your photo"
+              label="Upload a photo "
               rules={[
                 {
                   required: true,
@@ -600,14 +629,14 @@ const AboutMissionVission = () => {
               style={{ marginBottom: "0px" }}
               label={
                 <span className="block! text-sm! font-medium! text-[#263234]! leading-5! ">
-                  Upload your photo
+                 Upload your CV
                 </span>
               }
               name="cv"
               rules={[
                 {
                   required: true,
-                  message: "Please upload your photo!",
+                  message: "Please to Upload your CV!",
                 },
                 {
                   type: "file",
@@ -688,10 +717,10 @@ const AboutMissionVission = () => {
             {/* Modal Buttons */}
 
             <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
-              <Button onClick={closeVolunteerModal} className="  navBtn1  ">
+              <Button onClick={closeVolunteerModal} className="  missionModalBtn1  ">
                 Cancel
               </Button>
-              <Button htmlType="submit" className="navBtn2">
+              <Button htmlType="submit" className="missionModalBtn2">
                 Apply now
               </Button>
             </div>

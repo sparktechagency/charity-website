@@ -2131,18 +2131,22 @@ const AuctionSlider = () => {
                   </Checkbox>
                 </Form.Item>
 
-                <div className="flex flex-col lg:flex-row md:flex-row justify-end  lg:gap-5   ">
+                <div className="flex flex-col lg:flex-row md:flex-row md:ml-32 md:gap-16 lg:justify-end  lg:gap-5   ">
                   <div className="  ">
-                    <Button className=" sliderBtn1" onClick={handleCancel}>
+                    <Button
+                      className=" missionModalBtn1"
+                      onClick={handleCancel}
+                    >
                       Cancel
                     </Button>
                   </div>
                   <div>
-                    <Button className=" sliderBtn2" htmlType="submit">
+                    <Button className=" missionModalBtn2" htmlType="submit">
                       Next
                     </Button>
                   </div>
                 </div>
+                
               </Form>
             </Modal>
 
@@ -2203,7 +2207,7 @@ const AuctionSlider = () => {
                           <h1 className="block mt-3.5 text-[16px]  text-[#263234] leading-6 font-medium">
                             Card
                           </h1>
-                          <span className="block lg:ml-[260px]! md:ml-[220%] ml-[145%] -mt-6 ">
+                          <span className="block lg:ml-[260px]! md:ml-[220%] ml-[189px] -mt-6 ">
                             {/* Apple Pay Icon */}
                             <FaCcMastercard className=" text-2xl " />
                           </span>
@@ -2278,7 +2282,7 @@ const AuctionSlider = () => {
                           <h1 className="block mt-3.5 text-[16px] text-[#263234] leading-6 font-medium">
                             With PayPal Pay
                           </h1>
-                          <span className="block  lg:ml-[260px]! md:ml-[210%] ml-[140%] -mt-6 ">
+                          <span className="block  lg:ml-[260px]! md:ml-[210%] ml-[186px] -mt-6 ">
                             {/* paypal Pay Icon */}
                             <svg
                               width="24"
@@ -2307,10 +2311,10 @@ const AuctionSlider = () => {
                   </Form.Item>
 
                   {/* Modal Buttons */}
-                  <div className="flex flex-col lg:flex-row md:flex-row justify-end  lg:gap-5   ">
+                  <div className="flex flex-col lg:flex-row md:flex-row lg:justify-end gap-16  lg:gap-5   ">
                     <div className="  ">
                       <Button
-                        className=" sliderBtn1"
+                        className=" missionModalBtn1"
                         onClick={handleSecondCancelModal}
                       >
                         Back
@@ -2318,7 +2322,7 @@ const AuctionSlider = () => {
                     </div>
                     <div>
                       <Button
-                        className=" sliderBtn2"
+                        className=" missionModalBtn2"
                         onClick={handleSubmitModal}
                       >
                         Save my card

@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+body{
+  
+}
+
 span.ant-menu-title-content {
   color: #403730;
   font-weight: 600;
@@ -288,9 +294,8 @@ span.ant-menu-title-content {
   .sliderBtn1 {
     /* Full width on smaller screens */
     display: block !important;
-    margin-left: 3%;
+    margin-left: 100%;
     background-color: red;
-    
   }
   .sliderBtn2 {
     /* Full width on smaller screens */
@@ -373,14 +378,13 @@ span.ant-menu-title-content {
 @media screen and (max-width: 480px) {
   .supportBtn {
     display: block !important;
-    margin-right:10px;
+    margin-right: 10px;
     width: 143px !important;
   }
-  .volunteerBtn{
+  .volunteerBtn {
     display: block !important;
     border: 2px solid black !important;
     margin-left: 20px !important ;
-
   }
 }
 
@@ -410,7 +414,6 @@ span.ant-menu-title-content {
   height: 44px !important;
 }
 
-
 @media screen and (max-width: 768px) {
   .missionModalBtn1 {
     display: block !important;
@@ -422,8 +425,6 @@ span.ant-menu-title-content {
     margin: auto !important;
   }
 }
-
-
 
 @media screen and (max-width: 480px) {
   .missionModalBtn1 {
@@ -516,10 +517,9 @@ span.ant-menu-title-content {
   }
 }
 
-
 /* service page css  */
 
-.luxeryBtn{
+.luxeryBtn {
   background-color: #403730 !important ;
   color: white !important ;
   font-weight: 500 !important;
@@ -529,19 +529,7 @@ span.ant-menu-title-content {
   font-size: 14px !important;
 }
 
-
-
-
-
-
-
-
-
-
-
 /* navbar page css  */
-
-
 
 .navBtn1 {
   border: none !important;
@@ -569,7 +557,6 @@ span.ant-menu-title-content {
   height: 44px !important;
 }
 
-
 @media screen and (max-width: 768px) {
   .navBtn1 {
     display: block !important;
@@ -582,8 +569,6 @@ span.ant-menu-title-content {
   }
 }
 
-
-
 @media screen and (max-width: 480px) {
   .navBtn1 {
     background-color: transparent !important;
@@ -591,7 +576,7 @@ span.ant-menu-title-content {
     margin-right: 0% !important;
     margin-bottom: 10px !important;
   }
-  .navBtn2{
+  .navBtn2 {
     /* background-color: rebeccapurple !important ; */
   }
 }
