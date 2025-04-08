@@ -41,9 +41,14 @@ const Donation = () => {
         enabled: false,
       },
       stroke: {
-        show: true,
-        width: 2,
-        colors: ["transparent"],
+        curve: "smooth", // Smooth line
+        width: 3,
+      },
+      markers: {
+        size: 2,
+        hover: {
+          sizeOffset: 3,
+        },
       },
       xaxis: {
         categories: [
