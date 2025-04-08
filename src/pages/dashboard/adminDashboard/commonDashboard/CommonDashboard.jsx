@@ -35,7 +35,7 @@ const CommonDashboard = () => {
         <div className="bg-[#1B2324] w-full h-[450px] rounded-lg">
           <Visitors />
         </div>
-        <div className="bg-[#1B2324] w-full h-[450px] rounded-lg ">
+        <div className="bg-[#1B2324] w-full md:h-[450px] rounded-lg ">
           <PerFormance />
         </div>
       </div>

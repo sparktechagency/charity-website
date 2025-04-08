@@ -1,5 +1,5 @@
 const Donation = () => {
-  return <div>Donation</div>;
+  return <div className="p-2 md:p-[20px]">Donation</div>;
 };
 
 export default Donation;

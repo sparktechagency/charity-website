@@ -64,20 +64,13 @@ const PerFormance = () => {
         axisTicks: {
           show: false, // Hide ticks on the X-axis
         },
-        labels: {
-          show: true, // Show the category labels
-        },
+        labels: { style: { colors: "#ccc" } },
       },
       yaxis: {
-        // title: {
-        //   text: "$ (thousands)",
-        // },
         axisBorder: {
           show: false, // Hide the border of the Y-axis
         },
-        axisTicks: {
-          show: false, // Hide ticks on the Y-axis
-        },
+        labels: { style: { colors: "#ccc" } },
       },
       grid: {
         show: false, // Remove grid lines from the chart
@@ -96,15 +89,8 @@ const PerFormance = () => {
   });
 
   return (
-    <div className="p-[20px]">
-      {/* <div>
-        <h1 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
-          Performance
-        </h1>
-        <p className="text-[#A6ABAC]">Last 12 months report</p>
-      </div> */}
-
-      <div className="flex justify-between items-center mb-4">
+    <div className="p-2 md:p-[20px]">
+      <div className="flex flex-col md:flex-row justify-between items-center md:mb-4">
         {/* Left */}
         <div>
           <h1 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
@@ -114,7 +100,7 @@ const PerFormance = () => {
         </div>
 
         {/* Right (Dynamic Legend) */}
-        <div className="flex gap-4">
+        <div className="flex flex-col md:flex-row gap-4">
           {state.series.map((item, index) => (
             <div key={index} className="flex items-center gap-2">
               <span
