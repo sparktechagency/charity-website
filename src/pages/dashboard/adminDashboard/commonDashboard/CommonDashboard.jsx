@@ -32,10 +32,10 @@ const CommonDashboard = () => {
 
       {/* chart one/two components */}
       <div className="flex flex-col lg:flex-row justify-between gap-[20px] py-[20px]">
-        <div className="bg-[#1B2324] w-full h-[346px] rounded-lg">
+        <div className="bg-[#1B2324] w-full h-[450px] rounded-lg">
           <Visitors />
         </div>
-        <div className="bg-[#1B2324] w-full h-[346px] rounded-lg">
+        <div className="bg-[#1B2324] w-full h-[450px] rounded-lg ">
           <PerFormance />
         </div>
       </div>

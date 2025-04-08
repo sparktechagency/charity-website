@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const PerFormance = () => {
+  const seriesColors = ["#1E90FF", "#00C49F", "#FF8042"];
   const [state, setState] = useState({
     series: [
       {
@@ -18,12 +19,16 @@ const PerFormance = () => {
       },
     ],
     options: {
+      colors: seriesColors,
       chart: {
         type: "bar",
         height: 350,
         toolbar: {
           show: false,
         },
+      },
+      legend: {
+        show: false,
       },
       plotOptions: {
         bar: {
@@ -64,9 +69,9 @@ const PerFormance = () => {
         },
       },
       yaxis: {
-        title: {
-          text: "$ (thousands)",
-        },
+        // title: {
+        //   text: "$ (thousands)",
+        // },
         axisBorder: {
           show: false, // Hide the border of the Y-axis
         },
@@ -83,7 +88,7 @@ const PerFormance = () => {
       tooltip: {
         y: {
           formatter: function (val) {
-            return "$ " + val + " thousands";
+            return "$ " + val;
           },
         },
       },
@@ -91,7 +96,37 @@ const PerFormance = () => {
   });
 
   return (
-    <div>
+    <div className="p-[20px]">
+      {/* <div>
+        <h1 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
+          Performance
+        </h1>
+        <p className="text-[#A6ABAC]">Last 12 months report</p>
+      </div> */}
+
+      <div className="flex justify-between items-center mb-4">
+        {/* Left */}
+        <div>
+          <h1 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
+            Performance
+          </h1>
+          <p className="text-[#A6ABAC]">Last 12 months report</p>
+        </div>
+
+        {/* Right (Dynamic Legend) */}
+        <div className="flex gap-4">
+          {state.series.map((item, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <span
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: seriesColors[index] }}
+              ></span>
+              <span className="text-white font-medium">{item.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div id="chart">
         <ReactApexChart
           options={state.options}
