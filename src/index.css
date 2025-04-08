@@ -1,4 +1,11 @@
-@import "tailwindcss";
+/* google fonts here */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import "tailwindcss"; */
 
 span.ant-menu-title-content {
   color: #403730;
@@ -595,3 +602,14 @@ span.ant-menu-title-content {
     /* background-color: rebeccapurple !important ; */
   }
 }
+
+
+
+
+/* ===================== dashboar component style ================= */
+
+li.ant-menu-item-selected {
+  background-color: #908B87 !important;
+  color: white !important;
+}
+
