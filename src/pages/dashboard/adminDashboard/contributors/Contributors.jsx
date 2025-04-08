@@ -1,53 +1,10 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Input, Select, Table } from "antd";
+import { Input, Pagination, Select, Table } from "antd";
 import { EyeIcon } from "lucide-react";
+import { useState } from "react";
 
 const Contributors = () => {
-  const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-    },
-    {
-      title: "Contact number",
-      dataIndex: "contactNumber",
-    },
-    {
-      title: "Approved action",
-      dataIndex: "approvedAction",
-    },
-    {
-      title: "Sold out",
-      dataIndex: "soldOut",
-    },
-    {
-      title: "Donated",
-      dataIndex: "donated",
-    },
-    {
-      title: "Action",
-      dataIndex: "action",
-    },
-    {
-      title: "",
-      key: "view",
-      render: (_, record) => (
-        <EyeOutlined
-          style={{
-            color: "rgba(255, 255, 255, 0.233)",
-            fontSize: "18px",
-            cursor: "pointer",
-          }}
-          onClick={() => handleView(record)}
-        />
-      ),
-    },
-  ];
-
+  const [searchText, setSearchText] = useState("");
   const dataSource = [
     {
       key: 1,
@@ -380,21 +337,96 @@ const Contributors = () => {
             <Input.Search
               placeholder="Search contributors..."
               className="custom-search"
-            />
-            <Input.Search
-              placeholder="Search contributors..."
-              onChange={(e) => setSearchText(e.target.value)}
-              style={{ marginBottom: 16, width: "100%" }}
-              size="large"
+              onSearch={(value) => {
+                setSearchText(value);
+              }}
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
             />
           </div>
         </div>
 
         <Table
           dataSource={dataSource}
-          columns={columns}
+          columns={[
+            {
+              title: "Name",
+              dataIndex: "name",
+              filteredValue: [searchText],
+              onFilter: (value, record) => {
+                return (
+                  String(record.name)
+                    .toLowerCase()
+                    .includes(value.toLowerCase()) ||
+                  String(record.email)
+                    .toLowerCase()
+                    .includes(value.toLowerCase()) ||
+                  String(record.contactNumber)
+                    .toLowerCase()
+                    .includes(value.toLowerCase()) ||
+                  String(record.approvedAction)
+                    .toLowerCase()
+                    .includes(value.toLowerCase()) ||
+                  String(record.soldOut)
+                    .toLowerCase()
+                    .includes(value.toLowerCase()) ||
+                  String(record.donated)
+                    .toLowerCase()
+                    .includes(value.toLowerCase()) ||
+                  String(record.action)
+                    .toLowerCase()
+                    .includes(value.toLowerCase())
+                );
+              },
+            },
+            {
+              title: "Email",
+              dataIndex: "email",
+            },
+            {
+              title: "Contact number",
+              dataIndex: "contactNumber",
+            },
+            {
+              title: "Approved action",
+              dataIndex: "approvedAction",
+            },
+            {
+              title: "Sold out",
+              dataIndex: "soldOut",
+            },
+            {
+              title: "Donated",
+              dataIndex: "donated",
+            },
+            {
+              title: "Action",
+              dataIndex: "action",
+            },
+            {
+              title: "",
+              key: "view",
+              render: (_, record) => (
+                <EyeOutlined
+                  style={{
+                    color: "rgba(255, 255, 255, 0.233)",
+                    fontSize: "18px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleView(record)}
+                />
+              ),
+            },
+          ]}
+          pagination={false}
           className="custom-ant-table"
         />
+
+        {/* pagination */}
+        <div className="flex justify-end pt-4">
+          <Pagination defaultCurrent={6} total={500} />
+        </div>
       </div>
     </div>
   );
