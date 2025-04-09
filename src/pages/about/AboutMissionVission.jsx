@@ -11,9 +11,11 @@ import {
 const { Dragger } = Upload;
 
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
+import { FaCcMastercard } from "react-icons/fa";
 const AboutMissionVission = () => {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [antiqueModal,setAntiqueModal] = useState(false)
 
   // 1st modal start
   const showModal = () => setIsModalOpen(true);
@@ -58,7 +60,7 @@ const AboutMissionVission = () => {
 
   // Volunter Modal end
 
-  // Luxury modal   start
+  // Donate with Luxury retreats modal start
 
   const [luxuryModal, setLuxuryModal] = useState(false);
 
@@ -89,7 +91,21 @@ const AboutMissionVission = () => {
     closeLuxuryModal();
     setIsModalOpen(false);
   };
-  // loxury modal end
+  // Donate with Luxury retreats modal end
+
+  // Donate  Art, Antique or Collectables Modal start 4th modal
+
+  const openAntiqueModal = ()=>{
+    setAntiqueModal(true)
+  }
+  const closeAntiquModal = () =>{
+    setAntiqueModal(false);
+    setIsModalOpen(true)
+  }
+
+  // Donate  Art, Antique or Collectables Modal end 4th modal 
+
+
 
   useEffect(() => {
     document.body.style.overflow =
@@ -114,10 +130,10 @@ const AboutMissionVission = () => {
             <h3 className="lg:text-3xl text-xl font-thin text-[#403730]">
               Our mission & vision
             </h3>
-            <h1 className="font-bold text-[#403730] text-3xl lg:text-[60px] lg:mt-2">
+            <h1 className="font-bold text-[#403730] text-3xl lg:text-[60px] leading-[60px] lg:mt-2">
               Healing Support for Women Survivors of Abuse and Trauma
             </h1>
-            <p className="text-[#263234] pt-2 lg:pt-6 lg:pb-12 pb-6 leading-6">
+            <p className="text-[#263234] pt-2 lg:pt-6 lg:pb-12 pb-6 leading-6 ">
               Hope is our purpose. Every action we take at Virtue Hope is driven
               by belief that healing begins with hope.
             </p>
@@ -159,15 +175,28 @@ const AboutMissionVission = () => {
           <Form.Item name="donation">
             <Radio.Group className="w-full">
               <div className="flex flex-col gap-4">
+                {/* card */}
+                <Radio
+                  value="card"
+                  className="w-full px-2! pl-2 h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                >
+                  <h1 className="block mt-3.5 text-[16px]  text-[#263234] leading-6 font-medium">
+                    Card
+                  </h1>
+                  <span className="block lg:ml-[240px]! md:ml-[245px] ml-[158px] -mt-6 ">
+                    {/* Apple Pay Icon */}
+                    <FaCcMastercard className=" text-2xl " />
+                  </span>
+                </Radio>
                 {/* Apple Pay */}
                 <Radio
                   value="apple_pay"
-                  className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                  className="w-full pl-2  h-[56px]  border border-[#A6ABAC]  rounded-lg cursor-pointer "
                 >
                   <h1 className="block mt-3.5 text-[16px]  text-[#263234] leading-6 font-medium">
                     With Apple Pay
                   </h1>
-                  <span className="block lg:ml-[260px]! md:ml-[240%] ml-[170%] -mt-6 ">
+                  <span className="block lg:ml-[240px]! md:ml-[220%] ml-[145%] -mt-6 ">
                     {/* Apple Pay Icon */}
                     <svg
                       width="20"
@@ -187,12 +216,12 @@ const AboutMissionVission = () => {
                 {/* Google Pay */}
                 <Radio
                   value="google_pay"
-                  className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                  className="w-full pl-2 px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
                 >
                   <h1 className="block mt-3.5 text-[16px] text-[#263234] leading-6 font-medium">
                     With Google Pay
                   </h1>
-                  <span className="lg:ml-[260px]! md:ml-[220%] ml-[155%] block -mt-6 ">
+                  <span className="lg:ml-[240px]! md:ml-[200%] ml-[132%] block -mt-6 ">
                     {/* Google Pay Icon */}
                     <svg
                       width="24"
@@ -224,12 +253,12 @@ const AboutMissionVission = () => {
                 {/* paypal Pay */}
                 <Radio
                   value="paypal_pay"
-                  className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                  className="w-full pl-2 px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
                 >
                   <h1 className="block mt-3.5 text-[16px] text-[#263234] leading-6 font-medium">
                     With PayPal Pay
                   </h1>
-                  <span className="block  lg:ml-[260px]! md:ml-[210%] ml-[140%] -mt-6 ">
+                  <span className="block  lg:ml-[240px]! md:ml-[209%] ml-[140%] -mt-6 ">
                     {/* paypal Pay Icon */}
                     <svg
                       width="24"
@@ -261,9 +290,9 @@ const AboutMissionVission = () => {
 
                 {/* Luxurious Retreat Option */}
                 <Radio
-                  onClick={openLuxuryModal}
+                  onClick={openAntiqueModal}
                   value="luxurious"
-                  className="flex items-center py-3.5! px-2! justify-between w-full  border border-[#A6ABAC] rounded-lg cursor-pointer"
+                  className="flex items-center pl-2 py-3.5! h-[54px] px-2! justify-between w-full  border border-[#A6ABAC] rounded-lg cursor-pointer"
                 >
                   <span className="text-[#263234] font-medium">
                     Donate Art, Antique or Collectables
@@ -291,7 +320,7 @@ const AboutMissionVission = () => {
 
       {/* end 1st modal payment modal  */}
 
-      {/* luxurious modal  */}
+      {/* Donate with Luxury retreats 2nd modal   */}
 
       <div className=" w-[600px]  z-50 ">
         <Modal
@@ -305,7 +334,7 @@ const AboutMissionVission = () => {
           closable={false}
         >
           <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
-            Donate Art, Antique or Collectables
+            Donate with Luxury retreats
           </h1>
 
           <Form form={form} onFinish={submitLuxriousModal} layout="vertical">
@@ -458,7 +487,7 @@ const AboutMissionVission = () => {
         </Modal>
       </div>
 
-      {/* end  luxurious modal  */}
+      {/* End Donate with Luxury retreats 2nd modal  */}
 
       {/*  Volunter Modal*/}
 
@@ -629,7 +658,7 @@ const AboutMissionVission = () => {
               style={{ marginBottom: "0px" }}
               label={
                 <span className="block! text-sm! font-medium! text-[#263234]! leading-5! ">
-                 Upload your CV
+                  Upload your CV
                 </span>
               }
               name="cv"
@@ -717,7 +746,10 @@ const AboutMissionVission = () => {
             {/* Modal Buttons */}
 
             <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
-              <Button onClick={closeVolunteerModal} className="  missionModalBtn1  ">
+              <Button
+                onClick={closeVolunteerModal}
+                className="  missionModalBtn1  "
+              >
                 Cancel
               </Button>
               <Button htmlType="submit" className="missionModalBtn2">
@@ -729,6 +761,174 @@ const AboutMissionVission = () => {
       </div>
 
       {/* end   Volunter Modal*/}
+
+      {/* Donate Art, Antique or Collectables 4th modal  */}
+
+      <div className=" w-[600px]  z-50 ">
+        <Modal
+          visible={antiqueModal}
+          onCancel={""}
+          footer={null}
+          width={600}
+          height={800}
+          // bodyStyle={{ padding: "20px" }}
+          destroyOnClose
+          closable={false}
+        >
+          <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
+          Donate Art, Antique or Collectables
+          </h1>
+
+          <Form form={form} onFinish={""} layout="vertical">
+            {/* Name */}
+            <Form.Item
+              name="name"
+              label="Name"
+              style={{ marginBottom: "0px" }}
+              rules={[
+                { required: true, message: "Please input your name!" },
+                { min: 6, message: "Name must be at least 6 characters!" },
+              ]}
+            >
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter your name"
+              />
+            </Form.Item>
+
+            {/* Email */}
+            <Form.Item
+              style={{ marginBottom: "0px", marginTop: "8px" }}
+              name="email"
+              label="Email"
+              rules={[
+                { required: true, message: "Please input your email!" },
+                { type: "email", message: "Enter a valid email!" },
+              ]}
+            >
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                type="email"
+                placeholder="Enter your email address"
+              />
+            </Form.Item>
+
+            {/* Item */}
+            <Form.Item
+              style={{ marginBottom: "0px", marginTop: "8px" }}
+              name="item"
+              label="Item"
+              rules={[
+                { required: true, message: "Please input the item name!" },
+                { min: 6, message: "Item name must be at least 6 characters!" },
+              ]}
+            >
+              <Input
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter item name"
+              />
+            </Form.Item>
+
+            {/* Description */}
+            <Form.Item
+              style={{ marginBottom: "0px", marginTop: "8px" }}
+              name="description"
+              label="Item Description"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the item description!",
+                },
+                {
+                  min: 6,
+                  message: "Description must be at least 6 characters!",
+                },
+              ]}
+            >
+              <Input.TextArea
+                style={{
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                placeholder="Enter a description..."
+                rows={4}
+              />
+            </Form.Item>
+
+            {/* Image Upload */}
+            <Form.Item
+              style={{ marginBottom: "0px", marginTop: "8px" }}
+              name="image"
+              label="Upload a photo "
+              rules={[
+                {
+                  required: true,
+                  message: "Please upload an image!",
+                },
+              ]}
+            >
+              <Dragger {...uploadProps}>
+                <p className="ant-upload-drag-icon">
+                  <UploadOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="ant-upload-hint text-sm text-[#4B5557]">
+                  Supported format: JPG, JPEG, PNG, PDF
+                </p>
+              </Dragger>
+            </Form.Item>
+
+            {/* Checkbox */}
+            <Form.Item
+              name="terms"
+              valuePropName="checked"
+              rules={[
+                {
+                  validator: (_, value) =>
+                    value
+                      ? Promise.resolve()
+                      : Promise.reject("Please agree with the terms!"),
+                },
+              ]}
+            >
+              <Checkbox>
+                I agree with Virtue Hope's{" "}
+                <a href="#" className="underline">
+                  terms & conditions
+                </a>
+                .
+              </Checkbox>
+            </Form.Item>
+
+            {/* Modal Buttons */}
+
+            <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
+              <Button onClick={closeAntiquModal} className="  navBtn1  ">
+                Back
+              </Button>
+              <Button htmlType="submit" className="navBtn2">
+                Apply now
+              </Button>
+            </div>
+          </Form>
+        </Modal>
+      </div>
+
     </div>
   );
 };

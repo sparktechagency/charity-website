@@ -226,7 +226,7 @@ const Navbar = () => {
 
       <div className="  ">
         <Modal
-          title="Please choose the way you want to Donate"
+          title={ <span className=" text-2xl" >Please choose the way you want to Donate</span> }
           open={modalOpen}
           onCancel={onClose}
           footer={null}
@@ -242,7 +242,7 @@ const Navbar = () => {
                   {/* card */}
                   <Radio
                     value="card"
-                    className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                    className="w-full px-2! pl-2 h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
                   >
                     <h1 className="block mt-3.5 text-[16px]  text-[#263234] leading-6 font-medium">
                       Card
@@ -255,7 +255,7 @@ const Navbar = () => {
                   {/* Apple Pay */}
                   <Radio
                     value="apple_pay"
-                    className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                    className="w-full pl-2  h-[56px]  border border-[#A6ABAC]  rounded-lg cursor-pointer "
                   >
                     <h1 className="block mt-3.5 text-[16px]  text-[#263234] leading-6 font-medium">
                       With Apple Pay
@@ -280,7 +280,7 @@ const Navbar = () => {
                   {/* Google Pay */}
                   <Radio
                     value="google_pay"
-                    className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                    className="w-full pl-2 px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
                   >
                     <h1 className="block mt-3.5 text-[16px] text-[#263234] leading-6 font-medium">
                       With Google Pay
@@ -317,7 +317,7 @@ const Navbar = () => {
                   {/* paypal Pay */}
                   <Radio
                     value="paypal_pay"
-                    className="w-full px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
+                    className="w-full pl-2 px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
                   >
                     <h1 className="block mt-3.5 text-[16px] text-[#263234] leading-6 font-medium">
                       With PayPal Pay
@@ -356,7 +356,7 @@ const Navbar = () => {
                   <Radio
                     onClick={openLuxuryModal}
                     value="luxurious"
-                    className="flex items-center py-3.5! px-2! justify-between w-full  border border-[#A6ABAC] rounded-lg cursor-pointer"
+                    className="flex items-center pl-2 py-3.5! h-[54px] px-2! justify-between w-full  border border-[#A6ABAC] rounded-lg cursor-pointer"
                   >
                     <span className="text-[#263234] font-medium">
                       Donate Art, Antique or Collectables

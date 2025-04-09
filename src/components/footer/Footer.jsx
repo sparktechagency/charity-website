@@ -27,10 +27,10 @@ const Footer = () => {
       children: [
         { key: "services", label: <Link to="/services">Services</Link> },
         {
-          key: "involved",
-          label: <Link to="/involved">Fundraising & Get Involved</Link>,
+          key: "fundraising-get-involved",
+          label: <Link to="/fundraising-get-involved">Fundraising & Get Involved</Link>,
         },
-        { key: "sale", label: <Link to="/sale">Auction Listing & Sale</Link> },
+        { key: "auction", label: <Link to="/auction">Auction Listing & Sale</Link> },
         {
           key: "survivors",
           label: <Link to="">Support Survivors</Link>,
