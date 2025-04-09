@@ -112,8 +112,8 @@ const AboutMissionVission = () => {
       isModalOpen || luxuryModal || isVolunterModal ? "hidden" : "auto";
   }, [isModalOpen, luxuryModal, isVolunterModal]);
   return (
-    <div className=" bg-[#ecebea] p-4   ">
-      <div className="">
+    <div className="  p-4 bg-[#ecebea]  ">
+      <div className=" max-w-[1480px] mx-auto ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Left Side - Image */}
           <div className="relative w-full h-full rounded-2xl overflow-hidden">

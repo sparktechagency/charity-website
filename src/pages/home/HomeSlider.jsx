@@ -1197,8 +1197,9 @@ const HomeSlider = () => {
                 </a>
               </Checkbox>
             </Form.Item>
+
             {/* captcha  */}
-            <div className=" my-5 ">
+            <div className="   my-5 ">
               <Form.Item>
                 <ReCAPTCHA
                   sitekey="6Ldp6w0rAAAAAE19RaKKPwrLgKPdz9X-kFfi-8hF"

@@ -1,21 +1,20 @@
 import React from "react";
 import { Button } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
 
 const Banner = () => {
   return (
     <div className="lg:pt-20 pt-10 max-w-7xl mx-auto px-4">
-      <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start">
+      <div className="flex flex-col mx-auto w-full  lg:flex-row justify-between items-center lg:items-start">
         {/* left side */}
-        <div className="mt-10 lg:mt-20 px-4 text-center lg:text-left">
-          <div className="text-[40px] sm:text-[60px] lg:text-[70px] font-bold leading-tight text-[#263234] mb-6">
+        <div className="mt-10 lg:mt-20 px-4 text-center lg:text-left max-w-xl">
+          <div className="text-[32px] sm:text-[48px] lg:text-[70px] font-bold leading-tight text-[#263234] mb-6">
             <p>Empowering</p>
             <p>women through</p>
             <p className="bg-gradient-to-b from-[#1F2B2F] to-gray-300 bg-clip-text text-transparent">
               healing & hope.
             </p>
           </div>
-          <span className="text-[#263234] text-base sm:text-lg lg:text-xl leading-6 sm:leading-7">
+          <span className="text-[#263234] text-sm sm:text-base lg:text-xl leading-6 sm:leading-7 block">
             Our mission is to empower women to heal and thrive. We provide
             resources, education, and support for women who have experienced
             trauma. Join us in our mission to create a world where all women can
@@ -23,9 +22,9 @@ const Banner = () => {
           </span>
           <div className="mt-8 sm:mt-5 lg:mt-12">
             <Button
-              className="homeBtn"
+              className="homeBtn px-6 py-3 text-base"
               icon={
-                <span className="lg:mt-0.5 block hidden lg:flex ">
+                <span className="lg:mt-0.5 block hidden lg:flex">
                   <svg
                     width="16"
                     height="16"
@@ -52,7 +51,7 @@ const Banner = () => {
         <div className="mt-10 lg:mt-0 w-full lg:w-auto">
           <img
             src="/homePageUpdateImg.jpg"
-            className="w-full lg:h-[874px] object-cover rounded-lg"
+            className="w-full max-h-[500px] sm:max-h-[600px] lg:h-[874px] object-cover rounded-lg"
             alt="Empowering women through healing and hope"
           />
         </div>
