@@ -18,7 +18,7 @@ const Donation = () => {
       colors: seriesColors,
       chart: {
         type: "bar",
-        height: 250,
+        height: 280,
         toolbar: {
           show: false,
         },
@@ -126,7 +126,7 @@ const Donation = () => {
           options={state.options}
           series={state.series}
           type="area"
-          height={250}
+          height={280}
         />
       </div>
     </div>
