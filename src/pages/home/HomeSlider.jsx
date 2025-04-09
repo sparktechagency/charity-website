@@ -1202,7 +1202,7 @@ const HomeSlider = () => {
             <div className="   my-5 ">
               <Form.Item>
                 <ReCAPTCHA
-                  sitekey="6Ldi9Q8rAAAAAOsow-iT0fv-fwugdBXT96v0aUOm"
+                  sitekey="6Lck9w8rAAAAAIgUwkTAiOXGiGLSJtJP-XXFm7E9"
                   onChange={onChange}
                 />
               </Form.Item>
