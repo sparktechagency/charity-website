@@ -29,78 +29,74 @@ const faqData = [
 ];
 
 const Faq = () => {
-  const [openIndex, setOpenIndex] = useState(0); // First accordion open by default
+  const [openIndex, setOpenIndex] = useState(0);
 
   return (
     <div className="p-4">
-      <h1 className="text-5xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-br from-black via-gray-400 to-gray-700 pb-8 ">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-br from-black via-gray-400 to-gray-700 pb-8">
         FAQs
       </h1>
 
-      <div className="max-w-[1174px] mx-auto flex flex-col lg:flex-row gap-4 justify-between ">
+      <div className="max-w-[1174px] mx-auto flex flex-col lg:flex-row gap-8 justify-between">
         {/* FAQ Section */}
-        <div className=" lg:min-w-[751px] min-h-[516px] h-auto  mx-auto ">
-          <div className="space-y-4  ">
+        <div className="w-full lg:w-3/5">
+          <div className="space-y-4">
             {faqData.map((item, index) => (
               <div
                 key={index}
-                className="bg-[#ffff] border border-[#A6ABAC] shadow  rounded"
+                className="bg-white border border-[#A6ABAC] shadow rounded"
               >
                 <button
-                  className="w-full text-left px-4 py-3 font-semibold flex justify-between items-center "
+                  className="w-full text-left px-4 py-3 font-semibold flex justify-between items-center"
                   onClick={() =>
                     setOpenIndex(openIndex === index ? null : index)
                   }
                 >
-                  <p className=" px-2 text-[#263234] text-xl font-semibold mt-6 ">
+                  <p className="px-2 text-[#263234] text-lg sm:text-xl font-semibold mt-4 sm:mt-6">
                     {item.question}
                   </p>
-                  <span className=" cursor-pointer " >
+                  <span className="cursor-pointer">
                     {openIndex === index ? (
-                      <>
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M4 12C4 11.4477 4.44772 11 5 11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H5C4.44772 13 4 12.5523 4 12Z"
-                            fill="#4B5557"
-                          />
-                        </svg>
-                      </>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M4 12C4 11.4477 4.44772 11 5 11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H5C4.44772 13 4 12.5523 4 12Z"
+                          fill="#4B5557"
+                        />
+                      </svg>
                     ) : (
-                      <>
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M12 4C12.5523 4 13 4.44772 13 5V19C13 19.5523 12.5523 20 12 20C11.4477 20 11 19.5523 11 19V5C11 4.44772 11.4477 4 12 4Z"
-                            fill="#4B5557"
-                          />
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M4 12C4 11.4477 4.44772 11 5 11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H5C4.44772 13 4 12.5523 4 12Z"
-                            fill="#4B5557"
-                          />
-                        </svg>
-                      </>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M12 4C12.5523 4 13 4.44772 13 5V19C13 19.5523 12.5523 20 12 20C11.4477 20 11 19.5523 11 19V5C11 4.44772 11.4477 4 12 4Z"
+                          fill="#4B5557"
+                        />
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M4 12C4 11.4477 4.44772 11 5 11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H5C4.44772 13 4 12.5523 4 12Z"
+                          fill="#4B5557"
+                        />
+                      </svg>
                     )}
                   </span>
                 </button>
                 {openIndex === index && (
-                  <div className="px-6 pt-3 pb-3   text-[#4B5557] ">
+                  <div className="px-6 pt-2 pb-4 text-[#4B5557] text-sm sm:text-base">
                     {item.answer}
                   </div>
                 )}
@@ -110,8 +106,8 @@ const Faq = () => {
         </div>
 
         {/* Information Box */}
-        <div className="lg:min-w-[407px] w-full lg:h-[547px] h-auto bg-white lg:p-[64px] p-4 rounded">
-          <div className="flex justify-center">
+        <div className="w-full lg:w-2/5 bg-white rounded p-6 sm:p-8 lg:p-[64px] text-center flex flex-col items-center justify-center">
+          <div>
             <svg
               width="65"
               height="64"
@@ -153,15 +149,17 @@ const Faq = () => {
               </defs>
             </svg>
           </div>
-          <h1 className="lg:mt-8 mt-5 font-semibold lg:text-2xl text-xl  text-center">
+          <h1 className="mt-6 text-xl sm:text-2xl font-semibold">
             Need More Information?
           </h1>
-          <p className="text-center lg:mt-4 mt-2 text-[#4B5557] ">
+          <p className="mt-2 sm:mt-4 text-[#4B5557] text-sm sm:text-base">
             Our platform simplifies payments and financial management for
             charities and fundraising. Let us help you make a bigger impact.
           </p>
-          <div className=" lg:mt-20 mt-5  " >
-            <button className="block mx-auto bg-[#403730] px-6 text-white py-3 text-sm font-bold rounded cursor-pointer " >Hit a mail us</button>
+          <div className="mt-5 sm:mt-8">
+            <button className="bg-[#403730] px-6 py-3 text-white text-sm font-bold rounded">
+              Hit a mail us
+            </button>
           </div>
         </div>
       </div>
