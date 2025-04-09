@@ -27,10 +27,10 @@ const Footer = () => {
       children: [
         { key: "services", label: <Link to="/services">Services</Link> },
         {
-          key: "involved",
-          label: <Link to="/involved">Fundraising & Get Involved</Link>,
+          key: "fundraising-get-involved",
+          label: <Link to="/fundraising-get-involved">Fundraising & Get Involved</Link>,
         },
-        { key: "sale", label: <Link to="/sale">Auction Listing & Sale</Link> },
+        { key: "auction", label: <Link to="/auction">Auction Listing & Sale</Link> },
         {
           key: "survivors",
           label: <Link to="">Support Survivors</Link>,
@@ -61,6 +61,10 @@ const Footer = () => {
             <p className="text-[#4B5557] mt-4">
               Empowering women through healing and hope.
             </p>
+            <h1 className=" text-[#4B5557] my-2 font-bold text-xl " >Virtue Hope C.I.C</h1>
+            <h1 className=" text-[#4B5557] my-2 " >86-90 Paul Street, London, EC2A 4NE </h1>
+            <h1 className=" text-[#4B5557] my-2 " >Registered Company No.: 16173113</h1>
+            <h1 className=" text-[#4B5557] my-2 " >Email: give@virtuehope.com</h1>
           </div>
 
           {/* Section 2 - Explore Menu */}
@@ -209,13 +213,13 @@ const Footer = () => {
         </div>
       </div>
       <div className="max-w-[1074px] lg:mt-16 mt-4  mx-auto ">
-        <div className=" flex flex-col items-center lg:flex-row lg:justify-between text-[#4B5557] font-thin " >
+        <div className=" flex flex-col items-center lg:flex-row lg:justify-between text-[#4B5557] font-thin ">
           <div>
             <p>© 2077 Virtue Hope. All rights reserved.</p>
           </div>
           <div>
             <nav>
-              <ul className="flex gap-4 " >
+              <ul className="flex gap-4 ">
                 <li>
                   <Link to="/terms">Terms</Link>
                 </li>
