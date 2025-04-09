@@ -1168,8 +1168,6 @@ const HomeSlider = () => {
                 disabled = {donateFull}
               >
                 <Option value="30%">30%</Option>
-                <Option value="50%">50%</Option>
-                <Option value="100%">100%</Option>
               </Select>
             </Form.Item>
 
@@ -1202,7 +1200,7 @@ const HomeSlider = () => {
             <div className="   my-5 ">
               <Form.Item>
                 <ReCAPTCHA
-                  sitekey="6Lck9w8rAAAAAIgUwkTAiOXGiGLSJtJP-XXFm7E9"
+                  sitekey="6Len-w8rAAAAAE68L5bXR-wOuwmID9i0xVW1Eqp1"
                   onChange={onChange}
                 />
               </Form.Item>
