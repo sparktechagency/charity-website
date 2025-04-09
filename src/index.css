@@ -694,7 +694,15 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
   background-color: transparent !important;
 }
 
+@media (max-width: 768px) {
+  .custom-ant-table .ant-table-thead > tr > th {
+    font-size: 12px !important;
+    font-weight: 200 !important;
+  }
+}
+
 /* ========== table compoonent style end =========== */
+
 
 /* ============ contributors filter button style start ======== */
 .ant-select-selector {
@@ -714,5 +722,7 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 }
 
 /* ============ contributors filter button style end ======== */
+
+
 
 

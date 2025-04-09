@@ -311,8 +311,8 @@ const Contributors = () => {
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
-        <div className="flex flex-col md:flex-row justify-between items-center pb-8">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 pb-8">
+          <div className="flex flex-col md:flex-row md:items-center gap-2">
             <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
               Manage contributors
             </h2>
@@ -328,7 +328,7 @@ const Contributors = () => {
                   { value: "approved", label: "Approved" },
                   { value: "pending", label: "Pending" },
                 ]}
-                dropdownStyle={{ background: "#A6ABAC" }}
+                dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)" }}
               />
             </div>
           </div>
@@ -347,86 +347,88 @@ const Contributors = () => {
           </div>
         </div>
 
-        <Table
-          dataSource={dataSource}
-          columns={[
-            {
-              title: "Name",
-              dataIndex: "name",
-              filteredValue: [searchText],
-              onFilter: (value, record) => {
-                return (
-                  String(record.name)
-                    .toLowerCase()
-                    .includes(value.toLowerCase()) ||
-                  String(record.email)
-                    .toLowerCase()
-                    .includes(value.toLowerCase()) ||
-                  String(record.contactNumber)
-                    .toLowerCase()
-                    .includes(value.toLowerCase()) ||
-                  String(record.approvedAction)
-                    .toLowerCase()
-                    .includes(value.toLowerCase()) ||
-                  String(record.soldOut)
-                    .toLowerCase()
-                    .includes(value.toLowerCase()) ||
-                  String(record.donated)
-                    .toLowerCase()
-                    .includes(value.toLowerCase()) ||
-                  String(record.action)
-                    .toLowerCase()
-                    .includes(value.toLowerCase())
-                );
+        <div className="overflow-x-auto">
+          <Table
+            dataSource={dataSource}
+            columns={[
+              {
+                title: "Name",
+                dataIndex: "name",
+                filteredValue: [searchText],
+                onFilter: (value, record) => {
+                  return (
+                    String(record.name)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.email)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.contactNumber)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.approvedAction)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.soldOut)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.donated)
+                      .toLowerCase()
+                      .includes(value.toLowerCase()) ||
+                    String(record.action)
+                      .toLowerCase()
+                      .includes(value.toLowerCase())
+                  );
+                },
               },
-            },
-            {
-              title: "Email",
-              dataIndex: "email",
-            },
-            {
-              title: "Contact number",
-              dataIndex: "contactNumber",
-            },
-            {
-              title: "Approved action",
-              dataIndex: "approvedAction",
-            },
-            {
-              title: "Sold out",
-              dataIndex: "soldOut",
-            },
-            {
-              title: "Donated",
-              dataIndex: "donated",
-            },
-            {
-              title: "Action",
-              dataIndex: "action",
-            },
-            {
-              title: "",
-              key: "view",
-              render: (_, record) => (
-                <EyeOutlined
-                  style={{
-                    color: "#A6ABAC",
-                    fontSize: "18px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleView(record)}
-                />
-              ),
-            },
-          ]}
-          pagination={false}
-          className="custom-ant-table"
-        />
+              {
+                title: "Email",
+                dataIndex: "email",
+              },
+              {
+                title: "Contact number",
+                dataIndex: "contactNumber",
+              },
+              {
+                title: "Approved action",
+                dataIndex: "approvedAction",
+              },
+              {
+                title: "Sold out",
+                dataIndex: "soldOut",
+              },
+              {
+                title: "Donated",
+                dataIndex: "donated",
+              },
+              {
+                title: "Action",
+                dataIndex: "action",
+              },
+              {
+                title: "",
+                key: "view",
+                render: (_, record) => (
+                  <EyeOutlined
+                    style={{
+                      color: "#A6ABAC",
+                      fontSize: "18px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleView(record)}
+                  />
+                ),
+              },
+            ]}
+            pagination={false}
+            className="custom-ant-table"
+          />
+        </div>
 
         {/* pagination */}
-        <div className="flex justify-end pt-4">
+        {/* <div className="flex justify-end pt-4">
           <Pagination defaultCurrent={6} total={500} />
-        </div>
+        </div> */}
       </div>
     </div>
   );
