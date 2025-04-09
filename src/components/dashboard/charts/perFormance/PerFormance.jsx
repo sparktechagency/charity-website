@@ -22,7 +22,7 @@ const PerFormance = () => {
       colors: seriesColors,
       chart: {
         type: "bar",
-        height: 350,
+        height: 250,
         toolbar: {
           show: false,
         },
@@ -118,7 +118,7 @@ const PerFormance = () => {
           options={state.options}
           series={state.series}
           type="bar"
-          height={350}
+          height={250}
         />
       </div>
     </div>

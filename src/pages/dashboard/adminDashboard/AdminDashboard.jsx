@@ -1,18 +1,13 @@
-import React, { useState } from "react";
-import {
-  LogoutOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import { LogoutOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme, Tooltip } from "antd";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 const { Header, Sider, Content } = Layout;
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [selectedKeys, setSelectedKeys] = useState(location.pathname);
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -20,7 +15,7 @@ const AdminDashboard = () => {
 
   const menuItems = [
     {
-      key: "",
+      key: "/admin/dashboard",
       icon: (
         <svg
           width="16"
@@ -46,7 +41,7 @@ const AdminDashboard = () => {
       label: "Dashboard",
     },
     {
-      key: "contributors",
+      key: "/admin/dashboard/contributors",
       icon: (
         <svg
           width="16"
@@ -72,7 +67,7 @@ const AdminDashboard = () => {
       label: "Contributors",
     },
     {
-      key: "volunteers",
+      key: "/admin/dashboard/volunteers",
       icon: (
         <svg
           width="16"
@@ -110,7 +105,7 @@ const AdminDashboard = () => {
       label: "Volunteers",
     },
     {
-      key: "auction",
+      key: "/admin/dashboard/auction",
       icon: (
         <svg
           width="16"
@@ -142,7 +137,7 @@ const AdminDashboard = () => {
       label: "Auction",
     },
     {
-      key: "donation-transaction",
+      key: "/admin/dashboard/donation-transaction",
       icon: (
         <svg
           width="16"
@@ -192,7 +187,7 @@ const AdminDashboard = () => {
       label: "Donation transaction",
     },
     {
-      key: "podcast-stories",
+      key: "/admin/dashboard/podcast-stories",
       icon: (
         <svg
           width="16"
@@ -230,7 +225,7 @@ const AdminDashboard = () => {
       label: "Podcast & stories",
     },
     {
-      key: "subscribers",
+      key: "/admin/dashboard/subscribers",
       icon: (
         <svg
           width="16"
@@ -256,7 +251,7 @@ const AdminDashboard = () => {
       label: "Subscribers",
     },
     {
-      key: "my-team",
+      key: "/admin/dashboard/my-team",
       icon: (
         <svg
           width="16"
@@ -301,7 +296,7 @@ const AdminDashboard = () => {
       label: "My team",
     },
     {
-      key: "faq-page",
+      key: "/admin/dashboard/faq-page",
       icon: (
         <svg
           width="16"
@@ -321,7 +316,7 @@ const AdminDashboard = () => {
       label: "FAQs",
     },
     {
-      key: "settings",
+      key: "/admin/dashboard/settings",
       icon: (
         <svg
           width="16"
@@ -345,9 +340,15 @@ const AdminDashboard = () => {
   ];
 
   // 📍 When menu item is clicked
-  const handleMenuClick = ({ key }) => {
-    navigate(`/admin/dashboard/${key}`);
+  const handleMenuClick = (e) => {
+    setSelectedKeys([e.key]);
+    navigate(e.key);
   };
+
+  // Update selectedKeys when location changes
+  useEffect(() => {
+    setSelectedKeys(location.pathname);
+  }, [location]);
 
   const handleNavigate = () => {
     navigate("/");
@@ -447,9 +448,9 @@ const AdminDashboard = () => {
                 style={{ backgroundColor: "#263234", color: "#ffffff" }}
                 theme="dark"
                 mode="inline"
-                defaultSelectedKeys={[""]}
-                items={menuItems}
+                selectedKeys={selectedKeys}
                 onClick={handleMenuClick}
+                items={menuItems}
               />
             </div>
             {/* Bottom part: Logout */}

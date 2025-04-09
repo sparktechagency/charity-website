@@ -23,7 +23,7 @@ const Visitors = () => {
       colors: seriesColors,
       chart: {
         type: "line",
-        height: 350,
+        height: 250,
         toolbar: {
           show: false,
         },
@@ -111,7 +111,7 @@ const Visitors = () => {
           options={state.options}
           series={state.series}
           type="line"
-          height={350}
+          height={250}
         />
       </div>
     </div>
