@@ -444,7 +444,7 @@ const AdminDashboard = () => {
           <div className="flex flex-col justify-between h-screen">
             <div>
               <Menu
-                style={{ backgroundColor: "#263234" }}
+                style={{ backgroundColor: "#263234", color: "#ffffff" }}
                 theme="dark"
                 mode="inline"
                 defaultSelectedKeys={[""]}

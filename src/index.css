@@ -609,53 +609,14 @@ span.ant-menu-title-content {
 /* ===================== dashboar component style ================= */
 
 li.ant-menu-item-selected {
-  background-color: #908B87 !important;
-  color: white !important;
+  background-color: #262724 !important;
+  border-right: 4px solid #908B87 !important;
+  border-radius: 0px !important;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+span.ant-menu-title-content {
+  color: white !important;
+}
 
 
 
@@ -706,21 +667,7 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Hide table borders and background */
+/* ========== table compoonent style start =========== */
 .custom-ant-table .ant-table {
   background-color: transparent !important;
   border: none !important;
@@ -747,4 +694,4 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
   background-color: transparent !important;
 }
 
-
+/* ========== table compoonent style end =========== */
