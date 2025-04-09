@@ -328,7 +328,7 @@ const Contributors = () => {
                   { value: "approved", label: "Approved" },
                   { value: "pending", label: "Pending" },
                 ]}
-                dropdownStyle={{ background: "#1b232446" }}
+                dropdownStyle={{ background: "#A6ABAC" }}
               />
             </div>
           </div>
@@ -410,7 +410,7 @@ const Contributors = () => {
               render: (_, record) => (
                 <EyeOutlined
                   style={{
-                    color: "rgba(255, 255, 255, 0.233)",
+                    color: "#A6ABAC",
                     fontSize: "18px",
                     cursor: "pointer",
                   }}

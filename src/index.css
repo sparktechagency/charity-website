@@ -685,7 +685,7 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 /* Remove background from table rows */
 .custom-ant-table .ant-table-tbody > tr > td {
   background-color: transparent !important;
-  color: rgba(255, 255, 255, 0.233)!important;
+  color: #A6ABAC!important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.027)!important;
 }
 
@@ -695,5 +695,24 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 }
 
 /* ========== table compoonent style end =========== */
+
+/* ============ contributors filter button style start ======== */
+.ant-select-selector {
+  background-color: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.24) !important; /* Keep visible border */
+  color: #ffffff !important;
+  transition: none !important; /* Disable animation */
+}
+
+.ant-select:hover .ant-select-selector {
+  border-color: #ffffff !important; /* Keep border on hover */
+  box-shadow: none !important; /* Remove hover animation effect */
+}
+
+.ant-select-selection-placeholder {
+  color: rgba(255, 255, 255, 0.24) !important;
+}
+
+/* ============ contributors filter button style end ======== */
 
 
