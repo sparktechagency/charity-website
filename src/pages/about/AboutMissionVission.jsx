@@ -334,7 +334,7 @@ const AboutMissionVission = () => {
           closable={false}
         >
           <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
-            Donate with Luxury retreats
+            Donate
           </h1>
 
           <Form form={form} onFinish={submitLuxriousModal} layout="vertical">

@@ -388,7 +388,7 @@ const Navbar = () => {
         closable={false}
       >
         <h2 className="text-2xl font-semibold leading-8 text-[#263234] mb-4">
-          Donate with Luxury retreats
+          Donate
         </h2>
 
         <Form form={form} onFinish={handleSubmit} layout="vertical">

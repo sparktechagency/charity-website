@@ -37,7 +37,7 @@ const Footer = () => {
         },
         {
           key: "terms",
-          label: <Link to="terms">Term</Link>,
+          label: <Link to="terms">General T&C </Link>,
         },
       ],
     },

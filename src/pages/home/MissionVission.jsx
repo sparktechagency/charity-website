@@ -547,7 +547,7 @@ export const MissionVission = () => {
             closable={false}
           >
             <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
-              Donate with Luxury retreats
+              Donate
             </h1>
 
             <Form form={form} onFinish={handleRetreatSubmit} layout="vertical">
@@ -646,7 +646,7 @@ export const MissionVission = () => {
               <Form.Item
                 style={{ marginBottom: "0px", marginTop: "8px" }}
                 name="image"
-                label="Upload your CV"
+                label="Upload your Photo"
                 rules={[
                   {
                     required: true,
