@@ -12,8 +12,48 @@ const { Dragger } = Upload;
 
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
 import { FaCcMastercard } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import AggrementPage from "../aggrement/AggrementPage";
 
 export const MissionVission = () => {
+  // donate modal  terms & conditions. start
+
+  const [termsModal, setTermsModal] = useState(false);
+
+  const showTermModal = () => {
+    // e.preventDefault(); // prevent link navigation
+    setTermsModal(true);
+  };
+
+  // const handleOk = () => {
+  //   setIsModalOpen(false);
+  // };
+
+  const termModalCanel = () => {
+    setTermsModal(false);
+  };
+
+  // donate modal  terms & conditions. end
+
+  // Donate Art, Antique or Collectables modal  terms & conditions. start
+
+  const [donateTerm, setDonateTerm] = useState(false);
+
+  const showDonateTermModal = () => {
+    // e.preventDefault(); // prevent link navigation
+    setDonateTerm(true);
+  };
+
+  // const handleOk = () => {
+  //   setIsModalOpen(false);
+  // };
+
+  const donateModalCanel = () => {
+    setDonateTerm(false);
+  };
+
+  // Donate Art, Antique or Collectables modal  terms & conditions. end
+
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -334,7 +374,7 @@ export const MissionVission = () => {
 
         {/* end 1st modal payment modal  */}
 
-        {/* luxurious modal  */}
+        {/* luxurious modal Donate Art, Antique or Collectables start */}
 
         <div className=" w-[600px]  z-50 ">
           <Modal
@@ -510,9 +550,13 @@ export const MissionVission = () => {
               >
                 <Checkbox>
                   I agree with Virtue Hope's{" "}
-                  <a href="#" className="underline">
+                  <Link
+                    onClick={showDonateTermModal}
+                    to={""}
+                    className="underline"
+                  >
                     terms & conditions
-                  </a>
+                  </Link>
                   .
                 </Checkbox>
               </Form.Item>
@@ -531,9 +575,9 @@ export const MissionVission = () => {
           </Modal>
         </div>
 
-        {/* end  luxurious modal  */}
+        {/*   luxurious modal {/* luxurious modal Donate Art, Antique or Collectables start end  */}
 
-        {/* Donate with Luxury retreats modal  */}
+        {/* Donate with Luxury retreats modal start  */}
 
         <div className=" w-[600px]  z-50 ">
           <Modal
@@ -709,9 +753,9 @@ export const MissionVission = () => {
               >
                 <Checkbox>
                   I agree with Virtue Hope's{" "}
-                  <a href="#" className="underline">
+                  <Link to={""} onClick={showTermModal} className="underline">
                     terms & conditions
-                  </a>
+                  </Link>
                   .
                 </Checkbox>
               </Form.Item>
@@ -1003,6 +1047,39 @@ export const MissionVission = () => {
 
         {/* end   Volunter Modal*/}
       </div>
+
+      {/* donate modal terms conditions start   */}
+
+      <div className=" ">
+        <Modal
+          width={"70%"}
+          open={termsModal}
+          style={{ top: 0 }}
+          // onOk={handleOk}
+          onCancel={termModalCanel}
+          footer={null} // remove if you want buttons
+        >
+          <AggrementPage></AggrementPage>
+        </Modal>
+      </div>
+      {/* donate modal terms conditions end   */}
+
+      {/* Donate Art, Antique or Collectables  Terms & Conditions start */}
+
+      <div className=" ">
+        <Modal
+          width={"70%"}
+          open={donateTerm}
+          style={{ top: 0 }}
+          // onOk={handleOk}
+          onCancel={donateModalCanel}
+          footer={null} // remove if you want buttons
+        >
+          <AggrementPage></AggrementPage>
+        </Modal>
+      </div>
+
+      {/* Donate Art, Antique or Collectables  Terms & Conditions end */}
     </div>
   );
 };
