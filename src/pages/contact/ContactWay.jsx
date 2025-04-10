@@ -12,7 +12,7 @@ const ContactWay = () => {
           Contact us
           </h1>
           <p className=" lg:text-xl text-lg text-[#263234] lg:leading-7 " >Email: give@virtuehope.com</p>
-          <p className=" lg:text-xl text-lg text-[#263234] lg:leading-7 lg:mt-2 mt-1 " >Telephone: +123 4567 78958</p>
+          {/* <p className=" lg:text-xl text-lg text-[#263234] lg:leading-7 lg:mt-2 mt-1 " >Telephone: +123 4567 78958</p> */}
           <p className=" lg:text-xl text-lg text-[#263234] lg:leading-7 lg:mt-2 mt-1 " >Location: 86-90 Paul Street, London, EC2A 4NE </p>
         </div>
       </div>
