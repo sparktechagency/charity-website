@@ -309,6 +309,7 @@ export const MissionVission = () => {
           <AggrementPage></AggrementPage>
         </Modal>
       </div>
+      
       {/* donate modal terms conditions end   */}
 
       {/* Donate Art, Antique or Collectables  Terms & Conditions start */}
