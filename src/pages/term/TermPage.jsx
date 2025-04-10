@@ -2,7 +2,7 @@ import React from "react";
 
 const TermPage = () => {
   return (
-    <div className="pt-20 max-w-[1216px] mx-auto pb-24 px-4  ">
+    <div className="pt-20 max-w-[1216px] mx-auto pb-24 px-4">
       <p className="text-center text-[#403730] font-semibold leading-6 ">
         General Terms and Condition
       </p>

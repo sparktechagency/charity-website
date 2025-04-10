@@ -13,6 +13,7 @@ import CommonDashboard from "../pages/dashboard/adminDashboard/commonDashboard/C
 import Contributors from "../pages/dashboard/adminDashboard/contributors/Contributors";
 import Volunteers from "../pages/dashboard/adminDashboard/volunteers/Volunteers";
 import Auction from "../pages/dashboard/adminDashboard/auction/Auction";
+import AggrementPage from "../pages/aggrement/AggrementPage";
 
 export const router = createBrowserRouter([
   {
@@ -51,7 +52,12 @@ export const router = createBrowserRouter([
         path: "/terms",
         element: <TermPage></TermPage>,
       },
+      
     ],
+  },
+  {
+    path : "/general",
+    element : <AggrementPage></AggrementPage>
   },
 
   // admin dashboard routes here
