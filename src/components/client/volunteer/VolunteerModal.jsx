@@ -1,12 +1,14 @@
 import { Form } from "antd";
 import React from "react";
 import { Modal, Input, Button, Checkbox, Upload, Radio } from "antd";
+import { Link } from "react-router-dom";
 const { Dragger } = Upload;
 const VolunteerModal = ({
   form,
   handleVolunterSubmit,
   uploadProps,
   closeVolunteerModal,
+  showTermModal
 }) => {
   return (
     <div>
@@ -240,9 +242,9 @@ const VolunteerModal = ({
           <div className="mb-4">
             <Checkbox style={{ color: "" }}>
               I agree with Virtue Hope's{" "}
-              <a href="#" className="underline">
+              <Link to={""} onClick={showTermModal} className="underline">
                 terms & conditions.
-              </a>
+              </Link>
             </Checkbox>
           </div>
         </Form.Item>
