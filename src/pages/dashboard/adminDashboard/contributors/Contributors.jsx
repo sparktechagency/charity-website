@@ -1,11 +1,39 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Input, Pagination, Select, Space, Table } from "antd";
-import { EyeIcon } from "lucide-react";
+import { Button, Input, Modal, Pagination, Select, Space, Table } from "antd";
 import { useState } from "react";
 
 const Contributors = () => {
   const [searchText, setSearchText] = useState("");
   const [selectValue, stetSelectValue] = useState("");
+  const [modalOne, setModalOne] = useState(false);
+  const [modalTwo, setModalTwo] = useState(false);
+
+  // ============== modal one start =========
+  const showModalOne = () => {
+    setModalOne(true);
+  };
+
+  const handleOkOne = () => {
+    setModalOne(false);
+  };
+  const handleCancelOne = () => {
+    setModalOne(false);
+  };
+
+  // ============== modal one end ===========
+
+  // ============== modal two start =========
+  const showModalTwo = () => {
+    setModalTwo(true);
+  };
+  const handleOkTwo = () => {
+    setModalTwo(false);
+  };
+  const handleCancelTwo = () => {
+    setModalTwo(false);
+  };
+
+  // ============== modal two end ===========
 
   const dataSource = [
     {
@@ -173,6 +201,7 @@ const Contributors = () => {
   const handleSelect = (value) => {
     console.log(value);
   };
+
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
@@ -272,8 +301,13 @@ const Contributors = () => {
                 key: "view",
                 render: (_, record) => (
                   <Space size="middle">
-                    <p className="text-[#DA453F]">{record.action}</p>
-                    <p className="cursor-pointer">
+                    <p
+                      onClick={showModalOne}
+                      className="text-[#DA453F] cursor-pointer"
+                    >
+                      {record.action}
+                    </p>
+                    <p onClick={showModalTwo} className="cursor-pointer">
                       {" "}
                       <EyeOutlined
                         style={{
@@ -291,6 +325,151 @@ const Contributors = () => {
             pagination={false}
             className="custom-ant-table"
           />
+        </div>
+
+        {/* ============== modal components ========== */}
+        <div>
+          {/* modal one */}
+          <Modal
+            className="custom-ai-modal"
+            centered
+            open={modalOne}
+            onOk={handleOkOne}
+            onCancel={handleCancelOne}
+            width={500}
+            footer={
+              <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
+                <button
+                  className="hover:bg-[#A6ABAC] px-6 rounded"
+                  onClick={handleCancelOne}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-[#ffffff] py-2 px-4 rounded"
+                  onClick={handleOkOne}
+                >
+                  Yes, suspend
+                </button>
+              </div>
+            }
+          >
+            <p className="text-[20px] text-[#E9EBEB] py-6">
+              Are you sure want to suspend this user?
+            </p>
+            <p className="text-[#A6ABAC] text-[16px]">
+              Once you suspend the user is no longer available to use the
+              application.
+            </p>
+          </Modal>
+
+          <Modal
+            className="custom-ai-modal"
+            centered
+            open={modalTwo}
+            onOk={handleOkTwo}
+            onCancel={handleCancelTwo}
+            width={600}
+            footer={
+              <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
+                <button
+                  className="text-[#FFFFFF] hover:bg-[#A6ABAC] hover:text-gray-900 px-6 rounded"
+                  onClick={handleCancelTwo}
+                >
+                  Go back
+                </button>
+                <button
+                  className="bg-[#ffffff] py-2 px-4 rounded"
+                  onClick={handleOkTwo}
+                >
+                  Download as PDF
+                </button>
+              </div>
+            }
+          >
+            <div>
+              <div className="flex gap-3 border-b border-gray-600 pb-4">
+                <div className="">
+                  <img
+                    src="/dashboardPhoto/dashboardLoginLogo.png"
+                    alt="login logo"
+                    className="object-cover w-[40px]"
+                  />
+                </div>
+                <div className="">
+                  <h1 className="text-[24px] font-bold text-[#ffffff]">
+                    Sophia Mitchel
+                  </h1>
+                  <p className="text-[#D9D9D9]">sophiamitchel@gmail.com</p>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-600 pb-4">
+                <h2 className="font-bold text-[16px] text-[#ffffff] py-6">
+                  Personal details
+                </h2>
+                <div className="flex items-center justify-between ">
+                  <div className="text-[#ffff]">
+                    <p>Contact number</p>
+                    <p>City</p>
+                    <p>Address</p>
+                  </div>
+
+                  <div className="text-end text-[#ffff]">
+                    <p>+123 4567 8978</p>
+                    <p>Manchester</p>
+                    <p>Town Hall Albert Square</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-gray-600 pb-4 text-[#ffffff] pt-4">
+                <p className="font-bold text-[16px]">Payment method</p>
+                <p className="font-bold text-[16px]">Stripe</p>
+              </div>
+
+              <div className="flex justify-between items-center py-4">
+                <p className="text-[#ffff] font-bold text-[16px]">
+                  Approved auctions
+                </p>
+                <p className="bg-[#4B5557] w-10 h-8 flex justify-center items-center rounded-full">
+                  04
+                </p>
+              </div>
+
+              {/* view section */}
+              <div className="border-b border-gray-600 pb-4">
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <div>
+                      <h2 className="text-[#ffffff]">
+                        Hearts & Bids Charity Auction for a Cause
+                      </h2>
+                      <div className="flex items-center gap-2 text-[#A6ABAC]">
+                        <span>Price range: $1,200-$2,500</span>
+                        <div className="w-2 h-2 rounded-full bg-gray-700"></div>
+                        <span>Sold out</span>
+                      </div>
+                    </div>
+                    <div className="text-[#1890FF] font-semibold">View</div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div>
+                      <h2 className="text-[#ffffff]">
+                        Hearts & Bids Charity Auction for a Cause
+                      </h2>
+                      <div className="flex items-center gap-2 text-[#A6ABAC]">
+                        <span>Price range: $1,200-$2,500</span>
+                        <div className="w-2 h-2 rounded-full bg-gray-700"></div>
+                        <span>Not sold</span>
+                      </div>
+                    </div>
+                    <div className="text-[#1890FF] font-semibold">View</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Modal>
         </div>
 
         {/* pagination */}

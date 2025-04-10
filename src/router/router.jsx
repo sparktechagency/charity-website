@@ -20,6 +20,9 @@ import MyTeam from "../pages/dashboard/adminDashboard/myTeam/MyTeam";
 import Settings from "../pages/dashboard/adminDashboard/settings/Settings";
 import FAQs from "../pages/dashboard/adminDashboard/faq/FAQs";
 import AdminDashboardLogin from "../pages/dashboard/adminDashboard/authtication/AdminDashboardLogin";
+import DashboardForgetPassword from "../pages/dashboard/adminDashboard/authtication/DashboardForgetPassword";
+import DashboardOtp from "../pages/dashboard/adminDashboard/authtication/DashboardOtp";
+import DashboardCreateNewPassword from "../pages/dashboard/adminDashboard/authtication/DashboardCreateNewPassword";
 
 export const router = createBrowserRouter([
   {
@@ -114,5 +117,17 @@ export const router = createBrowserRouter([
   {
     path: "/admin/dashboard/login",
     element: <AdminDashboardLogin />,
+  },
+  {
+    path: "/admin/dashboard/forget-password",
+    element: <DashboardForgetPassword />,
+  },
+  {
+    path: "/admin/dashboard/otp",
+    element: <DashboardOtp />,
+  },
+  {
+    path: "/admin/dashboard/create-new-password",
+    element: <DashboardCreateNewPassword />,
   },
 ]);
