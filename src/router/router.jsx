@@ -19,6 +19,7 @@ import Subscribers from "../pages/dashboard/adminDashboard/subscribers/Subscribe
 import MyTeam from "../pages/dashboard/adminDashboard/myTeam/MyTeam";
 import Settings from "../pages/dashboard/adminDashboard/settings/Settings";
 import FAQs from "../pages/dashboard/adminDashboard/faq/FAQs";
+import AdminDashboardLogin from "../pages/dashboard/adminDashboard/authtication/AdminDashboardLogin";
 
 export const router = createBrowserRouter([
   {
@@ -106,5 +107,12 @@ export const router = createBrowserRouter([
         element: <Settings />,
       },
     ],
+  },
+
+  //=================== Dashboard Authentication ================
+
+  {
+    path: "/admin/dashboard/login",
+    element: <AdminDashboardLogin />,
   },
 ]);

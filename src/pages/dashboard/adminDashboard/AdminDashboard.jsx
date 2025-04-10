@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { LogoutOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme, Tooltip } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 const { Header, Sider, Content } = Layout;
 
 const AdminDashboard = () => {
@@ -354,6 +355,37 @@ const AdminDashboard = () => {
     navigate("/");
   };
 
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Do you want to log out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#1B2324", // custom green
+      cancelButtonColor: "#ffffff", // custom red
+
+      confirmButtonText: "Yes, log out",
+      cancelButtonText: "No, keep me logged in",
+      background: "#1B2324",
+      color: "rgba(255, 255, 255, 0.5) ",
+      customClass: {
+        confirmButton:
+          "text-red-500 px-4 py-2 rounded hover:bg-green-600 font-semibold",
+        cancelButton: "text-gray-700  bg-[#ffffff] px-4 py-2",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Logged out!",
+          text: "You have been successfully logged out.",
+          icon: "success",
+          background: "#1B2324",
+          color: "rgba(255, 255, 255, 0.5) ",
+          confirmButtonColor: "#3B82F6",
+        });
+      }
+    });
+  };
+
   return (
     <>
       {/* dashboard header component */}
@@ -458,7 +490,10 @@ const AdminDashboard = () => {
             <div className="px-4 py-4 mb-16">
               {collapsed ? (
                 <Tooltip title="Log out" placement="right">
-                  <button className="w-full text-[#DA453F] hover:text-white px-4 py-2 rounded hover:bg-[#1B2324] transition-all duration-200 flex items-center justify-start h-10">
+                  <button
+                    onClick={() => handleLogout()}
+                    className="w-full text-[#DA453F] hover:text-white px-4 py-2 rounded hover:bg-[#1B2324] transition-all duration-200 flex items-center justify-start h-10"
+                  >
                     <LogoutOutlined className="shrink-0" />
                     <p className="opacity-0 w-0 overflow-hidden transition-all duration-300">
                       Log out
@@ -466,7 +501,10 @@ const AdminDashboard = () => {
                   </button>
                 </Tooltip>
               ) : (
-                <button className="w-full text-[#DA453F] hover:text-white px-4 py-2 rounded hover:bg-[#1B2324] transition-all duration-200 flex items-center justify-start h-10">
+                <button
+                  onClick={() => handleLogout()}
+                  className="w-full text-[#DA453F] hover:text-white px-4 py-2 rounded hover:bg-[#1B2324] transition-all duration-200 flex items-center justify-start h-10"
+                >
                   <LogoutOutlined className="shrink-0" />
                   <p className="opacity-100 pl-3 transition-all duration-300 whitespace-nowrap">
                     Log out
