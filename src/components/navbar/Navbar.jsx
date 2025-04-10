@@ -20,11 +20,50 @@ import logo from "../../assets/image/logo.svg";
 import Dragger from "antd/es/upload/Dragger";
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
 import { FaCcMastercard } from "react-icons/fa";
+import AggrementPage from "../../pages/aggrement/AggrementPage";
 
 const Navbar = () => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // donate modal  terms & conditions. start
+
+  const [termsModal, setTermsModal] = useState(false);
+
+  const showTermModal = () => {
+    // e.preventDefault(); // prevent link navigation
+    setTermsModal(true);
+  };
+
+  // const handleOk = () => {
+  //   setIsModalOpen(false);
+  // };
+
+  const termModalCanel = () => {
+    setTermsModal(false);
+  };
+
+  // donate modal  terms & conditions. end
+
+  // Donate Art, Antique or Collectables modal  terms & conditions. start
+
+  const [donateTerm, setDonateTerm] = useState(false);
+
+  const showDonateTermModal = () => {
+    // e.preventDefault(); // prevent link navigation
+    setDonateTerm(true);
+  };
+
+  // const handleOk = () => {
+  //   setIsModalOpen(false);
+  // };
+
+  const donateModalCanel = () => {
+    setDonateTerm(false);
+  };
+
+  // Donate Art, Antique or Collectables modal  terms & conditions. end
 
   // first modal
   const [modalOpen, setModalOpen] = useState(false);
@@ -226,7 +265,11 @@ const Navbar = () => {
 
       <div className="  ">
         <Modal
-          title={ <span className=" text-2xl" >Please choose the way you want to Donate</span> }
+          title={
+            <span className=" text-2xl">
+              Please choose the way you want to Donate
+            </span>
+          }
           open={modalOpen}
           onCancel={onClose}
           footer={null}
@@ -543,7 +586,11 @@ const Navbar = () => {
           >
             <Checkbox>
               I agree with Virtue Hope's{" "}
-              <Link to="#" className="underline">
+              <Link
+                to={""}
+                onClick={showTermModal}
+                className="underline text-blue-600"
+              >
                 terms & conditions
               </Link>
               .
@@ -570,7 +617,7 @@ const Navbar = () => {
       </Modal>
       {/* 3rd modal  */}
 
-      {/* luxurious modal  */}
+      {/* Donate Art, Antique or Collectables start   */}
 
       <div className=" w-[600px]  z-50 ">
         <Modal
@@ -744,9 +791,9 @@ const Navbar = () => {
             >
               <Checkbox>
                 I agree with Virtue Hope's{" "}
-                <a href="#" className="underline">
+                <Link onClick={showDonateTermModal} to={""} className="underline">
                   terms & conditions
-                </a>
+                </Link>
                 .
               </Checkbox>
             </Form.Item>
@@ -768,6 +815,41 @@ const Navbar = () => {
           </Form>
         </Modal>
       </div>
+
+      {/* Donate Art, Antique or Collectables  modal end  */}
+
+      {/* donate modal terms conditions start   */}
+
+      <div className=" ">
+        <Modal
+          width={"70%"}
+          open={termsModal}
+          style={{ top: 0 }}
+          // onOk={handleOk}
+          onCancel={termModalCanel}
+          footer={null} // remove if you want buttons
+        >
+          <AggrementPage></AggrementPage>
+        </Modal>
+      </div>
+      {/* donate modal terms conditions end   */}
+
+      {/* Donate Art, Antique or Collectables  Terms & Conditions start */}
+
+      <div className=" ">
+        <Modal
+          width={"70%"}
+          open={donateTerm}
+          style={{ top: 0 }}
+          // onOk={handleOk}
+          onCancel={donateModalCanel}
+          footer={null} // remove if you want buttons
+        >
+          <AggrementPage></AggrementPage>
+        </Modal>
+      </div>
+
+      {/* Donate Art, Antique or Collectables  Terms & Conditions end */}
     </nav>
   );
 };

@@ -17,7 +17,7 @@ const AggrementPage = () => {
     console.log("Form values:", values);
   };
   return (
-    <div className=" max-w-[1216px] mx-auto  px-4 border  border-black ">
+    <div className=" max-w-[1000px] mx-auto  px-4  ">
       <div className=" max-w-[1216px] mx-auto pb-4 px-4">
         <p className="text-center text-[#403730] text-xl font-semibold leading-6 ">
           Virtue Hope C.I.C. Donor Agreement
@@ -451,6 +451,7 @@ const AggrementPage = () => {
         </div>
       </div>
     </div>
+    
   );
 };
 
