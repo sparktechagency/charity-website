@@ -312,7 +312,9 @@ export const MissionVission = () => {
       
       {/* donate modal terms conditions end   */}
 
-      {/* Donate Art, Antique or Collectables  Terms & Conditions start */}
+
+
+      {/* Donate Art, Antique or Collectables  Terms & Conditions modal start */}
 
       <div className=" ">
         <Modal
@@ -327,7 +329,7 @@ export const MissionVission = () => {
         </Modal>
       </div>
 
-      {/* Donate Art, Antique or Collectables  Terms & Conditions end */}
+      {/* Donate Art, Antique or Collectables  Terms & Conditions modal end */}
 
     </div>
   );
