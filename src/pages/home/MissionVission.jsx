@@ -6,10 +6,10 @@ const { Dragger } = Upload;
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
 import { Link } from "react-router-dom";
 import AggrementPage from "../aggrement/AggrementPage";
-import PaymentModal from "../../components/client/payment/PaymentModal";
-import DonateModal from "../../components/client/donate/DonateModal";
-import VolunteerModal from "../../components/client/Volunteer/VolunteerModal";
-import ArtAntiqModal from "../../components/client/art-antique/ArtAntiqModal";
+import VolunteerModal from "../../components/client/modal/volunteer/VolunteerModal";
+import DonateModal from "../../components/client/modal/donate/DonateModal";
+import ArtAntiqModal from "../../components/client/modal/art-antique/ArtAntiqModal";
+import PaymentModal from "../../components/client/modal/payment/PaymentModal";
 
 export const MissionVission = () => {
   // donate modal  terms & conditions. start

@@ -21,9 +21,10 @@ import Dragger from "antd/es/upload/Dragger";
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
 import { FaCcMastercard } from "react-icons/fa";
 import AggrementPage from "../../pages/aggrement/AggrementPage";
-import PaymentModal from "../client/payment/PaymentModal";
-import DonateModal from "../client/donate/DonateModal";
-import ArtAntiqModal from "../client/art-antique/ArtAntiqModal";
+import PaymentModal from "../client/modal/payment/PaymentModal";
+import DonateModal from "../client/modal/donate/DonateModal";
+import ArtAntiqModal from "../client/modal/art-antique/ArtAntiqModal";
+import DonerDetailsModal from "../client/modal/doner-details/DonerDetailsModal";
 
 const Navbar = () => {
   const [form] = Form.useForm();
@@ -68,8 +69,26 @@ const Navbar = () => {
 
   // Donate Art, Antique or Collectables modal  terms & conditions. end
 
-  // first modal
+  // doner details modal start
+
   const [modalOpen, setModalOpen] = useState(false);
+
+  const [donerDetailsModal, setDonerDetailsModal] = useState(false);
+
+  const closeDonerDetailsModal = () => {
+    setDonerDetailsModal(false);
+    form.resetFields()
+  };
+
+  const openDonerDetailsModal = ()=>{
+    setDonerDetailsModal(true)
+  }
+
+
+
+  // doner details modal end
+
+  // payment modal start
 
   const showModal = () => {
     setOpen(false); // Close drawer first
@@ -77,9 +96,10 @@ const Navbar = () => {
   };
   const onClose = () => setModalOpen(false);
 
-  // 1st modal end
+  // payment modal end
 
-  // second modal
+  //  Donate modal start
+
   const [secondModalOpen, setSecondModalOpen] = useState(false);
 
   const handleSubmit = (values) => {
@@ -118,7 +138,7 @@ const Navbar = () => {
   //   setModalOpen(true);
   // };
 
-  // second modal end
+  // Donate modal end
 
   // 3rd modal luxuryModal
 
@@ -177,8 +197,8 @@ const Navbar = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-      modalOpen || secondModalOpen || luxuryModal ? "hidden" : "auto";
-  }, [modalOpen, secondModalOpen, luxuryModal]);
+      modalOpen || secondModalOpen || luxuryModal || donerDetailsModal ? "hidden" : "auto";
+  }, [modalOpen, secondModalOpen, luxuryModal,donerDetailsModal]);
 
   return (
     <nav
@@ -217,7 +237,7 @@ const Navbar = () => {
 
         {/* Support Button (Desktop Only) */}
         <button
-          onClick={showModal}
+          onClick={openDonerDetailsModal}
           className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
         >
           Support Survivors
@@ -256,7 +276,7 @@ const Navbar = () => {
 
           {/* Support Button in Drawer (Closes Drawer & Opens Modal) */}
           <button
-            onClick={showModal}
+            onClick={openDonerDetailsModal}
             className="mt-6 bg-[#403730] w-full py-3 cursor-pointer text-white rounded-md font-medium text-sm hover:opacity-90"
           >
             Support Survivors
@@ -264,7 +284,27 @@ const Navbar = () => {
         </Drawer>
       </div>
 
-      {/* Payment Modal */}
+      {/* Donar details modal start  */}
+
+      <div className="  ">
+        <Modal
+          open={donerDetailsModal}
+          onCancel={closeDonerDetailsModal}
+          footer={null}
+          closable={false}
+          centered
+          width="400px"
+          style={{top:0}}
+        >
+          {/* openLuxuryModal ,handleCancel,handlieClickNextStep */}
+
+          <DonerDetailsModal closeDonerDetailsModal = {closeDonerDetailsModal}  />
+        </Modal>
+      </div>
+
+      {/* Donar details modal end  */}
+
+      {/* Payment Modal start */}
 
       <div className="  ">
         <Modal
@@ -274,11 +314,7 @@ const Navbar = () => {
           closable={false}
           centered
           width="400px"
-
-          style={{ padding: "15px", top:0 }}
-
-          
-         
+          style={{ padding: "15px", top: 0 }}
         >
           {/* openLuxuryModal ,handleCancel,handlieClickNextStep */}
 
@@ -290,35 +326,36 @@ const Navbar = () => {
         </Modal>
       </div>
 
+
+      {/* Payment Modal end */}
+
       {/* Donate modal start second modal */}
-      <Modal
+
+
+      {/* <Modal
         open={secondModalOpen}
         onCancel={closeSecondModal}
         footer={null}
         centered
         closable={false}
-        
-        style={{top:0}}
+        style={{ top: 0 }}
       >
-        
+       
 
-        {/* form, */}
-        {/* handleRetreatSubmit, */}
-        {/* uploadProps, */}
-        {/* showTermModal, */}
-        {/* backRetretModal, */}
-
-        <DonateModal form = {form} handleRetreatSubmit = {handleSubmit} uploadProps = {uploadProps} showTermModal = {showTermModal}  backRetretModal = {closeSecondModal}  />
-
-      </Modal>
-
-
+        <DonateModal
+          form={form}
+          handleRetreatSubmit={handleSubmit}
+          uploadProps={uploadProps}
+          showTermModal={showTermModal}
+          backRetretModal={closeSecondModal}
+        />
+      </Modal> */}
 
       {/* 3rd modal  */}
 
       {/* Donate Art, Antique or Collectables start modal start   */}
 
-      <div className=" w-[600px]  z-50 ">
+      {/* <div className=" w-[600px]  z-50 ">
         <Modal
           visible={luxuryModal}
           onCancel={closeLuxuryModal}
@@ -328,17 +365,20 @@ const Navbar = () => {
           // bodyStyle={{ padding: "20px" }}
           destroyOnClose
           closable={false}
-          style={{top:0}}
+          style={{ top: 0 }}
         >
-
-            <ArtAntiqModal form = {form} submitLuxriousModal = {submitLuxriousModal} uploadProps = {uploadProps} showDonateTermModal = {showDonateTermModal}closeLuxuryModal ={closeLuxuryModal}  />
-
+          <ArtAntiqModal
+            form={form}
+            submitLuxriousModal={submitLuxriousModal}
+            uploadProps={uploadProps}
+            showDonateTermModal={showDonateTermModal}
+            closeLuxuryModal={closeLuxuryModal}
+          />
         </Modal>
-      </div>
-
-
+      </div> */}
 
       {/* Donate Art, Antique or Collectables  modal end  */}
+
 
 
 
@@ -353,13 +393,11 @@ const Navbar = () => {
           // onOk={handleOk}
           onCancel={termModalCanel}
           footer={null} // remove if you want buttons
-          
         >
           <AggrementPage></AggrementPage>
         </Modal>
       </div>
 
-      
       {/* donate modal terms conditions end   */}
 
       {/* Donate Art, Antique or Collectables  Terms & Conditions start */}

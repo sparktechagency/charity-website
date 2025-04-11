@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Input, Button, Checkbox, Upload, Radio, Form } from "antd";
-import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
-import { Divider } from "antd";
-import {
-  PayCircleOutlined,
-  CreditCardOutlined,
-  BankOutlined,
-} from "@ant-design/icons";
+import { Modal, Form } from "antd";
 
-const { Dragger } = Upload;
+
 
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
-import { FaCcMastercard } from "react-icons/fa";
-import PaymentModal from "../../components/client/payment/PaymentModal";
-import DonateModal from "../../components/client/donate/DonateModal";
 import AggrementPage from "../aggrement/AggrementPage";
-import VolunteerModal from "../../components/client/Volunteer/VolunteerModal";
-import ArtAntiqModal from "../../components/client/art-antique/ArtAntiqModal";
+import ArtAntiqModal from "../../components/client/modal/art-antique/ArtAntiqModal";
+import VolunteerModal from "../../components/client/modal/volunteer/VolunteerModal";
+import DonateModal from "../../components/client/modal/donate/DonateModal";
+import PaymentModal from "../../components/client/modal/payment/PaymentModal";
 const AboutMissionVission = () => {
   // donate modal  terms & conditions. start
 
