@@ -1,35 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Input, Button, Checkbox, Upload, Radio, Form } from "antd";
-import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
-import { Divider } from "antd";
-import {
-  PayCircleOutlined,
-  CreditCardOutlined,
-  BankOutlined,
-} from "@ant-design/icons";
+import { Modal, Form } from "antd";
 
-const { Dragger } = Upload;
-
-import { showSuccessAlert } from "../../helper/showSuccessAlert";
-import { FaCcMastercard } from "react-icons/fa";
-import PaymentModal from "../../components/client/payment/PaymentModal";
-import DonateModal from "../../components/client/donate/DonateModal";
 import AggrementPage from "../aggrement/AggrementPage";
-import VolunteerModal from "../../components/client/Volunteer/VolunteerModal";
-import ArtAntiqModal from "../../components/client/art-antique/ArtAntiqModal";
+import ArtAntiqModal from "../../components/client/modal/art-antique/ArtAntiqModal";
+import VolunteerModal from "../../components/client/modal/volunteer/VolunteerModal";
+import DonateModal from "../../components/client/modal/donate/DonateModal";
+import PaymentModal from "../../components/client/modal/payment/PaymentModal";
+import DonerDetailsModal from "../../components/client/modal/doner-details/DonerDetailsModal";
 const AboutMissionVission = () => {
   // donate modal  terms & conditions. start
 
   const [termsModal, setTermsModal] = useState(false);
-
-  const showTermModal = () => {
-    // e.preventDefault(); // prevent link navigation
-    setTermsModal(true);
-  };
-
-  // const handleOk = () => {
-  //   setIsModalOpen(false);
-  // };
 
   const termModalCanel = () => {
     setTermsModal(false);
@@ -41,117 +22,55 @@ const AboutMissionVission = () => {
 
   const [donateTerm, setDonateTerm] = useState(false);
 
-  const showDonateTermModal = () => {
-    // e.preventDefault(); // prevent link navigation
-    setDonateTerm(true);
-  };
-
-  // const handleOk = () => {
-  //   setIsModalOpen(false);
-  // };
-
   const donateModalCanel = () => {
     setDonateTerm(false);
   };
 
   // Donate Art, Antique or Collectables modal  terms & conditions. end
 
-  const [form] = Form.useForm();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [antiqueModal, setAntiqueModal] = useState(false);
-
-  // 1st modal start
-  const showModal = () => setIsModalOpen(true);
-  const handleCancel = () => setIsModalOpen(false);
-
-  const handlieClickNextStep = () => {
-    setIsModalOpen(false);
-    setLuxuryModal(true);
-  };
-
-  // 1st modal end
-
-  //  Volunter Modal start
-
-  const [isVolunterModal, setIsVolunterModal] = useState(false);
-
-  const openVolunteerModal = () => {
-    setIsVolunterModal(true);
-    setIsModalOpen(false);
-  };
-
-  const closeVolunteerModal = () => {
-    setIsVolunterModal(false);
-  };
-
-  const handleVolunterSubmit = (values) => {
-    console.log("Form Submitted: ", values);
-    form.resetFields();
-    // You can handle form submission logic here
-    setIsVolunterModal(false);
-    showSuccessAlert();
-    setIsModalOpen(false);
-  };
-
-  const uploadProps = {
-    beforeUpload: (file) => {
-      form.setFieldsValue({ cv: file });
-      return false; // Prevent auto upload
-    },
-    maxCount: 1,
-  };
-
-  // Volunter Modal end
-
-  // Donate with Luxury retreats modal start
-
+  // doner details modal use state
+  const [donerDetailsModal, setDonerDetailsModal] = useState(false);
+  // payment modal use state
+  const [modalOpen, setModalOpen] = useState(false);
+  // Donate modal use state
+  const [secondModalOpen, setSecondModalOpen] = useState(false);
+  // art antique of luxuryModal use state
   const [luxuryModal, setLuxuryModal] = useState(false);
 
-  const openLuxuryModal = () => {
-    setLuxuryModal(true);
-    setIsModalOpen(false);
+  // doner details modal start
+  const openDonerDetailsModal = () => {
+    setDonerDetailsModal(true);
   };
 
-  const closeLuxuryModal = () => {
-    setLuxuryModal(false);
-    setIsModalOpen(true);
+  // doner details modal end
+
+  // payment modal start
+  const onClose = () => setModalOpen(false);
+  // payment modal end
+
+  // volunter modal start
+  const [isVolunterModal, setIsVolunterModal] = useState(false);
+  const openVolunterModal = () => {
+    setIsVolunterModal(true);
   };
-
-  const submitLuxriousModal = (values) => {
-    console.log("Form Submitted:", values);
-
-    // Access specific fields like this:
-
-    console.log("Name:", values.name);
-    console.log("Email:", values.email);
-    console.log("Item:", values.item);
-    console.log("Description:", values.description);
-    console.log("Image File:", values.image);
-    console.log("Agreed to Terms:", values.terms);
-    form.resetFields();
-
-    // You can now send the data to backend or close the modal
-    closeLuxuryModal();
-    setIsModalOpen(false);
-  };
-  // Donate with Luxury retreats modal end
-
-  // Donate  Art, Antique or Collectables Modal start 4th modal
-
-  const openAntiqueModal = () => {
-    setAntiqueModal(true);
-  };
-  const closeAntiquModal = () => {
-    setAntiqueModal(false);
-    setIsModalOpen(true);
-  };
-
-  // Donate  Art, Antique or Collectables Modal end 4th modal
 
   useEffect(() => {
     document.body.style.overflow =
-      isModalOpen || luxuryModal || isVolunterModal ? "hidden" : "auto";
-  }, [isModalOpen, luxuryModal, isVolunterModal]);
+      modalOpen ||
+      secondModalOpen ||
+      luxuryModal ||
+      donerDetailsModal ||
+      isVolunterModal
+        ? "hidden"
+        : "auto";
+  }, [
+    modalOpen,
+    secondModalOpen,
+    luxuryModal,
+    donerDetailsModal,
+    isVolunterModal,
+  ]);
+
   return (
     <div className="  p-4 bg-[#ecebea]  ">
       <div className=" max-w-[1480px] mx-auto ">
@@ -182,13 +101,13 @@ const AboutMissionVission = () => {
             {/* Buttons */}
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
               <button
-                onClick={showModal}
+                onClick={openDonerDetailsModal}
                 className="bg-[#403730] cursor-pointer text-white py-3 px-6 rounded-md font-medium hover:bg-[#2E2A26]"
               >
                 Support survivors
               </button>
               <button
-                onClick={openVolunteerModal}
+                onClick={openVolunterModal}
                 className="bg-[#F6F6F7] cursor-pointer text-gray-800 py-3 ml-4 px-6 rounded-md font-bold"
               >
                 Join our enthusiastic team
@@ -198,56 +117,93 @@ const AboutMissionVission = () => {
         </div>
       </div>
 
-      {/* 1 st modal payment modal  */}
+      {/* Donar details modal start  */}
 
-      <Modal
-        title=""
-        visible={isModalOpen}
-        onCancel={handleCancel}
-        footer={null}
-        width={400}
-        closable={false}
-      >
-        {/* openLuxuryModal,handleCancel,handlieClickNextStep */}
-
-        <PaymentModal
-          openLuxuryModal={openAntiqueModal}
-          handleCancel={handleCancel}
-          handlieClickNextStep={handlieClickNextStep}
-        />
-      </Modal>
-
-      {/* end 1st modal payment modal  */}
-
-      {/* Donate with Luxury retreats 2nd modal   */}
-
-      <div className=" w-[600px]  z-50 ">
+      <div className="  ">
         <Modal
-          visible={luxuryModal}
-          onCancel={closeLuxuryModal}
+          open={donerDetailsModal}
           footer={null}
-          width={600}
-          height={800}
-          // bodyStyle={{ padding: "20px" }}
-          destroyOnClose
           closable={false}
+          centered
+          width="400px"
+          style={{ top: 0 }}
         >
-          {/* form, handleRetreatSubmit, uploadProps, showTermModal,
-          backRetretModal, */}
-
-          <DonateModal
-            form={form}
-            handleRetreatSubmit={submitLuxriousModal}
-            uploadProps={uploadProps}
-            showTermModal={showTermModal}
-            backRetretModal={closeLuxuryModal}
+          <DonerDetailsModal
+            setDonerDetailsModal={setDonerDetailsModal}
+            setModalOpen={setModalOpen}
+            // setOpen={setOpen}
           />
         </Modal>
       </div>
 
-      {/* End Donate with Luxury retreats 2nd modal  */}
+      {/* Donar details modal end  */}
 
-      {/*  Volunter Modal*/}
+      {/* Payment Modal start */}
+
+      <div className="  ">
+        <Modal
+          open={modalOpen}
+          onCancel={onClose}
+          footer={null}
+          closable={false}
+          centered
+          width="400px"
+          style={{ padding: "15px", top: 0 }}
+        >
+          <PaymentModal
+            handleCancel={onClose}
+            setModalOpen={setModalOpen}
+            setLuxuryModal={setLuxuryModal}
+            setSecondModalOpen={setSecondModalOpen}
+            setDonerDetailsModal={setDonerDetailsModal}
+          />
+        </Modal>
+      </div>
+
+      {/* Payment Modal end */}
+
+      {/* Donate modal start second modal */}
+
+      <Modal
+        open={secondModalOpen}
+        footer={null}
+        centered
+        closable={false}
+        style={{ top: 0 }}
+      >
+        <DonateModal
+          setModalOpen={setModalOpen}
+          setSecondModalOpen={setSecondModalOpen}
+          setDonateTerm={setDonateTerm}
+        />
+      </Modal>
+
+      {/* Donate modal end  */}
+
+      {/* Donate Art, Antique or Collectables start modal start   */}
+
+      <div className=" w-[600px]  z-50 ">
+        <Modal
+          visible={luxuryModal}
+          footer={null}
+          width={500}
+          height={800}
+          // bodyStyle={{ padding: "20px" }}
+          destroyOnClose
+          closable={false}
+          style={{ top: 0 }}
+        >
+          <ArtAntiqModal
+            setLuxuryModal={setLuxuryModal}
+            setModalOpen={setModalOpen}
+            setDonateTerm={setDonateTerm}
+          />
+        </Modal>
+      </div>
+
+      {/* Donate Art, Antique or Collectables start modal end  */}
+
+      {/* start  Volunter Modal */}
 
       <div className=" w-[600px]  z-50 ">
         <Modal
@@ -258,45 +214,16 @@ const AboutMissionVission = () => {
           // bodyStyle={{ padding: "20px" }}
           destroyOnClose
           closable={false}
-          style={{top:0}}
-          
+          style={{ top: 0 }}
         >
-
-
-
           <VolunteerModal
-            form={form}
-            handleVolunterSubmit={handleVolunterSubmit}
-            uploadProps={uploadProps}
-            closeVolunteerModal={closeVolunteerModal}
-            showTermModal={showTermModal}
+            setIsVolunterModal={setIsVolunterModal}
+            setDonateTerm={setDonateTerm}
           />
         </Modal>
       </div>
 
       {/* end   Volunter Modal*/}
-
-      {/* Donate Art, Antique or Collectables 4th modal  */}
-
-      <div className=" w-[600px]  z-50 ">
-        <Modal
-          visible={antiqueModal}
-          onCancel={""}
-          footer={null}
-          width={600}
-          height={800}
-          // bodyStyle={{ padding: "20px" }}
-          destroyOnClose
-          closable={false}
-        >
-          
-
-          {/* form,submitLuxriousModal,uploadProps,showDonateTermModal,closeLuxuryModal */}
-
-          <ArtAntiqModal form = {form} submitLuxriousModal = {""} uploadProps={uploadProps} showDonateTermModal = {showDonateTermModal} closeLuxuryModal = {closeAntiquModal}  />
-
-        </Modal>
-      </div>
 
       {/* donate modal terms conditions start   */}
 
@@ -308,13 +235,15 @@ const AboutMissionVission = () => {
           // onOk={handleOk}
           onCancel={termModalCanel}
           footer={null} // remove if you want buttons
+          zIndex={1100} // higher z-index
         >
           <AggrementPage></AggrementPage>
         </Modal>
       </div>
+
       {/* donate modal terms conditions end   */}
 
-      {/* Donate Art, Antique or Collectables  Terms & Conditions start */}
+      {/* Donate Art, Antique or Collectables  Terms & Conditions modal start */}
 
       <div className=" ">
         <Modal
@@ -324,12 +253,14 @@ const AboutMissionVission = () => {
           // onOk={handleOk}
           onCancel={donateModalCanel}
           footer={null} // remove if you want buttons
+          zIndex={1100} // higher z-index
         >
+          DonerDetailsModa
           <AggrementPage></AggrementPage>
         </Modal>
       </div>
 
-      {/* Donate Art, Antique or Collectables  Terms & Conditions end */}
+      {/* Donate Art, Antique or Collectables  Terms & Conditions modal end */}
     </div>
   );
 };

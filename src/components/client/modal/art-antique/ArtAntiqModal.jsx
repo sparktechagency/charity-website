@@ -1,22 +1,58 @@
 import React from "react";
-
-import { Input, Button, Checkbox, Upload, Radio, Form } from "antd";
+import { Modal, Input, Button, Checkbox, Upload, Radio, Form } from "antd";
 import { Link } from "react-router-dom";
+import { showSuccessAlert } from "../../../../helper/showSuccessAlert";
+
 const { Dragger } = Upload;
-const DonateModal = ({
-  form,
-  handleRetreatSubmit,
-  uploadProps,
-  showTermModal,
-  backRetretModal,
+
+const ArtAntiqModal = ({
+  setDonateTerm,
+  setLuxuryModal,
+  setModalOpen
 }) => {
+  const [form] = Form.useForm();
+  
+  const uploadProps = {
+    beforeUpload: () => false, // prevent automatic upload
+    multiple: false,
+    accept: ".jpg,.jpeg,.png,.pdf",
+    maxCount: 1,
+  };
+
+  const submitLuxriousModal = (values) => {
+    console.log("Form Values:", values);
+    console.log("Name:", values.name);
+    console.log("Email:", values.email);
+    console.log("Item:", values.item);
+    console.log("Description:", values.description);
+    console.log("Image:", values.image?.fileList[0]);
+    console.log("Terms Accepted:", values.terms);
+
+    // Reset form fields
+    form.resetFields();
+    setLuxuryModal(false);
+    showSuccessAlert();
+  };
+
+
+  const closeLuxuryModal = () => {
+    setLuxuryModal(false);
+    setModalOpen(true);
+  };
+
+  const showDonateTermModal = () => {
+    setDonateTerm(true);
+  };
+
+
+
   return (
     <div>
       <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
-        Donate
+        Donate Art, Antique or Collectables
       </h1>
 
-      <Form form={form} onFinish={handleRetreatSubmit} layout="vertical">
+      <Form form={form} onFinish={submitLuxriousModal} layout="vertical">
         {/* Name */}
         <Form.Item
           name="name"
@@ -112,11 +148,11 @@ const DonateModal = ({
         <Form.Item
           style={{ marginBottom: "0px", marginTop: "8px" }}
           name="image"
-          label="Upload your Photo"
+          label="Upload a photo"
           rules={[
             {
               required: true,
-              message: "Please upload an image!",
+              message: "Please Upload a photo!",
             },
           ]}
         >
@@ -175,7 +211,7 @@ const DonateModal = ({
         >
           <Checkbox>
             I agree with Virtue Hope's{" "}
-            <Link to={""} onClick={showTermModal} className="underline">
+            <Link onClick={showDonateTermModal} to={""} className="underline">
               terms & conditions
             </Link>
             .
@@ -185,11 +221,11 @@ const DonateModal = ({
         {/* Modal Buttons */}
 
         <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
-          <Button onClick={backRetretModal} className="  navBtn1  ">
+          <Button onClick={closeLuxuryModal} className="  navBtn1  ">
             Back
           </Button>
           <Button htmlType="submit" className="navBtn2">
-            Submit
+            Apply now
           </Button>
         </div>
       </Form>
@@ -197,4 +233,4 @@ const DonateModal = ({
   );
 };
 
-export default DonateModal;
+export default ArtAntiqModal;

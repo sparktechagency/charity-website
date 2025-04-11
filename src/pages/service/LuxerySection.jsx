@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { bookingSuccessAlert } from "../../helper/bookingMsg";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { FaCcMastercard } from "react-icons/fa";
+import AggrementPage from "../aggrement/AggrementPage";
 
 export const LuxerySection = () => {
   const navigate = useNavigate();
@@ -144,6 +145,17 @@ export const LuxerySection = () => {
 
   // payment modal end
 
+    const [termsModal, setTermsModal] = useState(false);
+
+    const termModalCanel = ()=>{
+      setTermsModal(false)
+    };
+
+    const openTermModal = ()=>{
+      setTermsModal(true)
+    };
+
+
   useEffect(() => {
     document.body.style.overflow =
       isModalOpen || isPaymentModalOpen ? "hidden" : "auto";
@@ -228,7 +240,6 @@ export const LuxerySection = () => {
         </div>
       </div>
       {/* booking modal */}
-
       <Modal
         title={
           <span className=" text-[#263234] text-2xl leading-9 font-semibold mt-6 ">
@@ -417,7 +428,7 @@ export const LuxerySection = () => {
             <Checkbox>
               <span className=" text-[#263234] text-[14px] leading-5 ">
                 I agree with Virtue Hope’s{" "}
-                <Link className=" underline decoration-solid " to={""}>
+                <Link onClick={openTermModal} className=" underline decoration-solid " to={""}>
                   terms & conditions.
                 </Link>
               </span>
@@ -435,9 +446,7 @@ export const LuxerySection = () => {
           </div>
         </Form>
       </Modal>
-
       {/* payment method modal  */}
-
       <Modal
         title=""
         visible={isPaymentModalOpen}
@@ -564,8 +573,6 @@ export const LuxerySection = () => {
                           </svg>
                         </span>
                       </Radio>
-
-                      
                     </div>
                   </Radio.Group>
                 </Form.Item>
@@ -587,6 +594,21 @@ export const LuxerySection = () => {
           </div>
         </Form>
       </Modal>
+      {/* term condiction modal */}
+
+      <div className=" ">
+        <Modal
+          width={"70%"}
+          open={termsModal}
+          // onOk={handleOk}
+          style={{ top: 0 }}
+          onCancel={termModalCanel}
+          zIndex={1100}
+          footer={null} // remove if you want buttons
+        >
+          <AggrementPage></AggrementPage>
+        </Modal>
+      </div>
     </div>
   );
 };

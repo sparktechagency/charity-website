@@ -3,20 +3,20 @@ import React from "react";
 import { Modal, Input, Button, Checkbox, Upload, Radio } from "antd";
 import { Link } from "react-router-dom";
 const { Dragger } = Upload;
-const VolunteerModal = ({
-  form,
-  handleVolunterSubmit,
-  uploadProps,
-  closeVolunteerModal,
-  showTermModal
-}) => {
+const VolunteerModal = ({ setIsVolunterModal,setDonateTerm }) => {
+  const closeVolunteerModal = ()=>{
+    setIsVolunterModal(false)
+  }
+  const openTermModal = ()=>{
+    setDonateTerm(true)
+  }
   return (
     <div>
       <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
         Get Involved as a Volunteer
       </h1>
 
-      <Form form={form} onFinish={handleVolunterSubmit} layout="vertical">
+      <Form  layout="vertical">
         {/* Name Field */}
         <Form.Item
           style={{ marginBottom: "0px" }}
@@ -185,7 +185,7 @@ const VolunteerModal = ({
         >
           <div className="mb-2">
             <label className="block text-sm font-medium text-[#263234] leading-5 mb-1.5 "></label>
-            <Dragger {...uploadProps} style={{ border: "2px dotted #E9EBEB " }}>
+            <Dragger  style={{ border: "2px dotted #E9EBEB " }}>
               <div className=" text-start  ">
                 <p className="ant-upload-drag-icon">
                   <span>
@@ -242,7 +242,7 @@ const VolunteerModal = ({
           <div className="mb-4">
             <Checkbox style={{ color: "" }}>
               I agree with Virtue Hope's{" "}
-              <Link to={""} onClick={showTermModal} className="underline">
+              <Link onClick={openTermModal} to={""}  className="underline">
                 terms & conditions.
               </Link>
             </Checkbox>

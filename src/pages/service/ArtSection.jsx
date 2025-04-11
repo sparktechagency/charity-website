@@ -1,25 +1,37 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const ArtSection = () => {
   return (
     <>
-      <div className="" >
-        <div className=" hidden   lg:block pt-4 ">
-          <div className="relative max-w-[1520px] mx-auto    ">
+      <div>
+        <div className="hidden lg:block pt-4">
+          <div className="relative max-w-[1520px] mx-auto">
             <div>
-              <h1 className=" lg:text-[124px] text-2xl leading-none p-2 ">
+              <h1 className="lg:text-[124px] text-2xl leading-none p-2">
                 Art & antique <br />
               </h1>
-              <span className=" lg:text-7xl   ">auction</span>
-            </div>
-            <div className="flex justify-center">
-              <img src="./art-2.png" alt="" />
+              <span className="lg:text-7xl">auction</span>
             </div>
 
-            <div className="  absolute right-0 top-0 mx-auto ">
-              <div>
+            <div className="flex justify-center">
+              <motion.img
+                src="./art-2.png"
+                alt=""
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+              />
+            </div>
+
+            <div className="absolute right-0 top-0 mx-auto">
+              <motion.div
+                initial={{ y: -100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+              >
                 <img src="./art-1.png" alt="" />
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
