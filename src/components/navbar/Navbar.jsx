@@ -258,9 +258,10 @@ const Navbar = () => {
         <Modal
           width={"70%"}
           open={termsModal}
-          style={{ top: 0 }}
           // onOk={handleOk}
+          style={{ top: 0}}
           onCancel={termModalCanel}
+          zIndex={1100} 
           footer={null} // remove if you want buttons
         >
           <AggrementPage></AggrementPage>
@@ -275,9 +276,11 @@ const Navbar = () => {
         <Modal
           width={"70%"}
           open={donateTerm}
-          style={{ top: 0 }}
+          style={{ top: 0}}
+          zIndex={1100} 
           onCancel={donateModalCanel}
           footer={null} // remove if you want buttons
+
         >
           <AggrementPage></AggrementPage>
         </Modal>

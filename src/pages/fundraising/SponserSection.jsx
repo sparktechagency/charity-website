@@ -5,75 +5,20 @@ export const SponserSection = () => {
     <div className=" bg-[#ecebea] py-5 ">
       <div className=" max-w-[1480px] shadow mx-auto bg-white ">
         <div className=" max-w-[1216px] mx-auto md:py-24 py-8  ">
-          <p className="text-center text-[#4B5557] text-[16px] leading-6 font-medium ">Our partners & sponsors</p>
+          <p className="text-center text-[#4B5557] text-[16px] leading-6 font-medium ">
+            Our partners & sponsors
+          </p>
           <div className=" flex justify-center items-center md:justify-between mt-8 gap-3.5  flex-col md:flex-row md:px-3.5  ">
             {/* 1st partner */}
             <div className="flex flex-row items-center gap-3.5 ">
               <span>
-                <svg
-                  width="44"
-                  height="44"
-                  viewBox="0 0 44 44"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13.2775 20.3173C14.0998 17.249 17.2537 14.0951 20.322 13.2729L39.4509 8.14651C42.5192 7.32425 44.3399 9.145 43.5177 12.2133L38.3913 31.3422C37.569 34.4105 34.4151 37.5644 31.3469 38.3867L12.2179 43.513C9.14963 44.3353 7.32888 42.5146 8.15115 39.4463L13.2775 20.3173Z"
-                    fill="#A4A7AE"
-                  />
-                  <path
-                    d="M5.60882 12.6493C6.43108 9.58107 9.58498 6.42717 12.6533 5.60491L31.7822 0.47854C34.8505 -0.343725 36.6713 1.47702 35.849 4.54529L30.7226 23.6743C29.9004 26.7425 26.7465 29.8964 23.6782 30.7187L4.5492 35.8451C1.48093 36.6673 -0.339816 34.8466 0.482448 31.7783L5.60882 12.6493Z"
-                    fill="#717680"
-                  />
-                </svg>
+                <img src="/sponser/logo-1.png" />
               </span>
-              <p className=" font-bold text-[#535862] text-xl " >Layers</p>
             </div>
 
             {/* 2nd partner */}
             <div className="flex gap-3.5 items-center ">
-              <span>
-                <svg
-                  width="30"
-                  height="48"
-                  viewBox="0 0 30 48"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect
-                    x="0.75"
-                    y="19.1992"
-                    width="9.59998"
-                    height="9.59999"
-                    fill="#717680"
-                  />
-                  <rect
-                    x="29.5499"
-                    y="28.8008"
-                    width="9.6"
-                    height="9.59999"
-                    transform="rotate(180 29.5499 28.8008)"
-                    fill="#717680"
-                  />
-                  <path
-                    d="M10.35 19.1996L19.95 9.59961V19.1996L10.35 28.7996V19.1996Z"
-                    fill="#D5D7DA"
-                  />
-                  <path
-                    d="M19.95 28.8004L10.35 38.4004L10.35 28.8004L19.95 19.2004L19.95 28.8004Z"
-                    fill="#A4A7AE"
-                  />
-                  <path
-                    d="M0.75 19.2L19.95 0V9.59999L10.35 19.2H0.75Z"
-                    fill="#717680"
-                  />
-                  <path
-                    d="M29.5499 28.8L10.3499 48L10.3499 38.4L19.9499 28.8L29.5499 28.8Z"
-                    fill="#717680"
-                  />
-                </svg>
-              </span>
-              <p className=" font-bold text-[#535862] text-xl " >Sisyphus</p>
+              <img src="/sponser/logo-2.png"/>
             </div>
 
             {/* 3nd partner */}
@@ -104,7 +49,7 @@ export const SponserSection = () => {
                   />
                 </svg>
               </span>
-              <p className=" font-bold text-[#535862] text-xl " >Circooles</p>
+              <p className=" font-bold text-[#535862] text-xl ">Circooles</p>
             </div>
 
             {/* 4th partner */}
@@ -131,7 +76,7 @@ export const SponserSection = () => {
                   />
                 </svg>
               </span>
-              <p className=" font-bold text-[#535862] text-xl " >Catalog</p>
+              <p className=" font-bold text-[#535862] text-xl ">Catalog</p>
             </div>
 
             {/* 5th partner */}
@@ -160,8 +105,10 @@ export const SponserSection = () => {
                   />
                 </svg>
               </span>
-              <p className=" font-bold text-[#535862] text-xl " >Quotient</p>
+              <p className=" font-bold text-[#535862] text-xl ">Quotient</p>
             </div>
+
+            
           </div>
         </div>
       </div>
