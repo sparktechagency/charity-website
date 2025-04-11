@@ -178,7 +178,7 @@ const Navbar = () => {
           <DonerDetailsModal
             setDonerDetailsModal={setDonerDetailsModal}
             setModalOpen={setModalOpen}
-            setOpen={setOpen}
+            // setOpen={setOpen}
           />
         </Modal>
       </div>
@@ -226,7 +226,8 @@ const Navbar = () => {
         />
       </Modal>
 
-      {/* 3rd modal  */}
+       {/* Donate modal end  */}
+
 
       {/* Donate Art, Antique or Collectables start modal start   */}
 
@@ -286,5 +287,4 @@ const Navbar = () => {
     </nav>
   );
 };
-
 export default Navbar;

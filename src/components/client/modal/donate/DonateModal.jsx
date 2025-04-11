@@ -6,10 +6,11 @@ import { showSuccessAlert } from "../../../../helper/showSuccessAlert";
 const { Dragger } = Upload;
 const DonateModal = ({
   setSecondModalOpen,
-  form,
   setDonateTerm,
   setModalOpen
 }) => {
+
+  const [form] = Form.useForm()
 
 
 
@@ -44,6 +45,7 @@ const DonateModal = ({
     form.resetFields(); // Reset form after
     setModalOpen(true);
     setSecondModalOpen(false);
+    console.log("Ishan")
   };
 
   return (
