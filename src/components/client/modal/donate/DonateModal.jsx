@@ -2,21 +2,57 @@ import React from "react";
 
 import { Input, Button, Checkbox, Upload, Radio, Form } from "antd";
 import { Link } from "react-router-dom";
+import { showSuccessAlert } from "../../../../helper/showSuccessAlert";
 const { Dragger } = Upload;
 const DonateModal = ({
+  setSecondModalOpen,
   form,
-  handleRetreatSubmit,
-  uploadProps,
-  showTermModal,
-  backRetretModal,
+  setDonateTerm,
+  setModalOpen
 }) => {
+
+
+
+  const handleFileChange = (info) => {
+    console.log("File Upload Info:", info.fileList);
+  };
+
+  const uploadProps = {
+    beforeUpload: () => false,
+    multiple: false,
+    onChange: handleFileChange,
+    accept: ".jpg,.jpeg,.png,.pdf",
+  };
+
+
+  // submit modal
+
+  const handleSubmit = (values) => {
+    console.log("Form values:", values);
+    console.log(values.email);
+    form.resetFields(); // Reset form after submit
+    setSecondModalOpen(false);
+    showSuccessAlert();
+  };
+
+
+  const showDonateTermModal = () => {
+    setDonateTerm(true);
+  };
+
+  const closeModal = () => {
+    form.resetFields(); // Reset form after
+    setModalOpen(true);
+    setSecondModalOpen(false);
+  };
+
   return (
     <div>
       <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
         Donate
       </h1>
 
-      <Form form={form} onFinish={handleRetreatSubmit} layout="vertical">
+      <Form form={form} onFinish={handleSubmit} layout="vertical">
         {/* Name */}
         <Form.Item
           name="name"
@@ -175,7 +211,7 @@ const DonateModal = ({
         >
           <Checkbox>
             I agree with Virtue Hope's{" "}
-            <Link to={""} onClick={showTermModal} className="underline">
+            <Link to={""} onClick={showDonateTermModal} className="underline">
               terms & conditions
             </Link>
             .
@@ -185,7 +221,7 @@ const DonateModal = ({
         {/* Modal Buttons */}
 
         <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
-          <Button onClick={backRetretModal} className="  navBtn1  ">
+          <Button onClick={closeModal} className="  navBtn1  ">
             Back
           </Button>
           <Button htmlType="submit" className="navBtn2">

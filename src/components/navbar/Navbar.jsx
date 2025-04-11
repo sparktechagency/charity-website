@@ -1,25 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import {
-  MenuOutlined,
-  CreditCardOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
-import {
-  Drawer,
-  Modal,
-  Form,
-  Button,
-  Radio,
-  Divider,
-  Input,
-  Checkbox,
-} from "antd";
-import { SiStripe } from "react-icons/si";
+import { MenuOutlined } from "@ant-design/icons";
+import { Drawer, Modal, Form } from "antd";
 import logo from "../../assets/image/logo.svg";
-import Dragger from "antd/es/upload/Dragger";
-import { showSuccessAlert } from "../../helper/showSuccessAlert";
-import { FaCcMastercard } from "react-icons/fa";
 import AggrementPage from "../../pages/aggrement/AggrementPage";
 import PaymentModal from "../client/modal/payment/PaymentModal";
 import DonateModal from "../client/modal/donate/DonateModal";
@@ -35,15 +18,6 @@ const Navbar = () => {
 
   const [termsModal, setTermsModal] = useState(false);
 
-  const showTermModal = () => {
-    // e.preventDefault(); // prevent link navigation
-    setTermsModal(true);
-  };
-
-  // const handleOk = () => {
-  //   setIsModalOpen(false);
-  // };
-
   const termModalCanel = () => {
     setTermsModal(false);
   };
@@ -54,129 +28,33 @@ const Navbar = () => {
 
   const [donateTerm, setDonateTerm] = useState(false);
 
-  const showDonateTermModal = () => {
-    // e.preventDefault(); // prevent link navigation
-    setDonateTerm(true);
-  };
-
-  // const handleOk = () => {
-  //   setIsModalOpen(false);
-  // };
-
   const donateModalCanel = () => {
     setDonateTerm(false);
   };
 
   // Donate Art, Antique or Collectables modal  terms & conditions. end
 
-  // doner details modal start
-
-  const [modalOpen, setModalOpen] = useState(false);
+  // doner details modal use state
 
   const [donerDetailsModal, setDonerDetailsModal] = useState(false);
+  // payment modal use state
+  const [modalOpen, setModalOpen] = useState(false);
+  // Donate modal use state
+  const [secondModalOpen, setSecondModalOpen] = useState(false);
+  // art antique of luxuryModal use state
+  const [luxuryModal, setLuxuryModal] = useState(false);
 
-  const closeDonerDetailsModal = () => {
-    setDonerDetailsModal(false);
-    form.resetFields()
+  // doner details modal start
+  const openDonerDetailsModal = () => {
+    setDonerDetailsModal(true);
   };
-
-  const openDonerDetailsModal = ()=>{
-    setDonerDetailsModal(true)
-  }
-
-
 
   // doner details modal end
 
   // payment modal start
-
-  const showModal = () => {
-    setOpen(false); // Close drawer first
-    setModalOpen(true); // Open modal
-  };
   const onClose = () => setModalOpen(false);
-
   // payment modal end
 
-  //  Donate modal start
-
-  const [secondModalOpen, setSecondModalOpen] = useState(false);
-
-  const handleSubmit = (values) => {
-    console.log("Form values:", values);
-    console.log(values.email);
-    form.resetFields(); // Reset form after submit
-    setSecondModalOpen(false);
-    showSuccessAlert();
-  };
-
-  const handleFileChange = (info) => {
-    console.log("File Upload Info:", info.fileList);
-  };
-
-  const uploadProps = {
-    beforeUpload: () => false,
-    multiple: false,
-    onChange: handleFileChange,
-    accept: ".jpg,.jpeg,.png,.pdf",
-  };
-
-  const openSecondModal = () => {
-    setModalOpen(false);
-    setSecondModalOpen(true);
-  };
-
-  const closeSecondModal = () => {
-    form.resetFields(); // Reset form after
-    setModalOpen(true);
-    setSecondModalOpen(false);
-  };
-
-  // const handleSecondCancelModal = () => {
-  //   console.log(`second modal opened: `);
-  //   setSecondModalOpen(false);
-  //   setModalOpen(true);
-  // };
-
-  // Donate modal end
-
-  // 3rd modal luxuryModal
-
-  const [luxuryModal, setLuxuryModal] = useState(false);
-
-  const openLuxuryModal = () => {
-    setLuxuryModal(true);
-    setModalOpen(false);
-  };
-
-  const closeLuxuryModal = () => {
-    setLuxuryModal(false);
-    setModalOpen(true);
-  };
-
-  const uploadPropsFrom = {
-    beforeUpload: () => false, // prevent automatic upload
-    multiple: false,
-    accept: ".jpg,.jpeg,.png,.pdf",
-    maxCount: 1,
-  };
-
-  const submitLuxriousModal = (values) => {
-    console.log("Form Values:", values);
-    console.log("Name:", values.name);
-    console.log("Email:", values.email);
-    console.log("Item:", values.item);
-    console.log("Description:", values.description);
-    console.log("Image:", values.image?.fileList[0]);
-    console.log("Terms Accepted:", values.terms);
-
-    // Reset form fields
-    form.resetFields();
-    setLuxuryModal(false);
-    showSuccessAlert();
-  };
-
-  // 3rd modal luxuryModal end
 
   const toggleDrawer = () => setOpen(!open);
 
@@ -197,8 +75,10 @@ const Navbar = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-      modalOpen || secondModalOpen || luxuryModal || donerDetailsModal ? "hidden" : "auto";
-  }, [modalOpen, secondModalOpen, luxuryModal,donerDetailsModal]);
+      modalOpen || secondModalOpen || luxuryModal || donerDetailsModal
+        ? "hidden"
+        : "auto";
+  }, [modalOpen, secondModalOpen, luxuryModal, donerDetailsModal]);
 
   return (
     <nav
@@ -289,16 +169,17 @@ const Navbar = () => {
       <div className="  ">
         <Modal
           open={donerDetailsModal}
-          onCancel={closeDonerDetailsModal}
           footer={null}
           closable={false}
           centered
           width="400px"
-          style={{top:0}}
+          style={{ top: 0 }}
         >
-          {/* openLuxuryModal ,handleCancel,handlieClickNextStep */}
-
-          <DonerDetailsModal closeDonerDetailsModal = {closeDonerDetailsModal}  />
+          <DonerDetailsModal
+            setDonerDetailsModal={setDonerDetailsModal}
+            setModalOpen={setModalOpen}
+            setOpen={setOpen}
+          />
         </Modal>
       </div>
 
@@ -316,49 +197,42 @@ const Navbar = () => {
           width="400px"
           style={{ padding: "15px", top: 0 }}
         >
-          {/* openLuxuryModal ,handleCancel,handlieClickNextStep */}
-
           <PaymentModal
-            openLuxuryModal={openLuxuryModal}
             handleCancel={onClose}
-            handlieClickNextStep={openSecondModal}
+            setModalOpen={setModalOpen}
+            setLuxuryModal={setLuxuryModal}
+            setSecondModalOpen={setSecondModalOpen}
+            setDonerDetailsModal={setDonerDetailsModal}
           />
         </Modal>
       </div>
-
 
       {/* Payment Modal end */}
 
       {/* Donate modal start second modal */}
 
-
-      {/* <Modal
+      <Modal
         open={secondModalOpen}
-        onCancel={closeSecondModal}
         footer={null}
         centered
         closable={false}
         style={{ top: 0 }}
       >
-       
-
         <DonateModal
           form={form}
-          handleRetreatSubmit={handleSubmit}
-          uploadProps={uploadProps}
-          showTermModal={showTermModal}
-          backRetretModal={closeSecondModal}
+          setModalOpen={setModalOpen}
+          setSecondModalOpen={setSecondModalOpen}
+          setDonateTerm={setDonateTerm}
         />
-      </Modal> */}
+      </Modal>
 
       {/* 3rd modal  */}
 
       {/* Donate Art, Antique or Collectables start modal start   */}
 
-      {/* <div className=" w-[600px]  z-50 ">
+      <div className=" w-[600px]  z-50 ">
         <Modal
           visible={luxuryModal}
-          onCancel={closeLuxuryModal}
           footer={null}
           width={500}
           height={800}
@@ -368,20 +242,14 @@ const Navbar = () => {
           style={{ top: 0 }}
         >
           <ArtAntiqModal
-            form={form}
-            submitLuxriousModal={submitLuxriousModal}
-            uploadProps={uploadProps}
-            showDonateTermModal={showDonateTermModal}
-            closeLuxuryModal={closeLuxuryModal}
+            setLuxuryModal={setLuxuryModal}
+            setModalOpen={setModalOpen}
+            setDonateTerm={setDonateTerm}
           />
         </Modal>
-      </div> */}
+      </div>
 
       {/* Donate Art, Antique or Collectables  modal end  */}
-
-
-
-
 
       {/* donate modal terms conditions start   */}
 
@@ -407,7 +275,6 @@ const Navbar = () => {
           width={"70%"}
           open={donateTerm}
           style={{ top: 0 }}
-          // onOk={handleOk}
           onCancel={donateModalCanel}
           footer={null} // remove if you want buttons
         >

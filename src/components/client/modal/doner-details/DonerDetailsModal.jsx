@@ -1,14 +1,28 @@
 import { Form } from "antd";
 import { Modal, Input, Button, Checkbox, Upload, Radio } from "antd";
 
-const DonerDetailsModal = ({closeDonerDetailsModal}) => {
+const DonerDetailsModal = ({setDonerDetailsModal,setModalOpen}) => {
+  const [form] =Form.useForm()
+  const handleSubmit = (values)=>{
+    console.log(values);
+    form.resetFields()
+    setDonerDetailsModal(false)
+    setModalOpen(true)
+  }
+
+  const closeDonerDetailsModal = () => {
+    setDonerDetailsModal(false);
+    form.resetFields()
+  };
+
+
   return (
     <div>
       <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
         Get Involved as a Volunteer
       </h1>
 
-      <Form  layout="vertical">
+      <Form form={form} onFinish={handleSubmit} layout="vertical">
         {/* Name Field */}
         <Form.Item
           style={{ marginBottom: "0px" }}
@@ -19,10 +33,10 @@ const DonerDetailsModal = ({closeDonerDetailsModal}) => {
               Name{" "}
             </span>
           }
-          rules={[
-            { required: true, message: "Please input your name!" },
-            { min: 6, message: "Name must be at least 6 characters!" },
-          ]}
+          // rules={[
+          //   { required: true, message: "Please input your name!" },
+          //   { min: 6, message: "Name must be at least 6 characters!" },
+          // ]}
         >
           <div className="mb-2">
             <Input
@@ -47,10 +61,10 @@ const DonerDetailsModal = ({closeDonerDetailsModal}) => {
             </span>
           }
           name="email"
-          rules={[
-            { required: true, message: "Please input your email!" },
-            { type: "email", message: "Enter a valid email!" },
-          ]}
+          // rules={[
+          //   { required: true, message: "Please input your email!" },
+          //   { type: "email", message: "Enter a valid email!" },
+          // ]}
         >
           <div className="mb-2">
             <Input
@@ -99,17 +113,17 @@ const DonerDetailsModal = ({closeDonerDetailsModal}) => {
               Message
             </span>
           }
-          name="whyYouWantToBeAVolunteer"
-          rules={[
-            {
-              required: true,
-              message: "Please enter your message!",
-            },
-            {
-              min: 6,
-              message: "Description must be at least 6 characters!",
-            },
-          ]}
+          name="description"
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: "Please enter your message!",
+          //   },
+          //   {
+          //     min: 6,
+          //     message: "Description must be at least 6 characters!",
+          //   },
+          // ]}
         >
           <div className="mb-2">
             <Input.TextArea

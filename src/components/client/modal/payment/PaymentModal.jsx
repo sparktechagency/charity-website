@@ -3,14 +3,43 @@ import { Modal, Input, Button, Checkbox, Upload, Radio, Form } from "antd";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import { Divider } from "antd";
 import { FaCcMastercard } from "react-icons/fa";
-const PaymentModal = ({openLuxuryModal,handleCancel,handlieClickNextStep}) => {
+const PaymentModal = ({setDonerDetailsModal,setLuxuryModal,setModalOpen,setSecondModalOpen}) => {
+  const [form] = Form.useForm();
+
+  
+
+  // open luxrious modal 
+
+  const openLuxuryModal = () => {
+    setLuxuryModal(true);
+    setModalOpen(false);
+    console.log(`ishan`)
+  };
+
+  // next button click open modal function
+
+  const handlieClickNextStep = () =>{
+    setModalOpen(false);
+    setSecondModalOpen(true);
+  };
+
+  // back modal function 
+
+  const onClose = () => {
+    setModalOpen(false)
+    setDonerDetailsModal(true)
+
+  };
+
+
+
   return (
     <div>
       <h1 className="mb-6 text-[#263234] text-2xl leading-9 font-semibold px-1.5 ">
             Please choose the way you want to Donate
           </h1>
           {/* Form Start */}
-          <Form layout="vertical">
+          <Form form={form} layout="vertical">
             <Form.Item name="donation">
               <Form.Item name="donation">
                 <Radio.Group className="w-full">
@@ -148,11 +177,11 @@ const PaymentModal = ({openLuxuryModal,handleCancel,handlieClickNextStep}) => {
             {/* Modal Buttons */}
             <div className=" flex flex-col md:flex-row md:justify-end  lg:flex-row justify-center lg:justify-end mt-5 mb-2">
               <Button
-                onClick={handleCancel}
+                onClick={onClose}
                 type="text"
                 className=" missionModalBtn1 "
               >
-                Cancel
+                Back
               </Button>
               <Button
                 onClick={handlieClickNextStep}
