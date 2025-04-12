@@ -1,51 +1,62 @@
 import { EyeOutlined } from "@ant-design/icons";
 import { Button, Input, Modal, Pagination, Select, Space, Table } from "antd";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  closeModalOpenOne,
+  closeModalOpenThree,
+  closeModalOpenTwo,
+  modalOpenOne,
+  modalOpenThree,
+  modalOpenTwo,
+} from "../../../../features/modal/modalSlice";
 
 const Contributors = () => {
   const [searchText, setSearchText] = useState("");
   const [selectValue, stetSelectValue] = useState("");
-  const [modalOne, setModalOne] = useState(false);
-  const [modalTwo, setModalTwo] = useState(false);
-  const [modalThree, setModalThree] = useState(false);
+
+  const dispatch = useDispatch();
+  const modalOne = useSelector((state) => state.modal.modalOne);
+  const modalTwo = useSelector((state) => state.modal.modalTwo);
+  const modalThree = useSelector((state) => state.modal.modalThree);
 
   // ============== modal one start =========
   const showModalOne = () => {
-    setModalOne(true);
+    dispatch(modalOpenOne());
   };
 
   const handleOkOne = () => {
-    setModalOne(false);
+    dispatch(closeModalOpenOne());
   };
   const handleCancelOne = () => {
-    setModalOne(false);
+    dispatch(closeModalOpenOne());
   };
 
   // ============== modal one end ===========
 
   // ============== modal two start =========
   const showModalTwo = () => {
-    setModalTwo(true);
+    dispatch(modalOpenTwo());
   };
   const handleOkTwo = () => {
-    setModalTwo(false);
+    dispatch(closeModalOpenTwo);
   };
   const handleCancelTwo = () => {
-    setModalTwo(false);
+    dispatch(closeModalOpenTwo());
   };
 
   // ============== modal two end ===========
 
   // ============== modal three start ============
   const showModalThree = () => {
-    setModalThree(true);
-    setModalTwo(false);
+    dispatch(modalOpenThree());
+    dispatch(closeModalOpenTwo());
   };
   const handleOkThree = () => {
-    setModalThree(false);
+    dispatch(closeModalOpenThree());
   };
   const handleCancelThree = () => {
-    setModalThree(false);
+    dispatch(closeModalOpenThree());
   };
   // ============== modal three end  =============
 

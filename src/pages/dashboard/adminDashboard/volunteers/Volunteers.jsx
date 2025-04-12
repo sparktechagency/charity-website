@@ -1,11 +1,48 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Input, Pagination, Select, Space, Table } from "antd";
+import { Input, Modal, Pagination, Select, Space, Table } from "antd";
 import { EyeIcon } from "lucide-react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  closeVlounterModalOpenOne,
+  closeVlounterModalOpenTwo,
+  volunterModalOpenOne,
+  volunterModalOpenTwo,
+} from "../../../../features/modal/modalSlice";
 
 const Volunteers = () => {
   const [searchText, setSearchText] = useState("");
   const [selectValue, stetSelectValue] = useState("");
+  const dispatch = useDispatch();
+  const volunteerModalOne = useSelector(
+    (state) => state.modal.volunterModalOne
+  );
+  const volunterModalTwo = useSelector((state) => state.modal.volunterModalTwo);
+
+  // ====== vounter modal one start ===========
+  const volunterModalCancelOne = () => {
+    dispatch(closeVlounterModalOpenOne());
+  };
+  const showVolunterModalOne = () => {
+    dispatch(volunterModalOpenOne());
+  };
+  const volunterModalOkOne = () => {
+    dispatch(closeVlounterModalOpenOne());
+  };
+  // ====== vounter modal one end ===========
+
+  // ====== vounter modal two start ===========
+  const showVolunterModalTwo = () => {
+    dispatch(volunterModalOpenTwo());
+  };
+  const volunterModalOkTwo = () => {
+    dispatch(closeVlounterModalOpenTwo());
+  };
+
+  const volunterModalCancelTwo = () => {
+    dispatch(closeVlounterModalOpenTwo());
+  };
+  // ====== vounter modal two end ===========
 
   const dataSource = [
     {
@@ -272,8 +309,16 @@ const Volunteers = () => {
                 key: "view",
                 render: (_, record) => (
                   <Space size="middle">
-                    <p className="text-[#DA453F]">{record.action}</p>
-                    <p className="cursor-pointer">
+                    <p
+                      onClick={showVolunterModalOne}
+                      className="cursor-pointer text-[#DA453F]"
+                    >
+                      {record.action}
+                    </p>
+                    <p
+                      onClick={showVolunterModalTwo}
+                      className="cursor-pointer"
+                    >
                       {" "}
                       <EyeOutlined
                         style={{
@@ -291,6 +336,109 @@ const Volunteers = () => {
             pagination={false}
             className="custom-ant-table"
           />
+        </div>
+
+        {/* modal Components */}
+        <div>
+          {/* modal one */}
+          <Modal
+            className="custom-ai-modal"
+            centered
+            open={volunteerModalOne}
+            onOk={volunterModalOkOne}
+            onCancel={volunterModalCancelOne}
+            width={500}
+            footer={
+              <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
+                <button
+                  className="hover:bg-[#A6ABAC] px-6 rounded"
+                  onClick={volunterModalCancelOne}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-[#ffffff] py-2 px-4 rounded"
+                  onClick={volunterModalOkOne}
+                >
+                  Yes, suspend
+                </button>
+              </div>
+            }
+          >
+            <p className="text-[20px] text-[#E9EBEB] py-6">
+              Are you sure want to suspend this user?
+            </p>
+            <p className="text-[#A6ABAC] text-[16px]">
+              Once you suspend the user is no longer available to use the
+              application.
+            </p>
+          </Modal>
+
+          {/* modal two */}
+          <Modal
+            className="custom-ai-modal"
+            centered
+            open={volunterModalTwo}
+            onOk={volunterModalOkTwo}
+            onCancel={volunterModalCancelTwo}
+            width={500}
+            footer={
+              <div className="font-roboto flex justify-end">
+                <button
+                  className="bg-[#ffffff] py-2 px-4 rounded"
+                  onClick={volunterModalOkTwo}
+                >
+                  Done
+                </button>
+              </div>
+            }
+          >
+            <div>
+              <div className="flex  items-center gap-3 border-b pb-4 border-gray-700">
+                <div>
+                  <img
+                    src="/dashboardPhoto/dashboardLoginLogo.png"
+                    alt="photo"
+                    className="w-[40px]"
+                  />
+                </div>
+                <div>
+                  <h1 className="text-[14px] font-semibold text-[#ffffff]">
+                    Sophia Mitchel
+                  </h1>
+                  <p className="text-[#D9D9D9]">sophiamitchel@gmail.com</p>
+                </div>
+              </div>
+
+              <div className="pt-4">
+                <h1 className="text-[20px] text-[#ffffff] font-semibold">
+                  Personal details
+                </h1>
+
+                {/* Personal Information */}
+                <div className="border-b border-gray-700 pb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6  mt-6">
+                    <div className="space-y-2">
+                      <p className="text-sm text-[#E9EBEB]">Contact number</p>
+                      <p className="text-sm text-[#E9EBEB]">Location</p>
+                      <p className="text-sm text-[#E9EBEB]">Joined</p>
+                      <p className="text-sm text-[#E9EBEB]">Donated</p>
+                    </div>
+                    <div className="flex md:justify-end md:text-end">
+                      <div className="space-y-2">
+                        <p className="text-sm text-[#E9EBEB]">+123 4567 8978</p>
+                        <p className="text-sm text-[#E9EBEB]">
+                          Town Hall Albert Square
+                        </p>
+                        <p className="text-sm text-[#E9EBEB]">12 Mar, 2025</p>
+                        <p className="text-sm text-[#E9EBEB]">$0.00</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Modal>
         </div>
 
         {/* pagination */}
