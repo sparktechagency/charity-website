@@ -14,6 +14,7 @@ import Contributors from "../pages/dashboard/adminDashboard/contributors/Contrib
 import Volunteers from "../pages/dashboard/adminDashboard/volunteers/Volunteers";
 import Auction from "../pages/dashboard/adminDashboard/auction/Auction";
 import AggrementPage from "../pages/aggrement/AggrementPage";
+import StripeForm from "../components/client/modal/payment/StripeForm";
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
   {
     path : "/general",
     element : <AggrementPage></AggrementPage>
+  },
+  {
+    path : "payment-from",
+    element : <StripeForm/>
   },
 
   // admin dashboard routes here
