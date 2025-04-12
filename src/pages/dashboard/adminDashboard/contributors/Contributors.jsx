@@ -7,6 +7,7 @@ const Contributors = () => {
   const [selectValue, stetSelectValue] = useState("");
   const [modalOne, setModalOne] = useState(false);
   const [modalTwo, setModalTwo] = useState(false);
+  const [modalThree, setModalThree] = useState(false);
 
   // ============== modal one start =========
   const showModalOne = () => {
@@ -34,6 +35,19 @@ const Contributors = () => {
   };
 
   // ============== modal two end ===========
+
+  // ============== modal three start ============
+  const showModalThree = () => {
+    setModalThree(true);
+    setModalTwo(false);
+  };
+  const handleOkThree = () => {
+    setModalThree(false);
+  };
+  const handleCancelThree = () => {
+    setModalThree(false);
+  };
+  // ============== modal three end  =============
 
   const dataSource = [
     {
@@ -202,6 +216,9 @@ const Contributors = () => {
     console.log(value);
   };
 
+  const handleclcik = () => {
+    console.log("click");
+  };
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
@@ -451,7 +468,12 @@ const Contributors = () => {
                         <span>Sold out</span>
                       </div>
                     </div>
-                    <div className="text-[#1890FF] font-semibold">View</div>
+                    <div
+                      onClick={showModalThree}
+                      className="cursor-pointer text-[#1890FF] font-semibold"
+                    >
+                      View
+                    </div>
                   </div>
                   <div className="flex justify-between">
                     <div>
@@ -464,8 +486,110 @@ const Contributors = () => {
                         <span>Not sold</span>
                       </div>
                     </div>
-                    <div className="text-[#1890FF] font-semibold">View</div>
+                    <div
+                      onClick={showModalThree}
+                      className="cursor-pointer text-[#1890FF] font-semibold"
+                    >
+                      View
+                    </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </Modal>
+
+          <Modal
+            className="custom-ai-modal custom-view-modal"
+            centered
+            open={modalThree}
+            onOk={handleOkThree}
+            onCancel={handleCancelThree}
+            width={1000}
+            footer={null}
+          >
+            <div>
+              <div className="flex justify-between gap-4">
+                <div>
+                  <h2 className="text-[24px] md:text-[48px] text-[#ffff] ">
+                    The ancient statue <br /> of Sri Lanka
+                  </h2>
+                  <div className="flex items-center gap-1">
+                    <span>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M9 2C9 1.44772 9.44772 1 10 1H14C14.5523 1 15 1.44772 15 2C15 2.55228 14.5523 3 14 3H10C9.44772 3 9 2.55228 9 2Z"
+                          fill="#E9EBEB"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M15.7071 10.2929C16.0976 10.6834 16.0976 11.3166 15.7071 11.7071L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071C10.9024 14.3166 10.9024 13.6834 11.2929 13.2929L14.2929 10.2929C14.6834 9.90237 15.3166 9.90237 15.7071 10.2929Z"
+                          fill="#E9EBEB"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M12 7C8.13401 7 5 10.134 5 14C5 17.866 8.13401 21 12 21C15.866 21 19 17.866 19 14C19 10.134 15.866 7 12 7ZM3 14C3 9.02944 7.02944 5 12 5C16.9706 5 21 9.02944 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z"
+                          fill="#E9EBEB"
+                        />
+                      </svg>
+                    </span>
+                    <p className="text-[#ffff]">
+                      Estimated price: <span>$5,900-$20,000</span>
+                    </p>
+                  </div>
+
+                  <div className="flex  items-center gap-2 pt-[24px]">
+                    <div>
+                      <img
+                        src="/dashboardPhoto/dashboardLoginLogo.png"
+                        alt="photo"
+                        className="object-cover w-[40px]"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="text-[20px] text-[#ffffff] font-semibold">
+                        Alexander Pope
+                      </h3>
+                      <h4 className="text-[#E9EBEB]">Contributor</h4>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#4B5557] text-[#ffffff] p-4 rounded-lg max-w-[433px] mt-4">
+                    <p>
+                      I am privileged to donate The Ancient Statue of Sri Lanka
+                      to this auction, supporting Healing and Hope for Women.
+                      This piece reflects the resilience of history, much like
+                      the strength of the women this cause uplifts.
+                    </p>
+
+                    <p className="pt-4">
+                      Your bid or donation can make a profound impact. Let us
+                      come together to preserve both heritage and hope.
+                    </p>
+                  </div>
+
+                  <div className="pt-4">
+                    <h1 className="text-[30px] font-bold text-[#FFFFFF] flex items-center gap-2">
+                      $18000{" "}
+                      <span className="text-[16px] font-normal">(12 bid)</span>
+                    </h1>
+                  </div>
+                </div>
+
+                <div>
+                  <img
+                    src="/dashboardPhoto/contributors/photo1.png"
+                    alt="contributors"
+                  />
                 </div>
               </div>
             </div>

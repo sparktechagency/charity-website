@@ -724,7 +724,27 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 /* ============ contributors filter button style end ======== */
 
 
+
+/* ========== modal custom design start ================ */
 /* style.css or a global style file */
 .custom-ai-modal .ant-modal-content {
   background-color: #263234;
 }
+
+
+
+
+
+.custom-view-modal .ant-modal-close {
+  background-color: #705f5f; /* Change to your desired background */
+  border-radius: 50%;
+  padding: 4px;
+}
+
+.custom-view-modal .ant-modal-close-x {
+  color: white; /* Optional: change icon color */
+  font-size: 16px; /* Optional: resize the icon */
+}
+
+
+/* ========== modal custom design end ================ */
