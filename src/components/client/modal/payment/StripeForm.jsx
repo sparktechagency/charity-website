@@ -202,7 +202,7 @@ const StripeForm = () => {
   const price = 100;
   const [clientSecret, setClientSecret] = useState("");
   useEffect(() => {
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch("http://137.59.180.219:5000/api/v1/create-payment-inten", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -19,7 +19,7 @@ const DonerDetailsModal = ({setDonerDetailsModal,setModalOpen}) => {
   return (
     <div>
       <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
-        Get Involved as a Volunteer
+        
       </h1>
 
       <Form form={form} onFinish={handleSubmit} layout="vertical">
