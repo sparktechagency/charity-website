@@ -194,7 +194,7 @@ const Navbar = () => {
           footer={null}
           closable={false}
           centered
-          // width="400px"
+          width="400px"
           style={{ padding: "15px", top: 0 }}
         >
           <PaymentModal

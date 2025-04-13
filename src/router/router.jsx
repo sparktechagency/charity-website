@@ -15,6 +15,8 @@ import Volunteers from "../pages/dashboard/adminDashboard/volunteers/Volunteers"
 import Auction from "../pages/dashboard/adminDashboard/auction/Auction";
 import AggrementPage from "../pages/aggrement/AggrementPage";
 import StripeForm from "../components/client/modal/payment/StripeForm";
+import CustomCalendar from "../components/client/calender/DateCalender";
+import PaymentSuccess from "../components/client/modal/payment/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -63,6 +65,14 @@ export const router = createBrowserRouter([
   {
     path : "payment-from",
     element : <StripeForm/>
+  },
+  {
+    path : "/date",
+    element : <CustomCalendar></CustomCalendar>
+  },
+  {
+    path : "/succeeded",
+    element : <PaymentSuccess></PaymentSuccess>
   },
 
   // admin dashboard routes here
