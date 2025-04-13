@@ -22,7 +22,8 @@ import {
 import { useRef } from "react";
 
 const MyTeam = () => {
-  const [form] = useForm();
+  const [formOne] = useForm();
+  const [formTwo] = useForm();
   const dispatch = useDispatch();
   const teamModalOne = useSelector((state) => state.modal.teamModalOne);
   const teamModalTwo = useSelector((state) => state.modal.teamModalTwo);
@@ -87,7 +88,11 @@ const MyTeam = () => {
   };
   // ========= team modal four end ===============
 
-  const onFinish = () => {
+  const onFinishOne = (values) => {
+    console.log(values);
+  };
+
+  const onFinishTwo = () => {
     console.log("clcik");
   };
 
@@ -1042,7 +1047,7 @@ const MyTeam = () => {
                     <h1 className="text-[#FFFFFF] font-bold text-[24px] py-4">
                       Edit information
                     </h1>
-                    <Form onFinish={onFinish}>
+                    <Form form={formOne} onFinish={onFinishOne}>
                       <div>
                         <p className="text-[#FFFFFF] ">Name</p>
                         <Form.Item name="name">
@@ -1244,7 +1249,7 @@ const MyTeam = () => {
                       </button>
                       <button
                         className="bg-[#ffffff] px-6 rounded"
-                        onClick={teamModalCancelFour}
+                        onClick={() => formOne.submit()}
                       >
                         Add
                       </button>
@@ -1256,7 +1261,7 @@ const MyTeam = () => {
                       <h1 className="text-[#FFFFFF] font-bold text-[24px] py-4">
                         Add new teammate
                       </h1>
-                      <Form onFinish={onFinish}>
+                      <Form form={formTwo} onFinish={onFinishTwo}>
                         <div>
                           <p className="text-[#FFFFFF] ">Name</p>
                           <Form.Item name="name">
