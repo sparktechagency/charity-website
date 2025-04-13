@@ -732,9 +732,6 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 }
 
 
-
-
-
 .custom-view-modal .ant-modal-close {
   background-color: #705f5f; /* Change to your desired background */
   border-radius: 50%;
@@ -748,3 +745,14 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 
 
 /* ========== modal custom design end ================ */
+
+
+/* ========= modal input field custom color add start ========= */
+.custom-input-borderColor:hover,
+.custom-input-borderColor:focus,
+.custom-input-borderColor:focus-within,
+.custom-input-borderColor:active {
+  border-color: #d9d9d9 !important;
+  box-shadow: none !important;
+}
+/* ========= modal input field custom color add end ========= */

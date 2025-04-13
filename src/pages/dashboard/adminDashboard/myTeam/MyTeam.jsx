@@ -1,7 +1,96 @@
-import { Pagination } from "antd";
+import { Form, Input, message, Modal, Pagination } from "antd";
 import CustomNotFound from "../../../../components/shared/CustomNotFound";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  closeTeamModalOpenFour,
+  closeTeamModalOpenOne,
+  closeTeamModalOpenThree,
+  closeTeamModalOpenTwo,
+  teamModalOpenFour,
+  teamModalOpenOne,
+  teamModalOpenThree,
+  teamModalOpenTwo,
+} from "../../../../features/modal/modalSlice";
+import { useForm } from "antd/es/form/Form";
+import {
+  CopyOutlined,
+  InstagramOutlined,
+  LinkedinOutlined,
+  LinkOutlined,
+  XOutlined,
+} from "@ant-design/icons";
+import { useRef } from "react";
 
 const MyTeam = () => {
+  const [form] = useForm();
+  const dispatch = useDispatch();
+  const teamModalOne = useSelector((state) => state.modal.teamModalOne);
+  const teamModalTwo = useSelector((state) => state.modal.teamModalTwo);
+  const teamModalThree = useSelector((state) => state.modal.teamModalThree);
+  const teamModalFour = useSelector((state) => state.modal.teamModalFour);
+
+  const inputRef = useRef(null);
+  const handleCopy = () => {
+    if (inputRef.current?.input) {
+      navigator.clipboard.writeText(inputRef.current.input.value);
+      message.success("Link copied to clipboard!");
+    }
+  };
+
+  // ========= team modal one start =============
+  const showTeamModalOne = () => {
+    dispatch(teamModalOpenOne());
+  };
+  const teamModalOkOne = () => {
+    dispatch(closeTeamModalOpenOne());
+  };
+  const teamModalCancelOne = () => {
+    dispatch(closeTeamModalOpenOne());
+  };
+  // ========= team modal one end ===============
+
+  // ========= team modal two start =============
+  const showTeamModalTwo = () => {
+    dispatch(closeTeamModalOpenOne());
+    dispatch(teamModalOpenTwo());
+  };
+  const teamModalOkTwo = () => {
+    dispatch(closeTeamModalOpenTwo());
+  };
+  const teamModalCancelTwo = () => {
+    dispatch(closeTeamModalOpenTwo());
+  };
+  // ========= team modal two end ===============
+
+  // ========= team modal three start =============
+  const showTeamModalThree = () => {
+    dispatch(closeTeamModalOpenOne());
+    dispatch(teamModalOpenThree());
+  };
+  const teamModalOkThree = () => {
+    dispatch(closeTeamModalOpenThree());
+  };
+  const teamModalCancelThree = () => {
+    dispatch(closeTeamModalOpenThree());
+  };
+  // ========= team modal three end ===============
+
+  // ========= team modal four start =============
+  const showTeamModalFour = () => {
+    dispatch(teamModalOpenFour());
+  };
+  const teamModalOkFour = () => {
+    dispatch(closeTeamModalOpenFour());
+  };
+  const teamModalCancelFour = () => {
+    dispatch(closeTeamModalOpenFour());
+  };
+  // ========= team modal four end ===============
+
+  const onFinish = () => {
+    console.log("clcik");
+  };
+
   const teamData = [
     {
       image: "/dashboardPhoto/myTeamPhoto/photo1.png",
@@ -796,7 +885,6 @@ const MyTeam = () => {
       ),
     },
   ];
-
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg lg:min-h-[840px]">
       <div>
@@ -811,7 +899,10 @@ const MyTeam = () => {
           </div>
 
           <div>
-            <button className="flex items-center gap-2 bg-[#ffffff] p-2 rounded-lg font-semibold text-[16px]">
+            <button
+              onClick={showTeamModalFour}
+              className="flex items-center gap-2 bg-[#ffffff] p-2 rounded-lg font-semibold text-[16px]"
+            >
               New teammate
               <span>
                 <svg
@@ -875,20 +966,451 @@ const MyTeam = () => {
                         {item.description}
                       </p>
 
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between items-center md:pr-1 lg:pr-2">
                         <div className="flex items-center gap-[20px]">
                           <span>{item.instragrumIcon}</span>
 
                           <span>{item.linkedinIcon}</span>
                           <span>{item.twitterIcon}</span>
                         </div>
-                        <div className="cursor-pointer">
+                        <div
+                          onClick={showTeamModalOne}
+                          className="cursor-pointer"
+                        >
                           <span>{item.dotIcon}</span>
                         </div>
                       </div>
                     </div>
                   );
                 })}
+              </div>
+
+              {/* modal components */}
+              <div>
+                {/* modal one */}
+                <Modal
+                  className=""
+                  centered
+                  open={teamModalOne}
+                  onOk={teamModalOkOne}
+                  onCancel={teamModalCancelOne}
+                  width={250}
+                  footer={null}
+                >
+                  <div>
+                    <h1
+                      onClick={showTeamModalTwo}
+                      className="text-[14px] font-semibold text-[#263234] border-b pb-4 cursor-pointer"
+                    >
+                      Edit profile
+                    </h1>
+                    <h1
+                      onClick={showTeamModalThree}
+                      className="text-[14px] font-semibold text-[#DA453F] pt-4 cursor-pointer"
+                    >
+                      Remove teammate
+                    </h1>
+                  </div>
+                </Modal>
+
+                {/* modal two */}
+                <Modal
+                  className="custom-ai-modal"
+                  centered
+                  open={teamModalTwo}
+                  onOk={teamModalOkTwo}
+                  onCancel={teamModalCancelTwo}
+                  width={600}
+                  footer={
+                    <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
+                      <button
+                        className="hover:bg-[#A6ABAC] text-[#FFFFFF] px-6 rounded"
+                        onClick={teamModalCancelTwo}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="bg-[#ffffff] py-2 px-4 rounded"
+                        onClick={teamModalOkTwo}
+                      >
+                        Update Information
+                      </button>
+                    </div>
+                  }
+                >
+                  <div>
+                    <h1 className="text-[#FFFFFF] font-bold text-[24px] py-4">
+                      Edit information
+                    </h1>
+                    <Form onFinish={onFinish}>
+                      <div>
+                        <p className="text-[#FFFFFF] ">Name</p>
+                        <Form.Item name="name">
+                          <Input
+                            placeholder="Enter Your Name"
+                            style={{ padding: "10px" }}
+                          />
+                        </Form.Item>
+                      </div>
+
+                      <div>
+                        <p className="text-[#FFFFFF] ">Email</p>
+                        <Form.Item name="email">
+                          <Input
+                            placeholder="Enter Your Email"
+                            style={{ padding: "10px" }}
+                          />
+                        </Form.Item>
+                      </div>
+
+                      <div>
+                        <p className="text-[#FFFFFF] ">Designation</p>
+                        <Form.Item name="designation">
+                          <Input
+                            placeholder="Enter Your designation"
+                            style={{ padding: "10px" }}
+                          />
+                        </Form.Item>
+                      </div>
+
+                      <div>
+                        <p className="text-[#FFFFFF] ">Works experience</p>
+                        <Form.Item name="experience">
+                          <Input
+                            placeholder="Enter Your work experience"
+                            style={{ padding: "10px" }}
+                          />
+                        </Form.Item>
+                      </div>
+
+                      <div>
+                        <p>Image upload</p>
+                      </div>
+
+                      <div className="pt-4">
+                        <div>
+                          <Form.Item>
+                            <Input
+                              ref={inputRef}
+                              placeholder="paste profile link"
+                              prefix={
+                                <LinkedinOutlined
+                                  style={{
+                                    backgroundColor: "transparent",
+                                    color: "white",
+                                    fontSize: "24px",
+                                  }}
+                                  size={250}
+                                />
+                              }
+                              suffix={
+                                <CopyOutlined
+                                  onClick={handleCopy}
+                                  style={{ color: "white", cursor: "pointer" }}
+                                />
+                              }
+                              allowClear
+                              style={{
+                                backgroundColor: "transparent",
+                                padding: "10px",
+                                color: "#ffffff",
+                              }}
+                              className="custom-input-borderColor"
+                            />
+                          </Form.Item>
+                        </div>
+
+                        <div>
+                          <Form.Item>
+                            <Input
+                              ref={inputRef}
+                              placeholder="paste profile link"
+                              prefix={
+                                <XOutlined
+                                  style={{
+                                    backgroundColor: "transparent",
+                                    color: "white",
+                                    fontSize: "24px",
+                                  }}
+                                  size={250}
+                                />
+                              }
+                              suffix={
+                                <CopyOutlined
+                                  onClick={handleCopy}
+                                  style={{ color: "white", cursor: "pointer" }}
+                                />
+                              }
+                              allowClear
+                              style={{
+                                backgroundColor: "transparent",
+                                padding: "10px",
+                                color: "#ffffff",
+                              }}
+                              className="custom-input-borderColor"
+                            />
+                          </Form.Item>
+                        </div>
+
+                        <div>
+                          <Form.Item>
+                            <Input
+                              ref={inputRef}
+                              placeholder="paste profile link"
+                              prefix={
+                                <InstagramOutlined
+                                  style={{
+                                    backgroundColor: "transparent",
+                                    color: "white",
+                                    fontSize: "24px",
+                                  }}
+                                  size={250}
+                                />
+                              }
+                              suffix={
+                                <CopyOutlined
+                                  onClick={handleCopy}
+                                  style={{ color: "white", cursor: "pointer" }}
+                                />
+                              }
+                              allowClear
+                              style={{
+                                backgroundColor: "transparent",
+                                padding: "10px",
+                                color: "#ffffff",
+                              }}
+                              className="custom-input-borderColor"
+                            />
+                          </Form.Item>
+                        </div>
+                      </div>
+                    </Form>
+                  </div>
+                </Modal>
+
+                {/* modal three */}
+                <Modal
+                  className="custom-ai-modal"
+                  centered
+                  open={teamModalThree}
+                  onOk={teamModalOkThree}
+                  onCancel={teamModalCancelThree}
+                  width={500}
+                  footer={
+                    <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
+                      <button
+                        className="hover:bg-[#A6ABAC] text-[#DA453F] py-2 px-4 rounded"
+                        onClick={teamModalOkThree}
+                      >
+                        Yes, remove
+                      </button>
+                      <button
+                        className="bg-[#ffffff] px-6 rounded"
+                        onClick={teamModalCancelThree}
+                      >
+                        No, cancel
+                      </button>
+                    </div>
+                  }
+                >
+                  <div className="">
+                    <div>
+                      <h1 className="text-[#E9EBEB] font-semibold text-[20px]">
+                        Remove teammate
+                      </h1>
+                      <p className="text-[#A6ABAC]">
+                        Do you want to remove the teammate from <br /> your
+                        team.
+                      </p>
+                    </div>
+                  </div>
+                </Modal>
+
+                {/* modal four */}
+                <Modal
+                  className="custom-ai-modal"
+                  centered
+                  open={teamModalFour}
+                  onOk={teamModalOkFour}
+                  onCancel={teamModalCancelFour}
+                  width={500}
+                  footer={
+                    <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
+                      <button
+                        className="hover:bg-[#A6ABAC] text-[#ffffff] py-2 px-4 rounded"
+                        onClick={teamModalOkFour}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="bg-[#ffffff] px-6 rounded"
+                        onClick={teamModalCancelFour}
+                      >
+                        Add
+                      </button>
+                    </div>
+                  }
+                >
+                  <div className="">
+                    <div>
+                      <h1 className="text-[#FFFFFF] font-bold text-[24px] py-4">
+                        Add new teammate
+                      </h1>
+                      <Form onFinish={onFinish}>
+                        <div>
+                          <p className="text-[#FFFFFF] ">Name</p>
+                          <Form.Item name="name">
+                            <Input
+                              placeholder="Enter Your Name"
+                              style={{ padding: "10px" }}
+                            />
+                          </Form.Item>
+                        </div>
+
+                        <div>
+                          <p className="text-[#FFFFFF] ">Email</p>
+                          <Form.Item name="email">
+                            <Input
+                              placeholder="Enter Your Email"
+                              style={{ padding: "10px" }}
+                            />
+                          </Form.Item>
+                        </div>
+
+                        <div>
+                          <p className="text-[#FFFFFF] ">Designation</p>
+                          <Form.Item name="designation">
+                            <Input
+                              placeholder="Enter Your designation"
+                              style={{ padding: "10px" }}
+                            />
+                          </Form.Item>
+                        </div>
+
+                        <div>
+                          <p className="text-[#FFFFFF] ">Works experience</p>
+                          <Form.Item name="experience">
+                            <Input
+                              placeholder="Enter Your work experience"
+                              style={{ padding: "10px" }}
+                            />
+                          </Form.Item>
+                        </div>
+
+                        <div>
+                          <p>Image upload</p>
+                        </div>
+
+                        <div className="pt-4">
+                          <div>
+                            <Form.Item>
+                              <Input
+                                ref={inputRef}
+                                placeholder="paste profile link"
+                                prefix={
+                                  <LinkedinOutlined
+                                    style={{
+                                      backgroundColor: "transparent",
+                                      color: "white",
+                                      fontSize: "24px",
+                                    }}
+                                    size={250}
+                                  />
+                                }
+                                suffix={
+                                  <CopyOutlined
+                                    onClick={handleCopy}
+                                    style={{
+                                      color: "white",
+                                      cursor: "pointer",
+                                    }}
+                                  />
+                                }
+                                allowClear
+                                style={{
+                                  backgroundColor: "transparent",
+                                  padding: "10px",
+                                  color: "#ffffff",
+                                }}
+                                className="custom-input-borderColor"
+                              />
+                            </Form.Item>
+                          </div>
+
+                          <div>
+                            <Form.Item>
+                              <Input
+                                ref={inputRef}
+                                placeholder="paste profile link"
+                                prefix={
+                                  <XOutlined
+                                    style={{
+                                      backgroundColor: "transparent",
+                                      color: "white",
+                                      fontSize: "24px",
+                                    }}
+                                    size={250}
+                                  />
+                                }
+                                suffix={
+                                  <CopyOutlined
+                                    onClick={handleCopy}
+                                    style={{
+                                      color: "white",
+                                      cursor: "pointer",
+                                    }}
+                                  />
+                                }
+                                allowClear
+                                style={{
+                                  backgroundColor: "transparent",
+                                  padding: "10px",
+                                  color: "#ffffff",
+                                }}
+                                className="custom-input-borderColor"
+                              />
+                            </Form.Item>
+                          </div>
+
+                          <div>
+                            <Form.Item>
+                              <Input
+                                ref={inputRef}
+                                placeholder="paste profile link"
+                                prefix={
+                                  <InstagramOutlined
+                                    style={{
+                                      backgroundColor: "transparent",
+                                      color: "white",
+                                      fontSize: "24px",
+                                    }}
+                                    size={250}
+                                  />
+                                }
+                                suffix={
+                                  <CopyOutlined
+                                    onClick={handleCopy}
+                                    style={{
+                                      color: "white",
+                                      cursor: "pointer",
+                                    }}
+                                  />
+                                }
+                                allowClear
+                                style={{
+                                  backgroundColor: "transparent",
+                                  padding: "10px",
+                                  color: "#ffffff",
+                                }}
+                                className="custom-input-borderColor"
+                              />
+                            </Form.Item>
+                          </div>
+                        </div>
+                      </Form>
+                    </div>
+                  </div>
+                </Modal>
               </div>
 
               {/* pagination */}
