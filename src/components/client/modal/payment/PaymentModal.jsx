@@ -6,6 +6,7 @@ import { FaCcMastercard } from "react-icons/fa";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import StripeForm from "./StripeForm";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const PaymentModal = ({
   setDonerDetailsModal,
   setLuxuryModal,
@@ -54,6 +55,17 @@ const PaymentModal = ({
       navigate("/payment-from");
     }
   }, [paymentMethod]);
+
+  // paypal payment 
+
+  const handlePaypalPayment = async() =>{
+    let res = await axios.post("http://localhost:5500/api/v1/payment");
+    console.log(res)
+    if(res && res.data){
+      let link = res.data.links[1].href;
+      window.location.href = link
+    }
+  }
 
   return (
     <div>
@@ -149,6 +161,7 @@ const PaymentModal = ({
 
               {/* paypal Pay */}
               <Radio
+              onClick={handlePaypalPayment}
                 value="paypal_pay"
                 className="w-full pl-2 px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
               >
