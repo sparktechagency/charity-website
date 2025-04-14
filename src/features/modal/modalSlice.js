@@ -13,6 +13,7 @@ const initialState = {
     teamModalTwo : false,
     teamModalThree : false,
     teamModalFour : false,
+    settingModalOne : false,
 }
 
 const modalSlice = createSlice({
@@ -53,8 +54,11 @@ const modalSlice = createSlice({
 
         teamModalOpenFour : (state) =>{state.teamModalFour = true},
         closeTeamModalOpenFour : (state) =>{state.teamModalFour = false},
+
+        settingModalOpenOne : (state) =>{state.settingModalOne = true},
+        closeSettingModalOpenOne : (state) =>{state.settingModalOne = false},
     }
 })
 
-export const {modalOpenOne,closeModalOpenOne,modalOpenTwo,closeModalOpenTwo,modalOpenThree,closeModalOpenThree,volunterModalOpenOne,closeVlounterModalOpenOne,volunterModalOpenTwo,closeVlounterModalOpenTwo,actionModalOpenOne,closeActionModalOpenOne,actionModalOpenTwo,closeActionModalOpenTwo,actionModalOpenThree,closeActionModalOpenThree,teamModalOpenOne,closeTeamModalOpenOne,teamModalOpenTwo,closeTeamModalOpenTwo,teamModalOpenThree,closeTeamModalOpenThree,teamModalOpenFour,closeTeamModalOpenFour} = modalSlice.actions;
+export const {modalOpenOne,closeModalOpenOne,modalOpenTwo,closeModalOpenTwo,modalOpenThree,closeModalOpenThree,volunterModalOpenOne,closeVlounterModalOpenOne,volunterModalOpenTwo,closeVlounterModalOpenTwo,actionModalOpenOne,closeActionModalOpenOne,actionModalOpenTwo,closeActionModalOpenTwo,actionModalOpenThree,closeActionModalOpenThree,teamModalOpenOne,closeTeamModalOpenOne,teamModalOpenTwo,closeTeamModalOpenTwo,teamModalOpenThree,closeTeamModalOpenThree,teamModalOpenFour,closeTeamModalOpenFour,settingModalOpenOne,closeSettingModalOpenOne} = modalSlice.actions;
 export default modalSlice.reducer;
