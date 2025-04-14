@@ -59,7 +59,7 @@ const PaymentModal = ({
   // paypal payment 
 
   const handlePaypalPayment = async() =>{
-    let res = await axios.post("http://localhost:5500/api/v1/payment");
+    let res = await axios.post("http://137.59.180.219:5001/api/v1/payment");
     console.log(res)
     if(res && res.data){
       let link = res.data.links[1].href;
