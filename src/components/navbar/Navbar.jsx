@@ -8,6 +8,8 @@ import PaymentModal from "../client/modal/payment/PaymentModal";
 import DonateModal from "../client/modal/donate/DonateModal";
 import ArtAntiqModal from "../client/modal/art-antique/ArtAntiqModal";
 import DonerDetailsModal from "../client/modal/doner-details/DonerDetailsModal";
+import SupportModal from "../client/modal/support-modal/SupportModal";
+import DonationFormModal from "../client/donation-form-modal/DonationFormModal";
 
 const Navbar = () => {
   const [form] = Form.useForm();
@@ -51,10 +53,24 @@ const Navbar = () => {
 
   // doner details modal end
 
-  // payment modal start
-  const onClose = () => setModalOpen(false);
-  // payment modal end
+  // support modal useState
+  const [supportModal, setSupportModal] = useState(false);
+  // payment modal useState
+  const [paymentModal, setPaymentModal] = useState(false);
+  /* Donate Art, Antiques or Collectible useState   */
+  const [antiquesModal, setAntiquesModal] = useState(false);
+  // donation-form-modal useState
+  const [donationModalForm, setDonationModalForm] = useState(true);
 
+  // support modal start
+  const openSupportModal = () => {
+    setSupportModal(true);
+  };
+  const closeSupportModal = () => {
+    setSupportModal(false);
+  };
+
+  // support modal end
 
   const toggleDrawer = () => setOpen(!open);
 
@@ -75,10 +91,8 @@ const Navbar = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-      modalOpen || secondModalOpen || luxuryModal || donerDetailsModal
-        ? "hidden"
-        : "auto";
-  }, [modalOpen, secondModalOpen, luxuryModal, donerDetailsModal]);
+      supportModal || paymentModal || antiquesModal ? "hidden" : "auto";
+  }, [supportModal, paymentModal, antiquesModal]);
 
   return (
     <nav
@@ -117,7 +131,7 @@ const Navbar = () => {
 
         {/* Support Button (Desktop Only) */}
         <button
-          onClick={openDonerDetailsModal}
+          onClick={openSupportModal}
           className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
         >
           Support Survivors
@@ -164,6 +178,83 @@ const Navbar = () => {
         </Drawer>
       </div>
 
+      {/* support modal start  */}
+
+      <Modal
+        title={
+          <span className=" text-2xl mb-4 text-[#263234] font-semibold leading-8 block ">
+            Choose How to Support
+          </span>
+        }
+        open={supportModal}
+        footer={null}
+        closable={true}
+        onCancel={closeSupportModal}
+        centered
+        width="500px"
+        style={{ top: "0px" }}
+      >
+        <SupportModal
+          setPaymentModal={setPaymentModal}
+          setSupportModal={setSupportModal}
+          setAntiquesModal={setAntiquesModal}
+        />
+      </Modal>
+
+      {/* support modal end  */}
+
+      {/* Payment Modal start */}
+
+      <Modal
+        open={paymentModal}
+        footer={null}
+        closable={false}
+        centered
+        width="400px"
+        style={{ padding: "15px", top: 0 }}
+      >
+        <PaymentModal
+          setPaymentModal={setPaymentModal}
+          setSupportModal={setSupportModal}
+        />
+      </Modal>
+
+      {/* Payment Modal end */}
+
+      {/* Donate Art, Antiques or Collectibles modal start */}
+
+      <Modal
+        open={antiquesModal}
+        footer={null}
+        closable={false}
+        centered
+        // width="400px"
+        style={{ padding: "15px", top: 0 }}
+      >
+        <ArtAntiqModal
+          setSupportModal={setSupportModal}
+          setAntiquesModal={setAntiquesModal}
+          setPaymentModal={setPaymentModal}
+        />
+      </Modal>
+
+      {/* Donate Art, Antiques or Collectibles modal end */}
+
+      {/* donation-form-modal start  */}
+
+      <Modal
+        open={antiquesModal}
+        footer={null}
+        closable={false}
+        centered
+        // width="400px"
+        style={{ padding: "15px", top: 0 }}
+      >
+        <DonationFormModal></DonationFormModal>
+        
+      </Modal>
+      {/* donation-form-modal end  */}
+
       {/* Donar details modal start  */}
 
       <div className="  ">
@@ -185,30 +276,6 @@ const Navbar = () => {
 
       {/* Donar details modal end  */}
 
-      {/* Payment Modal start */}
-
-      <div className="  ">
-        <Modal
-          open={modalOpen}
-          onCancel={onClose}
-          footer={null}
-          closable={false}
-          centered
-          width="400px"
-          style={{ padding: "15px", top: 0 }}
-        >
-          <PaymentModal
-            handleCancel={onClose}
-            setModalOpen={setModalOpen}
-            setLuxuryModal={setLuxuryModal}
-            setSecondModalOpen={setSecondModalOpen}
-            setDonerDetailsModal={setDonerDetailsModal}
-          />
-        </Modal>
-      </div>
-
-      {/* Payment Modal end */}
-
       {/* Donate modal start second modal */}
 
       <Modal
@@ -226,8 +293,7 @@ const Navbar = () => {
         />
       </Modal>
 
-       {/* Donate modal end  */}
-
+      {/* Donate modal end  */}
 
       {/* Donate Art, Antique or Collectables start modal start   */}
 
@@ -259,9 +325,9 @@ const Navbar = () => {
           width={"70%"}
           open={termsModal}
           // onOk={handleOk}
-          style={{ top: 0}}
+          style={{ top: 0 }}
           onCancel={termModalCanel}
-          zIndex={1100} 
+          zIndex={1100}
           footer={null} // remove if you want buttons
         >
           <AggrementPage></AggrementPage>
@@ -276,11 +342,10 @@ const Navbar = () => {
         <Modal
           width={"70%"}
           open={donateTerm}
-          style={{ top: 0}}
-          zIndex={1100} 
+          style={{ top: 0 }}
+          zIndex={1100}
           onCancel={donateModalCanel}
           footer={null} // remove if you want buttons
-
         >
           <AggrementPage></AggrementPage>
         </Modal>

@@ -248,6 +248,7 @@ const AboutMissionVission = () => {
       <div className=" ">
         <Modal
           width={"70%"}
+          className="  "
           open={donateTerm}
           style={{ top: 0 }}
           // onOk={handleOk}
@@ -255,7 +256,7 @@ const AboutMissionVission = () => {
           footer={null} // remove if you want buttons
           zIndex={1100} // higher z-index
         >
-          DonerDetailsModa
+          {/* DonerDetailsModa */}
           <AggrementPage></AggrementPage>
         </Modal>
       </div>
