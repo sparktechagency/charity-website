@@ -152,8 +152,8 @@ const CheckoutForm = () => {
               {isLoading ? (
                 <div className="spinner" id="spinner"></div>
               ) : (
-                <button className=" bg-[#403730] hover:bg-[#27221D] w-[110px] border-none block mx-auto  py-2 text-white font-bold rounded-md  ">
-                  Pay now
+                <button className=" bg-[#403730] hover:bg-[#27221D] w-[130px]  block mx-auto  py-3 text-white font-bold rounded-md  ">
+                  Donate Now
                 </button>
               )}
             </span>
