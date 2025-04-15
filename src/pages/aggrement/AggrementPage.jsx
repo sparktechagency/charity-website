@@ -17,30 +17,29 @@ const AggrementPage = () => {
     console.log("Form values:", values);
   };
   return (
-    <div className=" max-w-[1000px] mx-auto  px-4  ">
-      <div className=" max-w-[1216px] mx-auto pb-4 px-4">
-        <p className="text-center text-[#403730] text-xl font-semibold leading-6 ">
+    <div className="   ">
+      <div className=" lg:max-w-[1216px] mx-auto pb-4 lg:px-4">
+        <p className="text-center text-[#403730] text-[16px] lg:text-xl font-semibold leading-6 ">
           Virtue Hope C.I.C. Donor Agreement
         </p>
-        <p className="text-center text-[#263234] mt-1 lg:mt-3 text-lg lg:text-xl lg:leading-8 ">
+        <p className="text-center text-[#263234] mt-1 lg:mt-3  lg:text-xl lg:leading-8 ">
           Registered Company No.: 16173113
         </p>
-        <p className="text-center text-[#263234] mt-1 lg:mt-3 text-lg lg:text-xl lg:leading-8 ">
+        <p className="text-center text-[#263234] mt-1 lg:mt-3  lg:text-xl lg:leading-8 ">
           Registered Office: 86-90 Paul Street, London, EC2A 4NE
         </p>
 
-        <p className="text-center text-[#263234] mt-2 lg:mt-3 text-lg lg:text-xl lg:leading-8 ">
+        <p className="text-center text-[#263234] mt-1 lg:mt-3 lg:text-xl lg:leading-8 ">
           Email: give@virtuehope.com
         </p>
 
         {/*1 Introduction */}
 
         <div>
-          <p className=" font-semibold text-xl lg:text-2xl leading-9 mt-4 lg:mt-12 ">
-            {" "}
+          <p className=" font-semibold text-[16px] lg:text-2xl leading-9 mt-3 lg:mt-12 ">
             1. Introduction
           </p>
-          <span className=" text-[#263234] leading-8 text-lg lg:text-xl mt-2 lg:mt-5 block ">
+          <span className=" text-[#263234] lg:text-start text-justify lg:leading-8 lg:text-xl  lg:mt-5 block ">
             This Donor Agreement (“Agreement”) is made between the individual or
             organisation named below (“Donor”) and Virtue Hope C.I.C. (“Virtue
             Hope”), a Community Interest Company registered in England and
@@ -52,13 +51,12 @@ const AggrementPage = () => {
 
         {/* 2. Donation Purpose */}
 
-        <div className="mt-4 lg:mt-12">
-          <p className=" font-semibold text-xl lg:text-2xl leading-9 lg:mt-12 ">
-            {" "}
+        <div className="mt-2 lg:mt-12">
+          <p className=" font-semibold text-[16px] lg:text-2xl leading-9 lg:mt-12 ">
             2. Donation Purpose
           </p>
 
-          <span className=" text-[#263234] leading-8 text-lg lg:text-xl block lg:mt-5 ">
+          <span className=" text-[#263234] lg:leading-8  lg:text-xl block lg:mt-5 ">
             All proceeds generated from the sale of donated items support Virtue
             Hope’s mission: to provide healing, empowerment, and wellbeing
             retreats for women recovering from abuse and trauma.
@@ -67,13 +65,12 @@ const AggrementPage = () => {
 
         {/* 3. Item Ownership and Authenticity */}
 
-        <div className="mt-4 lg:mt-12">
-          <p className=" font-semibold text-xl lg:text-2xl leading-9 lg:mt-12 ">
-            {" "}
+        <div className="mt-2 lg:mt-12">
+          <p className=" font-semibold text-[16px] lg:text-2xl leading-9 lg:mt-12 ">
             3. Item Ownership and Authenticity
           </p>
 
-          <ul className=" list-disc ml-5 text-[#263234]  leading-8 text-lg lg:text-xl block lg:mt-5 ">
+          <ul className=" list-disc ml-5 text-[#263234] text-justify lg:leading-8 lg:text-xl block lg:mt-5 ">
             <li className="  ">
               The Donor affirms that they are the legal owner of the item(s)
               donated and have the right to donate it.
@@ -94,17 +91,17 @@ const AggrementPage = () => {
 
         {/* 4. Revenue Share */}
 
-        <div className="mt-4 lg:mt-12">
-          <p className=" font-semibold text-xl lg:text-2xl leading-9 lg:mt-12">
+        <div className="mt-2 lg:mt-12">
+          <p className=" font-semibold text-[16px] lg:text-2xl leading-9 lg:mt-12">
             {" "}
             4. Revenue Share
           </p>
 
-          <p className="text-[#263234] text-[16px] lg:text-xl leading-8 font-semibold my-2 lg:my-5 ">
+          <p className="text-[#263234] text-[16px] lg:text-xl leading-8 font-semibold lg:my-5 ">
             Upon successful sale of the donated item:
           </p>
 
-          <ul className=" list-disc ml-5 text-[#263234]  leading-8 text-lg lg:text-xl block lg:mt-5  ">
+          <ul className=" list-disc ml-5 text-[#263234] text-justify lg:text-start lg:leading-8 lg:text-xl block lg:mt-5  ">
             <li className="  ">Virtue Hope retains 70% of the net proceeds.</li>
             <li>
               Donor receives up to 30%, depending on the selection made at the
@@ -116,7 +113,7 @@ const AggrementPage = () => {
               transaction fees.
             </li>
           </ul>
-          <p className="text-[#263234] text-[16px] lg:text-xl leading-8 lg:mt-7 mt-2 ">
+          <p className="text-[#263234] text-[16px] lg:text-xl lg:leading-8 lg:mt-7 mt-2 ">
             <span className="text-black font-semibold ">Note: </span>
             The final sale price may differ from the Donor’s estimated or
             perceived value. Sale outcomes are market-driven and cannot be
@@ -126,13 +123,13 @@ const AggrementPage = () => {
 
         {/* 5. Sale Disclaimer */}
 
-        <div className="mt-4 lg:mt-12">
-          <p className=" font-semibold text-xl lg:text-2xl leading-9 lg:mt-12">
+        <div className="mt-2 lg:mt-12">
+          <p className=" font-semibold text-[16px] lg:text-2xl leading-9 lg:mt-12">
             {" "}
             5. Sale Disclaimer
           </p>
 
-          <ul className=" list-disc ml-5 text-[#263234]  leading-8 text-lg lg:text-xl block lg:mt-5 ">
+          <ul className=" list-disc ml-5 text-[#263234]  lg:leading-8 text-justify lg:text-start lg:text-xl block lg:mt-5 ">
             <li>Submission of an item does not guarantee a sale.</li>
             <li>
               Virtue Hope reserves the right to decline or postpone the sale of
@@ -146,22 +143,20 @@ const AggrementPage = () => {
 
         {/* 6. Item Condition */}
 
-        <div className="mt-4 lg:mt-12">
-          <p className="font-semibold text-xl lg:text-2xl leading-9 lg:mt-12">
-            {" "}
+        <div className="mt-2 lg:mt-12">
+          <p className="font-semibold text-[16px] lg:text-2xl leading-9 lg:mt-12">
             6. Item Condition
           </p>
-
-          <p className="text-[#263234] text-[16px] lg:text-xl leading-8 font-semibold my-2 lg:my-5  ">
+          <p className="text-[#263234] text-[16px] lg:text-xl leading-8 font-semibold lg:my-5  ">
             All items must be:
           </p>
 
-          <ul className=" list-disc ml-5 text-[#263234]  leading-8 text-lg lg:text-xl block lg:mt-5 ">
+          <ul className=" list-disc ml-5 text-[#263234]  lg:leading-8 text-justify lg:text-start lg:text-xl block lg:mt-5 ">
             <li> In good, presentable showroom condition</li>
             <li> Free from major damage, stains, or structural flaws</li>
             <li> Clean and suitable for direct display or resale</li>
           </ul>
-          <p className="text-[#263234] text-[16px] lg:text-xl leading-8 lg:mt-7 mt-2">
+          <p className="text-[#263234] text-[16px] lg:text-xl lg:leading-8 lg:mt-7">
             Virtue Hope reserves the right to refuse any item that does not meet
             these requirements.
           </p>
@@ -169,12 +164,12 @@ const AggrementPage = () => {
 
         {/* 7. Shipping Terms */}
 
-        <div className="mt-4 lg:mt-12">
-          <p className=" font-semibold text-xl lg:text-2xl leading-9 lg:mt-12 ">
+        <div className="mt-2 lg:mt-12">
+          <p className=" font-semibold text-[16px] lg:text-2xl lg:leading-9 lg:mt-12 ">
             7. Shipping Terms
           </p>
 
-          <ul className=" list-disc ml-5 text-[#263234]  leading-8 text-lg lg:text-xl block lg:mt-5 ">
+          <ul className=" list-disc ml-5 text-[#263234] text-justify my-2 lg:text-start  lg:leading-8 lg:text-xl block lg:mt-5 ">
             <li>
               Donors are responsible for shipping the item(s) to Virtue Hope or
               its designated third-party vendor (e.g., auction house).
@@ -209,13 +204,13 @@ const AggrementPage = () => {
 
         {/* 8. Liability */}
 
-        <div className="mt-4 lg:mt-12">
-          <p className=" font-semibold text-xl lg:text-2xl leading-9 lg:mt-12  ">
+        <div className="mt-2 lg:mt-12">
+          <p className=" font-semibold text-[16px] lg:text-2xl leading-9 lg:mt-12  ">
             {" "}
             8. Intellectual Property
           </p>
 
-          <ul className=" list-disc ml-5 text-[#263234]  leading-8 text-lg lg:text-xl block lg:mt-5 ">
+          <ul className=" list-disc ml-5 text-[#263234]  lg:leading-8 text-justify lg:text-start lg:text-xl block lg:mt-5 ">
             <li>
               Donors must ensure items are securely packaged and insured (where
               applicable).
@@ -233,13 +228,13 @@ const AggrementPage = () => {
 
         {/*9. Use of Images and Promotion */}
 
-        <div className="mt-4 lg:mt-12">
-          <p className=" font-semibold text-xl lg:text-2xl leading-9 lg:mt-12">
+        <div className="mt-2 lg:mt-12">
+          <p className=" font-semibold text-[16px] lg:text-2xl leading-9 lg:mt-12">
             {" "}
             9. Use of Images and Promotion
           </p>
 
-          <p className="text-[#263234] text-[16px] lg:text-xl leading-8 font-semibold my-2 lg:my-5 ">
+          <p className="text-[#263234] text-justify lg:text-start lg:text-xl lg:leading-8 font-semibold my-1 lg:my-5 ">
             The Donor grants Virtue Hope the right to use photographs or
             descriptions of the donated item(s) in marketing, social media,
             press releases, auction platforms, or promotional content.
@@ -248,13 +243,13 @@ const AggrementPage = () => {
 
         {/* 10. Data Protection */}
 
-        <div className="mt-4 lg:mt-12">
-          <p className=" font-semibold text-xl lg:text-2xl leading-9 lg:mt-12  ">
+        <div className="mt-2 lg:mt-12">
+          <p className=" font-semibold text-[16px] lg:text-2xl lg:leading-9 lg:mt-12  ">
             {" "}
             10. Data Protection
           </p>
 
-          <p className="text-[#263234] text-lg lg:text-xl leading-8 font-semibold my-2 lg:my-5  ">
+          <p className="text-[#263234] text-justify lg:text-start lg:text-xl lg:leading-8 font-semibold my-1 lg:my-5  ">
             Donor details will be kept confidential and used only for internal
             records, donor acknowledgements, and necessary communications. All
             data is handled in accordance with the Data Protection Act and GDPR
@@ -264,13 +259,13 @@ const AggrementPage = () => {
 
         {/* 11. Agreement & Declaration */}
 
-        <div className=" mt-4 lg:mt-12">
-          <p className=" font-semibold text-xl lg:text-2xl leading-9 lg:mt-12  ">
+        <div className=" mt-2 lg:mt-12">
+          <p className=" font-semibold text-[16px] lg:text-2xl lg:leading-9 lg:mt-12  ">
             {" "}
             11. Agreement & Declaration
           </p>
 
-          <p className="text-[#263234] text-lg lg:text-xl leading-8 font-semibold my-2 lg:my-5 ">
+          <p className="text-[#263234]  lg:text-xl lg:leading-8 font-semibold text-justify lg:text-start my-2 lg:my-5 ">
             I confirm that I have read, understood, and agree to the terms of
             this Donor Agreement. I understand that my donation is voluntary and
             supports the mission of Virtue Hope C.I.C.
@@ -395,7 +390,11 @@ const AggrementPage = () => {
               {/* Receive Percentage */}
 
               <Form.Item
-                style={{ marginBottom: "0px", marginTop: "16px",border:"1px" }}
+                style={{
+                  marginBottom: "0px",
+                  marginTop: "16px",
+                  border: "1px",
+                }}
                 label={
                   <span className="text-sm text-[#263234] font-medium">
                     Preferred Revenue Share (%)
@@ -422,7 +421,7 @@ const AggrementPage = () => {
                   placeholder="Enter % to keep"
                   style={{
                     width: "100%",
-                    padding : "",
+                    padding: "",
                     border: " 1px solid #A6ABAC ",
                   }}
                   className=" text-lg py-2   placeholder:text-[#818889] focus:outline-none"
@@ -443,7 +442,11 @@ const AggrementPage = () => {
                   />
                 </Form.Item>
               </div>
-              <Button className="missionModalBtn2" disabled={!verified} htmlType="submit">
+              <Button
+                className="missionModalBtn2"
+                disabled={!verified}
+                htmlType="submit"
+              >
                 Submit
               </Button>
             </Form>
@@ -451,7 +454,6 @@ const AggrementPage = () => {
         </div>
       </div>
     </div>
-    
   );
 };
 

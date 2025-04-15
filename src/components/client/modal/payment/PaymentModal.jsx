@@ -8,53 +8,50 @@ import StripeForm from "./StripeForm";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const PaymentModal = ({
-  setDonerDetailsModal,
-  setLuxuryModal,
-  setModalOpen,
-  setSecondModalOpen,
+  
 }) => {
   const [form] = Form.useForm();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  // open luxrious modal
+  // // open luxrious modal
 
-  const openLuxuryModal = () => {
-    setLuxuryModal(true);
-    setModalOpen(false);
-    console.log(`ishan`);
-  };
+  // const openLuxuryModal = () => {
+  //   setLuxuryModal(true);
+  //   setModalOpen(false);
+  //   console.log(`ishan`);
+  // };
 
-  // next button click open modal function
+  // // next button click open modal function
 
-  const handlieClickNextStep = () => {
-    setModalOpen(false);
-    setSecondModalOpen(true);
-  };
+  // const handlieClickNextStep = () => {
+  //   setModalOpen(false);
+  //   setSecondModalOpen(true);
+  // };
 
-  // back modal function
+  // // back modal function
 
-  const [paymentMethod, setPaymentMethod] = useState(null);
-  // const [paypalLoaded, setPaypalLoaded] = useState(false);
+  // const [paymentMethod, setPaymentMethod] = useState(null);
+  // // const [paypalLoaded, setPaypalLoaded] = useState(false);
 
-  const onClose = () => {
-    setModalOpen(false);
-    setDonerDetailsModal(true);
-  };
+  // const onClose = () => {
+  //   setModalOpen(false);
+  //   setDonerDetailsModal(true);
+  // };
 
   const handlePaymentChange = (e) => {
-    setPaymentMethod(e.target.value);
+    // setPaymentMethod(e.target.value);
   };
 
-  useEffect(() => {
-    if (
-      paymentMethod === "card" ||
-      paymentMethod === "google_pay" ||
-      paymentMethod === "apple_pay"
-    ) {
-      navigate("/payment-from");
-    }
-  }, [paymentMethod]);
+  // useEffect(() => {
+  //   if (
+  //     paymentMethod === "card" ||
+  //     paymentMethod === "google_pay" ||
+  //     paymentMethod === "apple_pay"
+  //   ) {
+  //     navigate("/payment-from");
+  //   }
+  // }, [paymentMethod]);
 
   // paypal payment 
 
@@ -200,7 +197,7 @@ const PaymentModal = ({
 
               {/* Luxurious Retreat Option */}
               <Radio
-                onClick={openLuxuryModal}
+                // onClick={openLuxuryModal}
                 value="luxurious"
                 className="flex items-center pl-2 py-3.5! h-[54px] px-2! justify-between w-full  border border-[#A6ABAC] rounded-lg cursor-pointer"
               >
@@ -214,10 +211,10 @@ const PaymentModal = ({
 
         {/* Modal Buttons */}
         <div className=" flex flex-col md:flex-row md:justify-end  lg:flex-row justify-center lg:justify-end mt-5 mb-2">
-          <Button onClick={onClose} type="text" className=" missionModalBtn1 ">
+          <Button onClick={"onClose"} type="text" className=" missionModalBtn1 ">
             Back
           </Button>
-          <Button onClick={handlieClickNextStep} className="missionModalBtn2">
+          <Button onClick={"handlieClickNextStep"} className="missionModalBtn2">
             Proceed next step
           </Button>
         </div>
