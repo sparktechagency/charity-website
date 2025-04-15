@@ -65,8 +65,12 @@ export const router = createBrowserRouter([
     element : <AggrementPage></AggrementPage>
   },
   {
-    path : "donate-from",
+    path : "/donate-from",
     element : <DonationFormModal/>
+  },
+  {
+    path : "/payment-form",
+    element : <StripeForm/>
   },
   {
     path : "/date",

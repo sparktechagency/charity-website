@@ -3,7 +3,8 @@ import {
   PaymentElement,
   useStripe,
 } from "@stripe/react-stripe-js";
-import { Button } from "antd";
+import { Card, Button, Descriptions, Divider } from "antd";
+
 import React, { useState } from "react";
 
 const CheckoutForm = () => {
@@ -26,10 +27,8 @@ const CheckoutForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        
         // Make sure to change this to your payment completion page
         return_url: "http://localhost:5173/succeeded",
-        
       },
     });
 
@@ -46,54 +45,94 @@ const CheckoutForm = () => {
     layout: "accordion",
   };
 
+  const donationData = {
+    donationType: "recurring",
+    amount: "24.50",
+    frequency: "monthly",
+    name: "Jane Doe",
+    email: "jane@example.com",
+    phone: "+44 123456789",
+    message: "For education support",
+  };
+
+  const onEdit = () => {
+    console.log(`go to to edit page`);
+  };
+  const onConfirm = () => {
+    console.log(`Proceed to payment`);
+  };
+
   return (
-    <div className=" max-w-7xl mx-auto ">
+    <div className=" max-w-7xl mx-auto  ">
       <div className=" flex flex-col lg:flex-row justify-between gap-12 ">
-        <div className="w-full mx-auto p-6 bg-white shadow-md rounded-lg">
-          <div className="mb-6">
-            <span className="text-sm text-gray-600 cursor-pointer">
-              &larr;{" "}
-            </span>
-            <span className="ml-1 text-sm text-gray-600">Back</span>
-          </div>
+        <div className="max-w-2xl border mx-auto p-6 bg-white rounded-2xl shadow-md">
+          <h2 className="text-2xl font-semibold text-center mb-6">
+            Review Donation
+          </h2>
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">HopeCharity</h1>
-          <p className="text-gray-600 mb-4">
-            Subscribe to Monthly Support Plan
-          </p>
+          <Card className="mb-6 border border-gray-200 shadow-sm">
+            <Descriptions
+              column={1}
+              labelStyle={{ fontWeight: 600 }}
+              contentStyle={{ color: "#263234" }}
+            >
+              <Descriptions.Item label="Donation Type">
+                {donationData.donationType === "oneTime"
+                  ? "One-Time"
+                  : "Recurring"}
+              </Descriptions.Item>
 
-          <div className="text-4xl font-semibold text-gray-800 mb-1">
-            $20.00{" "}
-            <span className="text-base font-normal text-gray-500">
-              per month
-            </span>
-          </div>
+              {donationData.donationType === "recurring" &&
+                donationData.frequency && (
+                  <Descriptions.Item label="Frequency">
+                    {donationData.frequency.charAt(0).toUpperCase() +
+                      donationData.frequency.slice(1)}
+                  </Descriptions.Item>
+                )}
 
-          <div className="mt-6 border-t border-b py-4 text-sm text-gray-700">
-            <div className="flex justify-between mb-1">
-              <span>Charity Support Subscription</span>
-              <span>$20.00</span>
-            </div>
-            <p className="text-xs text-gray-500">Billed monthly</p>
-          </div>
+              <Descriptions.Item label="Amount">
+                £{donationData.amount}
+              </Descriptions.Item>
+            </Descriptions>
+          </Card>
 
-          <div className="mt-4 text-sm text-gray-700">
-            <div className="flex justify-between">
-              <span>Subtotal</span>
-              <span>$20.00</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="flex items-center gap-1">
-                Tax
-                <span className="text-xs text-gray-500 cursor-help">ⓘ</span>
-              </span>
-              <span>$0.00</span>
-            </div>
-          </div>
+          <Card className="mb-6 border border-gray-200 shadow-sm">
+            <h3 className="text-lg font-semibold mb-4">Donor Information</h3>
 
-          <div className="mt-4 pt-4 border-t text-lg font-semibold flex justify-between text-gray-900">
-            <span>Total due today</span>
-            <span>$20.00</span>
+            <Descriptions
+              column={1}
+              labelStyle={{ fontWeight: 600 }}
+              contentStyle={{ color: "#263234" }}
+            >
+              <Descriptions.Item label="Name">
+                {donationData.name}
+              </Descriptions.Item>
+              <Descriptions.Item label="Email">
+                {donationData.email}
+              </Descriptions.Item>
+              {donationData.phone && (
+                <Descriptions.Item label="Phone">
+                  {donationData.phone}
+                </Descriptions.Item>
+              )}
+              {donationData.message && (
+                <Descriptions.Item label="Message">
+                  {donationData.message}
+                </Descriptions.Item>
+              )}
+            </Descriptions>
+          </Card>
+
+          <Divider />
+
+          <div className="flex justify-between gap-4 mt-6">
+            <Button
+              onClick={onEdit}
+              className="w-1/2 h-12 border font-bold text-[#403730] border-[#717680] hover:bg-[#403730]"
+            >
+              Edit
+            </Button>
+            
           </div>
         </div>
         <form

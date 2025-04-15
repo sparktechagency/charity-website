@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Form, Input, Button, Radio, Tabs, Divider, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 
 const { TextArea } = Input;
 
@@ -11,6 +12,7 @@ const DonationFormModal = () => {
   const [paymentType, setPaymentType] = useState("monthly");
 
   const presetAmounts = ["19.50", "24.50", "45.50", "99.50"];
+  const navigate = useNavigate()
 
   const handleSubmit = (values) => {
     const amount = selectedAmount === "custom" ? customAmount : selectedAmount;
@@ -31,6 +33,8 @@ const DonationFormModal = () => {
     form.resetFields();
     setSelectedAmount(null);
     setCustomAmount("");
+    navigate("/payment-form")
+
   };
 
   return (
@@ -173,9 +177,11 @@ const DonationFormModal = () => {
 
         <Form.Item>
           <Button
+          
             htmlType="submit"
             className=" h-12 text-white font-bold text-lg bg-[#403730] border-none hover:bg-[#27221D]! "
           >
+            
             Submit Donation
           </Button>
         </Form.Item>
