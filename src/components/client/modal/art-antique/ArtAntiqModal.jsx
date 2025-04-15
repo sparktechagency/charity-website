@@ -5,7 +5,7 @@ import { showSuccessAlert } from "../../../../helper/showSuccessAlert";
 
 const { Dragger } = Upload;
 
-const ArtAntiqModal = ({setAntiquesModal,setSupportModal }) => {
+const ArtAntiqModal = ({setAntiquesModal,setSupportModal,setDonateTerm }) => {
   const [form] = Form.useForm();
 
   const uploadProps = {
@@ -36,7 +36,7 @@ const ArtAntiqModal = ({setAntiquesModal,setSupportModal }) => {
   };
 
   const showDonateTermModal = () => {
-    // setDonateTerm(true);
+    setDonateTerm(true);
   };
 
   return (

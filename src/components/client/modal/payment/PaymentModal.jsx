@@ -21,20 +21,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
     setPaymentMethod(e.target.value)
   }
 
-  // // open luxrious modal
 
-  // const openLuxuryModal = () => {
-  //   setLuxuryModal(true);
-  //   setModalOpen(false);
-  //   console.log(`ishan`);
-  // };
-
-  // // next button click open modal function
-
-  // const handlieClickNextStep = () => {
-  //   setModalOpen(false);
-  //   setSecondModalOpen(true);
-  // };
 
   // // back modal function
 
@@ -58,16 +45,12 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
     }
   }, [paymentMethod]);
 
-  // paypal payment
 
-  const handlePaypalPayment = async () => {
-    let res = await axios.post("http://137.59.180.219:5001/api/v1/payment");
-    console.log(res);
-    if (res && res.data) {
-      let link = res.data.links[1].href;
-      window.location.href = link;
-    }
-  };
+
+
+  const handlePaypalPayment = ()=>{
+      navigate("/paypa-donate-from")
+  }
 
   return (
     <div>

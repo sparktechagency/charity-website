@@ -7,6 +7,7 @@ import VolunteerModal from "../../components/client/modal/volunteer/VolunteerMod
 import DonateModal from "../../components/client/modal/donate/DonateModal";
 import PaymentModal from "../../components/client/modal/payment/PaymentModal";
 import DonerDetailsModal from "../../components/client/modal/doner-details/DonerDetailsModal";
+import SupportModal from "../../components/client/modal/support-modal/SupportModal";
 const AboutMissionVission = () => {
   // donate modal  terms & conditions. start
 
@@ -28,14 +29,7 @@ const AboutMissionVission = () => {
 
   // Donate Art, Antique or Collectables modal  terms & conditions. end
 
-  // doner details modal use state
   const [donerDetailsModal, setDonerDetailsModal] = useState(false);
-  // payment modal use state
-  const [modalOpen, setModalOpen] = useState(false);
-  // Donate modal use state
-  const [secondModalOpen, setSecondModalOpen] = useState(false);
-  // art antique of luxuryModal use state
-  const [luxuryModal, setLuxuryModal] = useState(false);
 
   // doner details modal start
   const openDonerDetailsModal = () => {
@@ -44,9 +38,22 @@ const AboutMissionVission = () => {
 
   // doner details modal end
 
-  // payment modal start
-  const onClose = () => setModalOpen(false);
-  // payment modal end
+  // support modal useState
+  const [supportModal, setSupportModal] = useState(false);
+  // payment modal useState
+  const [paymentModal, setPaymentModal] = useState(false);
+  /* Donate Art, Antiques or Collectible useState   */
+  const [antiquesModal, setAntiquesModal] = useState(false);
+
+  // support modal start
+  const openSupportModal = () => {
+    setSupportModal(true);
+  };
+  const closeSupportModal = () => {
+    setSupportModal(false);
+  };
+
+  // support modal end
 
   // volunter modal start
   const [isVolunterModal, setIsVolunterModal] = useState(false);
@@ -56,18 +63,16 @@ const AboutMissionVission = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-      modalOpen ||
-      secondModalOpen ||
-      luxuryModal ||
-      donerDetailsModal ||
+      supportModal ||
+      paymentModal ||
+      antiquesModal ||
       isVolunterModal
         ? "hidden"
         : "auto";
   }, [
-    modalOpen,
-    secondModalOpen,
-    luxuryModal,
-    donerDetailsModal,
+    supportModal,
+    paymentModal,
+    antiquesModal,
     isVolunterModal,
   ]);
 
@@ -101,7 +106,7 @@ const AboutMissionVission = () => {
             {/* Buttons */}
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
               <button
-                onClick={openDonerDetailsModal}
+                onClick={openSupportModal}
                 className="bg-[#403730] cursor-pointer text-white py-3 px-6 rounded-md font-medium hover:bg-[#2E2A26]"
               >
                 Support survivors
@@ -117,91 +122,68 @@ const AboutMissionVission = () => {
         </div>
       </div>
 
-      {/* Donar details modal start  */}
+      {/* support modal start  */}
 
-      <div className="  ">
-        <Modal
-          open={donerDetailsModal}
-          footer={null}
-          closable={false}
-          centered
-          width="400px"
-          style={{ top: 0 }}
-        >
-          <DonerDetailsModal
-            setDonerDetailsModal={setDonerDetailsModal}
-            setModalOpen={setModalOpen}
-            // setOpen={setOpen}
-          />
-        </Modal>
-      </div>
+      <Modal
+        title={
+          <span className=" text-2xl mb-4 text-[#263234] font-semibold leading-8 block ">
+            Choose How to Support
+          </span>
+        }
+        open={supportModal}
+        footer={null}
+        closable={true}
+        onCancel={closeSupportModal}
+        centered
+        width="500px"
+        style={{ top: "0px" }}
+      >
+        <SupportModal
+          setPaymentModal={setPaymentModal}
+          setSupportModal={setSupportModal}
+          setAntiquesModal={setAntiquesModal}
+        />
+      </Modal>
 
-      {/* Donar details modal end  */}
+      {/* support modal end  */}
 
       {/* Payment Modal start */}
 
-      <div className="  ">
-        <Modal
-          open={modalOpen}
-          onCancel={onClose}
-          footer={null}
-          closable={false}
-          centered
-          width="400px"
-          style={{ padding: "15px", top: 0 }}
-        >
-          <PaymentModal
-            handleCancel={onClose}
-            setModalOpen={setModalOpen}
-            setLuxuryModal={setLuxuryModal}
-            setSecondModalOpen={setSecondModalOpen}
-            setDonerDetailsModal={setDonerDetailsModal}
-          />
-        </Modal>
-      </div>
+      <Modal
+        open={paymentModal}
+        footer={null}
+        closable={false}
+        centered
+        width="400px"
+        style={{ padding: "15px", top: 0 }}
+      >
+        <PaymentModal
+          setPaymentModal={setPaymentModal}
+          setSupportModal={setSupportModal}
+        />
+      </Modal>
 
       {/* Payment Modal end */}
 
-      {/* Donate modal start second modal */}
+      {/* Donate Art, Antiques or Collectibles modal start */}
 
       <Modal
-        open={secondModalOpen}
+        open={antiquesModal}
         footer={null}
-        centered
         closable={false}
-        style={{ top: 0 }}
+        centered
+        // width="400px"
+        style={{ padding: "15px", top: 0 }}
       >
-        <DonateModal
-          setModalOpen={setModalOpen}
-          setSecondModalOpen={setSecondModalOpen}
+        <ArtAntiqModal
+          setSupportModal={setSupportModal}
+          setAntiquesModal={setAntiquesModal}
+          setPaymentModal={setPaymentModal}
           setDonateTerm={setDonateTerm}
         />
       </Modal>
 
-      {/* Donate modal end  */}
-
-      {/* Donate Art, Antique or Collectables start modal start   */}
-
-      <div className=" w-[600px]  z-50 ">
-        <Modal
-          visible={luxuryModal}
-          footer={null}
-          width={500}
-          height={800}
-          // bodyStyle={{ padding: "20px" }}
-          destroyOnClose
-          closable={false}
-          style={{ top: 0 }}
-        >
-          <ArtAntiqModal
-            setLuxuryModal={setLuxuryModal}
-            setModalOpen={setModalOpen}
-            setDonateTerm={setDonateTerm}
-          />
-        </Modal>
-      </div>
-
-      {/* Donate Art, Antique or Collectables start modal end  */}
+      {/* Donate Art, Antiques or Collectibles modal end */}
 
       {/* start  Volunter Modal */}
 

@@ -17,8 +17,9 @@ import AggrementPage from "../pages/aggrement/AggrementPage";
 import StripeForm from "../components/client/modal/payment/StripeForm";
 import CustomCalendar from "../components/client/calender/DateCalender";
 import PaymentSuccess from "../components/client/modal/payment/PaymentSuccess";
-import DonateModal from "../components/client/modal/donate/DonateModal";
 import DonationFormModal from "../components/client/donation-form-modal/DonationFormModal";
+import PaypalDonationFrom from "../components/client/paypal-payment/PaypalDonationFrom";
+import PaymentDetails from "../components/client/paypal-payment/PaymentDetails";
 
 export const router = createBrowserRouter([
   {
@@ -68,6 +69,15 @@ export const router = createBrowserRouter([
     path : "/donate-from",
     element : <DonationFormModal/>
   },
+  {
+    path : "/paypa-donate-from",
+    element : <PaypalDonationFrom/>
+  },
+  {
+    path : "/payment-details",
+    element : <PaymentDetails/>
+  }
+  ,
   {
     path : "/payment-form",
     element : <StripeForm/>

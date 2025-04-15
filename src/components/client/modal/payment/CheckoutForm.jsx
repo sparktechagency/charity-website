@@ -6,12 +6,14 @@ import {
 import { Card, Button, Descriptions, Divider } from "antd";
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,6 +59,7 @@ const CheckoutForm = () => {
 
   const onEdit = () => {
     console.log(`go to to edit page`);
+    navigate(`/donate-from`)
   };
   const onConfirm = () => {
     console.log(`Proceed to payment`);
@@ -149,8 +152,8 @@ const CheckoutForm = () => {
               {isLoading ? (
                 <div className="spinner" id="spinner"></div>
               ) : (
-                <button className=" bg-[#403730] hover:bg-[#27221D] w-[110px] border-none block mx-auto  py-2 text-white font-bold rounded-md  ">
-                  Pay now
+                <button className=" bg-[#403730] hover:bg-[#27221D] w-[130px]  block mx-auto  py-3 text-white font-bold rounded-md  ">
+                  Donate Now
                 </button>
               )}
             </span>

@@ -157,9 +157,19 @@ export const LuxerySection = ({ onDateChange }) => {
       paymentMethod === "google_pay" ||
       paymentMethod === "apple_pay"
     ) {
-      navigate("/payment-from");
+      navigate("/donate-from");
     }
   }, [paymentMethod]);
+
+  // paypal payment 
+
+  useEffect(()=>{
+    if(paymentMethod==="paypal_pay"){
+      navigate("/paypa-donate-from")
+    }
+  },[paymentMethod])
+
+
 
   return (
     <div className="bg-[#ecebea] lg:mt-16 py-4 p-2 lg:p-0">
