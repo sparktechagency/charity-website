@@ -5,13 +5,9 @@ import { showSuccessAlert } from "../../../../helper/showSuccessAlert";
 
 const { Dragger } = Upload;
 
-const ArtAntiqModal = ({
-  setDonateTerm,
-  setLuxuryModal,
-  setModalOpen
-}) => {
+const ArtAntiqModal = ({setAntiquesModal,setSupportModal }) => {
   const [form] = Form.useForm();
-  
+
   const uploadProps = {
     beforeUpload: () => false, // prevent automatic upload
     multiple: false,
@@ -30,21 +26,18 @@ const ArtAntiqModal = ({
 
     // Reset form fields
     form.resetFields();
-    setLuxuryModal(false);
+    // setLuxuryModal(false);
     showSuccessAlert();
   };
 
-
-  const closeLuxuryModal = () => {
-    setLuxuryModal(false);
-    setModalOpen(true);
+  const closeAnitqueModal = () => {
+    setSupportModal(true);
+    setAntiquesModal(false);
   };
 
   const showDonateTermModal = () => {
-    setDonateTerm(true);
+    // setDonateTerm(true);
   };
-
-
 
   return (
     <div>
@@ -221,7 +214,7 @@ const ArtAntiqModal = ({
         {/* Modal Buttons */}
 
         <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
-          <Button onClick={closeLuxuryModal} className="  navBtn1  ">
+          <Button onClick={closeAnitqueModal} className="  navBtn1  ">
             Back
           </Button>
           <Button htmlType="submit" className="navBtn2">

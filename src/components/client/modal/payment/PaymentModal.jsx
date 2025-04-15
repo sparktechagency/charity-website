@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Input, Button, Checkbox, Upload, Radio, Form } from "antd";
-import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
-import { Divider } from "antd";
+import { Button, Radio, Form } from "antd";
 import { FaCcMastercard } from "react-icons/fa";
-import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import StripeForm from "./StripeForm";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-const PaymentModal = ({
-  
-}) => {
+const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
   const [form] = Form.useForm();
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const backSupportModal = () => {
+    setSupportModal(true);
+    setPaymentModal(false);
+  };
+
+  // open donation modal 
+
+  const openDonationModal = (e)=>{
+    setPaymentModal(false)
+    setPaymentMethod(e.target.value)
+  }
 
   // // open luxrious modal
 
@@ -31,7 +38,7 @@ const PaymentModal = ({
 
   // // back modal function
 
-  // const [paymentMethod, setPaymentMethod] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState(null);
   // // const [paypalLoaded, setPaypalLoaded] = useState(false);
 
   // const onClose = () => {
@@ -39,30 +46,28 @@ const PaymentModal = ({
   //   setDonerDetailsModal(true);
   // };
 
-  const handlePaymentChange = (e) => {
-    // setPaymentMethod(e.target.value);
-  };
+;
 
-  // useEffect(() => {
-  //   if (
-  //     paymentMethod === "card" ||
-  //     paymentMethod === "google_pay" ||
-  //     paymentMethod === "apple_pay"
-  //   ) {
-  //     navigate("/payment-from");
-  //   }
-  // }, [paymentMethod]);
-
-  // paypal payment 
-
-  const handlePaypalPayment = async() =>{
-    let res = await axios.post("http://137.59.180.219:5001/api/v1/payment");
-    console.log(res)
-    if(res && res.data){
-      let link = res.data.links[1].href;
-      window.location.href = link
+  useEffect(() => {
+    if (
+      paymentMethod === "card" ||
+      paymentMethod === "google_pay" ||
+      paymentMethod === "apple_pay"
+    ) {
+      navigate("/donate-from");
     }
-  }
+  }, [paymentMethod]);
+
+  // paypal payment
+
+  const handlePaypalPayment = async () => {
+    let res = await axios.post("http://137.59.180.219:5001/api/v1/payment");
+    console.log(res);
+    if (res && res.data) {
+      let link = res.data.links[1].href;
+      window.location.href = link;
+    }
+  };
 
   return (
     <div>
@@ -72,7 +77,7 @@ const PaymentModal = ({
       {/* Form Start */}
       <Form form={form} layout="vertical">
         <Form.Item name="donation">
-          <Radio.Group onChange={handlePaymentChange} className="w-full">
+          <Radio.Group onChange={openDonationModal} className="w-full">
             <div className="flex flex-col gap-4">
               {/* card */}
               <Radio
@@ -158,7 +163,7 @@ const PaymentModal = ({
 
               {/* paypal Pay */}
               <Radio
-              onClick={handlePaypalPayment}
+                onClick={handlePaypalPayment}
                 value="paypal_pay"
                 className="w-full pl-2 px-2! h-[56px]  border border-[#A6ABAC] rounded-lg cursor-pointer "
               >
@@ -189,34 +194,22 @@ const PaymentModal = ({
                   </svg>
                 </span>
               </Radio>
-
-              {/* Divider */}
-              <Divider style={{ borderColor: "#A6ABAC", margin: "20px 0" }}>
-                Or
-              </Divider>
-
-              {/* Luxurious Retreat Option */}
-              <Radio
-                // onClick={openLuxuryModal}
-                value="luxurious"
-                className="flex items-center pl-2 py-3.5! h-[54px] px-2! justify-between w-full  border border-[#A6ABAC] rounded-lg cursor-pointer"
-              >
-                <span className="text-[#263234] font-medium">
-                  Donate Art, Antique or Collectables
-                </span>
-              </Radio>
             </div>
           </Radio.Group>
         </Form.Item>
 
         {/* Modal Buttons */}
         <div className=" flex flex-col md:flex-row md:justify-end  lg:flex-row justify-center lg:justify-end mt-5 mb-2">
-          <Button onClick={"onClose"} type="text" className=" missionModalBtn1 ">
+          <Button
+            onClick={backSupportModal}
+            type="text"
+            className=" missionModalBtn1 border! "
+          >
             Back
           </Button>
-          <Button onClick={"handlieClickNextStep"} className="missionModalBtn2">
+          {/* <Button onClick={"handlieClickNextStep"} className="missionModalBtn2">
             Proceed next step
-          </Button>
+          </Button> */}
         </div>
       </Form>
     </div>

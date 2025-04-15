@@ -9,6 +9,7 @@ import DonateModal from "../client/modal/donate/DonateModal";
 import ArtAntiqModal from "../client/modal/art-antique/ArtAntiqModal";
 import DonerDetailsModal from "../client/modal/doner-details/DonerDetailsModal";
 import SupportModal from "../client/modal/support-modal/SupportModal";
+import DonationFormModal from "../client/donation-form-modal/DonationFormModal";
 
 const Navbar = () => {
   const [form] = Form.useForm();
@@ -56,9 +57,10 @@ const Navbar = () => {
   const [supportModal, setSupportModal] = useState(false);
   // payment modal useState
   const [paymentModal, setPaymentModal] = useState(false);
-/* Donate Art, Antiques or Collectible useState   */
-const [antiquesModal,setAntiquesModal] = useState(false)
-
+  /* Donate Art, Antiques or Collectible useState   */
+  const [antiquesModal, setAntiquesModal] = useState(false);
+  // donation-form-modal useState
+  const [donationModalForm, setDonationModalForm] = useState(true);
 
   // support modal start
   const openSupportModal = () => {
@@ -89,10 +91,8 @@ const [antiquesModal,setAntiquesModal] = useState(false)
 
   useEffect(() => {
     document.body.style.overflow =
-      modalOpen || secondModalOpen || luxuryModal || donerDetailsModal
-        ? "hidden"
-        : "auto";
-  }, [modalOpen, secondModalOpen, luxuryModal, donerDetailsModal]);
+      supportModal || paymentModal || antiquesModal ? "hidden" : "auto";
+  }, [supportModal, paymentModal, antiquesModal]);
 
   return (
     <nav
@@ -192,11 +192,12 @@ const [antiquesModal,setAntiquesModal] = useState(false)
         onCancel={closeSupportModal}
         centered
         width="500px"
-        style={{ top: 0 }}
+        style={{ top: "0px" }}
       >
         <SupportModal
           setPaymentModal={setPaymentModal}
           setSupportModal={setSupportModal}
+          setAntiquesModal={setAntiquesModal}
         />
       </Modal>
 
@@ -222,7 +223,37 @@ const [antiquesModal,setAntiquesModal] = useState(false)
 
       {/* Donate Art, Antiques or Collectibles modal start */}
 
+      <Modal
+        open={antiquesModal}
+        footer={null}
+        closable={false}
+        centered
+        // width="400px"
+        style={{ padding: "15px", top: 0 }}
+      >
+        <ArtAntiqModal
+          setSupportModal={setSupportModal}
+          setAntiquesModal={setAntiquesModal}
+          setPaymentModal={setPaymentModal}
+        />
+      </Modal>
+
       {/* Donate Art, Antiques or Collectibles modal end */}
+
+      {/* donation-form-modal start  */}
+
+      <Modal
+        open={antiquesModal}
+        footer={null}
+        closable={false}
+        centered
+        // width="400px"
+        style={{ padding: "15px", top: 0 }}
+      >
+        <DonationFormModal></DonationFormModal>
+        
+      </Modal>
+      {/* donation-form-modal end  */}
 
       {/* Donar details modal start  */}
 

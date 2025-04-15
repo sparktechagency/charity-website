@@ -1,6 +1,10 @@
 import { Button, Divider, Form, Radio } from "antd";
 
-const SupportModal = ({ setSupportModal, setPaymentModal }) => {
+const SupportModal = ({
+  setSupportModal,
+  setPaymentModal,
+  setAntiquesModal,
+}) => {
   const [form] = Form.useForm();
 
   //   open payment modal
@@ -10,6 +14,13 @@ const SupportModal = ({ setSupportModal, setPaymentModal }) => {
     setSupportModal(false);
     console.log(`open payment modal`);
   };
+
+  //  open Donate Art, Antique or Collectables
+
+  const openArtAntiqueModal = ()=>{
+    setAntiquesModal(true)
+    setSupportModal(false);
+  }
 
   return (
     <div>
@@ -32,7 +43,7 @@ const SupportModal = ({ setSupportModal, setPaymentModal }) => {
 
               {/* Luxurious Retreat Option */}
               <Radio
-                // onClick={openLuxuryModal}
+                onClick={openArtAntiqueModal}
                 value="antique"
                 className="flex items-center pl-2 py-3.5! h-[54px] px-2! justify-between w-full  border border-[#A6ABAC] rounded-lg cursor-pointer"
               >
