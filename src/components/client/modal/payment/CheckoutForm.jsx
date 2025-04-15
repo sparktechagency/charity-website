@@ -6,12 +6,14 @@ import {
 import { Card, Button, Descriptions, Divider } from "antd";
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,6 +59,7 @@ const CheckoutForm = () => {
 
   const onEdit = () => {
     console.log(`go to to edit page`);
+    navigate(`/donate-from`)
   };
   const onConfirm = () => {
     console.log(`Proceed to payment`);

@@ -39,12 +39,7 @@ const Navbar = () => {
   // doner details modal use state
 
   const [donerDetailsModal, setDonerDetailsModal] = useState(false);
-  // payment modal use state
-  const [modalOpen, setModalOpen] = useState(false);
-  // Donate modal use state
-  const [secondModalOpen, setSecondModalOpen] = useState(false);
-  // art antique of luxuryModal use state
-  const [luxuryModal, setLuxuryModal] = useState(false);
+
 
   // doner details modal start
   const openDonerDetailsModal = () => {
@@ -59,8 +54,7 @@ const Navbar = () => {
   const [paymentModal, setPaymentModal] = useState(false);
   /* Donate Art, Antiques or Collectible useState   */
   const [antiquesModal, setAntiquesModal] = useState(false);
-  // donation-form-modal useState
-  const [donationModalForm, setDonationModalForm] = useState(true);
+
 
   // support modal start
   const openSupportModal = () => {
@@ -235,88 +229,12 @@ const Navbar = () => {
           setSupportModal={setSupportModal}
           setAntiquesModal={setAntiquesModal}
           setPaymentModal={setPaymentModal}
+          setDonateTerm = {setDonateTerm}
         />
       </Modal>
 
       {/* Donate Art, Antiques or Collectibles modal end */}
 
-      {/* donation-form-modal start  */}
-
-      <Modal
-        open={antiquesModal}
-        footer={null}
-        closable={false}
-        centered
-        // width="400px"
-        style={{ padding: "15px", top: 0 }}
-      >
-        <DonationFormModal></DonationFormModal>
-        
-      </Modal>
-      {/* donation-form-modal end  */}
-
-      {/* Donar details modal start  */}
-
-      <div className="  ">
-        <Modal
-          open={donerDetailsModal}
-          footer={null}
-          closable={false}
-          centered
-          width="400px"
-          style={{ top: 0 }}
-        >
-          <DonerDetailsModal
-            setDonerDetailsModal={setDonerDetailsModal}
-            setModalOpen={setModalOpen}
-            // setOpen={setOpen}
-          />
-        </Modal>
-      </div>
-
-      {/* Donar details modal end  */}
-
-      {/* Donate modal start second modal */}
-
-      <Modal
-        open={secondModalOpen}
-        footer={null}
-        centered
-        closable={false}
-        style={{ top: 0 }}
-      >
-        <DonateModal
-          form={form}
-          setModalOpen={setModalOpen}
-          setSecondModalOpen={setSecondModalOpen}
-          setDonateTerm={setDonateTerm}
-        />
-      </Modal>
-
-      {/* Donate modal end  */}
-
-      {/* Donate Art, Antique or Collectables start modal start   */}
-
-      <div className=" w-[600px]  z-50 ">
-        <Modal
-          visible={luxuryModal}
-          footer={null}
-          width={500}
-          height={800}
-          // bodyStyle={{ padding: "20px" }}
-          destroyOnClose
-          closable={false}
-          style={{ top: 0 }}
-        >
-          <ArtAntiqModal
-            setLuxuryModal={setLuxuryModal}
-            setModalOpen={setModalOpen}
-            setDonateTerm={setDonateTerm}
-          />
-        </Modal>
-      </div>
-
-      {/* Donate Art, Antique or Collectables  modal end  */}
 
       {/* donate modal terms conditions start   */}
 
@@ -337,7 +255,6 @@ const Navbar = () => {
       {/* donate modal terms conditions end   */}
 
       {/* Donate Art, Antique or Collectables  Terms & Conditions start */}
-
       <div className=" ">
         <Modal
           width={"70%"}
