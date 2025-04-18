@@ -1,10 +1,18 @@
-import React from "react";
-import { Form, Input, Upload, Button, Select, Checkbox } from "antd";
+import React, { useState } from "react";
+import { Form, Input, Upload, Button, Select, Checkbox, Modal } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import AggrementPage from "../aggrement/AggrementPage";
 
 const { Dragger } = Upload;
 const { Option } = Select;
 const PodcastContact = () => {
+  const [openTerm,setOpenTerm] = useState(false);
+  const cancelTerm = ()=>{
+    setOpenTerm(false)
+  };
+  const openTermModal = ()=>{
+    setOpenTerm(true)
+  }
   return (
     <div className="relative max-w-full  -z-0 lg:pt-[91px] p-3 lg:p-0  bg-[url('/contact-bg-img.png')]  bg-cover bg-center">
       <div className=" max-w-[620px] mx-auto rounded -z-0  shadow   border-[#a6abac] border px-6  ">
@@ -220,9 +228,9 @@ const PodcastContact = () => {
             >
               <Checkbox style={{ color: "#263234", fontSize: "14px" }}>
                 I agree with Virtue Hope's{" "}
-                <a style={{ color: "#263234" }} href="#">
+                <span onClick={openTermModal} className=" underline " style={{ color: "#263234" }}>
                   terms & conditions
-                </a>
+                </span>
                 .
               </Checkbox>
             </Form.Item>
@@ -237,6 +245,7 @@ const PodcastContact = () => {
                   width: "171px",
                   height: "44px",
                   display: "block",
+                  margin: "15px 0px",
                 }}
                 htmlType="submit"
                 block
@@ -246,6 +255,19 @@ const PodcastContact = () => {
             </Form.Item>
           </Form>
         </div>
+      </div>
+      <div className=" ">
+        <Modal
+          width={"70%"}
+          open={openTerm}
+          style={{ top: 0 }}
+          // onOk={handleOk}
+          onCancel={cancelTerm}
+          footer={null} // remove if you want buttons
+          zIndex={1100} // higher z-index
+        >
+          <AggrementPage></AggrementPage>
+        </Modal>
       </div>
     </div>
   );
