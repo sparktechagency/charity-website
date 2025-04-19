@@ -2,14 +2,35 @@ import { Button, Checkbox, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { usePostLoginMutation } from "../../../../redux/dashboardFeatures/postLoginApi";
+import toast from "react-hot-toast";
 
 const AdminDashboardLogin = () => {
+  const [postLogin, { isLoading, isError, isSuccess }] = usePostLoginMutation();
   const [form] = useForm();
+  const navigate = useNavigate();
 
-  const onFinish = () => {
-    console.log("click");
+  const onFinish = async (valus) => {
+    const loginInfo = {
+      email: valus.email,
+      password: valus.password,
+    };
+
+    try {
+      const res = await postLogin(loginInfo).unwrap();
+      const token = res.data?.token;
+      console.log(res);
+      if (res.data?.token) {
+        toast.success(res?.message);
+        localStorage.setItem("admin_token", token);
+        navigate("/admin/dashboard");
+      }
+    } catch (errors) {
+      toast.error(errors.data?.message);
+    }
   };
+
   return (
     <div className="flex justify-center items-center h-screen bg-[#171F20] px-2 md:px-0">
       <div className="w-full max-w-[462px] mx-auto bg-[#263234] rounded-lg p-10 py-8">
@@ -83,22 +104,22 @@ const AdminDashboardLogin = () => {
 
           {/* Submit Button */}
           <Form.Item>
-            <Link to="/admin/dashboard">
-              <Button
-                htmlType="submit"
-                className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
-                style={{
-                  backgroundColor: "#ffffff",
-                  fontFamily: "Roboto",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  padding: "24px ",
-                  marginLeft: "0px",
-                }}
-              >
-                Log in
-              </Button>
-            </Link>
+            {/* <Link to="/admin/dashboard"> */}
+            <Button
+              htmlType="submit"
+              className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
+              style={{
+                backgroundColor: "#ffffff",
+                fontFamily: "Roboto",
+                fontWeight: "bold",
+                fontSize: "16px",
+                padding: "24px ",
+                marginLeft: "0px",
+              }}
+            >
+              Log in
+            </Button>
+            {/* </Link> */}
           </Form.Item>
 
           <Link to={"/admin/dashboard/forget-password"}>

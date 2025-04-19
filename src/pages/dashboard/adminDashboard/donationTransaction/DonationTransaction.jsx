@@ -1,8 +1,13 @@
 import { EyeOutlined } from "@ant-design/icons";
 import { Input, Pagination, Select, Space, Table } from "antd";
 import { EyeIcon } from "lucide-react";
+import { useGetDonationTransitionQuery } from "../../../../redux/dashboardFeatures/getDonationTransition";
 
 const DonationTransaction = () => {
+  const { data } = useGetDonationTransitionQuery({ page: 1 });
+
+  console.log(data, "data---------");
+
   const dataSource = [
     {
       key: 1,

@@ -12,6 +12,9 @@ import {
 } from "../../../../features/modal/modalSlice";
 
 const Contributors = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(20);
+  const [perPage, setPerPage] = useState(4);
   const [searchText, setSearchText] = useState("");
   const [selectValue, stetSelectValue] = useState("");
 
@@ -609,7 +612,11 @@ const Contributors = () => {
 
         {/* pagination */}
         <div className="flex justify-end pt-4">
-          <Pagination defaultCurrent={6} total={500} />
+          <Pagination
+            current={currentPage}
+            total={totalPage}
+            pageSize={perPage}
+          />
         </div>
       </div>
     </div>
