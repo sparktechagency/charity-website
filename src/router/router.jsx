@@ -23,6 +23,7 @@ import AdminDashboardLogin from "../pages/dashboard/adminDashboard/authtication/
 import DashboardForgetPassword from "../pages/dashboard/adminDashboard/authtication/DashboardForgetPassword";
 import DashboardOtp from "../pages/dashboard/adminDashboard/authtication/DashboardOtp";
 import DashboardCreateNewPassword from "../pages/dashboard/adminDashboard/authtication/DashboardCreateNewPassword";
+import AdminRoutes from "./AdminRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -67,7 +68,11 @@ export const router = createBrowserRouter([
   // admin dashboard routes here
   {
     path: "/admin/dashboard",
-    element: <AdminDashboard />,
+    element: (
+      <AdminRoutes>
+        <AdminDashboard />
+      </AdminRoutes>
+    ),
     children: [
       {
         path: "/admin/dashboard",
