@@ -104,7 +104,6 @@ const AdminDashboardLogin = () => {
 
           {/* Submit Button */}
           <Form.Item>
-            {/* <Link to="/admin/dashboard"> */}
             <Button
               htmlType="submit"
               className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
@@ -119,7 +118,6 @@ const AdminDashboardLogin = () => {
             >
               Log in
             </Button>
-            {/* </Link> */}
           </Form.Item>
 
           <Link to={"/admin/dashboard/forget-password"}>

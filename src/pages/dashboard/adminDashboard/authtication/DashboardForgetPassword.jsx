@@ -1,13 +1,28 @@
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { usePostForgetPasswordMutation } from "../../../../redux/dashboardFeatures/postForgetPasswordApi";
+import toast from "react-hot-toast";
 
 const DashboardForgetPassword = () => {
+  const [postForgetPassword] = usePostForgetPasswordMutation();
   const [form] = useForm();
+  const navigate = useNavigate();
 
-  const onFinish = () => {
-    console.log("click");
+  const onFinish = async (value) => {
+    try {
+      const res = await postForgetPassword({ email: value?.email }).unwrap();
+      console.log(res);
+      if (res.data) {
+        toast.success(res?.message);
+        form.resetFields();
+        navigate(`/admin/dashboard/otp?email=${value?.email}`);
+      }
+    } catch (errors) {
+      toast.error(errors?.data?.message);
+    }
   };
+
   return (
     <div className="flex justify-center items-center h-screen bg-[#171F20] px-2 md:px-0">
       <div className="w-full max-w-[462px] mx-auto bg-[#263234] rounded-lg p-10 py-8">
@@ -46,24 +61,22 @@ const DashboardForgetPassword = () => {
             </Form.Item>
           </div>
           {/* Submit Button */}
-          <Form.Item>
-            <Link to="/admin/dashboard/otp">
-              <Button
-                htmlType="submit"
-                className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
-                style={{
-                  backgroundColor: "#ffffff",
-                  fontFamily: "Roboto",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  padding: "24px ",
-                  marginLeft: "0px",
-                }}
-              >
-                Get OTP
-              </Button>
-            </Link>
-          </Form.Item>
+          {/* <Link to="/admin/dashboard/otp"> */}
+          <Button
+            htmlType="submit"
+            className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
+            style={{
+              backgroundColor: "#ffffff",
+              fontFamily: "Roboto",
+              fontWeight: "bold",
+              fontSize: "16px",
+              padding: "24px ",
+              marginLeft: "0px",
+            }}
+          >
+            Get OTP
+          </Button>
+          {/* </Link> */}
         </Form>
       </div>
     </div>

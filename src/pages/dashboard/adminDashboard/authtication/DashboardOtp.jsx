@@ -1,12 +1,30 @@
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { usePostOtpMutation } from "../../../../redux/dashboardFeatures/postOtpApi";
+import toast from "react-hot-toast";
 
 const DashboardOtp = () => {
+  const [postOtp] = usePostOtpMutation();
   const [form] = useForm();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const searchEmail = searchParams.get("email");
 
-  const onFinish = () => {
-    console.log("click");
+  const onFinish = async (value) => {
+    try {
+      const res = await postOtp({ otp: value.otp }).unwrap();
+      const token = res.data?.token;
+      console.log(res);
+      if (res.data) {
+        toast.success(res?.message);
+        localStorage.setItem("admin_token", token);
+        form.resetFields();
+        navigate(`/admin/dashboard/create-new-password?email=${searchEmail}`);
+      }
+    } catch (errors) {
+      toast.error(errors?.data?.message);
+    }
   };
   return (
     <div className="flex justify-center items-center h-screen bg-[#171F20] px-2 md:px-0">
@@ -47,26 +65,21 @@ const DashboardOtp = () => {
               />
             </Form.Item>
           </div>
-
           {/* submit button */}
-          <Form.Item>
-            <Link to="/admin/dashboard/create-new-password">
-              <Button
-                htmlType="submit"
-                className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
-                style={{
-                  backgroundColor: "#ffffff",
-                  fontFamily: "Roboto",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  padding: "24px ",
-                  marginLeft: "0px",
-                }}
-              >
-                Submit OTP
-              </Button>
-            </Link>
-          </Form.Item>
+          <Button
+            htmlType="submit"
+            className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
+            style={{
+              backgroundColor: "#ffffff",
+              fontFamily: "Roboto",
+              fontWeight: "bold",
+              fontSize: "16px",
+              padding: "24px ",
+              marginLeft: "0px",
+            }}
+          >
+            Submit OTP
+          </Button>
         </Form>
       </div>
     </div>

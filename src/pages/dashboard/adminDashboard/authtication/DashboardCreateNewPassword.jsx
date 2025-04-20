@@ -1,12 +1,35 @@
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useCreateNewPasswordMutation } from "../../../../redux/dashboardFeatures/postCreateNewPasswordApi";
+import toast from "react-hot-toast";
 
 const DashboardCreateNewPassword = () => {
+  const [createNewPassword] = useCreateNewPasswordMutation();
   const [form] = useForm();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const searchEmail = searchParams.get("email");
 
-  const onFinish = () => {
-    console.log("click");
+  const onFinish = async (values) => {
+    const updatePassword = {
+      new_password: values.new_password,
+      new_password_confirmation: values.new_password_confirmation,
+      email: searchEmail,
+    };
+
+    try {
+      const res = await createNewPassword(updatePassword).unwrap();
+      console.log(res);
+
+      if (res.data) {
+        toast.success(res?.message);
+        navigate("/admin/dashboard/login");
+        form.resetFields();
+      }
+    } catch (errors) {
+      toast.error(errors.data?.message || "Failed-------?");
+    }
   };
 
   return (
@@ -34,7 +57,7 @@ const DashboardCreateNewPassword = () => {
               New password
             </p>
             <Form.Item
-              name="new-password"
+              name="new_password"
               rules={[
                 {
                   required: true,
@@ -60,7 +83,7 @@ const DashboardCreateNewPassword = () => {
               Confirm new password
             </p>
             <Form.Item
-              name="confirm-new-password"
+              name="new_password_confirmation"
               rules={[
                 {
                   required: true,
@@ -82,24 +105,20 @@ const DashboardCreateNewPassword = () => {
           </div>
 
           {/* Submit Button */}
-          <Form.Item>
-            <Link to="/admin/dashboard/login">
-              <Button
-                htmlType="submit"
-                className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
-                style={{
-                  backgroundColor: "#ffffff",
-                  fontFamily: "Roboto",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  padding: "24px ",
-                  marginLeft: "0px",
-                }}
-              >
-                Save changes
-              </Button>
-            </Link>
-          </Form.Item>
+          <Button
+            htmlType="submit"
+            className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
+            style={{
+              backgroundColor: "#ffffff",
+              fontFamily: "Roboto",
+              fontWeight: "bold",
+              fontSize: "16px",
+              padding: "24px ",
+              marginLeft: "0px",
+            }}
+          >
+            Save changes
+          </Button>
         </Form>
       </div>
     </div>
