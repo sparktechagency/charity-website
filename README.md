@@ -6,6 +6,6 @@
 <!-- 
 1. features---> api create
 
-2. create-new-password ---- not get error
+2. create-new-password ---- not get error and not solved
 
 -->
