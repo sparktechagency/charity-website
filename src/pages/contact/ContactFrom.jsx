@@ -7,25 +7,18 @@ import {
   Select,
   Checkbox,
   Modal,
-  InputNumber,
 } from "antd";
-import {
-  AppleOutlined,
-  CreditCardOutlined,
-  GoogleOutlined,
-  InboxOutlined,
-} from "@ant-design/icons";
+
 import AggrementPage from "../aggrement/AggrementPage";
 import PersonalDetailModal from "../../components/client/auctionModal/PersonalDetailModal";
 import CardNumberModal from "../../components/client/auctionModal/CardNumberModal";
 
-const { Dragger } = Upload;
+
 const { Option } = Select;
 
 const ContactFrom = () => {
   const [form] = Form.useForm();
   const donateFull = Form.useWatch("donateFull", form);
-  const [verified, isVerified] = useState(false);
   // 1st modal useState
   const [firstModal, setFirstModal] = useState(false);
   const [secondModal, setSecondModal] = useState(false);
@@ -44,27 +37,7 @@ const ContactFrom = () => {
     setFirstModal(true);
   };
 
-  // 1st modal start
 
-  const cancleFirstModal = () => {
-    setFirstModal(false);
-  };
-
-  // 1st modal end
-
-  // // 2nd modal start
-
-  const openSecondModal = (values) => {
-    console.log(values);
-    setFirstModal(false);
-    setSecondModal(true);
-    console.log(`open 1st modal`);
-  };
-
-  const backFirstModal = () => {
-    setFirstModal(true);
-    setSecondModal(false);
-  };
 
   // 2nd modal end
 
