@@ -251,7 +251,7 @@ const PersonalDetailModal = ({ setFirstModal, setSecondModal }) => {
               </div>
             </Dragger>
           </Form.Item>
-          <div className="flex flex-col lg:flex-row md:flex-row lg:justify-end lg:gap-8 ">
+          <div className="flex flex-col lg:flex-row md:flex-row md:justify-end lg:justify-end lg:gap-8 ">
             <Button onClick={cancleFirstModal} className="missionModalBtn1">
               Cancel
             </Button>
