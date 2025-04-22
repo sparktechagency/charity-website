@@ -5,11 +5,8 @@ import {
   AppleOutlined,
   CreditCardOutlined,
   GoogleOutlined,
-  UploadOutlined,
 } from "@ant-design/icons";
-import { Radio, Card, Space } from "antd";
-import { InputNumber } from "antd";
-import Dragger from "antd/es/upload/Dragger";
+
 import Checkbox from "antd/es/checkbox/Checkbox";
 
 import "slick-carousel/slick/slick.css";
@@ -17,7 +14,6 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 import { showSuccessAlert } from "../../helper/showSuccessAlert";
-import { FaCcMastercard } from "react-icons/fa";
 import AggrementPage from "../aggrement/AggrementPage";
 
 const AuctionSlider = () => {
@@ -102,34 +98,40 @@ const AuctionSlider = () => {
 
   // 2nd slide start
 
+  const [selectedKey, setSelectedKey] = useState(null); // To store selected item key
+  const [selectedValue, setSelectedValue] = useState(""); // To store selected label
+  const [customAmount, setCustomAmount] = useState(""); // To store custom input
   const items = [
     { key: "1", label: "$25" },
     { key: "2", label: "$30" },
     { key: "3", label: "$40" },
     { key: "4", label: "$50" },
-    { key: "5", label: "None" },
+    { key: "5", label: "Custom" },
   ];
 
-  const [selectedValue, setSelectedValue] = useState(null);
+
   const [firstModal, setFirstModal] = useState(false);
   const [secondModal, setSecondModal] = useState(false);
 
-  const handleMenuClick = (e) => {
-    const selectedItem = items.find((item) => item.key === e.key);
-    if (selectedItem) {
-      setSelectedValue(selectedItem.label);
-    }
-  };
-
-  // first modal start
-
   const openFirstModal = () => {
     if (selectedValue && selectedValue !== "None") {
+      setFirstModal(true);
+    } else if (customAmount.length !== 0) {
       setFirstModal(true);
     } else {
       console.log("No bid selected, modal won't open.");
     }
   };
+  // Handle item click from dropdown
+  const handleMenuClick = ({ key }) => {
+    setSelectedKey(key);
+    // Set value based on the key
+    const selected = items.find((item) => item.key === key);
+    setSelectedValue(selected?.label || "");
+   
+  };
+
+  // first modal start
 
   const handleCancel = () => {
     setFirstModal(false);
@@ -189,7 +191,7 @@ const AuctionSlider = () => {
           <Slider {...settings} className="w-full">
             {/* 1st slide  */}
             <div>
-              <div className=" bg-[#ecebea] ml-5 lg:h-[70vh] hidden lg:flex rounded-2xl ">
+              <div className=" bg-[#ecebea] ml-5  hidden lg:flex rounded-2xl ">
                 <div className=" lg:w-[1036px] w-full      ">
                   <div className="  bg-white shadow  rounded-2xl  flex lg:flex-row flex-col lg:justify-between px-6 py-6 gap-6  ">
                     <div className=" lg:w-[433px]  ">
@@ -266,7 +268,36 @@ const AuctionSlider = () => {
                         </div>
                       </div>
 
-                      <div className="flex lg:flex-row flex-col items-center justify-between mt-8 gap-4">
+                      <div className=" mt-12 flex flex-row    gap-x-3  ml-[252px]  ">
+                        <div className="">
+                          {selectedKey === "5" && (
+                            <div className="mb-2">
+                              <Input
+                                type="number"
+                                placeholder="Enter custom amount"
+                                onChange={(e) => {
+                                  setCustomAmount(e.target.value);
+                                }}
+                                className="w-40"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          {selectedKey === "5" && (
+                            <>
+                              <p
+                                className=" cursor-pointer  "
+                                onClick={() => setSelectedKey(null)}
+                              >
+                                x
+                              </p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex lg:flex-row flex-col   items-center justify-between  gap-4">
                         {/* Price & Bids */}
                         <div className="text-gray-900 text-xl font-bold">
                           $1,80{" "}
@@ -284,11 +315,19 @@ const AuctionSlider = () => {
                               className="flex items-center gap-1 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-[12px] py-2.5 hover:bg-[#2c241f] transition"
                             >
                               <Gavel className="w-4 h-4" />
-                              Bid online{" "}
-                              {selectedValue !== "None" ? selectedValue : ""}
+                              Bid online
+                              {selectedValue !== "None" &&
+                              selectedValue !== "Custom"
+                                ? ` ${selectedValue}`
+                                : ""}
+                              {customAmount.length > 0
+                                ? ` £${customAmount} `
+                                : ""}
                             </button>
                           </div>
+
                           <div>
+                            {/* Dropdown Below */}
                             <Dropdown
                               menu={{
                                 items: items.map((item) => ({
@@ -306,7 +345,7 @@ const AuctionSlider = () => {
                             >
                               <Button onClick={(e) => e.preventDefault()}>
                                 <span className="flex">
-                                  <ChevronDown className="" />
+                                  <ChevronDown />
                                 </span>
                               </Button>
                             </Dropdown>
@@ -332,12 +371,12 @@ const AuctionSlider = () => {
             {/* 2nd slide  */}
 
             <div>
-              <div className=" bg-[#ecebea] ml-5 lg:h-[70vh] hidden lg:flex rounded-2xl ">
+              <div className=" bg-[#ecebea] ml-5  hidden lg:flex rounded-2xl ">
                 <div className=" lg:w-[1036px] w-full      ">
                   <div className="  bg-white shadow  rounded-2xl  flex lg:flex-row flex-col lg:justify-between px-6 py-6 gap-6  ">
                     <div className=" lg:w-[433px]  ">
                       <h1 className=" font-semibold lg:text-5xl text-2xl lg:leading-12 text-black lg:pb-4  ">
-                        Capturing the first light of day in a serene landscape
+                      Capturing the first light of day in a serene landscape
                       </h1>
                       <p className=" lg:mt-4 text-[#263234] lg:text-xl ">
                         Estimated price :
@@ -403,9 +442,42 @@ const AuctionSlider = () => {
                           them with the resources to rebuild their lives. We can
                           create a masterpiece of change.
                         </p>
+                        {/* Quote Icon */}
+                        <div className=" lg:ml-20  -mt-9  ">
+                          <Quote className="text-gray-600 w-6 h-6" />
+                        </div>
                       </div>
 
-                      <div className="flex lg:flex-row flex-col items-center justify-between mt-8 gap-4">
+                      <div className=" mt-12 flex flex-row    gap-x-3  ml-[252px]  ">
+                        <div className="">
+                          {selectedKey === "5" && (
+                            <div className="mb-2">
+                              <Input
+                                type="number"
+                                placeholder="Enter custom amount"
+                                onChange={(e) => {
+                                  setCustomAmount(e.target.value);
+                                }}
+                                className="w-40"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          {selectedKey === "5" && (
+                            <>
+                              <p
+                                className=" cursor-pointer  "
+                                onClick={() => setSelectedKey(null)}
+                              >
+                                x
+                              </p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex lg:flex-row flex-col   items-center justify-between  gap-4">
                         {/* Price & Bids */}
                         <div className="text-gray-900 text-xl font-bold">
                           $1,80{" "}
@@ -423,11 +495,19 @@ const AuctionSlider = () => {
                               className="flex items-center gap-1 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-[12px] py-2.5 hover:bg-[#2c241f] transition"
                             >
                               <Gavel className="w-4 h-4" />
-                              Bid online{" "}
-                              {selectedValue !== "None" ? selectedValue : ""}
+                              Bid online
+                              {selectedValue !== "None" &&
+                              selectedValue !== "Custom"
+                                ? ` ${selectedValue}`
+                                : ""}
+                              {customAmount.length > 0
+                                ? ` £${customAmount} `
+                                : ""}
                             </button>
                           </div>
+
                           <div>
+                            {/* Dropdown Below */}
                             <Dropdown
                               menu={{
                                 items: items.map((item) => ({
@@ -445,7 +525,7 @@ const AuctionSlider = () => {
                             >
                               <Button onClick={(e) => e.preventDefault()}>
                                 <span className="flex">
-                                  <ChevronDown className="" />
+                                  <ChevronDown />
                                 </span>
                               </Button>
                             </Dropdown>
@@ -996,7 +1076,9 @@ const AuctionSlider = () => {
                     }}
                   >
                     I agree to the{" "}
-                    <span onClick={openDonateTermModal} className="underline">terms & conditions</span>{" "}
+                    <span onClick={openDonateTermModal} className="underline">
+                      terms & conditions
+                    </span>{" "}
                   </Checkbox>
                 </Form.Item>
 
@@ -1064,30 +1146,6 @@ const AuctionSlider = () => {
               </div>
               <div className="mt-4">
                 <Form layout="vertical">
-                  {/* Card Number */}
-                  <Form.Item
-                    name="cardNumber"
-                    label={
-                      <span className="text-[#414651] text-[14px] font-medium">
-                        Enter your card number
-                      </span>
-                    }
-                    rules={[
-                      { required: true, message: "Card number is required" },
-                    ]}
-                    style={{ marginBottom: "0px" }}
-                  >
-                    <Input
-                      className="py-3 px-4 placeholder:text-[16px] w-full"
-                      placeholder="Enter your card number"
-                      maxLength={19}
-                      style={{
-                        border: "1px solid #D5D7DA",
-                        outline: "none",
-                      }}
-                    />
-                  </Form.Item>
-
                   {/* Payment Method */}
                   <Form.Item
                     name="paymentMethod"
@@ -1150,6 +1208,30 @@ const AuctionSlider = () => {
                         </span>
                       </Option>
                     </Select>
+                  </Form.Item>
+
+                  {/* Card Number */}
+                  <Form.Item
+                    name="cardNumber"
+                    label={
+                      <span className="text-[#414651] text-[14px] font-medium">
+                        Enter your card number
+                      </span>
+                    }
+                    rules={[
+                      { required: true, message: "Card number is required" },
+                    ]}
+                    style={{ marginBottom: "0px" }}
+                  >
+                    <Input
+                      className="py-3 px-4 placeholder:text-[16px] w-full"
+                      placeholder="Enter your card number"
+                      maxLength={19}
+                      style={{
+                        border: "1px solid #D5D7DA",
+                        outline: "none",
+                      }}
+                    />
                   </Form.Item>
 
                   {/* Modal Buttons */}
