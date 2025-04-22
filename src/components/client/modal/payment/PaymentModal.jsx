@@ -153,7 +153,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
                 <h1 className="block mt-3.5 text-[16px] text-[#263234] leading-6 font-medium">
                   PayPal Pay
                 </h1>
-                <span className="block  lg:ml-[240px] md:ml-[209%] ml-[140%] -mt-6 ">
+                <span className="block  lg:ml-[240px] md:ml-[242px] ml-[140%] -mt-6 ">
                   {/* paypal Pay Icon */}
                   <svg
                     width="24"
