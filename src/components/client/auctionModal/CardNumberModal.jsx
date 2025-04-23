@@ -8,7 +8,7 @@ import {
 
 const { Option } = Select;
 
-const CardNumberModal = ({ setFirstModal, setSecondModal, donateFull }) => {
+const CardNumberModal = ({ setAuctionDetailsModal,setPaymentModal ,donateFull }) => {
   const [form] = Form.useForm();
 
   const handleSubmit = (values) => {
@@ -16,9 +16,9 @@ const CardNumberModal = ({ setFirstModal, setSecondModal, donateFull }) => {
     // Add your API logic or success transition here
   };
 
-  const backFirstModal = () => {
-    setFirstModal(true);
-    setSecondModal(false);
+  const backModal = () => {
+    setAuctionDetailsModal(true);
+    setPaymentModal(false)
   };
 
   return (
@@ -144,7 +144,7 @@ const CardNumberModal = ({ setFirstModal, setSecondModal, donateFull }) => {
 
             {/* Buttons */}
             <div className="flex flex-col lg:flex-row md:flex-row lg:justify-end lg:gap-8">
-              <Button onClick={backFirstModal} className="missionModalBtn1">
+              <Button onClick={backModal} className="missionModalBtn1">
                 Go Back
               </Button>
               <Button htmlType="submit" className="missionModalBtn2">

@@ -1,14 +1,5 @@
-import React, { useEffect, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-
-import { Button, Form, Input, Modal, Select, Upload, Dropdown } from "antd";
-import { ChevronDown, Gavel, Quote } from "lucide-react";
-import {
-  AppleOutlined,
-  CreditCardOutlined,
-  GoogleOutlined,
-} from "@ant-design/icons";
-import { InputNumber } from "antd";
+import { Button, Form, Input, Select } from "antd";
 import Dragger from "antd/es/upload/Dragger";
 import Checkbox from "antd/es/checkbox/Checkbox";
 
@@ -19,10 +10,13 @@ const AuctionDetailsModal = ({
   setDonateTerm,
   isVerified,
   verified,
-  donateFull,
   setPaymentModal
 }) => {
   const [form] = Form.useForm();
+
+    const donateFull = Form.useWatch("donateFull", form);
+  
+    console.log(!donateFull);
 
   function onChange(e) {
     console.log("Captcha value:", e);
@@ -49,10 +43,8 @@ const AuctionDetailsModal = ({
     setPersonalDetailsModal(true)
     form.resetFields();
   };
-  const openSecondModal = () => {
-    setPersonalDetailsModal(true);
-    setAuctionDetailsModal(false);
-  };
+ 
+
 
   return (
     <div>
