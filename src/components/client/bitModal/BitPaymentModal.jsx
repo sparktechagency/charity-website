@@ -1,40 +1,20 @@
+import { Button, Form, Radio } from "antd";
 import React, { useEffect, useState } from "react";
-import { Button, Radio, Form } from "antd";
 import { FaCcMastercard } from "react-icons/fa";
-import StripeForm from "./StripeForm";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
+
+const BitPaymentModal = () => {
   const [form] = Form.useForm();
+
+  const [paymentMethod, setPaymentMethod] = useState(null);
 
   const navigate = useNavigate();
 
-  const backSupportModal = () => {
-    setSupportModal(true);
-    setPaymentModal(false);
+  // open donation modal
+
+  const openDonationModal = (e) => {
+    setPaymentMethod(e.target.value);
   };
-  
-  // open donation modal 
-  
-  const [paymentMethod, setPaymentMethod] = useState(null);
-  
-  const openDonationModal = (e)=>{
-    setPaymentModal(false)
-    setPaymentMethod(e.target.value)
-  }
-
-
-
-  // // back modal function
-
-  // // const [paypalLoaded, setPaypalLoaded] = useState(false);
-
-  // const onClose = () => {
-  //   setModalOpen(false);
-  //   setDonerDetailsModal(true);
-  // };
-
-;
 
   useEffect(() => {
     if (
@@ -42,24 +22,53 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
       paymentMethod === "google_pay" ||
       paymentMethod === "apple_pay"
     ) {
-      navigate("/donate-from");
+      navigate("/bit-payment");
     }
   }, [paymentMethod]);
 
-
-
-
-  const handlePaypalPayment = ()=>{
-      navigate("/paypa-donate-from")
-  }
+  const handlePaypalPayment = () => {
+    navigate("/paypa-donate-from");
+  };
 
   return (
     <div>
-      <h1 className="mb-6 text-[#263234] text-2xl leading-9 font-semibold px-1.5 ">
-        Please choose the way you want to Donate
+      <h1 className="text-[#263234] font-semibold text-2xl leading-8 mb-4 block ">
+        Choose a payment getway
       </h1>
-      {/* Form Start */}
-      <Form form={form} layout="vertical">
+      <div className="flex items-center">
+        <div>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <mask
+              id="mask0_179849_6497"
+              maskUnits="userSpaceOnUse"
+              x="0"
+              y="0"
+              width="24"
+              height="24"
+            >
+              <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_179849_6497)">
+              <path
+                d="M10.95 15.55L16.6 9.9L15.175 8.475L10.95 12.7L8.85 10.6L7.425 12.025L10.95 15.55ZM12 22C9.68333 21.4167 7.77083 20.0875 6.2625 18.0125C4.75417 15.9375 4 13.6333 4 11.1V5L12 2L20 5V11.1C20 13.6333 19.2458 15.9375 17.7375 18.0125C16.2292 20.0875 14.3167 21.4167 12 22Z"
+                fill="#658A30"
+              />
+            </g>
+          </svg>
+        </div>
+        <div className="mb-4" >
+          <h1 className="text-[#263234] text-[16px]  ">
+            You won’t be charged until won the bid <br /> called.
+          </h1>
+        </div>
+      </div>
+      <Form className="mt-4!" form={form} layout="vertical">
         <Form.Item name="donation">
           <Radio.Group onChange={openDonationModal} className="w-full">
             <div className="flex flex-col gap-4">
@@ -185,19 +194,19 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
         {/* Modal Buttons */}
         <div className=" flex flex-col md:flex-row md:justify-end  lg:flex-row justify-center lg:justify-end mt-5 mb-2">
           <Button
-            onClick={backSupportModal}
+            onClick={"backSupportModal"}
             type="text"
             className=" missionModalBtn1 border! "
           >
             Back
           </Button>
-          {/* <Button onClick={"handlieClickNextStep"} className="missionModalBtn2">
-            Proceed next step
-          </Button> */}
+          <Button onClick={"handlieClickNextStep"} className="missionModalBtn2">
+            Save me card
+          </Button>
         </div>
       </Form>
     </div>
   );
 };
 
-export default PaymentModal;
+export default BitPaymentModal;
