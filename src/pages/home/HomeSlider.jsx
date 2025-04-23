@@ -1021,6 +1021,8 @@ const HomeSlider = () => {
           <AggrementPage></AggrementPage>
         </Modal>
       </div>
+
+      
     </div>
   );
 };

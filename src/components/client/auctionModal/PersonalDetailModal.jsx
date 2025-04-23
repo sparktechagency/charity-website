@@ -256,7 +256,6 @@ const PersonalDetailModal = ({ setPersonalDetailsModal,setAuctionDetailsModal })
           <Button
             onClick={() => {
               setPersonalDetailsModal(false);
-              setAuctionDetailsModal(true);
             }}
             className="missionModalBtn1"
           >
