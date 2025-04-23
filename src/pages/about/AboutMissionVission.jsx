@@ -8,14 +8,18 @@ import DonateModal from "../../components/client/modal/donate/DonateModal";
 import PaymentModal from "../../components/client/modal/payment/PaymentModal";
 import DonerDetailsModal from "../../components/client/modal/doner-details/DonerDetailsModal";
 import SupportModal from "../../components/client/modal/support-modal/SupportModal";
+import GeneralTermCondictionModal from "../../components/client/GeneralTermCondictionModal/GeneralTermCondictionModal";
 const AboutMissionVission = () => {
   // donate modal  terms & conditions. start
 
-  const [termsModal, setTermsModal] = useState(false);
+  // general  terms & conditions. modal start
+  const [generalTerm, setGeneralTerm] = useState(false);
 
-  const termModalCanel = () => {
-    setTermsModal(false);
+  const closeGeneralTermModal = () => {
+    setGeneralTerm(false);
   };
+
+  // general  terms & conditions. modal end
 
   // donate modal  terms & conditions. end
 
@@ -29,16 +33,9 @@ const AboutMissionVission = () => {
 
   // Donate Art, Antique or Collectables modal  terms & conditions. end
 
-  const [donerDetailsModal, setDonerDetailsModal] = useState(false);
-
-  // doner details modal start
-  const openDonerDetailsModal = () => {
-    setDonerDetailsModal(true);
-  };
-
   // doner details modal end
 
-  // support modal useState
+  // volunter modal useState
   const [supportModal, setSupportModal] = useState(false);
   // payment modal useState
   const [paymentModal, setPaymentModal] = useState(false);
@@ -63,18 +60,10 @@ const AboutMissionVission = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-      supportModal ||
-      paymentModal ||
-      antiquesModal ||
-      isVolunterModal
+      supportModal || paymentModal || antiquesModal || isVolunterModal
         ? "hidden"
         : "auto";
-  }, [
-    supportModal,
-    paymentModal,
-    antiquesModal,
-    isVolunterModal,
-  ]);
+  }, [supportModal, paymentModal, antiquesModal, isVolunterModal]);
 
   return (
     <div className="  p-4 bg-[#ecebea]  ">
@@ -200,30 +189,27 @@ const AboutMissionVission = () => {
         >
           <VolunteerModal
             setIsVolunterModal={setIsVolunterModal}
-            setDonateTerm={setDonateTerm}
+            setGeneralTerm={setGeneralTerm}
           />
         </Modal>
       </div>
 
       {/* end   Volunter Modal*/}
 
-      {/* donate modal terms conditions start   */}
-
+      {/* volunter general term and condiction modal start  */}
       <div className=" ">
         <Modal
-          width={"70%"}
-          open={termsModal}
+          width={"80%"}
+          open={generalTerm}
           style={{ top: 0 }}
-          // onOk={handleOk}
-          onCancel={termModalCanel}
-          footer={null} // remove if you want buttons
-          zIndex={1100} // higher z-index
+          onCancel={closeGeneralTermModal}
+          footer={null}
+          zIndex={1100}
         >
-          <AggrementPage></AggrementPage>
+          <GeneralTermCondictionModal/>
         </Modal>
       </div>
-
-      {/* donate modal terms conditions end   */}
+      {/* volunter general term and condiction modal end  */}
 
       {/* Donate Art, Antique or Collectables  Terms & Conditions modal start */}
 

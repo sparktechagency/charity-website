@@ -12,6 +12,11 @@ const JoinVoenture = () => {
     };
   
     // general  terms & conditions. modal end
+
+
+
+
+    
   const [isVolunterModal, setIsVolunterModal] = useState(false);
   const openVolunterModal = () => {
     setIsVolunterModal(true);
@@ -73,12 +78,13 @@ const JoinVoenture = () => {
       {/* general term and condiction modal start  */}
       <div className=" ">
         <Modal
-          width={"70%"}
+          width={"80%"}
           open={generalTerm}
           style={{ top: 0 }}
           onCancel={closeGeneralTermModal}
           footer={null}
           zIndex={1100}
+          
         >
           <GeneralTermCondictionModal />
         </Modal>
