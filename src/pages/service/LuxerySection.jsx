@@ -222,7 +222,7 @@ export const LuxerySection = ({ onDateChange }) => {
         footer={null}
         style={{ top: 0 }}
         closable={false}
-        width={"30%"}
+        
       >
         <p className=" text-[#263234] leading-8 font-semibold text-lg ">
           Basic information
