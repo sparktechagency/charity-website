@@ -38,13 +38,7 @@ const Navbar = () => {
 
   // doner details modal use state
 
-  const [donerDetailsModal, setDonerDetailsModal] = useState(false);
 
-
-  // doner details modal start
-  const openDonerDetailsModal = () => {
-    setDonerDetailsModal(true);
-  };
 
   // doner details modal end
 
@@ -59,6 +53,7 @@ const Navbar = () => {
   // support modal start
   const openSupportModal = () => {
     setSupportModal(true);
+    setOpen(false)
   };
   const closeSupportModal = () => {
     setSupportModal(false);
@@ -164,7 +159,7 @@ const Navbar = () => {
 
           {/* Support Button in Drawer (Closes Drawer & Opens Modal) */}
           <button
-            onClick={openDonerDetailsModal}
+            onClick={openSupportModal}
             className="mt-6 bg-[#403730] w-full py-3 cursor-pointer text-white rounded-md font-medium text-sm hover:opacity-90"
           >
             Support Survivors

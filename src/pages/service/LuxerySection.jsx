@@ -8,6 +8,7 @@ import AggrementPage from "../aggrement/AggrementPage";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { format } from "date-fns";
+import GeneralTermCondictionModal from "../../components/client/GeneralTermCondictionModal/GeneralTermCondictionModal";
 
 const timeSlots = [
   { id: 1, slot: "10:00 AM" },
@@ -63,15 +64,23 @@ export const LuxerySection = ({ onDateChange }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Modal Open Function
+
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  // Modal Close Function
+  const cancelBookingModal = ()=>{
+    setIsModalOpen(false)
+  }
+
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  
+  // booking modal end
+
 
   const [form] = Form.useForm();
 
@@ -96,30 +105,27 @@ export const LuxerySection = ({ onDateChange }) => {
 
   // booking modal end
 
-  // payment modal start
 
 
-  // Modal Open Function
 
-  const showPaymentModal = () => {
-    setIsModalOpen(false);
-    form.resetFields();
-    document.body.style.overflow = "hidden";
-  };
+
 
 
 
   // payment modal end
 
-  const [termsModal, setTermsModal] = useState(false);
+    // general  terms & conditions. modal start
+    const [generalTerm, setGeneralTerm] = useState(false);
 
-  const termModalCanel = () => {
-    setTermsModal(false);
-  };
+    const closeGeneralTermModal = () => {
+      setGeneralTerm(false);
+    };
 
-  const openTermModal = () => {
-    setTermsModal(true);
-  };
+    const openGeneralTermModal  = ()=>{
+      setGeneralTerm(true)
+    }
+  
+    // general  terms & conditions. modal end
 
   useEffect(() => {
     document.body.style.overflow =
@@ -222,7 +228,7 @@ export const LuxerySection = ({ onDateChange }) => {
         footer={null}
         style={{ top: 0 }}
         closable={false}
-        width={"30%"}
+        
       >
         <p className=" text-[#263234] leading-8 font-semibold text-lg ">
           Basic information
@@ -375,7 +381,7 @@ export const LuxerySection = ({ onDateChange }) => {
               <span className=" text-[#263234] text-[14px] leading-5 ">
                 I agree with Virtue Hope’s{" "}
                 <Link
-                  onClick={openTermModal}
+                  onClick={openGeneralTermModal}
                   className=" underline decoration-solid "
                   to={""}
                 >
@@ -387,7 +393,7 @@ export const LuxerySection = ({ onDateChange }) => {
 
           {/* Submit Button */}
           <div className="flex justify-end gap-3">
-            <Button className="serviceBtn2" onClick={showPaymentModal}>
+            <Button onClick={cancelBookingModal} className="serviceBtn2" >
               Cancel
             </Button>
             <Button className="serviceBtn3" htmlType="submit">
@@ -401,19 +407,21 @@ export const LuxerySection = ({ onDateChange }) => {
 
       {/* term condiction modal */}
 
-      <div className=" ">
+            {/* general term and condiction modal start  */}
+            <div className=" ">
         <Modal
-          width={"70%"}
-          open={termsModal}
-          // onOk={handleOk}
+          width={"80%"}
+          open={generalTerm}
           style={{ top: 0 }}
-          onCancel={termModalCanel}
+          onCancel={closeGeneralTermModal}
+          footer={null}
           zIndex={1100}
-          footer={null} // remove if you want buttons
+          
         >
-          <AggrementPage></AggrementPage>
+          <GeneralTermCondictionModal />
         </Modal>
       </div>
+      {/* general term and condiction modal end  */}
     </div>
   );
 };

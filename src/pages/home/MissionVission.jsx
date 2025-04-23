@@ -1,61 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Input, Button, Checkbox, Upload, Radio, Form } from "antd";
+import { Modal, Button } from "antd";
 
 import AggrementPage from "../aggrement/AggrementPage";
 import VolunteerModal from "../../components/client/modal/volunteer/VolunteerModal";
-import DonateModal from "../../components/client/modal/donate/DonateModal";
 import ArtAntiqModal from "../../components/client/modal/art-antique/ArtAntiqModal";
 import PaymentModal from "../../components/client/modal/payment/PaymentModal";
-import DonerDetailsModal from "../../components/client/modal/doner-details/DonerDetailsModal";
 import SupportModal from "../../components/client/modal/support-modal/SupportModal";
+import GeneralTermCondictionModal from "../../components/client/GeneralTermCondictionModal/GeneralTermCondictionModal";
 
 export const MissionVission = () => {
- 
+  // general  terms & conditions. modal start
+  const [generalTerm, setGeneralTerm] = useState(false);
 
-  const [termsModal, setTermsModal] = useState(false);
-
-  const termModalCanel = () => {
-    setTermsModal(false);
+  const closeGeneralTermModal = () => {
+    setGeneralTerm(false);
   };
 
+  // general  terms & conditions. modal end
 
+  // Donate Art, Antique or Collectables modal  terms & conditions. start
 
+  const [donateTerm, setDonateTerm] = useState(false);
 
-
-
-
-
-
-  
-    const [donateTerm, setDonateTerm] = useState(false);
-  
-    const donateModalCanel = () => {
-      setDonateTerm(false);
-    };
-  
-    // Donate Art, Antique or Collectables modal  terms & conditions. end
-  
-    // doner details modal use state
-  
-  // doner details modal use state
-
-  const [donerDetailsModal, setDonerDetailsModal] = useState(false);
-
-
-  // doner details modal start
-  const openDonerDetailsModal = () => {
-    setDonerDetailsModal(true);
+  const donateModalCanel = () => {
+    setDonateTerm(false);
   };
 
-  // doner details modal end
+  // Donate Art, Antique or Collectables modal  terms & conditions. end
 
-  // support modal useState
+  // volunter modal useState
   const [supportModal, setSupportModal] = useState(false);
   // payment modal useState
   const [paymentModal, setPaymentModal] = useState(false);
   /* Donate Art, Antiques or Collectible useState   */
   const [antiquesModal, setAntiquesModal] = useState(false);
-
 
   // support modal start
   const openSupportModal = () => {
@@ -66,7 +44,6 @@ export const MissionVission = () => {
   };
 
   // support modal end
-  
 
   // volunter modal start
   const [isVolunterModal, setIsVolunterModal] = useState(false);
@@ -76,14 +53,10 @@ export const MissionVission = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-    supportModal || paymentModal || antiquesModal ||isVolunterModal ? "hidden" : "auto";
-        
-  }, [
-    supportModal,
-    paymentModal,
-    antiquesModal,
-    isVolunterModal 
-  ]);
+      supportModal || paymentModal || antiquesModal || isVolunterModal
+        ? "hidden"
+        : "auto";
+  }, [supportModal, paymentModal, antiquesModal, isVolunterModal]);
 
   return (
     <div>
@@ -203,33 +176,28 @@ export const MissionVission = () => {
             closable={false}
             style={{ top: 0 }}
           >
-            <VolunteerModal
-              setIsVolunterModal={setIsVolunterModal}
-              setDonateTerm={setDonateTerm}
-            />
+            <VolunteerModal setIsVolunterModal={setIsVolunterModal} setGeneralTerm = {setGeneralTerm} />
           </Modal>
         </div>
 
         {/* end   Volunter Modal*/}
       </div>
 
-      {/* donate modal terms conditions start   */}
+      {/* Volunter modal terms conditions start   */}
 
       <div className=" ">
         <Modal
           width={"70%"}
-          open={termsModal}
+          open={generalTerm}
           style={{ top: 0 }}
-          // onOk={handleOk}
-          onCancel={termModalCanel}
-          footer={null} // remove if you want buttons
-          zIndex={1100} // higher z-index
+          onCancel={closeGeneralTermModal}
+          footer={null}
+          zIndex={1100}
         >
-          <AggrementPage></AggrementPage>
+          <GeneralTermCondictionModal />
         </Modal>
       </div>
-
-      {/* donate modal terms conditions end   */}
+      {/* Volunter modal terms conditions end   */}
 
       {/* Donate Art, Antique or Collectables  Terms & Conditions modal start */}
 
@@ -238,10 +206,9 @@ export const MissionVission = () => {
           width={"70%"}
           open={donateTerm}
           style={{ top: 0 }}
-          // onOk={handleOk}
           onCancel={donateModalCanel}
-          footer={null} // remove if you want buttons
-          zIndex={1100} // higher z-index
+          footer={null}
+          zIndex={1100}
         >
           <AggrementPage></AggrementPage>
         </Modal>

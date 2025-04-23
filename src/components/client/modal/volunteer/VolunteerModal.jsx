@@ -3,13 +3,15 @@ import React from "react";
 import { Modal, Input, Button, Checkbox, Upload, Radio } from "antd";
 import { Link } from "react-router-dom";
 const { Dragger } = Upload;
-const VolunteerModal = ({ setIsVolunterModal,setDonateTerm }) => {
+const VolunteerModal = ({ setIsVolunterModal,setGeneralTerm }) => {
   const closeVolunteerModal = ()=>{
     setIsVolunterModal(false)
   }
-  const openTermModal = ()=>{
-    setDonateTerm(true)
+
+  const openGeneralTermModal = ()=>{
+    setGeneralTerm(true)
   }
+  
   return (
     <div>
       <h1 className=" text-[#263234] font-semibold leading-8 text-3xl mb-6  ">
@@ -242,7 +244,7 @@ const VolunteerModal = ({ setIsVolunterModal,setDonateTerm }) => {
           <div className="mb-4">
             <Checkbox style={{ color: "" }}>
               I agree with Virtue Hope's{" "}
-              <Link onClick={openTermModal} to={""}  className="underline">
+              <Link onClick={openGeneralTermModal} to={""}  className="underline">
                 terms & conditions.
               </Link>
             </Checkbox>
