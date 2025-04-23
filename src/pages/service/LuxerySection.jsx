@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { bookingSuccessAlert } from "../../helper/bookingMsg";
 import { ArrowRightOutlined } from "@ant-design/icons";
-import { FaCcMastercard } from "react-icons/fa";
-import AggrementPage from "../aggrement/AggrementPage";
+
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { format } from "date-fns";
 import GeneralTermCondictionModal from "../../components/client/GeneralTermCondictionModal/GeneralTermCondictionModal";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const timeSlots = [
   { id: 1, slot: "10:00 AM" },
@@ -33,15 +33,21 @@ const bookedSlots = [
   { date: "2025-04-20", timeId: 3 },
 ];
 
-export const LuxerySection = ({ onDateChange }) => {
-
-
+export const LuxerySection = () => {
+  const axiosPublic = useAxiosPublic();
   // booking related function
 
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  console.log("selected date type", typeof selectedDate);
+
   const [selectedTime, setSelectedTime] = useState(null);
 
+  console.log(`selectedTime type is `, typeof selectedTime);
+
   const formattedDate = format(selectedDate, "yyyy-MM-dd");
+
+  console.log(formattedDate);
 
   const isTimeBooked = (timeId) => {
     return bookedSlots.some(
@@ -57,85 +63,71 @@ export const LuxerySection = ({ onDateChange }) => {
 
   const handleChange = (date) => {
     setSelectedDate(date);
-    onDateChange(date); // Lift date up to parent if needed
   };
 
   // booking modal start
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  const cancelBookingModal = ()=>{
-    setIsModalOpen(false)
-  }
-
+  const cancelBookingModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
-  
   // booking modal end
-
 
   const [form] = Form.useForm();
 
   // Form submit handler
-  const handleBooking = (values) => {
+  const handleBooking = async (values) => {
     try {
-      console.log("Form Values:", values);
-      console.log("Name:", values.name);
-      console.log("Phone:", values.number);
-      console.log("Email:", values.email);
-      console.log("Day:", values.day);
-      console.log("Time:", values.time);
-      bookingSuccessAlert();
+      const payload = {
+        telephone_number: values.number,
+        email: values.email,
+        name: values.name,
+        book_time: String(selectedTime),
+        book_date: formattedDate,
+      };
+      const res = await axiosPublic.post(`/create-book`, payload);
+      console.log(res);
       setIsModalOpen(false);
       form.resetFields();
     } catch (error) {
       console.error("Error booking:", error);
       setIsModalOpen(false);
       form.resetFields();
+    } finally {
+      bookingSuccessAlert();
     }
   };
 
   // booking modal end
 
-
-
-
-
-
-
-
   // payment modal end
 
-    // general  terms & conditions. modal start
-    const [generalTerm, setGeneralTerm] = useState(false);
+  // general  terms & conditions. modal start
+  const [generalTerm, setGeneralTerm] = useState(false);
 
-    const closeGeneralTermModal = () => {
-      setGeneralTerm(false);
-    };
+  const closeGeneralTermModal = () => {
+    setGeneralTerm(false);
+  };
 
-    const openGeneralTermModal  = ()=>{
-      setGeneralTerm(true)
-    }
-  
-    // general  terms & conditions. modal end
+  const openGeneralTermModal = () => {
+    setGeneralTerm(true);
+  };
+
+  // general  terms & conditions. modal end
 
   useEffect(() => {
-    document.body.style.overflow =
-      isModalOpen  ? "hidden" : "auto";
-  }, [isModalOpen, ]);
-
-
-
-
-
+    document.body.style.overflow = isModalOpen ? "hidden" : "auto";
+  }, [isModalOpen]);
 
   return (
     <div className="bg-[#ecebea] lg:mt-16 py-4 p-2 lg:p-0">
@@ -228,7 +220,6 @@ export const LuxerySection = ({ onDateChange }) => {
         footer={null}
         style={{ top: 0 }}
         closable={false}
-        
       >
         <p className=" text-[#263234] leading-8 font-semibold text-lg ">
           Basic information
@@ -307,11 +298,13 @@ export const LuxerySection = ({ onDateChange }) => {
           </Form.Item>
 
           <div>
-            <h1 className=" font-semibold text-2xl mt-3 text-[#263234] " >Bookings can be made from Monday to Friday.</h1>
+            <h1 className=" font-semibold text-2xl mt-3 text-[#263234] ">
+              Bookings can be made from Monday to Friday.
+            </h1>
           </div>
 
           {/* calender  */}
-          <Form.Item style={{marginBottom:"0px",marginTop:"20px"}} >
+          <Form.Item style={{ marginBottom: "0px", marginTop: "20px" }}>
             <Calendar
               onChange={handleChange}
               value={selectedDate}
@@ -329,40 +322,45 @@ export const LuxerySection = ({ onDateChange }) => {
             />
             <p className="mt-3 text-xl font-medium mb-1 text-[#263234] ">
               Selected Date:{" "}
-              <span className="font-medium"> {format(selectedDate, "EEEE, PPP")}</span>
+              <span className="font-medium">
+                {" "}
+                {format(selectedDate, "EEEE, PPP")}
+              </span>
             </p>
           </Form.Item>
 
-          <div className="">
-            {timeSlots.every((time) => isTimeBooked(time.id)) ? (
-              <p className="text-[#263234] text-lg font-medium ">
-                No available slots for this date
-              </p>
-            ) : (
-              <ul className="mt-2 flex flex-wrap gap-3">
-                {timeSlots.map((time) => {
-                  const booked = isTimeBooked(time.id);
-                  const selected = selectedTime === time.id;
+          <Form.Item>
+            <div className="">
+              {timeSlots.every((time) => isTimeBooked(time.id)) ? (
+                <p className="text-[#263234] text-lg font-medium ">
+                  No available slots for this date
+                </p>
+              ) : (
+                <ul className="mt-2 flex flex-wrap gap-3">
+                  {timeSlots.map((time) => {
+                    const booked = isTimeBooked(time.id);
+                    const selected = selectedTime === time.id;
 
-                  return (
-                    <li
-                      key={time.id}
-                      onClick={() => handleTimeClick(time)}
-                      className={`cursor-pointer px-4 py-2 rounded-full border text-sm font-medium transition-all ${
-                        booked
-                          ? " text-gray-400 cursor-not-allowed"
-                          : selected 
-                          ? "bg-[#403730] cursor-not-allowed hover:bg-[#2D2722] text-white"
-                          : "bg-white  hover:bg-[#f0f0f0] text-[#403730] border-[#A6ABAC]"
-                      }`}
-                    >
-                      {time.slot}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </div>
+                    return (
+                      <li
+                        key={time.id}
+                        onClick={() => handleTimeClick(time)}
+                        className={`cursor-pointer px-4 py-2 rounded-full border text-sm font-medium transition-all ${
+                          booked
+                            ? " text-gray-400 cursor-not-allowed"
+                            : selected
+                            ? "bg-[#403730] cursor-not-allowed hover:bg-[#2D2722] text-white"
+                            : "bg-white  hover:bg-[#f0f0f0] text-[#403730] border-[#A6ABAC]"
+                        }`}
+                      >
+                        {time.slot}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+          </Form.Item>
 
           {/* Choose a time */}
 
@@ -393,7 +391,7 @@ export const LuxerySection = ({ onDateChange }) => {
 
           {/* Submit Button */}
           <div className="flex justify-end gap-3">
-            <Button onClick={cancelBookingModal} className="serviceBtn2" >
+            <Button onClick={cancelBookingModal} className="serviceBtn2">
               Cancel
             </Button>
             <Button className="serviceBtn3" htmlType="submit">
@@ -403,12 +401,10 @@ export const LuxerySection = ({ onDateChange }) => {
         </Form>
       </Modal>
 
-
-
       {/* term condiction modal */}
 
-            {/* general term and condiction modal start  */}
-            <div className=" ">
+      {/* general term and condiction modal start  */}
+      <div className=" ">
         <Modal
           width={"80%"}
           open={generalTerm}
@@ -416,7 +412,6 @@ export const LuxerySection = ({ onDateChange }) => {
           onCancel={closeGeneralTermModal}
           footer={null}
           zIndex={1100}
-          
         >
           <GeneralTermCondictionModal />
         </Modal>

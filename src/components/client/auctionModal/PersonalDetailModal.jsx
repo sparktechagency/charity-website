@@ -10,20 +10,56 @@ import {
 } from "antd";
 
 import Dragger from "antd/es/upload/Dragger";
-const PersonalDetailModal = ({ setPersonalDetailsModal,setAuctionDetailsModal }) => {
+import { useState } from "react";
+const PersonalDetailModal = ({
+  setPersonalDetailsModal,
+  setAuctionDetailsModal,
+  handleClick,
+}) => {
   const [form] = Form.useForm();
 
-  const handleSubmit = (values)=>{
-    console.log(values)
-    setAuctionDetailsModal(true)
-    setPersonalDetailsModal(false)
-  }
+  const handleSubmit = (values) => {
+    console.log(values);
+    setAuctionDetailsModal(true);
+    setPersonalDetailsModal(false);
+  };
+
+  const textData = "kodom ali";
+
+  const [name,setName] = useState(null);
+  const [email,setEmail] = useState(null);
+  const [number , setNumber] = useState(null);
+  const [city,setCity] = useState(null);
+  const [address,setAddress] = useState(null);
+  const [images,setImages] = useState(null);
+
+  console.log(name,email,number,city,address,images)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="  ">
       <h1 className=" text-[#263234] font-semibold text-2xl leading-8 ">
         Personal details
       </h1>
+
+      <div>
+        <button onClick={() => handleClick(textData)}>Click button</button>
+      </div>
       <div className=" flex items-center gap-2 mt-4  ">
         <span>
           <svg
@@ -73,7 +109,12 @@ const PersonalDetailModal = ({ setPersonalDetailsModal,setAuctionDetailsModal })
         <div className=" w-[33%] h-1.5 bg-[#E9EBEB] "></div>
       </div>
 
-      <Form form={form} onFinish={handleSubmit} layout="vertical" className=" p-6   rounded-lg">
+      <Form
+        form={form}
+        onFinish={handleSubmit}
+        layout="vertical"
+        className=" p-6   rounded-lg"
+      >
         {/* Name Field */}
         <Form.Item
           style={{ marginBottom: "0px" }}
@@ -89,6 +130,9 @@ const PersonalDetailModal = ({ setPersonalDetailsModal,setAuctionDetailsModal })
           ]}
         >
           <Input
+          onChange={(e)=>{
+            setName(e.target.value)
+          }}
             style={{
               padding: "12px 14px",
               border: "1px solid #A6ABAC ",
@@ -262,7 +306,7 @@ const PersonalDetailModal = ({ setPersonalDetailsModal,setAuctionDetailsModal })
             Cancel
           </Button>
 
-          <Button htmlType="submit"  className="missionModalBtn2">
+          <Button htmlType="submit" className="missionModalBtn2">
             Next
           </Button>
         </div>

@@ -136,6 +136,10 @@ const HomeSlider = () => {
 
   // 2nd slide end
 
+  const handleClick = (data) =>{
+   console.log(data)
+  }
+
   return (
     <div className=" bg-[#ecebea] py-4 mb-5   ">
       <div className=" max-w-[1512px] mx-auto ">
@@ -968,6 +972,7 @@ const HomeSlider = () => {
           <PersonalDetailModal
             setPersonalDetailsModal={setPersonalDetailsModal}
             setAuctionDetailsModal={setAuctionDetailsModal}
+            handleClick={handleClick}
           />
         </Modal>
       </div>
@@ -975,6 +980,7 @@ const HomeSlider = () => {
       {/* First Modal Personal Details end  */}
 
       {/*  Second Modal Auction Details start */}
+
       <Modal
         centered
         open={auctionDetailsModal}
@@ -992,6 +998,7 @@ const HomeSlider = () => {
           setPaymentModal={setPaymentModal}
         />
       </Modal>
+
       {/* Second Modal Auction Details end */}
 
       {/* Third Modal Payment modal start  */}
