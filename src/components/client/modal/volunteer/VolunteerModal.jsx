@@ -1,11 +1,14 @@
-import { Form } from "antd";
+import { Alert, Form } from "antd";
 import React, { useState } from "react";
 import { Modal, Input, Button, Checkbox, Upload, Radio } from "antd";
 import { Link } from "react-router-dom";
 import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 const { Dragger } = Upload;
 
 const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const axiosPublic = useAxiosPublic();
   const closeVolunteerModal = () => {
     setIsVolunterModal(false);
@@ -16,16 +19,12 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
   };
 
   const [fileList, setFileList] = useState([]);
-  console.log(`Uploaded images:  ${fileList}`);
 
   // Handle file change (dragging or selecting a file)
   const handleFileChange = (info) => {
     let files = [...info.fileList];
     setFileList(files);
   };
-
-
-
 
   // Handle form submission
   const handleSubmit = async (values) => {
@@ -41,30 +40,44 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
       formData.append("upload_cv", file.originFileObj);
     });
 
-    // Log each entry of FormData
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]); // Log key and value of FormData
-    }
-
-    // Simulate FormData inspection
-    console.log("Form Data object: ", formData);
+    
 
     try {
+      setLoading(true);
       const res = await axiosPublic.post("/create-volunteer", formData, {
         headers: {
-          "Content-Type": "multipart/form-data", // Important for file uploads
+          "Content-Type": "multipart/form-data",
         },
       });
-      console.log("response is ", res);
+      if (res.data.success) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `<h1>Application submitted successfully.</h1>`,
+          text: "Your application is in under review. Once we’re done, will notify you via email that you have provided. Get in touch with us. Thanks.",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        return setIsVolunterModal(false);
+      }
     } catch (error) {
-      console.log(error);
+      setError(error?.response?.data?.message || "Something went wrong");
     } finally {
-      console.log("Form submission attempt finished");
+      setLoading(false);
     }
   };
-
-
-
+  {
+    error && (
+      <Alert
+        message={error}
+        type="error"
+        showIcon
+        closable
+        onClose={() => setError(null)}
+        className="mb-4"
+      />
+    );
+  }
 
   return (
     <div>
@@ -228,7 +241,7 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
           <Button onClick={closeVolunteerModal} className="navBtn1">
             Cancel
           </Button>
-          <Button htmlType="submit" className="navBtn2">
+          <Button loading = {loading} htmlType="submit" className="navBtn2">
             Apply now
           </Button>
         </div>
