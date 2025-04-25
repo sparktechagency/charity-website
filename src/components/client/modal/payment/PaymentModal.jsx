@@ -3,7 +3,6 @@ import { Button, Radio, Form } from "antd";
 import { FaCcMastercard } from "react-icons/fa";
 import StripeForm from "./StripeForm";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
   const [form] = Form.useForm();
 
@@ -21,7 +20,9 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
   const openDonationModal = (e)=>{
     setPaymentModal(false)
     setPaymentMethod(e.target.value)
-  }
+  };
+
+  console.log(`selected card is ${paymentMethod}`)
 
 
 
@@ -42,7 +43,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
       paymentMethod === "google_pay" ||
       paymentMethod === "apple_pay"
     ) {
-      navigate("/donate-from");
+      navigate(`/donate-from/${paymentMethod}`);
     }
   }, [paymentMethod]);
 

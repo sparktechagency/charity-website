@@ -1,22 +1,36 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-
 import React, { useEffect, useState } from "react";
 import CheckoutForm from "./CheckoutForm";
+import { useLocation, useNavigate } from "react-router-dom";
+
+// Your Stripe publishable key
 const stripePromise = loadStripe(
   "pk_test_51RCsN4GheeTFBgpkrJvnRLxtTIF7HyELpY1MF8bFVT98mdBfwbNOLPfLZIaVv5lXCM9fQsja7M6m2mgh3oLI8jh800gaNGnv0m"
 );
 
 const StripeForm = () => {
-  const price = 100;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const payload = location?.state;
+  const price = payload?.amount;
+
   const [clientSecret, setClientSecret] = useState("");
+
   useEffect(() => {
-    fetch("http://137.59.180.219:5000/api/v1/create-payment-inten", {
+    if (!price) {
+      navigate("/donation");
+      return;
+    }
+
+    const url = `http://137.59.180.219:8000/api/create-payment-intent?amount=${price}&payment_method=pm_card_visa`;
+
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ price }),
+      // No body needed for this API
     })
       .then((res) => {
         if (!res.ok) {
@@ -24,27 +38,27 @@ const StripeForm = () => {
         }
         return res.json();
       })
-      .then((data) => setClientSecret(data.clientSecret))
+      .then((data) => {
+        console.log("Payment Intent:", data);
+        setClientSecret(data.clientSecret);
+      })
       .catch((error) => {
         console.error("Error creating payment intent:", error);
       });
-  }, []);
+  }, [price, navigate]);
 
   const appearance = {
     theme: "stripe",
   };
-  // Enable the skeleton loader UI for optimal loading.
-  const loader = "auto";
 
   return (
-    <div className=" max-w-[1216px] mx-auto py-28 ">
-      {clientSecret && (
-        <Elements
-          options={{ clientSecret, appearance, loader }}
-          stripe={stripePromise}
-        >
-          <CheckoutForm></CheckoutForm>
+    <div className="max-w-[600px] mx-auto py-28">
+      {clientSecret ? (
+        <Elements options={{ clientSecret, appearance }} stripe={stripePromise}>
+          <CheckoutForm data={payload} />
         </Elements>
+      ) : (
+        <p className="text-center">Loading payment form...</p>
       )}
     </div>
   );

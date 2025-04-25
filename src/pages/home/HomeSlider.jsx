@@ -48,6 +48,9 @@ const HomeSlider = () => {
     centerMode: false, // Keeps slides inline
   };
 
+  const [personalData, setPersonalData] = useState(null);
+  const [auctionData, setAuctionData] = useState(null);
+
   // first slider start
 
   // 1st modal start
@@ -135,10 +138,6 @@ const HomeSlider = () => {
   }, [firstModal, secondModal]);
 
   // 2nd slide end
-
-  const handleClick = (data) =>{
-   console.log(data)
-  }
 
   return (
     <div className=" bg-[#ecebea] py-4 mb-5   ">
@@ -972,7 +971,7 @@ const HomeSlider = () => {
           <PersonalDetailModal
             setPersonalDetailsModal={setPersonalDetailsModal}
             setAuctionDetailsModal={setAuctionDetailsModal}
-            handleClick={handleClick}
+            sendPersonalDataToParent={setPersonalData}
           />
         </Modal>
       </div>
@@ -996,6 +995,8 @@ const HomeSlider = () => {
           verified={verified}
           donateFull={donateFull}
           setPaymentModal={setPaymentModal}
+          auctionDetailsData={setAuctionData}
+          personalData={personalData}
         />
       </Modal>
 
@@ -1012,7 +1013,12 @@ const HomeSlider = () => {
           width={400}
           closable={false}
         >
-          <CardNumberModal />
+          <CardNumberModal
+            setAuctionDetailsModal={setAuctionDetailsModal}
+            setPaymentModal={setPaymentModal}
+            personalData={personalData}
+            auctionData={auctionData}
+          />
         </Modal>
       )}
 
@@ -1028,8 +1034,6 @@ const HomeSlider = () => {
           <AggrementPage></AggrementPage>
         </Modal>
       </div>
-
-      
     </div>
   );
 };

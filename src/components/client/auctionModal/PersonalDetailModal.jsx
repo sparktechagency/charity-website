@@ -14,52 +14,37 @@ import { useState } from "react";
 const PersonalDetailModal = ({
   setPersonalDetailsModal,
   setAuctionDetailsModal,
-  handleClick,
+  sendPersonalDataToParent,
 }) => {
   const [form] = Form.useForm();
-
-  const handleSubmit = (values) => {
-    console.log(values);
-    setAuctionDetailsModal(true);
-    setPersonalDetailsModal(false);
+  const [fileList, setFileList] = useState(null); 
+  const handleFileChange = (info)=>{
+    setFileList(info.fileList);
   };
 
-  const textData = "kodom ali";
+  
+  const handleSubmit = (values) => {
+    setAuctionDetailsModal(true);
+    setPersonalDetailsModal(false);
+  
+    const payload = {
+      name: values.name,
+      email: values.email,
+      contact_number: values.contact_number,
+      city: values.city,
+      address: values.address,
+      profile: fileList[0]?.originFileObj 
+    };
 
-  const [name,setName] = useState(null);
-  const [email,setEmail] = useState(null);
-  const [number , setNumber] = useState(null);
-  const [city,setCity] = useState(null);
-  const [address,setAddress] = useState(null);
-  const [images,setImages] = useState(null);
-
-  console.log(name,email,number,city,address,images)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
+    sendPersonalDataToParent(payload);
+    form.resetFields()
+  };
   return (
     <div className="  ">
       <h1 className=" text-[#263234] font-semibold text-2xl leading-8 ">
         Personal details
       </h1>
-
-      <div>
-        <button onClick={() => handleClick(textData)}>Click button</button>
-      </div>
       <div className=" flex items-center gap-2 mt-4  ">
         <span>
           <svg
@@ -130,9 +115,6 @@ const PersonalDetailModal = ({
           ]}
         >
           <Input
-          onChange={(e)=>{
-            setName(e.target.value)
-          }}
             style={{
               padding: "12px 14px",
               border: "1px solid #A6ABAC ",
@@ -172,7 +154,7 @@ const PersonalDetailModal = ({
         <Form.Item
           style={{ marginBottom: "0px", marginTop: "10px" }}
           label="Contact number"
-          name="contact"
+          name="contact_number"
           rules={[
             {
               required: true,
@@ -245,7 +227,7 @@ const PersonalDetailModal = ({
 
         <Form.Item
           style={{ marginTop: "18px" }}
-          name="image"
+          name="profile"
           valuePropName="fileList"
           getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
           rules={[
@@ -255,11 +237,14 @@ const PersonalDetailModal = ({
             },
           ]}
         >
-          <Dragger
+          <Upload.Dragger
             accept=".jpg,.jpeg,.png,.pdf"
             beforeUpload={() => false} // Prevent automatic upload
             multiple={false}
             showUploadList={true}
+            listType="picture"
+            fileList={fileList}
+            onChange={handleFileChange}
           >
             <div className="flex items-center gap-4 ">
               <span>
@@ -294,8 +279,9 @@ const PersonalDetailModal = ({
                 Upload your photo of drag & drop here.
               </p>
             </div>
-          </Dragger>
+          </Upload.Dragger>
         </Form.Item>
+
         <div className="flex flex-col lg:flex-row md:flex-row lg:justify-end lg:gap-8 ">
           <Button
             onClick={() => {

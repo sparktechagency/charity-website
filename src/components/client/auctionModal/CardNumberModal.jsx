@@ -1,24 +1,92 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Select } from "antd";
 import {
   AppleOutlined,
   CreditCardOutlined,
   GoogleOutlined,
 } from "@ant-design/icons";
+import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
+import { auctionMsg } from "../../../helper/auctionMsg";
+import Swal from "sweetalert2";
 
 const { Option } = Select;
 
-const CardNumberModal = ({ setAuctionDetailsModal,setPaymentModal ,donateFull }) => {
+const CardNumberModal = ({
+  setAuctionDetailsModal,
+  setPaymentModal,
+  donateFull,
+  auctionData,
+  personalData,
+}) => {
+  const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
+  const name = personalData.name;
+  const email = personalData.email;
+  const contact_number = personalData.contact_number;
+  const city = personalData.city;
+  const address = personalData.address;
+  const profile = personalData.profile;
 
-  const handleSubmit = (values) => {
-    console.log("Form Submitted:", values);
-    // Add your API logic or success transition here
+  const title = auctionData.title;
+  const description = auctionData.description;
+  const image = auctionData.image;
+  const donate_share = Number(auctionData.donate_share);
+  const formData = new FormData();
+
+  // const payload = {
+  //   name,email,contact_number,city,address,photo,title,description,image,donate_share
+  // }
+  const axiosPublic = useAxiosPublic();
+  const handleSubmit = async (values) => {
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("contact_number", contact_number);
+    formData.append("city", city);
+    formData.append("address", address);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("donate_share", Number(donate_share));
+    formData.append("card_number", values.card_number);
+    formData.append("payment_type", values.payment_type);
+
+    // Append photo (assuming it's a single image file)
+    if (profile) {
+      formData.append("profile", profile);
+    }
+
+    if (image) {
+      formData.append("image", image); // only one image
+    }
+
+    try {
+      setLoading(true)
+      const res = await axiosPublic.post(`/auction`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (res.data?.success) {
+        auctionMsg(); // Show toast or some custom alert
+      }
+    } catch (error) {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: `${error.response?.data?.message || "Something went wrong!"}`,
+        showConfirmButton: true,
+        timer: 2500,
+      });
+    } finally {
+      setLoading(false)
+    }
+    setPaymentModal(false)
+    form.resetFields()
   };
 
   const backModal = () => {
     setAuctionDetailsModal(true);
-    setPaymentModal(false)
+    setPaymentModal(false);
   };
 
   return (
@@ -82,7 +150,7 @@ const CardNumberModal = ({ setAuctionDetailsModal,setPaymentModal ,donateFull })
           <Form form={form} onFinish={handleSubmit} layout="vertical">
             {/* Card Number */}
             <Form.Item
-              name="cardNumber"
+              name="card_number"
               label={
                 <span className="text-[#414651] text-[14px] font-medium">
                   Enter your card number
@@ -104,13 +172,15 @@ const CardNumberModal = ({ setAuctionDetailsModal,setPaymentModal ,donateFull })
 
             {/* Payment Method */}
             <Form.Item
-              name="paymentMethod"
+              name="payment_type"
               label={
                 <span className="text-[#414651] text-[14px] font-medium">
                   Choose a payment method
                 </span>
               }
-              rules={[{ required: true, message: "Please select a payment method" }]}
+              rules={[
+                { required: true, message: "Please select a payment method" },
+              ]}
               style={{ marginBottom: "20px", marginTop: "12px" }}
             >
               <Select
@@ -127,13 +197,13 @@ const CardNumberModal = ({ setAuctionDetailsModal,setPaymentModal ,donateFull })
                 <Option value="card">
                   <CreditCardOutlined className="mr-2" /> Card
                 </Option>
-                <Option value="apple">
+                <Option value="apple_pay">
                   <AppleOutlined className="mr-2" /> Apple Pay
                 </Option>
-                <Option value="google">
+                <Option value="google_pay">
                   <GoogleOutlined className="mr-2" /> Google Pay
                 </Option>
-                <Option value="paypal">
+                <Option value="paypal_pay">
                   <span className="flex items-center gap-1">
                     {/* PayPal SVG included above */}
                     <span className="text-[#0070E0] font-semibold">PayPal</span>
@@ -147,7 +217,7 @@ const CardNumberModal = ({ setAuctionDetailsModal,setPaymentModal ,donateFull })
               <Button onClick={backModal} className="missionModalBtn1">
                 Go Back
               </Button>
-              <Button htmlType="submit" className="missionModalBtn2">
+              <Button loading = {loading} htmlType="submit" className="missionModalBtn2">
                 Complete process
               </Button>
             </div>

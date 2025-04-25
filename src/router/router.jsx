@@ -21,6 +21,7 @@ import DonationFormModal from "../components/client/donation-form-modal/Donation
 import PaypalDonationFrom from "../components/client/paypal-payment/PaypalDonationFrom";
 import PaymentDetails from "../components/client/paypal-payment/PaymentDetails";
 import BitPayment from "../components/client/bitModal/BitPayment";
+import UserDetails from "../components/client/modal/payment/UserDetails";
 
 export const router = createBrowserRouter([
   {
@@ -67,7 +68,7 @@ export const router = createBrowserRouter([
     element : <AggrementPage></AggrementPage>
   },
   {
-    path : "/donate-from",
+    path : "/donate-from/:paymentCard",
     element : <DonationFormModal/>
   },
   {
@@ -81,7 +82,7 @@ export const router = createBrowserRouter([
   ,
   {
     path : "/payment-form",
-    element : <StripeForm/>
+    element : <UserDetails/>
   },
   {
     path : "/bit-payment",

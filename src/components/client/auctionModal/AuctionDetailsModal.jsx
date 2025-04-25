@@ -1,8 +1,11 @@
 import ReCAPTCHA from "react-google-recaptcha";
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, Upload } from "antd";
 import Dragger from "antd/es/upload/Dragger";
 import Checkbox from "antd/es/checkbox/Checkbox";
-
+import { useState } from "react";
+import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
+import { auctionMsg } from "../../../helper/auctionMsg";
+import Swal from "sweetalert2";
 
 const AuctionDetailsModal = ({
   setPersonalDetailsModal,
@@ -10,28 +13,73 @@ const AuctionDetailsModal = ({
   setDonateTerm,
   isVerified,
   verified,
-  setPaymentModal
+  setPaymentModal,
+  auctionDetailsData,
+  personalData
 }) => {
-  const [form] = Form.useForm();
+  const [fileList, setFileList] = useState(null); // To track the selected file
+  const [form] = Form.useForm(); // Using Ant Design's Form hook
 
-    const donateFull = Form.useWatch("donateFull", form);
-  
-    console.log(!donateFull);
+  const [donateFull, setDonateFull] = useState(false);
+
+  const handleFileChange = (info) => {
+    setFileList(info.fileList);
+  };
 
   function onChange(e) {
-    console.log("Captcha value:", e);
     isVerified(true);
-  }
-
-
-
-  console.log(!donateFull);
+  };
+  const axiosPublic = useAxiosPublic();
 
   const handleSubmit = (values) => {
-    console.log("Form Values:", values);
-    setPaymentModal(true);
-    setAuctionDetailsModal(false);
-    form.resetFields();
+    const payload = {
+      title: values.title,
+      description: values.description,
+      donate_share: values.donate_share,
+      image: fileList[0]?.originFileObj,
+    };
+
+    if (values.donate_share === "100") {
+      // ✅ Direct API call
+      const formData = new FormData();
+      formData.append("title", payload.title);
+      formData.append("description", payload.description);
+      formData.append("donate_share", payload.donate_share);
+      formData.append("image", payload.image);
+      formData.append("name",personalData.name);
+      formData.append("email",personalData.email);
+      formData.append("contact_number",personalData.contact_number);
+      formData.append("city",personalData.city);
+      formData.append("address",personalData.address);
+      formData.append("profile",personalData.profile);
+
+      axiosPublic
+        .post(`/auction`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          if (res.data?.status) {
+            auctionMsg();
+            
+          }
+        })
+        .catch((error) => {
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: `${error.response?.data?.message || "Upload failed!"}`,
+            showConfirmButton: true,
+            timer: 2000,
+          });
+        });
+    } else {
+      // ✅ Partial donation → go to payment modal, API call later
+      setPaymentModal(true);
+      setAuctionDetailsModal(false);
+      auctionDetailsData(payload); // Send to parent or save for next step
+    }
   };
 
   const openDonateTermModal = () => {
@@ -40,11 +88,9 @@ const AuctionDetailsModal = ({
 
   const cancelAuctionDetailsModal = () => {
     setAuctionDetailsModal(false);
-    setPersonalDetailsModal(true)
+    setPersonalDetailsModal(true);
     form.resetFields();
   };
- 
-
 
   return (
     <div>
@@ -143,6 +189,7 @@ const AuctionDetailsModal = ({
               rows={4}
             />
           </Form.Item>
+          {/* image  */}
           <Form.Item
             style={{ marginTop: "18px" }}
             name="image"
@@ -155,13 +202,16 @@ const AuctionDetailsModal = ({
               },
             ]}
           >
-            <Dragger
-              accept=".jpg,.jpeg,.png,.pdf"
+            <Upload.Dragger
+              accept=".jpeg, .png, .jpg, .gif, .svg"
               beforeUpload={() => false} // Prevent automatic upload
               multiple={false}
               showUploadList={true}
+              listType="picture"
+              fileList={fileList}
+              onChange={handleFileChange}
             >
-              <div>
+              <div className="flex items-center gap-4 ">
                 <span>
                   <svg
                     width="24"
@@ -190,19 +240,16 @@ const AuctionDetailsModal = ({
                     />
                   </svg>
                 </span>
-                <p className="text-start">
-                  Click or drag file to this area to upload
-                </p>
-                <p className=" text-sm text-start text-[#4B5557]">
-                  Supported format: JPG, JPEG, PNG, PDF
+                <p className="ant-upload-text">
+                  Upload your photo of drag & drop here.
                 </p>
               </div>
-            </Dragger>
+            </Upload.Dragger>
           </Form.Item>
 
           {/* Receive Percentage */}
+
           <Form.Item
-            name="percentage"
             label={
               <span className="text-sm text-[#263234] font-medium">
                 I want to receive
@@ -210,29 +257,36 @@ const AuctionDetailsModal = ({
             }
             style={{ marginBottom: 0, marginTop: "16px" }}
           >
-            <Select
-              style={{
-                width: "100%",
-                height: "50px",
-                borderRadius: "5px",
-                outline: 0,
-                border: "none",
-              }}
-              placeholder="30% of net value"
-              defaultValue={"30%"}
-              disabled={donateFull}
-            >
-              <Option value="30%">30%</Option>
-            </Select>
+            <Form.Item name="donate_share" noStyle>
+              <Select
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  borderRadius: "5px",
+                  outline: 0,
+                  border: "none",
+                }}
+                placeholder="30% of net value"
+                disabled={donateFull}
+              >
+                <Option value="30">30%</Option>
+              </Select>
+            </Form.Item>
           </Form.Item>
 
-          {/* Donation Checkbox */}
-          <Form.Item
-            name="donateFull"
-            valuePropName="checked"
-            style={{ marginBottom: 0 }}
-          >
-            <Checkbox>I want to donate 100%.</Checkbox>
+          <Form.Item style={{ marginBottom: 0 }}>
+            <Checkbox
+              checked={donateFull}
+              onChange={(e) => {
+                const checked = e.target.checked;
+                setDonateFull(checked);
+                form.setFieldsValue({
+                  donate_share: checked ? "100" : "30", // or reset to previous value
+                });
+              }}
+            >
+              I want to donate 100%.
+            </Checkbox>
           </Form.Item>
 
           {/* Terms Checkbox */}
@@ -263,11 +317,7 @@ const AuctionDetailsModal = ({
             <Button onClick={cancelAuctionDetailsModal} className="  navBtn1  ">
               Back
             </Button>
-            <Button
-              disabled={!verified}
-              className="navBtn2"
-              htmlType="submit"
-            >
+            <Button disabled={!verified} className="navBtn2" htmlType="submit">
               Proceed next step
             </Button>
           </div>
