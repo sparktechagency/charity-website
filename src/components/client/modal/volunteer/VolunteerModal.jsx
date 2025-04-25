@@ -49,6 +49,7 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log(res)
       if (res.data.success) {
         Swal.fire({
           position: "top-end",

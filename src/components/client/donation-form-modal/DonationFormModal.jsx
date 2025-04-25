@@ -1,21 +1,27 @@
 import { useState } from "react";
 import { Form, Input, Button, Radio, Tabs, Divider, message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
 
 const { TextArea } = Input;
 
 const DonationFormModal = () => {
+  const { paymentCard } = useParams();
+  console.log(typeof paymentCard);
   const [form] = Form.useForm();
   const [donationType, setDonationType] = useState("oneTime");
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState("");
-  const [paymentType, setPaymentType] = useState("monthly");
+  const [paymentType, setPaymentType] = useState("montly");
 
   const presetAmounts = ["19.50", "24.50", "45.50", "99.50"];
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [data,setData] = useState(null)
+  
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     const amount = selectedAmount === "custom" ? customAmount : selectedAmount;
+
     if (!amount) {
       message.warning("Please select or enter a donation amount.");
       return;
@@ -23,19 +29,46 @@ const DonationFormModal = () => {
 
     const payload = {
       ...values,
-      donationType,
+      donation_type: donationType,
       amount,
-      paymentType,
+      payment_type: paymentCard,
+      frequency:paymentType
     };
 
-    console.log("Donation submitted:", payload);
-    message.success("Donation details submitted!");
-    form.resetFields();
-    setSelectedAmount(null);
-    setCustomAmount("");
-    navigate("/payment-form")
-
+    setData(payload)
+    navigate("/payment-form",{state:payload});
   };
+
+  // const handleSubmit=async()=>{
+  // const formData = new FormData();
+
+    // // Append key-value pairs to FormData
+    // Object.entries(payload).forEach(([key, value]) => {
+    //   formData.append(key, value);
+    // });
+
+    // try {
+    //   setLoading(true);
+    //   const res = await axiosPublic.post(`/donate-money`, formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   });
+    //   console.log("Response:", res.data);
+
+    //   Optionally reset the form
+    //   message.success("Donation details submitted!");
+    //   form.resetFields();
+    //   setSelectedAmount(null);
+    //   setCustomAmount("");
+    //   navigate("/payment-form");
+    // } catch (error) {
+    //   console.log("Error:", error?.response?.data?.errors || error.message);
+    // } finally {
+    //   setLoading(false);
+    //   console.log("Form submission finished");
+    // }
+  // }
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-md">
@@ -107,9 +140,9 @@ const DonationFormModal = () => {
                     defaultValue="monthly"
                     name="frequency"
                   >
-                    <Radio.Button value="monthly">Monthly</Radio.Button>
-                    <Radio.Button value="quarterly">Quarterly</Radio.Button>
-                    <Radio.Button value="annually">Annually</Radio.Button>
+                    <Radio.Button value="monthly">montly</Radio.Button>
+                    <Radio.Button value="quarterly">quantely </Radio.Button>
+                    <Radio.Button value="annually">annually</Radio.Button>
                   </Radio.Group>
                   <Input
                     style={{ padding: "10px 20px", outline: "none" }}
@@ -158,7 +191,7 @@ const DonationFormModal = () => {
           />
         </Form.Item>
 
-        <Form.Item name="phone" label="Phone (Optional)">
+        <Form.Item name="phone_number" label="Phone (Optional)">
           <Input
             style={{ padding: "10px 20px", outline: "none" }}
             className=" placeholder:text-lg placeholder:text-[#818889] "
@@ -166,7 +199,7 @@ const DonationFormModal = () => {
           />
         </Form.Item>
 
-        <Form.Item name="message" label="Message / Reason">
+        <Form.Item name="remark" label="Message / Reason">
           <TextArea
             style={{ padding: "10px 20px", outline: "none" }}
             className=" placeholder:text-lg placeholder:text-[#818889] "
@@ -177,11 +210,9 @@ const DonationFormModal = () => {
 
         <Form.Item>
           <Button
-          
             htmlType="submit"
             className=" h-12 text-white font-bold text-lg bg-[#403730] border-none hover:bg-[#27221D]! "
           >
-            
             Submit Donation
           </Button>
         </Form.Item>

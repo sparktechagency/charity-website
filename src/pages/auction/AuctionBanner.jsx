@@ -6,6 +6,9 @@ import AggrementPage from "../aggrement/AggrementPage";
 import CardNumberModal from "../../components/client/auctionModal/CardNumberModal";
 
 const AuctionBanner = () => {
+  const [personalData, setPersonalData] = useState(null);
+  const [auctionData, setAuctionData] = useState(null);
+
   const [auctionDetailsModal, setAuctionDetailsModal] = useState(false);
   const [personalDetailsModal, setPersonalDetailsModal] = useState(false);
   const [paymentModal, setPaymentModal] = useState(false);
@@ -16,15 +19,13 @@ const AuctionBanner = () => {
     setDonateTerm(false);
   };
 
-
-
   const [form] = Form.useForm();
 
   const [verified, isVerified] = useState(false);
 
   const donateFull = Form.useWatch("donateFull", form);
 
-  console.log("form auction detail page",!donateFull);
+  console.log("form auction detail page", !donateFull);
 
   // 2nd modal end
 
@@ -58,7 +59,12 @@ const AuctionBanner = () => {
             </h1>
 
             {/* Button */}
-            <button onClick={()=>{setPersonalDetailsModal(true)}} className="mt-4 sm:mt-6 cursor-pointer text-[#403730] bg-[#FFFFFF] font-bold text-sm sm:text-base hover:bg-[#403730] hover:text-white transition-all duration-500 rounded px-6 py-2.5">
+            <button
+              onClick={() => {
+                setPersonalDetailsModal(true);
+              }}
+              className="mt-4 sm:mt-6 cursor-pointer text-[#403730] bg-[#FFFFFF] font-bold text-sm sm:text-base hover:bg-[#403730] hover:text-white transition-all duration-500 rounded px-6 py-2.5"
+            >
               Contribute your Auction
             </button>
           </div>
@@ -79,6 +85,7 @@ const AuctionBanner = () => {
           <PersonalDetailModal
             setPersonalDetailsModal={setPersonalDetailsModal}
             setAuctionDetailsModal={setAuctionDetailsModal}
+            sendPersonalDataToParent={setPersonalData}
           />
         </Modal>
       </div>
@@ -101,6 +108,8 @@ const AuctionBanner = () => {
           verified={verified}
           donateFull={donateFull}
           setPaymentModal={setPaymentModal}
+          auctionDetailsData={setAuctionData}
+          personalData={personalData}
         />
       </Modal>
       {/* Second Modal Auction Details end */}
@@ -116,7 +125,12 @@ const AuctionBanner = () => {
           width={400}
           closable={false}
         >
-          <CardNumberModal setAuctionDetailsModal = {setAuctionDetailsModal}  donateFull = {donateFull} setPaymentModal = {setPaymentModal} />
+          <CardNumberModal
+            setAuctionDetailsModal={setAuctionDetailsModal}
+            setPaymentModal={setPaymentModal}
+            personalData={personalData}
+            auctionData={auctionData}
+          />
         </Modal>
       )}
 

@@ -12,8 +12,8 @@ const PodcastContact = () => {
   const donateFull = Form.useWatch("donateFull", form);
   console.log(donateFull)
   // 1st modal useState
-  const [firstModal, setFirstModal] = useState(false);
-  const [secondModal, setSecondModal] = useState(false);
+   const [personalDetailsModal, setPersonalDetailsModal] = useState(false);
+   const [paymentModal, setPaymentModal] = useState(false);
 
   const [openTermsModal, setOpenTermModal] = useState(false);
 
@@ -27,7 +27,7 @@ const PodcastContact = () => {
   const handleSubmit = (values) => {
     console.log(values);
     console.log(`modal open`);
-    setFirstModal(true);
+    setPersonalDetailsModal(true);
   };
 
   // 2nd modal end
@@ -40,8 +40,8 @@ const PodcastContact = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-      firstModal || secondModal ? "hidden" : "auto";
-  }, [firstModal, secondModal]);
+      personalDetailsModal || paymentModal ? "hidden" : "auto";
+  }, [personalDetailsModal, paymentModal]);
 
   return (
     <div className="relative max-w-full  -z-0 lg:pt-[91px] p-3 lg:p-0  bg-[url('/contact-bg-img.png')]  bg-cover bg-center">
@@ -300,15 +300,15 @@ const PodcastContact = () => {
 
       <div className=" ">
         <Modal
-          open={firstModal}
+          open={personalDetailsModal}
           centered
           closable={false}
           footer={null}
           width={600}
         >
           <PersonalDetailModal
-            setFirstModal={setFirstModal}
-            setSecondModal={setSecondModal}
+            setPersonalDetailsModal={setPersonalDetailsModal}
+            setPaymentModal={setPaymentModal}
           />
         </Modal>
       </div>
@@ -319,14 +319,14 @@ const PodcastContact = () => {
         <Modal
           title=""
           // onCancel={handleCancel}
-          open={secondModal}
+          open={paymentModal}
           footer={null}
           width={400}
           closable={false}
         >
           <CardNumberModal
-            setFirstModal={setFirstModal}
-            setSecondModal={setSecondModal}
+            setPersonalDetailsModal={setPersonalDetailsModal}
+            setPaymentModal={setPaymentModal}
             donateFull = {donateFull}
           />
         </Modal>

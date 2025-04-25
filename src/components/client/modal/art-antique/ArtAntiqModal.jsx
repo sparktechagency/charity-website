@@ -15,60 +15,65 @@ const ArtAntiqModal = ({
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const axiosPublic = useAxiosPublic();
   const [fileList, setFileList] = useState([]);
+  const axiosPublic = useAxiosPublic();
 
-  // const submitLuxriousModal = (values) => {
-  //   console.log("Form Values:", values);
-  //   console.log("Name:", values.name);
-  //   console.log("Email:", values.email);
-  //   console.log("Item:", values.item);
-  //   console.log("Description:", values.description);
-  //   console.log("Image:", values.image?.fileList[0]);
-  //   console.log("Terms Accepted:", values.terms);
+  // Handle Upload Change
+  const handleFileChange = ({ fileList }) => {
+    setFileList(fileList);
+  };
 
-  //   // Reset form fields
-  //   form.resetFields();
-  //   // setLuxuryModal(false);
-    // showSuccessAlert();
-  // };
-
+  // Form Submit
   const handleSubmit = async (values) => {
+    setLoading(true);
+    setError(null);
+
     const formData = new FormData();
+
+    // Append regular form fields
     for (let key in values) {
       formData.append(key, values[key]);
     }
-    fileList.forEach((file) => {
-      formData.append("images[]", file.originFileObj);
-    });
-    // Log each entry of FormData
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]); // Log key and value of FormData
+
+    // Append image files
+    if (Array.isArray(fileList)) {
+      fileList.forEach((file) => {
+        formData.append("images[]", file.originFileObj);
+      });
     }
+
     try {
-      setLoading(true);
       const res = await axiosPublic.post("/collect-table", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(res);
+
       if (res.data.success) {
         Swal.fire({
           position: "top-end",
           icon: "success",
           title: `<h1>Donation item under review.</h1>`,
-          text: "Your auction listing is in under review. Once review done, it will get published & we’ll notify you via email address.",
+          text: "Your auction listing is under review. Once done, it will be published & we’ll notify you via email.",
           showConfirmButton: true,
           timer: 2500,
         });
+
         form.resetFields();
         setFileList([]);
-        return setAntiquesModal(false);
+        setAntiquesModal(false);
       }
     } catch (error) {
-      console.log(error.response.data.errors.images[1]);
-      setError(error.response.data.errors.images[1] || "Something went wrong");
+      console.error(error);
+      setError(
+        error?.response?.data?.errors?.images?.[1] || "Something went wrong"
+      );
+
+      Swal.fire({
+        icon: "error",
+        title: "Upload Failed",
+        text: error?.response?.data?.message || "Something went wrong!",
+      });
     } finally {
       setLoading(false);
     }
@@ -199,7 +204,7 @@ const ArtAntiqModal = ({
             beforeUpload={() => false} // Prevent auto upload
             accept=".jpg,.jpeg,.png,.pdf"
             fileList={fileList}
-            onChange={({ fileList }) => setFileList(fileList)}
+            onChange={handleFileChange}
           >
             <div>
               <span>
