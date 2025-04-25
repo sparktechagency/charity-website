@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const faqData = [
   {
@@ -28,8 +29,25 @@ const faqData = [
   },
 ];
 
+
+
 const Faq = () => {
+  const axiosPublic = useAxiosPublic();
+  const [data,setData] = useState([]);
   const [openIndex, setOpenIndex] = useState(0);
+  useEffect(()=>{
+    async function fetchData (){
+      try {
+        const res = await axiosPublic.get(`/get-faqs`);
+        setData(res.data.data.data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        console.log(`Team data fetched`);
+      }
+    }
+    fetchData()
+  },[])
 
   return (
     <div className="p-4">
@@ -41,7 +59,7 @@ const Faq = () => {
         {/* FAQ Section */}
         <div className="w-full lg:w-3/5">
           <div className="space-y-4">
-            {faqData.map((item, index) => (
+            {data.map((item, index) => (
               <div
                 key={index}
                 className="bg-white border border-[#A6ABAC] shadow rounded"
@@ -53,7 +71,7 @@ const Faq = () => {
                   }
                 >
                   <p className="px-2 text-[#263234] text-lg sm:text-xl font-semibold mt-4 sm:mt-6">
-                    {item.question}
+                    {item?.question}
                   </p>
                   <span className="cursor-pointer">
                     {openIndex === index ? (
@@ -97,7 +115,7 @@ const Faq = () => {
                 </button>
                 {openIndex === index && (
                   <div className="px-6 pt-2 pb-4 text-[#4B5557] text-sm sm:text-base">
-                    {item.answer}
+                    {item?.answer}
                   </div>
                 )}
               </div>

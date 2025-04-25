@@ -38,6 +38,12 @@ const Team = () => {
           </div>
         </div>
 
+        {
+          data.length===0 && (
+            <div><h1 className=" text-2xl font-semibold text-center  " >Loading team data</h1></div>
+          )
+        }
+
         {/* Team members */}
         <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 lg:pb-24 pb-8 gap-8">
           {data.map((member, index) => (
@@ -45,16 +51,16 @@ const Team = () => {
               <div className="lg:mt-16">
                 <img
                   className="object-cover mx-auto rounded-lg"
-                  src={`http://137.59.180.219:8000/${member.photo}`}
-                  alt={member.name}
+                  src={`http://137.59.180.219:8000/${member?.photo}  `}
+                  alt={member?.name}
                 />
               </div>
               <div className="mx-auto">
                 <h2 className="mt-6 text-[#403730] text-xl font-semibold mb-1">
-                  {member.name}
+                  {member?.name}
                 </h2>
-                <p className="text-[#403730] text-lg">{member.designation}</p>
-                <p className="text-[#4B5557] mt-4">{member.work_experience}</p>
+                <p className="text-[#403730] text-lg">{member?.designation}</p>
+                <p className="text-[#4B5557] mt-4">{member?.work_experience}</p>
               </div>
               <div>
                 <div className="flex mx-auto items-center justify-center lg:justify-start gap-5 mt-6">
@@ -62,7 +68,7 @@ const Team = () => {
 
                   {/* Twitter */}
                   <Link
-                    to={`${member.twitter_link}`}
+                    to={`${member?.twitter_link}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -84,7 +90,7 @@ const Team = () => {
 
                   {/* LinkedIn */}
                   <Link
-                    to={`${member.linkedIn_link}`}
+                    to={`${member?.linkedIn_link}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -104,7 +110,7 @@ const Team = () => {
 
                   {/* Instagram */}
                   <Link
-                    to={`${member.instagram_link}`}
+                    to={`${member?.instagram_link}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
