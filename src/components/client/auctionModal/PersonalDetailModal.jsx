@@ -1,15 +1,5 @@
-import {
-  Form,
-  Input,
-  Upload,
-  Button,
-  Select,
-  Checkbox,
-  Modal,
-  InputNumber,
-} from "antd";
+import { Form, Input, Upload, Button, Select, InputNumber } from "antd";
 
-import Dragger from "antd/es/upload/Dragger";
 import { useState } from "react";
 const PersonalDetailModal = ({
   setPersonalDetailsModal,
@@ -17,28 +7,26 @@ const PersonalDetailModal = ({
   sendPersonalDataToParent,
 }) => {
   const [form] = Form.useForm();
-  const [fileList, setFileList] = useState(null); 
-  const handleFileChange = (info)=>{
+  const [fileList, setFileList] = useState(null);
+  const handleFileChange = (info) => {
     setFileList(info.fileList);
   };
 
-  
   const handleSubmit = (values) => {
     setAuctionDetailsModal(true);
     setPersonalDetailsModal(false);
-  
+
     const payload = {
       name: values.name,
       email: values.email,
       contact_number: values.contact_number,
       city: values.city,
       address: values.address,
-      profile: fileList[0]?.originFileObj 
+      profile: fileList[0]?.originFileObj,
     };
 
-  
     sendPersonalDataToParent(payload);
-    form.resetFields()
+    form.resetFields();
   };
   return (
     <div className="  ">

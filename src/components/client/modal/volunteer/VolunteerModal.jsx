@@ -198,11 +198,12 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
           label="Upload your CV"
           rules={[{ required: true, message: "Please Upload your CV!" }]}
         >
-          <Dragger
+          <Upload.Dragger
             accept=".doc,.docx,.pdf,.jpg,.jpeg,.png"
             style={{ border: "2px dotted #E9EBEB" }}
             beforeUpload={() => false} // Prevent auto upload
             onChange={handleFileChange}
+            listType="picture"
           >
             <div className="text-start">
               <p className="ant-upload-drag-icon">
@@ -215,7 +216,7 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
                 Supported format: JPG, JPEG, PNG, PDF
               </p>
             </div>
-          </Dragger>
+          </Upload.Dragger>
         </Form.Item>
 
         {/* Terms & Conditions Checkbox */}

@@ -14,7 +14,6 @@ const { Option } = Select;
 const CardNumberModal = ({
   setAuctionDetailsModal,
   setPaymentModal,
-  donateFull,
   auctionData,
   personalData,
 }) => {
@@ -91,7 +90,6 @@ const CardNumberModal = ({
 
   return (
     <>
-      {!donateFull && (
         <>
           <h1 className="text-[#263234] text-2xl font-semibold leading-8">
             Get paid
@@ -223,7 +221,6 @@ const CardNumberModal = ({
             </div>
           </Form>
         </>
-      )}
     </>
   );
 };
