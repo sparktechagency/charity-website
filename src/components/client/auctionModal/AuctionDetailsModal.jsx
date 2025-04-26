@@ -38,6 +38,7 @@ const AuctionDetailsModal = ({
       donate_share: values.donate_share,
       image: fileList[0]?.originFileObj,
     };
+     console.log(values.donate_share)
 
     if (values.donate_share === "100") {
       // ✅ Direct API call
@@ -60,9 +61,9 @@ const AuctionDetailsModal = ({
           },
         })
         .then((res) => {
-          if (res.data?.status) {
+          if (res.data?.success) {
             auctionMsg();
-            
+            setAuctionDetailsModal(false);
           }
         })
         .catch((error) => {

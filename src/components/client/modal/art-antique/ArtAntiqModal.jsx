@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Input, Button, Checkbox, Upload, Radio, Form } from "antd";
+import { Modal, Input, Button, Checkbox, Upload, Radio, Form, Select } from "antd";
 import { Link } from "react-router-dom";
 import { showSuccessAlert } from "../../../../helper/showSuccessAlert";
 import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
@@ -12,6 +12,7 @@ const ArtAntiqModal = ({
   setSupportModal,
   setDonateTerm,
 }) => {
+  const [donateFull,setDonateFull] = useState(false)
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -245,6 +246,45 @@ const ArtAntiqModal = ({
             </div>
           </Upload.Dragger>
         </Form.Item>
+        <Form.Item
+              label={
+                <span className="text-sm text-[#263234] font-medium">
+                  I want to receive
+                </span>
+              }
+              style={{ marginBottom: 0, marginTop: "16px" }}
+            >
+              <Form.Item name="donate_share" noStyle>
+                <Select
+                  style={{
+                    width: "100%",
+                    height: "50px",
+                    borderRadius: "5px",
+                    outline: 0,
+                    border: "none",
+                  }}
+                  placeholder="30% of net value"
+                  disabled={donateFull}
+                >
+                  <Option value="30">30%</Option>
+                </Select>
+              </Form.Item>
+            </Form.Item>
+
+            <Form.Item style={{ marginBottom: 0 }}>
+              <Checkbox
+                checked={donateFull}
+                onChange={(e) => {
+                  const checked = e.target.checked;
+                  setDonateFull(checked);
+                  form.setFieldsValue({
+                    donate_share: checked ? "100" : "30", // or reset to previous value
+                  });
+                }}
+              >
+                I want to donate 100%.
+              </Checkbox>
+            </Form.Item>
         {/* Checkbox */}
         <Form.Item
           name="terms"

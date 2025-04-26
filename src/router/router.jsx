@@ -22,6 +22,7 @@ import PaypalDonationFrom from "../components/client/paypal-payment/PaypalDonati
 import PaymentDetails from "../components/client/paypal-payment/PaymentDetails";
 import BitPayment from "../components/client/bitModal/BitPayment";
 import UserDetails from "../components/client/modal/payment/UserDetails";
+import AudioFile from "../components/client/audio/AudioFile";
 
 export const router = createBrowserRouter([
   {
@@ -95,6 +96,11 @@ export const router = createBrowserRouter([
   {
     path : "/succeeded",
     element : <PaymentSuccess></PaymentSuccess>
+  },
+
+  {
+    path : "/audio",
+    element : <AudioFile></AudioFile>
   },
 
   // admin dashboard routes here

@@ -1,19 +1,162 @@
-import React from "react";
-
+import React, { useEffect, useRef, useState } from "react";
+import WaveSurfer from "wavesurfer.js";
+import { CiPause1 } from "react-icons/ci";
 const PodcastBanner = () => {
-  const episodes = Array(7).fill({
-    title: "Season 2 Episode 6 – The London",
-    duration: "3:15:09 sec",
-    date: "21 February, 2025",
-    image: "/videoImg3.jpg",
-  });
+  const waveformRef = useRef(null);
+  const wavesurfer = useRef(null);
+
+  const audios = [
+    {
+      podcast_title: "Tech Talks",
+      host_title: "Hosted by John Doe",
+      guest_title: "Guest: Jane Smith",
+      host_profile: "/host-john.png",
+      guest_profile: "/guest-jane.png",
+      description:
+        "In this episode, we dive into the future of AI with Jane Smith.",
+      date: "21 February, 2025",
+      file: "audio/podcast-1.mp3",
+      thumbnail: "/podcast-thumbnail1.png",
+      title: "Season 2 Episode 6 - The London",
+    },
+    {
+      title: "Season 2 Episode 7 - The Return",
+      date: "1 March, 2025",
+      file: "audio/podcast-2.mp3",
+      thumbnail: "/podcast-thumbnail2.png",
+    },
+    {
+      podcast_title: "Tech Talks",
+      host_title: "Hosted by John Doe",
+      guest_title: "Guest: Jane Smith",
+      host_profile: "/host-john.png",
+      guest_profile: "/guest-jane.png",
+      description:
+        "In this episode, we dive into the future of AI with Jane Smith.",
+      date: "21 February, 2025",
+      file: "audio/podcast-1.mp3",
+      thumbnail: "/podcast-thumbnail1.png",
+      title: "Season 2 Episode 6 - The London",
+    },
+    {
+      title: "Season 2 Episode 9 - The Finale",
+      date: "20 March, 2025",
+      file: "audio/podcast-4.mp3",
+      thumbnail: "/podcast-thumbnail3.png",
+    },
+    {
+      podcast_title: "Tech Talks",
+      host_title: "Hosted by John Doe",
+      guest_title: "Guest: Jane Smith",
+      host_profile: "/host-john.png",
+      guest_profile: "/guest-jane.png",
+      description:
+        "In this episode, we dive into the future of AI with Jane Smith.",
+      date: "21 February, 2025",
+      file: "audio/podcast-1.mp3",
+      thumbnail: "/podcast-thumbnail1.png",
+      title: "Season 2 Episode 6 - The London",
+    },
+    {
+      podcast_title: "Tech Talks",
+      host_title: "Hosted by John Doe",
+      guest_title: "Guest: Jane Smith",
+      host_profile: "/host-john.png",
+      guest_profile: "/guest-jane.png",
+      description:
+        "In this episode, we dive into the future of AI with Jane Smith.",
+      date: "21 February, 2025",
+      file: "audio/podcast-1.mp3",
+      thumbnail: "/podcast-thumbnail1.png",
+      title: "Season 2 Episode 6 - The London",
+    },
+  ];
+
+  const [currentTrack, setCurrentTrack] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [totalDuration, setTotalDuration] = useState(0);
+
+  useEffect(() => {
+    if (!waveformRef.current) return;
+
+    waveformRef.current.innerHTML = "";
+
+    if (wavesurfer.current) {
+      wavesurfer.current.destroy();
+    }
+
+    wavesurfer.current = WaveSurfer.create({
+      container: waveformRef.current,
+      waveColor: "#4b5563",
+      progressColor: "#3b82f6",
+      height: 40,
+      barWidth: 2,
+      responsive: true,
+      normalize: true,
+    });
+
+    wavesurfer.current.load(audios[currentTrack].file);
+
+    wavesurfer.current.on("ready", () => {
+      setTotalDuration(wavesurfer.current.getDuration());
+      setCurrentTime(wavesurfer.current.getCurrentTime());
+
+      // ✅ Auto play if previous track was playing
+      if (isPlaying) {
+        wavesurfer.current.play();
+      }
+    });
+
+    wavesurfer.current.on("audioprocess", () => {
+      setCurrentTime(wavesurfer.current.getCurrentTime());
+    });
+
+    wavesurfer.current.on("finish", () => {
+      handleNext();
+    });
+
+    return () => {
+      if (wavesurfer.current) {
+        wavesurfer.current.destroy();
+      }
+    };
+  }, [currentTrack]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+  };
+
+  const togglePlay = () => {
+    if (wavesurfer.current) {
+      if (wavesurfer.current.isPlaying()) {
+        wavesurfer.current.pause();
+        setIsPlaying(false);
+      } else {
+        wavesurfer.current.play();
+        setIsPlaying(true);
+      }
+    }
+  };
+
+  const handlePrev = () => {
+    setCurrentTrack((prev) => (prev - 1 + audios.length) % audios.length);
+  };
+
+  const handleNext = () => {
+    setCurrentTrack((prev) => (prev + 1) % audios.length);
+  };
+
+  const timeLeft = totalDuration - currentTime;
 
   return (
     <div className="pt-20">
       <div className="relative bg-[url('/podcastBg.png')] bg-cover bg-center">
-      <div className=" text-white pt-9 pb-6  text-center">
+        <div className=" text-white pt-9 pb-6  text-center">
           <h1 className="text-4xl lg:text-5xl text-[#7c8067] font-bold">
-          EmpowerINFINITY Podcast:
+            EmpowerINFINITY Podcast:
             <span className="text-[#7c8067] lg:text-6xl text-3xl ">
               {" "}
               Healing,
@@ -33,41 +176,42 @@ const PodcastBanner = () => {
           </p>
         </div>
 
-        {/* Podcast Player Card */}
         <div className="max-w-2xl mx-auto p-6 lg:p-10 border border-[#2c3333] shadow-md bg-[#1B2324]">
-          <div className="flex flex-col md:flex-row gap-6">
-            {/* Podcast Image */}
-            <div className="flex-shrink-0">
+          {/* Thumbnail */}
+          <div className=" flex justify-between flex-col md:flex-row gap-6 ">
+            <div>
               <img
+                // src={audios[currentTrack].thumbnail}
                 src="videoImg2.jpg"
+                alt="Podcast Cover"
                 className="w-40 h-40 rounded-lg"
-                alt="Podcast"
               />
             </div>
 
-            {/* Podcast Details */}
-            <div className="w-full">
+            {/* Content */}
+            <div className="flex-1 w-full">
+              {/* Date */}
               <p className="text-[#A6ABAC] text-xs font-semibold">
-                21 February, 2025
+                {audios[currentTrack].date}
               </p>
-              <h1 className="text-xl lg:text-2xl text-[#E9EBEB] mt-2">
-                Season 2 Episode 6 - The London
-              </h1>
 
-              {/* Duration */}
-              <div className="flex justify-between text-xs text-[#A6ABAC] mt-2">
-                <p>17:14s</p>
-                <p>32:24s left</p>
+              {/* Title */}
+              <h2 className="text-xl lg:text-2xl text-[#E9EBEB] mt-2">
+                {audios[currentTrack].title}
+              </h2>
+              {/* Time Info */}
+              <div className="flex justify-between text-sm text-gray-400 mb-4">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(timeLeft)} left</span>
+              </div>
+              {/* Waveform */}
+              <div className="w-full mb-2">
+                <div ref={waveformRef} />
               </div>
 
-              {/* Progress Bar */}
-              <div className="w-full bg-[#263234] h-3 rounded-full overflow-hidden mt-2">
-                <div className="h-full bg-gray-500 w-1/2"></div>
-              </div>
-
-              {/* Media Controls */}
-              <div className="flex items-center gap-4 mt-4">
-                <button className="w-8 h-8 text-[#A6ABAC]">
+              {/* Controls */}
+              <div className="flex items-center justify-center gap-6">
+                <button onClick={handlePrev} className="w-8 h-8 text-[#A6ABAC]">
                   <svg
                     width="24"
                     height="24"
@@ -89,24 +233,35 @@ const PodcastBanner = () => {
                     />
                   </svg>
                 </button>
-                <button className="w-12 h-12 bg-[#263234] rounded-full text-white flex items-center justify-center">
-                  <svg
-                    width="44"
-                    height="44"
-                    viewBox="0 0 44 44"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect width="44" height="44" rx="22" fill="#263234" />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M16.5208 12.1223C16.8419 11.947 17.233 11.961 17.5408 12.1588L31.5408 21.1588C31.827 21.3428 32 21.6597 32 22C32 22.3403 31.827 22.6572 31.5408 22.8412L17.5408 31.8412C17.233 32.039 16.8419 32.053 16.5208 31.8777C16.1997 31.7024 16 31.3658 16 31V13C16 12.6342 16.1997 12.2976 16.5208 12.1223ZM18 14.8317V29.1683L29.1507 22L18 14.8317Z"
-                      fill="white"
-                    />
-                  </svg>
+                <button
+                  onClick={togglePlay}
+                  className="w-12 h-12 bg-[#263234] rounded-full text-white flex items-center justify-center"
+                >
+                  {isPlaying ? (
+                    <span className="block   ">
+                      <CiPause1 size={24} />
+                    </span>
+                  ) : (
+                    <span>
+                      <svg
+                        width="44"
+                        height="44"
+                        viewBox="0 0 44 44"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect width="44" height="44" rx="22" fill="#263234" />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M16.5208 12.1223C16.8419 11.947 17.233 11.961 17.5408 12.1588L31.5408 21.1588C31.827 21.3428 32 21.6597 32 22C32 22.3403 31.827 22.6572 31.5408 22.8412L17.5408 31.8412C17.233 32.039 16.8419 32.053 16.5208 31.8777C16.1997 31.7024 16 31.3658 16 31V13C16 12.6342 16.1997 12.2976 16.5208 12.1223ZM18 14.8317V29.1683L29.1507 22L18 14.8317Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </span>
+                  )}
                 </button>
-                <button className="w-8 h-8 text-[#A6ABAC]">
+                <button onClick={handleNext} className="w-8 h-8 text-[#A6ABAC]">
                   <svg
                     width="24"
                     height="24"
@@ -131,34 +286,84 @@ const PodcastBanner = () => {
               </div>
             </div>
           </div>
+
+          {/* date  */}
+          <p className="text-sm text-gray-400 mb-1">
+            {audios[currentTrack].date}
+          </p>
+
+          {/* podcast title  */}
+          <h2 className="text-xl font-semibold">
+            {audios[currentTrack].podcast_title}
+          </h2>
+          {/* podcast title  */}
+          <p className="text-sm text-gray-300 mb-1">
+            {audios[currentTrack].title}
+          </p>
+          {/* host title */}
+          <p className="text-sm text-blue-400">
+            {audios[currentTrack].host_title}
+          </p>
+          {/* gust title */}
+          <p className="text-sm text-green-400 mb-2">
+            {audios[currentTrack].guest_title}
+          </p>
+          <p className="text-sm text-gray-400 mb-4">
+            {audios[currentTrack].description}
+          </p>
+
+          {/* Podcast description  */}
+
+          <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-2">
+              <img
+                src={audios[currentTrack].host_profile}
+                className="w-10 h-10 rounded-full"
+                alt="Host"
+              />
+              <span className="text-sm text-white">Host</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <img
+                src={audios[currentTrack].guest_profile}
+                className="w-10 h-10 rounded-full"
+                alt="Guest"
+              />
+              <span className="text-sm text-white">Guest</span>
+            </div>
+          </div>
         </div>
 
         {/* Episode List */}
         <div className="max-w-2xl mx-auto mt-6">
           <div className="bg-[#1E2A30] p-4 lg:p-6 h-60 lg:h-[40vh] overflow-y-auto custom-scrollbar">
-            {episodes.map((episode, index) => (
+            {audios.map((audio, index) => (
               <div
                 key={index}
-                className="flex justify-between py-3 border-b border-gray-700"
+                className="flex justify-between py-3 border-b border-gray-700 cursor-pointer "
+                onClick={() => {
+                  setCurrentTrack(index);
+                  setIsPlaying(false); // Pause the current audio when switching to another track
+                }}
               >
                 {/* Episode Details */}
                 <div className="flex gap-4">
                   <img
-                    src={episode.image}
+                    src={audio.image}
                     className="w-12 h-12 rounded"
-                    alt="Episode"
+                    alt="audio"
                   />
                   <div>
                     <h2 className="text-[#E9EBEB] font-semibold text-sm">
-                      {episode.title}
+                      {audio.title}
                     </h2>
                     <p className="text-[#A6ABAC] text-xs mt-1">
-                      {episode.duration}
+                      {audio.duration}
                     </p>
                   </div>
                 </div>
                 {/* Date */}
-                <p className="text-[#A6ABAC] text-xs">{episode.date}</p>
+                <p className="text-[#A6ABAC] text-xs">{audio.date}</p>
               </div>
             ))}
           </div>
