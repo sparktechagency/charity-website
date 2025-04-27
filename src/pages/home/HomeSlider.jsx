@@ -18,8 +18,11 @@ import AuctionDetailsModal from "../../components/client/auctionModal/AuctionDet
 import PersonalDetailModal from "../../components/client/auctionModal/PersonalDetailModal";
 import { CardNumberElement } from "@stripe/react-stripe-js";
 import CardNumberModal from "../../components/client/auctionModal/CardNumberModal";
+import UserDetailsModal from "../../components/client/auctionModal/UserDetailsModal";
 const HomeSlider = () => {
   const [donateTerm, setDonateTerm] = useState(false);
+
+  const [userDetailsModal, setUserDetailsModal] = useState(false);
 
   const donateModalCanel = () => {
     setDonateTerm(false);
@@ -979,7 +982,6 @@ const HomeSlider = () => {
       {/* First Modal Personal Details end  */}
 
       {/*  Second Modal Auction Details start */}
-
       <Modal
         centered
         open={auctionDetailsModal}
@@ -997,10 +999,30 @@ const HomeSlider = () => {
           setPaymentModal={setPaymentModal}
           auctionDetailsData={setAuctionData}
           personalData={personalData}
+          setUserDetailsModal={setUserDetailsModal}
+        />
+      </Modal>
+      {/* Second Modal Auction Details end */}
+
+      {/* user details modal start  */}
+
+      <Modal
+        centered
+        open={userDetailsModal}
+        closable={false} // Removes close (X) icon
+        width={600}
+        footer={null}
+      >
+        <UserDetailsModal
+          personalData={personalData}
+          auctionData={auctionData}
+          setUserDetailsModal={setUserDetailsModal}
+          setPaymentModal={setPaymentModal}
+          setAuctionDetailsModal={setAuctionDetailsModal}
         />
       </Modal>
 
-      {/* Second Modal Auction Details end */}
+      {/* user details modal end  */}
 
       {/* Third Modal Payment modal start  */}
 
@@ -1018,10 +1040,10 @@ const HomeSlider = () => {
             setPaymentModal={setPaymentModal}
             personalData={personalData}
             auctionData={auctionData}
+            setUserDetailsModal={setUserDetailsModal}
           />
         </Modal>
       )}
-
       <div className=" ">
         <Modal
           width={"70%"}

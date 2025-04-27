@@ -39,10 +39,10 @@ const AuctionBanner = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-      auctionDetailsModal || personalDetailsModal || paymentModal
+      auctionDetailsModal || personalDetailsModal || paymentModal || userDetailsModal
         ? "hidden"
         : "auto";
-  }, [auctionDetailsModal, personalDetailsModal, paymentModal]);
+  }, [auctionDetailsModal, personalDetailsModal, paymentModal,userDetailsModal]);
 
   return (
     <>
@@ -112,7 +112,7 @@ const AuctionBanner = () => {
           setPaymentModal={setPaymentModal}
           auctionDetailsData={setAuctionData}
           personalData={personalData}
-          setUserDetailsModal = {setUserDetailsModal}
+          setUserDetailsModal={setUserDetailsModal}
         />
       </Modal>
       {/* Second Modal Auction Details end */}
@@ -128,8 +128,11 @@ const AuctionBanner = () => {
       >
         <UserDetailsModal
           
-          auctionDetailsData={setAuctionData}
           personalData={personalData}
+          auctionData={auctionData}
+          setUserDetailsModal = {setUserDetailsModal}
+          setPaymentModal = {setPaymentModal}
+          setAuctionDetailsModal = {setAuctionDetailsModal}
         />
       </Modal>
 
@@ -151,6 +154,7 @@ const AuctionBanner = () => {
             setPaymentModal={setPaymentModal}
             personalData={personalData}
             auctionData={auctionData}
+            setUserDetailsModal = {setUserDetailsModal}
           />
         </Modal>
       )}

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { imgUrl } from "../../helper/imgUrl";
 
 const Team = () => {
   const [data, setData] = useState([]);
@@ -77,7 +78,7 @@ const Team = () => {
               <div className="lg:mt-16">
                 <img
                   className="object-cover mx-auto rounded-lg"
-                  src={`http://137.59.180.219:8000/${member?.photo}  `}
+                  src={`${imgUrl}/${member?.photo}  `}
                   alt={member?.name}
                 />
               </div>

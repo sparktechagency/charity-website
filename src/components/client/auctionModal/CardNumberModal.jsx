@@ -16,6 +16,7 @@ const CardNumberModal = ({
   setPaymentModal,
   auctionData,
   personalData,
+  setUserDetailsModal
 }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
@@ -84,7 +85,7 @@ const CardNumberModal = ({
   };
 
   const backModal = () => {
-    setAuctionDetailsModal(true);
+    setUserDetailsModal(true);
     setPaymentModal(false);
   };
 
