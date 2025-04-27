@@ -23,6 +23,8 @@ import PaymentDetails from "../components/client/paypal-payment/PaymentDetails";
 import BitPayment from "../components/client/bitModal/BitPayment";
 import UserDetails from "../components/client/modal/payment/UserDetails";
 import AudioFile from "../components/client/audio/AudioFile";
+import LoginForm from "../components/client/login/LoginFrom";
+import RegistrationForm from "../components/client/RegistrationForm/RegistrationForm";
 
 export const router = createBrowserRouter([
   {
@@ -101,6 +103,14 @@ export const router = createBrowserRouter([
   {
     path : "/audio",
     element : <AudioFile></AudioFile>
+  },
+  {
+    path : "/login",
+    element : <LoginForm/>
+  },
+  {
+    path : "/register",
+    element : <RegistrationForm/>
   },
 
   // admin dashboard routes here

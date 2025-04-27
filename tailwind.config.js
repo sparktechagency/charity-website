@@ -11,8 +11,10 @@ export default {
       },
       fontFamily: {
         'roboto': ["Roboto", "serif"],
-
       },
+      backgroundColor : {
+        "btnColor" : "#403730"
+      }
     },
   },
   plugins: [],

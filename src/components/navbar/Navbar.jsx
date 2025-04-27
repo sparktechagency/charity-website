@@ -38,8 +38,6 @@ const Navbar = () => {
 
   // doner details modal use state
 
-
-
   // doner details modal end
 
   // support modal useState
@@ -49,11 +47,10 @@ const Navbar = () => {
   /* Donate Art, Antiques or Collectible useState   */
   const [antiquesModal, setAntiquesModal] = useState(false);
 
-
   // support modal start
   const openSupportModal = () => {
     setSupportModal(true);
-    setOpen(false)
+    setOpen(false);
   };
   const closeSupportModal = () => {
     setSupportModal(false);
@@ -89,7 +86,7 @@ const Navbar = () => {
         isScrolled ? "bg-[#F9F9F9] shadow" : "bg-transparent"
       }`}
     >
-      <div className="max-w-6xl  mx-auto py-3 flex items-center justify-between px-4 md:px-3">
+      <div className="max-w-7xl  mx-auto py-3 flex items-center justify-between px-4 md:px-3">
         {/* Logo */}
         <Link className="flex items-center gap-4" to="/">
           <img src={logo} alt="Virtue Hope Logo" className="h-10" />
@@ -119,6 +116,13 @@ const Navbar = () => {
         </nav>
 
         {/* Support Button (Desktop Only) */}
+
+        <Link to={"/login"}>
+          <button className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90">
+            Login
+          </button>
+        </Link>
+
         <button
           onClick={openSupportModal}
           className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
@@ -158,6 +162,11 @@ const Navbar = () => {
           </ul>
 
           {/* Support Button in Drawer (Closes Drawer & Opens Modal) */}
+          <Link to={"/login"}>
+            <button className=" px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90">
+              Login
+            </button>
+          </Link>
           <button
             onClick={openSupportModal}
             className="mt-6 bg-[#403730] w-full py-3 cursor-pointer text-white rounded-md font-medium text-sm hover:opacity-90"
@@ -224,12 +233,11 @@ const Navbar = () => {
           setSupportModal={setSupportModal}
           setAntiquesModal={setAntiquesModal}
           setPaymentModal={setPaymentModal}
-          setDonateTerm = {setDonateTerm}
+          setDonateTerm={setDonateTerm}
         />
       </Modal>
 
       {/* Donate Art, Antiques or Collectibles modal end */}
-
 
       {/* donate modal terms conditions start   */}
 
