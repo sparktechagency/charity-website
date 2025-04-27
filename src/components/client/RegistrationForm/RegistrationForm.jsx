@@ -8,7 +8,7 @@ import {
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
-const RegistrationForm = () => {
+const RegistrationForm = ({setIsOpenModal,setLoginModal}) => {
   const onFinish = (values) => {
     console.log("Registration Success:", values);
     // Add your registration logic here
@@ -23,9 +23,14 @@ const RegistrationForm = () => {
     return e?.fileList;
   };
 
+  const openLoginModal = ()=>{
+    setLoginModal(true);
+    setIsOpenModal(false)
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <Card className="w-full max-w-md shadow-xl rounded-2xl p-6">
+    <div className="">
+      <Card className="p-6">
         <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
         <Form
           name="register"
@@ -107,7 +112,8 @@ const RegistrationForm = () => {
         <div className="text-center mt-4">
           <span className="text-gray-600">Already have an account? </span>
           <Link
-            to="/login"
+          onClick={openLoginModal}
+            to=""
             className="text-green-600 hover:underline font-semibold"
           >
             Login

@@ -10,6 +10,7 @@ import ArtAntiqModal from "../client/modal/art-antique/ArtAntiqModal";
 import DonerDetailsModal from "../client/modal/doner-details/DonerDetailsModal";
 import SupportModal from "../client/modal/support-modal/SupportModal";
 import DonationFormModal from "../client/donation-form-modal/DonationFormModal";
+import LoginForm from "../client/login/LoginFrom";
 
 const Navbar = () => {
   const [form] = Form.useForm();
@@ -75,10 +76,22 @@ const Navbar = () => {
     { name: "Podcast", path: "podcast" },
   ];
 
+
+
+  // login madal start
+  const [loginModal, setLoginModal] = useState(false);
+
+  const openLoginModal = () => {
+    setLoginModal(true);
+  };
+  const closeLoginModal = ()=>{
+    setLoginModal(false)
+  };
+
   useEffect(() => {
     document.body.style.overflow =
-      supportModal || paymentModal || antiquesModal ? "hidden" : "auto";
-  }, [supportModal, paymentModal, antiquesModal]);
+      supportModal || paymentModal || antiquesModal || loginModal ? "hidden" : "auto";
+  }, [supportModal, paymentModal, antiquesModal,loginModal]);
 
   return (
     <nav
@@ -117,11 +130,10 @@ const Navbar = () => {
 
         {/* Support Button (Desktop Only) */}
 
-        <Link to={"/login"}>
-          <button className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90">
+        
+          <button onClick={openLoginModal} className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90">
             Login
           </button>
-        </Link>
 
         <button
           onClick={openSupportModal}
@@ -272,6 +284,20 @@ const Navbar = () => {
       </div>
 
       {/* Donate Art, Antique or Collectables  Terms & Conditions end */}
+
+      {/* login modal start  */}
+
+      <Modal
+        open={loginModal}
+        footer={null}
+        closable={true}
+        onCancel={closeLoginModal}
+        centered
+        // width="400px"
+        style={{ padding: "15px", top: 0 }}
+      >
+        <LoginForm setLoginModal = {setLoginModal} />
+      </Modal>
     </nav>
   );
 };
