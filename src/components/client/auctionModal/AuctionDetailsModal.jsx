@@ -15,7 +15,8 @@ const AuctionDetailsModal = ({
   verified,
   setPaymentModal,
   auctionDetailsData,
-  personalData
+  personalData,
+  setUserDetailsModal,
 }) => {
   const [fileList, setFileList] = useState(null); // To track the selected file
   const [form] = Form.useForm(); // Using Ant Design's Form hook
@@ -28,7 +29,7 @@ const AuctionDetailsModal = ({
 
   function onChange(e) {
     isVerified(true);
-  };
+  }
   const axiosPublic = useAxiosPublic();
 
   const handleSubmit = (values) => {
@@ -38,7 +39,7 @@ const AuctionDetailsModal = ({
       donate_share: values.donate_share,
       image: fileList[0]?.originFileObj,
     };
-     console.log(values.donate_share)
+    console.log(values.donate_share);
 
     if (values.donate_share === "100") {
       // ✅ Direct API call
@@ -47,12 +48,12 @@ const AuctionDetailsModal = ({
       formData.append("description", payload.description);
       formData.append("donate_share", payload.donate_share);
       formData.append("image", payload.image);
-      formData.append("name",personalData.name);
-      formData.append("email",personalData.email);
-      formData.append("contact_number",personalData.contact_number);
-      formData.append("city",personalData.city);
-      formData.append("address",personalData.address);
-      formData.append("profile",personalData.profile);
+      formData.append("name", personalData.name);
+      formData.append("email", personalData.email);
+      formData.append("contact_number", personalData.contact_number);
+      formData.append("city", personalData.city);
+      formData.append("address", personalData.address);
+      formData.append("profile", personalData.profile);
 
       axiosPublic
         .post(`/auction`, formData, {
@@ -77,9 +78,10 @@ const AuctionDetailsModal = ({
         });
     } else {
       // ✅ Partial donation → go to payment modal, API call later
-      setPaymentModal(true);
       setAuctionDetailsModal(false);
       auctionDetailsData(payload); // Send to parent or save for next step
+      setUserDetailsModal(true);
+      setAuctionDetailsModal(false);
     }
   };
 
@@ -90,6 +92,7 @@ const AuctionDetailsModal = ({
   const cancelAuctionDetailsModal = () => {
     setAuctionDetailsModal(false);
     setPersonalDetailsModal(true);
+    setUserDetailsModal(false)
     form.resetFields();
   };
 

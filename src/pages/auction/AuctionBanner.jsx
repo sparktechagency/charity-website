@@ -4,6 +4,7 @@ import PersonalDetailModal from "../../components/client/auctionModal/PersonalDe
 import AuctionDetailsModal from "../../components/client/auctionModal/AuctionDetailsModal";
 import AggrementPage from "../aggrement/AggrementPage";
 import CardNumberModal from "../../components/client/auctionModal/CardNumberModal";
+import UserDetailsModal from "../../components/client/auctionModal/UserDetailsModal";
 
 const AuctionBanner = () => {
   const [personalData, setPersonalData] = useState(null);
@@ -11,6 +12,7 @@ const AuctionBanner = () => {
 
   const [auctionDetailsModal, setAuctionDetailsModal] = useState(false);
   const [personalDetailsModal, setPersonalDetailsModal] = useState(false);
+  const [userDetailsModal, setUserDetailsModal] = useState(false);
   const [paymentModal, setPaymentModal] = useState(false);
 
   const [donateTerm, setDonateTerm] = useState(false);
@@ -110,9 +112,28 @@ const AuctionBanner = () => {
           setPaymentModal={setPaymentModal}
           auctionDetailsData={setAuctionData}
           personalData={personalData}
+          setUserDetailsModal = {setUserDetailsModal}
         />
       </Modal>
       {/* Second Modal Auction Details end */}
+
+      {/* user details modal start  */}
+
+      <Modal
+        centered
+        open={userDetailsModal}
+        closable={false} // Removes close (X) icon
+        width={600}
+        footer={null}
+      >
+        <UserDetailsModal
+          
+          auctionDetailsData={setAuctionData}
+          personalData={personalData}
+        />
+      </Modal>
+
+      {/* user details modal end  */}
 
       {/* Third Modal Payment modal start  */}
 
