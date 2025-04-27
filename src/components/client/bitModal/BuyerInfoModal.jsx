@@ -9,17 +9,21 @@ import {
 } from "@ant-design/icons";
 
 import Checkbox from "antd/es/checkbox/Checkbox";
-const BuyerInfoModal = ({setBuyerInfoModal,setPaymentModal}) => {
-    
+const BuyerInfoModal = ({ setBuyerInfoModal, setPaymentModal }) => {
   const [form] = Form.useForm();
-    const handleSubmitBuyerInfo = (values) => {
-        console.log("Buyer info submitted: ", values);
-        console.log("Form submitted!");
-        setPaymentModal(true);
-        setBuyerInfoModal(false);
-        form.resetFields();
-      };
-    
+  const handleSubmitBuyerInfo = (values) => {
+    console.log("Buyer info submitted: ", values);
+    console.log("Form submitted!");
+    setPaymentModal(true);
+    setBuyerInfoModal(false);
+    form.resetFields();
+  };
+
+  const handleCancel = ()=>{
+    setBuyerInfoModal(false)
+    console.log(`cancel modal`)
+  }
+
   return (
     <div>
       <p className="text-[#263234] mt-4 mb-6 text-[16px] ">
@@ -127,7 +131,7 @@ const BuyerInfoModal = ({setBuyerInfoModal,setPaymentModal}) => {
 
         <div className="flex flex-col lg:flex-row md:flex-row md:ml-32 md:gap-16 lg:justify-end  lg:gap-5   ">
           <div className="  ">
-            <Button className=" missionModalBtn1" onClick={"handleCancel"}>
+            <Button className=" missionModalBtn1" onClick={handleCancel}>
               Cancel
             </Button>
           </div>

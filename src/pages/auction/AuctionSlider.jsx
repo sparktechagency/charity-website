@@ -135,7 +135,7 @@ const AuctionSlider = () => {
     setShowBids((prevState) => prevState.map(() => false));
   };
 
-  // 1st modal start
+  // 1st modal start buyer info
 
   const handleModalOpen = (index) => {
     if (selectedBids[index]) {
@@ -260,7 +260,7 @@ const AuctionSlider = () => {
                 <div className="bg-white shadow rounded-2xl flex lg:flex-row flex-col lg:justify-between px-6 py-6 gap-6">
                   {/* LEFT SECTION */}
                   <div className="lg:w-[433px]">
-                    <div className=" border h-44 ">
+                    <div className="  h-44 ">
                       <h1 className="font-semibold lg:text-5xl text-2xl lg:leading-12 text-black lg:pb-4">
                         {
                           "Capturing the first light of day in a serene landscape"
@@ -571,7 +571,7 @@ const AuctionSlider = () => {
             <div className="flex flex-col lg:flex-row md:flex-row md:ml-32 md:gap-16 lg:justify-end lg:gap-5">
               <Button
                 className="missionModalBtn1"
-                // onClick={handleCancel}
+                onClick={handleModalClose}
                 type="default"
               >
                 Cancel
