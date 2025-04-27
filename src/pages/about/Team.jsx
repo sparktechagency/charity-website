@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import { Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Team = () => {
   const [data, setData] = useState([]);
@@ -38,11 +40,35 @@ const Team = () => {
           </div>
         </div>
 
-        {
-          data.length===0 && (
-            <div><h1 className=" text-2xl font-semibold text-center  " >Loading team data</h1></div>
-          )
-        }
+        {data.length === 0 && (
+          <div>
+            <motion.div
+              className="flex h-[50vh] w-full items-center justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <motion.div
+                className="flex flex-col items-center text-center gap-4"
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  duration: 1.5,
+                }}
+              >
+                <Loader2 className="animate-spin text-[#403730] w-10 h-10" />
+                <h1 className="text-2xl font-semibold text-[#403730]">
+                  Loading team memebers...
+                </h1>
+                <p className="text-gray-500 text-sm max-w-xs">
+                  Please wait while we fetch the data
+                </p>
+              </motion.div>
+            </motion.div>
+          </div>
+        )}
 
         {/* Team members */}
         <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 lg:pb-24 pb-8 gap-8">
@@ -64,8 +90,6 @@ const Team = () => {
               </div>
               <div>
                 <div className="flex mx-auto items-center justify-center lg:justify-start gap-5 mt-6">
-                  
-
                   {/* Twitter */}
                   <Link
                     to={`${member?.twitter_link}`}

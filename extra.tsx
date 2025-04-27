@@ -118,3 +118,53 @@
               </div>
             </Radio.Group>
           </Form.Item>
+
+
+{/* Footer section: price and bid */}
+                      {/* <div className="flex lg:flex-row flex-col items-center justify-between gap-4">
+                        <div className="text-gray-900 text-xl font-bold">
+                          {slide.price}{" "}
+                          <span className="text-gray-500 text-sm">
+                            ({slide.bids} bids)
+                          </span>
+                        </div>
+
+                        <div className="flex items-center">
+                          <button
+                            onClick={openFirstModal}
+                            className="flex items-center gap-1 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-[12px] py-2.5 hover:bg-[#2c241f] transition"
+                          >
+                            <Gavel className="w-4 h-4" />
+                            Bid online
+                            {selectedValue !== "None" &&
+                            selectedValue !== "Custom"
+                              ? ` ${selectedValue}`
+                              : ""}
+                            {customAmount.length > 0
+                              ? ` £${customAmount} `
+                              : ""}
+                          </button>
+
+                          <Dropdown
+                            menu={{
+                              items: items.map((item) => ({
+                                ...item,
+                                label: (
+                                  <span className="custom-dropdown-item">
+                                    {item.label}
+                                  </span>
+                                ),
+                              })),
+                              onClick: handleMenuClick,
+                            }}
+                            placement="top"
+                            trigger={["click"]}
+                          >
+                            <Button onClick={(e) => e.preventDefault()}>
+                              <span className="flex">
+                                <ChevronDown />
+                              </span>
+                            </Button>
+                          </Dropdown>
+                        </div>
+                      </div> */}
