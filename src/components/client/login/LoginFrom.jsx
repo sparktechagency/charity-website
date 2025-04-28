@@ -3,29 +3,48 @@ import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
+import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
-const LoginForm = ({ setLoginModal }) => {
+const LoginForm = ({ setLoginModal, loginModal }) => {
+  const axiosPublic = useAxiosPublic();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const formData = new FormData();
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     try {
       setLoading(true);
       console.log("Login Success:", values);
 
-      formData.append(`email`, values.email);
-      formData.append(`password`, values.password);
+      const formData = new FormData(); // 👈 Create FormData first!
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+
+      const res = await axiosPublic.post(`/login`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (res.data.success) {
+        toast.success(`User login successfully`);
+        localStorage.setItem("token", res.data.data.token);
+        form.resetFields(); // 👈 No need to "return" this, just call it
+      }
 
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
       }, 3000);
     } catch (error) {
-      console.log(error);
+      toast.error(
+        `${error.response?.data?.message || "Something went wrong!"}`
+      );
     } finally {
       setLoading(false);
+      setLoginModal(false);
     }
   };
 
@@ -43,17 +62,14 @@ const LoginForm = ({ setLoginModal }) => {
   // new password set modal
   const [newPasswordModal, setNewPasswordModal] = useState(false);
 
-  const closeNewPasswordModal = ()=>{
-    setNewPasswordModal(false)
-  };
-
-  const submitNewPasswordModal = async(values)=>{
+  const closeNewPasswordModal = () => {
     setNewPasswordModal(false);
-    alert(`Password reset successfully`)
   };
 
-
-
+  const submitNewPasswordModal = async (values) => {
+    setNewPasswordModal(false);
+    alert(`Password reset successfully`);
+  };
 
   // otp verify modal
   const [isOtpVerifyModal, setIsOtpVerifyModal] = useState(false);
@@ -79,7 +95,12 @@ const LoginForm = ({ setLoginModal }) => {
     setForgetPasswordModal(false);
   };
 
-  const submitForgetPasswordFrom = (values) => {
+  const submitForgetPasswordFrom = async (values) => {
+    try {
+      setLoading(true);
+      let res = await axiosPublic.post();
+    } catch (error) {}
+
     setForgetPasswordModal(false);
     setLoginModal(false);
     setIsOtpVerifyModal(true);
@@ -87,83 +108,84 @@ const LoginForm = ({ setLoginModal }) => {
   };
 
   useEffect(() => {
-    document.body.style.overflow = isModalOpen ? "hidden" : "auto";
-  }, [isModalOpen]);
+    document.body.style.overflow =
+      isModalOpen || loginModal || forgetPasswordModal ? "hidden" : "auto";
+  }, [isModalOpen, loginModal, forgetPasswordModal]);
 
   return (
     <div className="">
-      <Card className=" rounded-2xl p-6">
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+      <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
 
-        <Form
-          name="login"
-          layout="vertical"
-          onFinish={onFinish}
-          autoComplete="off"
+      <Form
+        name="login"
+        layout="vertical"
+        onFinish={onFinish}
+        maskClosable={false}
+        keyboard={false}
+      >
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            { required: true, message: "Please input your email!" },
+            { type: "email", message: "Please enter a valid email!" },
+          ]}
         >
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[
-              { required: true, message: "Please input your password!" },
-              { min: 6, message: "Password must be minimum 6 characters." },
-            ]}
-          >
-            <Input.Password
-              prefix={<LockOutlined />}
-              placeholder="Enter your password"
-              className="py-2"
-            />
-          </Form.Item>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Please input your email!" },
-              { type: "email", message: "Please enter a valid email!" },
-            ]}
-          >
-            <Input
-              prefix={<MailOutlined />}
-              placeholder="Enter your email"
-              className="py-2"
-            />
-          </Form.Item>
+          <Input
+            prefix={<MailOutlined />}
+            placeholder="Enter your email"
+            className="py-2"
+          />
+        </Form.Item>
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[
+            { required: true, message: "Please input your password!" },
+            { min: 6, message: "Password must be minimum 6 characters." },
+          ]}
+        >
+          <Input.Password
+            prefix={<LockOutlined />}
+            placeholder="Enter your password"
+            className="py-2"
+          />
+        </Form.Item>
 
-          {/* 👉 Here we add Forget Password link */}
-          <div className="flex justify-end mb-4">
-            <Link
-              onClick={openForgetPasswordModal}
-              to=""
-              className="text-blue-600 hover:underline text-sm font-semibold"
-            >
-              Forgot Password?
-            </Link>
-          </div>
-
-          <Form.Item>
-            <Button
-              loading={loading}
-              type="primary"
-              htmlType="submit"
-              className="w-full bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
-            >
-              Log in
-            </Button>
-          </Form.Item>
-        </Form>
-
-        <div className="text-center mt-4">
-          <span className="text-gray-600">Don't have an account? </span>
+        {/* 👉 Here we add Forget Password link */}
+        <div className="flex justify-end mb-4">
           <Link
-            onClick={openModal}
+            onClick={openForgetPasswordModal}
             to=""
-            className="text-blue-600 hover:underline font-semibold"
+            className="text-blue-600 hover:underline text-sm font-semibold"
           >
-            Register
+            Forgot Password?
           </Link>
         </div>
-      </Card>
+
+        <Form.Item>
+          <Button
+            loading={loading}
+            disabled={loading}
+            type="primary"
+            htmlType="submit"
+            className="lg:w-full  bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
+          >
+            Log in
+          </Button>
+        </Form.Item>
+      </Form>
+
+      <div className="text-center ">
+        <span className="text-gray-600">Don't have an account? </span>
+        <Link
+          onClick={openModal}
+          to=""
+          className="text-blue-600 hover:underline font-semibold"
+        >
+          Register
+        </Link>
+      </div>
 
       {/* registration modal  */}
 
@@ -174,11 +196,12 @@ const LoginForm = ({ setLoginModal }) => {
         onCancel={closeModal}
         centered
         // width="400px"
-        style={{ padding: "15px", top: 0 }}
+        // style={{ padding: "15px", top: 0 }}
       >
         <RegistrationForm
           setIsOpenModal={setIsOpenModal}
           setLoginModal={setLoginModal}
+          isModalOpen={isModalOpen}
         />
       </Modal>
 
