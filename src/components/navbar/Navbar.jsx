@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { MenuOutlined } from "@ant-design/icons";
-import { Drawer, Modal, Form } from "antd";
+import { DownOutlined, MenuOutlined } from "@ant-design/icons";
+import { Drawer, Modal, Form, Dropdown, Menu } from "antd";
 import logo from "../../assets/image/logo.svg";
 import AggrementPage from "../../pages/aggrement/AggrementPage";
 import PaymentModal from "../client/modal/payment/PaymentModal";
@@ -10,8 +10,68 @@ import ArtAntiqModal from "../client/modal/art-antique/ArtAntiqModal";
 import DonerDetailsModal from "../client/modal/doner-details/DonerDetailsModal";
 import SupportModal from "../client/modal/support-modal/SupportModal";
 import DonationFormModal from "../client/donation-form-modal/DonationFormModal";
+import LoginForm from "../client/login/LoginFrom";
+import useAxiosPublic from "../../pages/hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
+  // api and token related function start
+  const [profileData,setProfileData] = useState({});
+  console.log(profileData?.image)
+  const axiosPublic = useAxiosPublic();
+  const token = localStorage.getItem("token");
+  const isLoggedIn = !!token; // 👈 true if token exists
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`, // Bearer added
+    },
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+
+
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      try {
+        let res = await axiosPublic.get(`/profile`,config);
+        if(res.data.success){
+          console.log(res)
+          setProfileData(res.data.data)
+        }
+      } catch (error) {
+        toast.error(error.response.data.message)
+      }
+    };
+    fetchData()
+  },[])
+
+
+
+    // api and token related function start
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -75,10 +135,22 @@ const Navbar = () => {
     { name: "Podcast", path: "podcast" },
   ];
 
+  // login madal start
+  const [loginModal, setLoginModal] = useState(false);
+
+  const openLoginModal = () => {
+    setLoginModal(true);
+  };
+  const closeLoginModal = () => {
+    setLoginModal(false);
+  };
+
   useEffect(() => {
     document.body.style.overflow =
-      supportModal || paymentModal || antiquesModal ? "hidden" : "auto";
-  }, [supportModal, paymentModal, antiquesModal]);
+      supportModal || paymentModal || antiquesModal || loginModal
+        ? "hidden"
+        : "auto";
+  }, [supportModal, paymentModal, antiquesModal, loginModal]);
 
   return (
     <nav
@@ -115,13 +187,47 @@ const Navbar = () => {
           </ul>
         </nav>
 
-        {/* Support Button (Desktop Only) */}
+        {/* Login Button (Desktop Only) */}
 
-        <Link to={"/login"}>
-          <button className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90">
-            Login
-          </button>
-        </Link>
+        <div className="hidden lg:flex">
+          <div className="hidden lg:flex">
+            {isLoggedIn ? (
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item key="profile">
+                      <button
+                        // onClick={goToProfile}
+                        className="w-full text-left"
+                      >
+                        Profile
+                      </button>
+                    </Menu.Item>
+                    <Menu.Item key="logout">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left"
+                      >
+                        Logout
+                      </button>
+                    </Menu.Item>
+                  </Menu>
+                }
+                trigger={["hover"]}
+              >
+                  <img className=" rounded-full " src= {`http://137.59.180.219:8000/${profileData.image || ""}`} alt="profile image" /> 
+                
+              </Dropdown>
+            ) : (
+              <button
+                onClick={openLoginModal}
+                className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
+              >
+                Login
+              </button>
+            )}
+          </div>
+        </div>
 
         <button
           onClick={openSupportModal}
@@ -136,6 +242,7 @@ const Navbar = () => {
         </button>
 
         {/* Ant Design Drawer */}
+
         <Drawer
           placement="right"
           onClose={toggleDrawer}
@@ -161,12 +268,46 @@ const Navbar = () => {
             ))}
           </ul>
 
-          {/* Support Button in Drawer (Closes Drawer & Opens Modal) */}
-          <Link to={"/login"}>
-            <button className=" px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90">
-              Login
-            </button>
-          </Link>
+          {/* Login Button in Drawer (Closes Drawer & Opens Modal) */}
+          <div className="">
+            {isLoggedIn ? (
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item key="profile">
+                      <button
+                        // onClick={goToProfile}
+                        className="w-full text-left"
+                      >
+                        Profile
+                      </button>
+                    </Menu.Item>
+                    <Menu.Item key="logout">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left"
+                      >
+                        Logout
+                      </button>
+                    </Menu.Item>
+                  </Menu>
+                }
+                trigger={["hover"]}
+              >
+                <div className=" mt-5 items-center gap-1 px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90">
+                  Logged In <DownOutlined />
+                </div>
+              </Dropdown>
+            ) : (
+              <button
+                onClick={openLoginModal}
+                className=" mt-5 px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
+              >
+                Login
+              </button>
+            )}
+          </div>
+
           <button
             onClick={openSupportModal}
             className="mt-6 bg-[#403730] w-full py-3 cursor-pointer text-white rounded-md font-medium text-sm hover:opacity-90"
@@ -272,6 +413,20 @@ const Navbar = () => {
       </div>
 
       {/* Donate Art, Antique or Collectables  Terms & Conditions end */}
+
+      {/* login modal start  */}
+
+      <Modal
+        open={loginModal}
+        footer={null}
+        closable={true}
+        onCancel={closeLoginModal}
+        centered
+        // width="400px"
+        style={{ padding: "15px", top: 0 }}
+      >
+        <LoginForm setLoginModal={setLoginModal} loginModal={loginModal} />
+      </Modal>
     </nav>
   );
 };
