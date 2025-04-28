@@ -13,11 +13,13 @@ import DonationFormModal from "../client/donation-form-modal/DonationFormModal";
 import LoginForm from "../client/login/LoginFrom";
 import useAxiosPublic from "../../pages/hooks/useAxiosPublic";
 import toast from "react-hot-toast";
+import ProfileCard from "../client/profile-card/ProfileCard";
 
 const Navbar = () => {
   // api and token related function start
-  const [profileData,setProfileData] = useState({});
-  console.log(profileData?.image)
+  const [profileData, setProfileData] = useState({});
+  const [profileCard,setProfileCard] = useState(false);
+  console.log(profileData?.image);
   const axiosPublic = useAxiosPublic();
   const token = localStorage.getItem("token");
   const isLoggedIn = !!token; // 👈 true if token exists
@@ -33,44 +35,31 @@ const Navbar = () => {
     window.location.reload();
   };
 
-
-  useEffect(()=>{
-    const fetchData = async ()=>{
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        let res = await axiosPublic.get(`/profile`,config);
-        if(res.data.success){
-          console.log(res)
-          setProfileData(res.data.data)
+        let res = await axiosPublic.get(`/profile`, config);
+        if (res.data.success) {
+          console.log(res);
+          setProfileData(res.data.data);
         }
       } catch (error) {
-        toast.error(error.response.data.message)
+        // toast.error(error.response.data.message);
       }
     };
-    fetchData()
-  },[])
+    fetchData();
+  }, []);
 
+  // profile card modal 
 
+  const openProfileCardModal = ()=>{
+    setProfileCard(true)
+  };
+  const closeProfileCardModal = ()=>{
+    setProfileCard(false)
+  }
 
-    // api and token related function start
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  // api and token related function start
 
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
@@ -147,10 +136,10 @@ const Navbar = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-      supportModal || paymentModal || antiquesModal || loginModal
+      supportModal || paymentModal || antiquesModal || loginModal || profileCard
         ? "hidden"
         : "auto";
-  }, [supportModal, paymentModal, antiquesModal, loginModal]);
+  }, [supportModal, paymentModal, antiquesModal, loginModal,profileCard]);
 
   return (
     <nav
@@ -189,44 +178,46 @@ const Navbar = () => {
 
         {/* Login Button (Desktop Only) */}
 
-        <div className="hidden lg:flex">
-          <div className="hidden lg:flex">
-            {isLoggedIn ? (
-              <Dropdown
-                overlay={
-                  <Menu>
-                    <Menu.Item key="profile">
-                      <button
-                        // onClick={goToProfile}
-                        className="w-full text-left"
-                      >
-                        Profile
-                      </button>
-                    </Menu.Item>
-                    <Menu.Item key="logout">
-                      <button
-                        onClick={handleLogout}
-                        className="w-full text-left"
-                      >
-                        Logout
-                      </button>
-                    </Menu.Item>
-                  </Menu>
-                }
-                trigger={["hover"]}
-              >
-                  <img className=" rounded-full " src= {`http://137.59.180.219:8000/${profileData.image || ""}`} alt="profile image" /> 
-                
-              </Dropdown>
-            ) : (
-              <button
-                onClick={openLoginModal}
-                className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
-              >
-                Login
-              </button>
-            )}
-          </div>
+        <div className="hidden lg:flex bg-white items-center">
+          {isLoggedIn ? (
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Menu.Item key="profile">
+                    <button
+                      onClick={openProfileCardModal}
+                      className="w-full text-left"
+                    >
+                      Profile
+                    </button>
+                  </Menu.Item>
+                  <Menu.Item key="logout">
+                    <button onClick={handleLogout} className="w-full text-left">
+                      Logout
+                    </button>
+                  </Menu.Item>
+                </Menu>
+              }
+              trigger={["hover"]}
+            >
+              <div className="cursor-pointer bg-white ">
+                <img
+                  className="w-10 h-10 object-cover bg-white! rounded-full  "
+                  src={`http://137.59.180.219:8000/${
+                    profileData?.image || "default-image/defaultImage.jpg"
+                  }`}
+                  alt="Profile"
+                />
+              </div>
+            </Dropdown>
+          ) : (
+            <button
+              onClick={openLoginModal}
+              className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
+            >
+              Login
+            </button>
+          )}
         </div>
 
         <button
@@ -426,6 +417,19 @@ const Navbar = () => {
         style={{ padding: "15px", top: 0 }}
       >
         <LoginForm setLoginModal={setLoginModal} loginModal={loginModal} />
+      </Modal>
+
+      {/* profile card modal  */}
+
+      <Modal
+        open={profileCard}
+        onCancel={closeProfileCardModal}
+        footer={null}
+        centered
+        width={400}
+        className="rounded-2xl"
+      >
+        <ProfileCard closeProfileCardModal = {closeProfileCardModal} profileData = {profileData}  handleLogout = {handleLogout} />
       </Modal>
     </nav>
   );

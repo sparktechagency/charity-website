@@ -611,6 +611,10 @@ span.ant-menu-title-content {
   width: 30%;
 }
 
+.ant-dropdown-trigger.cursor-pointer{
+  background-color: white !important;
+}
+
 
 
 
