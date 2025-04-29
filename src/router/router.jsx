@@ -13,6 +13,7 @@ import CommonDashboard from "../pages/dashboard/adminDashboard/commonDashboard/C
 import Contributors from "../pages/dashboard/adminDashboard/contributors/Contributors";
 import Volunteers from "../pages/dashboard/adminDashboard/volunteers/Volunteers";
 import Auction from "../pages/dashboard/adminDashboard/auction/Auction";
+
 import DonationTransaction from "../pages/dashboard/adminDashboard/donationTransaction/DonationTransaction";
 import PodcastStories from "../pages/dashboard/adminDashboard/podcastStories/PodcastStories";
 import Subscribers from "../pages/dashboard/adminDashboard/subscribers/Subscribers";
@@ -24,6 +25,20 @@ import DashboardForgetPassword from "../pages/dashboard/adminDashboard/authticat
 import DashboardOtp from "../pages/dashboard/adminDashboard/authtication/DashboardOtp";
 import DashboardCreateNewPassword from "../pages/dashboard/adminDashboard/authtication/DashboardCreateNewPassword";
 import AdminRoutes from "./AdminRoutes";
+
+import AggrementPage from "../pages/aggrement/AggrementPage";
+import StripeForm from "../components/client/modal/payment/StripeForm";
+import CustomCalendar from "../components/client/calender/DateCalender";
+import PaymentSuccess from "../components/client/modal/payment/PaymentSuccess";
+import DonationFormModal from "../components/client/donation-form-modal/DonationFormModal";
+import PaypalDonationFrom from "../components/client/paypal-payment/PaypalDonationFrom";
+import PaymentDetails from "../components/client/paypal-payment/PaymentDetails";
+import BitPayment from "../components/client/bitModal/BitPayment";
+import UserDetails from "../components/client/modal/payment/UserDetails";
+import AudioFile from "../components/client/audio/AudioFile";
+import LoginForm from "../components/client/login/LoginFrom";
+import RegistrationForm from "../components/client/RegistrationForm/RegistrationForm";
+
 
 export const router = createBrowserRouter([
   {
@@ -62,7 +77,54 @@ export const router = createBrowserRouter([
         path: "/terms",
         element: <TermPage></TermPage>,
       },
+      
     ],
+  },
+  {
+    path : "/general",
+    element : <AggrementPage></AggrementPage>
+  },
+  {
+    path : "/donate-from/:paymentCard",
+    element : <DonationFormModal/>
+  },
+  {
+    path : "/paypa-donate-from",
+    element : <PaypalDonationFrom/>
+  },
+  {
+    path : "/payment-details",
+    element : <PaymentDetails/>
+  }
+  ,
+  {
+    path : "/payment-form",
+    element : <UserDetails/>
+  },
+  {
+    path : "/bit-payment",
+    element : <BitPayment/>
+  },
+  {
+    path : "/date",
+    element : <CustomCalendar></CustomCalendar>
+  },
+  {
+    path : "/succeeded",
+    element : <PaymentSuccess></PaymentSuccess>
+  },
+
+  {
+    path : "/audio",
+    element : <AudioFile></AudioFile>
+  },
+  {
+    path : "/login",
+    element : <LoginForm/>
+  },
+  {
+    path : "/register",
+    element : <RegistrationForm/>
   },
 
   // admin dashboard routes here

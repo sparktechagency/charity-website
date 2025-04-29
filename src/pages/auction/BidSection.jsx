@@ -80,7 +80,7 @@ const BidSection = () => {
       >
         {isModalOpen && (
           <ReactPlayer
-            url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Replace with your video URL
+            url="https://youtu.be/jC0CRFxJ2jU?si=rmoU1l2o0RnWAFmM" // Replace with your video URL
             controls
             width="100%"
             height="400px"

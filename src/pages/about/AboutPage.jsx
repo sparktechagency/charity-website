@@ -5,7 +5,7 @@ import Team from "./Team";
 
 const AboutPage = () => {
   return (
-    <div className=" max-w-[1512px] mx-auto ">
+    <div className="  mx-auto ">
       <AboutBanner></AboutBanner>
       <AboutMissionVission></AboutMissionVission>
       <Team></Team>

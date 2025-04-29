@@ -1,22 +1,120 @@
-import React from "react";
-import { Form, Input, Upload, Button, Select, Checkbox } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
-
-const { Dragger } = Upload;
+import React, { useState } from "react";
+import {
+  Form,
+  Input,
+  Upload,
+  Button,
+  Select,
+  Checkbox,
+  Modal,
+  Alert,
+} from "antd";
+import AggrementPage from "../aggrement/AggrementPage";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import Swal from "sweetalert2";
+import { auctionMsg } from "../../helper/auctionMsg";
+import { donactionMsg } from "../../helper/donactionMsg";
 const { Option } = Select;
 const ContactFrom = () => {
+  const axiosPublic = useAxiosPublic();
+  const [donateFull, setDonateFull] = useState(false);
+  const [fileList, setFileList] = useState(null);
+  const formData = new FormData();
+
+  const [form] = Form.useForm();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [successMsg, setSuccessMsg] = useState(null);
+
+  // term & condiction modal useState
+  const [openTermsModal, setOpenTermModal] = useState(false);
+
+  const handleDonateImage = ({ fileList }) => {
+    setFileList(fileList);
+  };
+
+  const opneModal = () => {
+    setOpenTermModal(true);
+  };
+  const closeModal = () => {
+    setOpenTermModal(false);
+  };
+
+  // 2nd modal end
+
+  // Donated item from start
+
+  const handleSubmitDonateFrom = async (values) => {
+    const formData = new FormData();
+
+    for (let key in values) {
+      formData.append(key, values[key]);
+    }
+
+    if (Array.isArray(fileList)) {
+      fileList.forEach((file) => {
+        formData.append("images[]", file.originFileObj);
+      });
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      setSuccessMsg(null);
+
+      const res = await axiosPublic.post("/collect-table", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+
+      if (res.data.success) {
+        donactionMsg()
+        form.resetFields();
+        setFileList([]);
+        setDonateFull(false)
+      }
+    } catch (error) {
+      console.error(error?.response?.data?.message);
+      setError(error?.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+      
+
+      {/* error msg  */}
+
+      {error && (
+        <Alert
+          message="Something went wrong"
+          description={error}
+          type="error"
+          showIcon
+          closable
+          onClose={() => setError(null)}
+          style={{ marginBottom: 16 }}
+        />
+      )}
+
   return (
-    <div className="relative max-w-full  -z-0 lg:pt-[91px] p-3 lg:p-0  bg-[url('/contact-bg-img.png')]  bg-cover bg-center">
-      <div className=" max-w-[620px] mx-auto rounded -z-0  shadow   border-[#a6abac] border px-6  ">
-        <h1 className=" mt-6 text-xl lg:text-2xl text-[#263234] font-semibold leading-8 ">
-          Donated item submissions form
-        </h1>
-        <div className="">
-          <Form layout="vertical">
+    <>
+
+
+      <div className="relative max-w-full -z-0 lg:pt-[91px] p-3 lg:p-0 bg-[url('/contact-bg-img.png')] bg-cover bg-center">
+        <div className="max-w-[620px] mx-auto rounded -z-0 shadow border-[#a6abac] border px-6">
+          <h1 className="mt-6 text-xl lg:text-2xl text-[#263234] font-semibold leading-8">
+            Donated item submissions form
+          </h1>
+          <Form form={form} onFinish={handleSubmitDonateFrom} layout="vertical">
+            {/* name  */}
             <Form.Item
               style={{ marginTop: "16px", marginBottom: "0px" }}
               label={
-                <span className=" text-[#263234] font-medium text-sm mb-1 ">
+                <span className="text-[#263234] font-medium text-sm mb-1">
                   Name
                 </span>
               }
@@ -24,39 +122,64 @@ const ContactFrom = () => {
             >
               <Input
                 style={{
-                  border: " 1px solid #a6abac",
+                  border: "1px solid #a6abac",
                   outline: 0,
-                  padding: "10px 14px ",
+                  padding: "10px 14px",
                   fontSize: "17px",
                 }}
                 placeholder="Enter your name"
               />
             </Form.Item>
 
+            {/* Email */}
             <Form.Item
-              style={{ marginTop: "16px", marginBottom: "0px" }}
-              label={
-                <span className=" text-[#263234] font-medium text-sm mb-1 ">
-                  Item
-                </span>
-              }
-              name="item"
+              style={{ marginBottom: "0px", marginTop: "8px" }}
+              name="email"
+              label="Email"
+              rules={[
+                { required: true, message: "Please input your email!" },
+                { type: "email", message: "Enter a valid email!" },
+              ]}
             >
               <Input
                 style={{
-                  border: " 1px solid #a6abac",
+                  padding: "12px",
+                  border: "1px solid #A6ABAC",
+                  outline: "none",
+                }}
+                type="email"
+                placeholder="Enter your email address"
+              />
+            </Form.Item>
+
+            {/* item name  */}
+
+            <Form.Item
+              style={{ marginTop: "16px", marginBottom: "0px" }}
+              label={
+                <span className="text-[#263234] font-medium text-sm mb-1">
+                  Item
+                </span>
+              }
+              name="item_name"
+            >
+              <Input
+                style={{
+                  border: "1px solid #a6abac",
                   outline: 0,
-                  padding: "10px 14px ",
+                  padding: "10px 14px",
                   fontSize: "17px",
                 }}
                 placeholder="Enter item name"
               />
             </Form.Item>
 
+            {/* description  */}
+
             <Form.Item
               style={{ marginTop: "16px", marginBottom: "0px" }}
               label={
-                <span className=" text-[#263234] font-medium text-sm mb-1 ">
+                <span className="text-[#263234] font-medium text-sm mb-1">
                   Item description
                 </span>
               }
@@ -64,9 +187,9 @@ const ContactFrom = () => {
             >
               <Input.TextArea
                 style={{
-                  border: " 1px solid #a6abac",
+                  border: "1px solid #a6abac",
                   outline: 0,
-                  padding: "10px 14px ",
+                  padding: "10px 14px",
                   fontSize: "17px",
                 }}
                 placeholder="Enter a description..."
@@ -74,56 +197,30 @@ const ContactFrom = () => {
               />
             </Form.Item>
 
-            <div className=" flex justify-end mt-2.5 ">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M2 6C2 5.44772 2.44772 5 3 5H21C21.5523 5 22 5.44772 22 6C22 6.55228 21.5523 7 21 7H3C2.44772 7 2 6.55228 2 6Z"
-                  fill="#DA453F"
-                />
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M10 3C9.73478 3 9.48043 3.10536 9.29289 3.29289C9.10536 3.48043 9 3.73478 9 4V5H15V4C15 3.73478 14.8946 3.48043 14.7071 3.29289C14.5196 3.10536 14.2652 3 14 3H10ZM17 5V4C17 3.20435 16.6839 2.44129 16.1213 1.87868C15.5587 1.31607 14.7956 1 14 1H10C9.20435 1 8.44129 1.31607 7.87868 1.87868C7.31607 2.44129 7 3.20435 7 4V5H5C4.44772 5 4 5.44772 4 6V20C4 20.7957 4.31607 21.5587 4.87868 22.1213C5.44129 22.6839 6.20435 23 7 23H17C17.7957 23 18.5587 22.6839 19.1213 22.1213C19.6839 21.5587 20 20.7957 20 20V6C20 5.44772 19.5523 5 19 5H17ZM6 7V20C6 20.2652 6.10536 20.5196 6.29289 20.7071C6.48043 20.8946 6.73478 21 7 21H17C17.2652 21 17.5196 20.8946 17.7071 20.7071C17.8946 20.5196 18 20.2652 18 20V7H6Z"
-                  fill="#DA453F"
-                />
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M10 10C10.5523 10 11 10.4477 11 11V17C11 17.5523 10.5523 18 10 18C9.44772 18 9 17.5523 9 17V11C9 10.4477 9.44772 10 10 10Z"
-                  fill="#DA453F"
-                />
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M14 10C14.5523 10 15 10.4477 15 11V17C15 17.5523 14.5523 18 14 18C13.4477 18 13 17.5523 13 17V11C13 10.4477 13.4477 10 14 10Z"
-                  fill="#DA453F"
-                />
-              </svg>
-            </div>
+            {/* image  */}
 
             <Form.Item
-              style={{ marginTop: "6px", marginBottom: "0px" }}
-              label={
-                <span className="text-[#263234] font-medium text-sm mb-1">
-                  Upload photo
-                </span>
-              }
+              style={{ marginBottom: "0px", marginTop: "8px" }}
+              name="images"
+              label="Upload photos"
+              rules={[
+                {
+                  required: true,
+                  message: "Please upload at least one photo!",
+                },
+              ]}
             >
               <Upload.Dragger
-                style={{ border: "3px dotted #E9EBEB", padding: "20px" }}
-                beforeUpload={() => false}
                 multiple
+                listType="picture"
+                beforeUpload={() => false} // Prevent auto upload
+                accept=".jpg,.jpeg,.png,.pdf"
+                fileList={fileList}
+                onChange={handleDonateImage}
               >
-                <div className="text-start">
-                  <p className="ant-upload-drag-icon">
+                <div>
+                  <span>
+                    {/* Your SVG icon */}
                     <svg
                       width="24"
                       height="24"
@@ -150,65 +247,55 @@ const ContactFrom = () => {
                         fill="#4B5557"
                       />
                     </svg>
+                  </span>
+                  <p className="text-start">
+                    Click or drag files to this area to upload
                   </p>
-                  <p className="ant-upload-text text-[#263234] font-semibold">
-                    Upload photo or drag & drop here.
-                  </p>
-                  <p className="ant-upload-hint">
-                    Supported formats: JPG, JPEG, PNG, PDF.
+                  <p className=" text-sm text-start text-[#4B5557]">
+                    Supported formats: JPG, JPEG, PNG, PDF
                   </p>
                 </div>
               </Upload.Dragger>
-
-              {/* Image Preview Section */}
-              <div className="flex gap-3.5 mt-2.5">
-                <div>
-                  <img src="/defaultImage.png" alt="Preview 1" />
-                </div>
-                <div className="">
-                  <div>
-                    <img src="/defaultImg2.png" alt="Preview 2" />
-                  </div>
-                  <div>
-                    <img
-                      src="/defaultImg3.png"
-                      className="my-1"
-                      alt="Preview 3"
-                    />
-                  </div>
-                  <div className="px-2 py-1 rounded-[32px] font-bold text-[#263234] bg-[#EFF1F3]">
-                    +4
-                  </div>
-                </div>
-              </div>
             </Form.Item>
 
+            {/* Receive Percentage */}
+
             <Form.Item
-              style={{ marginTop: "16px", marginBottom: "0px" }}
-              label="Donate (%)"
-              name="donation"
+              label={
+                <span className="text-sm text-[#263234] font-medium">
+                  I want to receive
+                </span>
+              }
+              style={{ marginBottom: 0, marginTop: "16px" }}
             >
-              <Select
-                defaultValue="30%"
-                style={{
-                  height: "48px",
-                  border: "0px solid #a6abac",
-                  outline: 0,
+              <Form.Item name="donate_share" noStyle>
+                <Select
+                  style={{
+                    width: "100%",
+                    height: "50px",
+                    borderRadius: "5px",
+                    outline: 0,
+                    border: "none",
+                  }}
+                  placeholder="30% of net value"
+                  disabled={donateFull}
+                >
+                  <Option value="30">30%</Option>
+                </Select>
+              </Form.Item>
+            </Form.Item>
+
+            <Form.Item style={{ marginBottom: 0 }}>
+              <Checkbox
+                checked={donateFull}
+                onChange={(e) => {
+                  const checked = e.target.checked;
+                  setDonateFull(checked);
+                  form.setFieldsValue({
+                    donate_share: checked ? "100" : "30", // or reset to previous value
+                  });
                 }}
-                className="custom-select"
               >
-                <Option value="30%">30%</Option>
-                <Option value="50%">50%</Option>
-                <Option value="100%">100%</Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item
-              style={{ marginBottom: "0px", marginTop: "2px" }}
-              name="fullDonation"
-              valuePropName="checked"
-            >
-              <Checkbox style={{ color: "#263234", fontSize: "14px" }}>
                 I want to donate 100%.
               </Checkbox>
             </Form.Item>
@@ -220,34 +307,50 @@ const ContactFrom = () => {
             >
               <Checkbox style={{ color: "#263234", fontSize: "14px" }}>
                 I agree with Virtue Hope's{" "}
-                <a style={{ color: "#263234" }} href="#">
+                <span
+                  className=" underline "
+                  onClick={opneModal}
+                  style={{ color: "#263234" }}
+                >
                   terms & conditions
-                </a>
+                </span>
                 .
               </Checkbox>
             </Form.Item>
 
-            <Form.Item>
-              <Button
-                style={{
-                  backgroundColor: "#403730",
-                  color: "white",
-                  border: "none",
-                  outline: "none",
-                  width: "171px",
-                  height: "44px",
-                  display: "block",
-                }}
-                htmlType="submit"
-                block
-              >
-                Submit my donation
-              </Button>
-            </Form.Item>
+            <Button
+              loading={loading}
+              style={{
+                backgroundColor: "#403730",
+                color: "white",
+                border: "none",
+                outline: "none",
+                width: "171px",
+                height: "44px",
+                display: "block",
+                margin: "10px 0px",
+              }}
+              htmlType="submit"
+            >
+              Submit my donation
+            </Button>
           </Form>
         </div>
+
+        <div className=" ">
+          <Modal
+            width={"70%"}
+            open={openTermsModal}
+            style={{ top: 0 }}
+            // onOk={handleOk}
+            onCancel={closeModal}
+            footer={null} // remove if you want buttons
+          >
+            <AggrementPage></AggrementPage>
+          </Modal>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
