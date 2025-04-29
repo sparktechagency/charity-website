@@ -11,6 +11,9 @@ import {
   closeActionModalOpenThree,
   closeActionModalOpenTwo,
 } from "../../../../features/modal/modalSlice";
+import { useGetActionQuery } from "../../../../redux/dashboardFeatures/getActionApi";
+
+
 
 const Auction = () => {
   const [searchText, setSearchText] = useState("");
@@ -19,6 +22,10 @@ const Auction = () => {
   const actionModalOne = useSelector((state) => state.modal.actionModalOne);
   const actionModalTwo = useSelector((state) => state.modal.actionModalTwo);
   const actionModalThree = useSelector((state) => state.modal.actionModalThree);
+const {data,} = useGetActionQuery()
+  console.log(data,'line-------> 24')
+
+  
 
   const dataSource = [
     {

@@ -9,8 +9,10 @@ import {
   volunterModalOpenOne,
   volunterModalOpenTwo,
 } from "../../../../features/modal/modalSlice";
+import { useGetAllVolunterDataQuery } from "../../../../redux/dashboardFeatures/getVolunteersApi";
 
 const Volunteers = () => {
+  const {getAllVolunterData} = useGetAllVolunterDataQuery();
   const [searchText, setSearchText] = useState("");
   const [selectValue, stetSelectValue] = useState("");
   const dispatch = useDispatch();
@@ -210,6 +212,9 @@ const Volunteers = () => {
   const handleSelect = (value) => {
     console.log(value);
   };
+
+  
+  console.log(getAllVolunterData)
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>

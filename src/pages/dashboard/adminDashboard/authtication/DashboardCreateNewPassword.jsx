@@ -3,6 +3,7 @@ import { useForm } from "antd/es/form/Form";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useCreateNewPasswordMutation } from "../../../../redux/dashboardFeatures/postCreateNewPasswordApi";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const DashboardCreateNewPassword = () => {
   const [createNewPassword] = useCreateNewPasswordMutation();
@@ -27,9 +28,16 @@ const DashboardCreateNewPassword = () => {
         navigate("/admin/dashboard/login");
         form.resetFields();
       }
-    } catch (errors) {
-      toast.error(errors.data?.message || "Failed-------?");
+    } catch (error) {
+      if (error.response && error.response.data.errors) {
+        // Handle validation errors here
+        console.log(error.response.data.errors?.new_password
+        );
+      } else {
+        console.error(error.response);
+      }
     }
+
   };
 
   return (

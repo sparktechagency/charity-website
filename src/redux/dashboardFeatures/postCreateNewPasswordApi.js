@@ -1,18 +1,19 @@
-import { baseApi } from "../api/baseApi";
+import { baseApi } from "../api/baseApi"
 
-const postCreateNewPassword = baseApi.injectEndpoints({
+
+const postCreateNewPasswordApi = baseApi.injectEndpoints({
     endpoints:(builder) =>({
         createNewPassword : builder.mutation({
-            query:(data) =>{
+            query:(data)=>{
                 return{
-                    url:"/create-new-password",
-                    method:"POST",
-                    body:data,
+                    url:'/create-new-password',
+                    method:'POST',
+                    body: data,
                 }
             },
-            invalidatesTags:['create-newPassword']
+            invalidatesTags:["new-password"]
         })
     })
 })
 
-export const {useCreateNewPasswordMutation} = postCreateNewPassword;
+export const {useCreateNewPasswordMutation} = postCreateNewPasswordApi;
