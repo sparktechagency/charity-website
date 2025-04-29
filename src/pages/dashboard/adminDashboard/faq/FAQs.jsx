@@ -8,6 +8,7 @@ const FAQs = () => {
   const [dashboardFaq] = useDashboardFaqMutation();
   const [formOne] = useForm();
 
+
   const questionData = [
     {
       questionName: "Question",
