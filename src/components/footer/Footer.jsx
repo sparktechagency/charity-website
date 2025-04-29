@@ -55,7 +55,6 @@ const Footer = () => {
   ];
 
   const [email, setEmail] = useState(null);
-  console.log(email);
   const handleSubmit = async () => {
     const formData = new FormData(); // create fresh FormData
     formData.append("email", email);
@@ -79,7 +78,6 @@ const Footer = () => {
         return setEmail("");
       }
     } catch (error) {
-      console.log(error);
       return toast.error(error.response.data.message);
     } finally {
       setLoading(false);

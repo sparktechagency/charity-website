@@ -19,7 +19,6 @@ const Navbar = () => {
   // api and token related function start
   const [profileData, setProfileData] = useState({});
   const [profileCard,setProfileCard] = useState(false);
-  console.log(profileData?.image);
   const axiosPublic = useAxiosPublic();
   const token = localStorage.getItem("token");
   const isLoggedIn = !!token; // 👈 true if token exists
@@ -32,6 +31,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("authId");
     window.location.reload();
   };
 
@@ -40,7 +40,6 @@ const Navbar = () => {
       try {
         let res = await axiosPublic.get(`/profile`, config);
         if (res.data.success) {
-          console.log(res);
           setProfileData(res.data.data);
         }
       } catch (error) {
