@@ -1,8 +1,11 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, Form } from "antd";
 import { useForm } from "antd/es/form/Form";
+import { useDashboardFaqMutation } from "../../../../redux/dashboardFeatures/postDashboardFaqApi";
+import toast from "react-hot-toast";
 
 const FAQs = () => {
+  const [dashboardFaq] = useDashboardFaqMutation();
   const [formOne] = useForm();
 
   const questionData = [
@@ -28,9 +31,24 @@ const FAQs = () => {
     },
   ];
 
-  const onFinishOne = (values) => {
-    console.log(values);
+  const onFinishOne = async (valus) => {
+    const faqInfo = {
+      question: valus.question,
+      answer: valus.answer,
+    };
+
+    try {
+      const res = await dashboardFaq(faqInfo).unwrap();
+      if(res?.data){
+        toast.success(res?.message)
+        formOne.resetFields()
+      }
+     
+    } catch (errors) {
+      toast.error(errors.message);
+    }
   };
+
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
@@ -54,6 +72,22 @@ const FAQs = () => {
                 padding: "8px",
                 width: "100%",
                 color: "#ffffff",
+                borderRadius:"10px"
+              }}
+            />
+          </Form.Item>
+        </div>
+        <div>
+          <Form.Item name="answer">
+            <textarea
+              placeholder="Enter Your Answer"
+              style={{
+                backgroundColor: "transparent",
+                border: "1px solid gray",
+                padding: "8px",
+                width: "100%",
+                color: "#ffffff",
+                borderRadius:"10px"
               }}
             />
           </Form.Item>
@@ -62,6 +96,9 @@ const FAQs = () => {
           <Button htmlType="submit">Add</Button>
         </div>
       </Form>
+
+
+
 
       <div className=" h-auto text-white p-4">
         {questionData.map((question, index) => (

@@ -7,7 +7,6 @@ export const baseApi = createApi({
         baseUrl:"http://137.59.180.219:8000/api",
         prepareHeaders:(headers,{getState}) =>{
             const adminToken = localStorage.getItem("admin_token");
-            console.log(adminToken)
             if(adminToken){
                 headers.set("Authorization", `Bearer ${adminToken}`);
                 headers.set("acceppt", "application/json")
