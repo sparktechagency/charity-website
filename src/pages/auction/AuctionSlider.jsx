@@ -9,66 +9,14 @@ import { FaCcMastercard } from "react-icons/fa";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2 } from "lucide-react";
-
-// const sliderData = [
-//   {
-//     id: 1,
-//     title: "The ancient statue of Sri Lanka",
-//     estimatedPrice: "$59-$200",
-//     uploadDate: "2025-04-25T10:00:00Z", // 25th April
-//     contributor: {
-//       name: "Illena D’cruz",
-//       role: "Contributor",
-//       image: "./sliderImg-2.jpg",
-//     },
-//     quote:
-//       "I am honored to donate Whispers of Dawn to this auction in support of Healing and Hope for Women. This initiative empowers women facing adversity, providing them with the resources to rebuild their lives. We can create a masterpiece of change.",
-//     bids: 12,
-//     image: "/sliderImg-3.jpg",
-//     total_bits: 3,
-//     max_bit_online: 500,
-//   },
-//   {
-//     id: 2,
-//     title: "Capturing the first light of day in a serene landscape",
-//     estimatedPrice: "$59-$200",
-//     uploadDate: "2025-04-20T12:30:00Z", // 26th April
-//     contributor: {
-//       name: "Illena D’cruz",
-//       role: "Contributor",
-//       image: "./sliderImg-2.jpg",
-//     },
-//     quote:
-//       "I am honored to donate Whispers of Dawn to this auction in support of Healing and Hope for Women. This initiative empowers women facing adversity, providing them with the resources to rebuild their lives. We can create a masterpiece of change.",
-//     bids: 12,
-//     image: "/homeSliderImage.jpg",
-//     total_bits: 4,
-//     max_bit_online: 700,
-//   },
-//   {
-//     id: 3,
-//     title: "Capturing the first light of day in a serene landscape",
-//     estimatedPrice: "$59-$200",
-//     uploadDate: "2025-04-23T09:15:00Z", // 27th April
-//     contributor: {
-//       name: "Illena D’cruz",
-//       role: "Contributor",
-//       image: "./sliderImg-2.jpg",
-//     },
-//     quote:
-//       "I am honored to donate Whispers of Dawn to this auction in support of Healing and Hope for Women. This initiative empowers women facing adversity, providing them with the resources to rebuild their lives. We can create a masterpiece of change.",
-//     bids: 12,
-//     image: "/homeSliderImage.jpg",
-//     total_bits: 5,
-//     max_bit_online: 800,
-//   },
-// ];
+import toast from "react-hot-toast";
 
 const AuctionSlider = () => {
   const [form] = Form.useForm();
   const [sliderData, setSliderData] = useState([]);
   const [loading, setLoading] = useState(false);
   const axiosPublic = useAxiosPublic();
+  const authId = localStorage.getItem(`authId`);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -97,14 +45,43 @@ const AuctionSlider = () => {
   const [customBids, setCustomBids] = useState(
     new Array(sliderData.length).fill("") // Initializes empty custom bids for each slide
   );
+  const token = localStorage.getItem("token");
 
-  // 1st modal use state
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  // 2nd modal useState
-  const [paymentModal, setPaymentMethodModal] = useState(false);
-  const [selectedPrice, setSelectedPrice] = useState(null);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`, // Bearer added
+    },
+  };
+  const handleBidSubmit = async (index, bidPrice) => {
+    try {
+      setLoading(true);
+      const auctionId = sliderData[index]?.id;
 
-  const bidPrices = ["£100", "£150", "£200", "£250", "£300"];
+      if (!auctionId) {
+        toast.error("Auction ID not found!");
+        return;
+      }
+
+      const res = await axiosPublic.post(`/bit-contributor?auction_id=${auctionId}`, {
+        bit_online: bidPrice,
+      },config);
+
+      console.log(`auction bit data is ${res}`)
+
+      if (res.data.success) {
+        toast.success("Bid submitted successfully!");
+        console.log("Bid response:", res.data);
+        // You can refresh data here if needed
+      } else {
+        toast.error(res.data.message || "Failed to submit bid");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleBidChange = (index, e) => {
     const newCustomBids = [...customBids];
@@ -123,44 +100,22 @@ const AuctionSlider = () => {
     newSelectedBids[index] = price;
     setSelectedBids(newSelectedBids);
     setShowBids((prevState) => prevState.map(() => false));
+
+    handleBidSubmit(index, price); // 👈 Call API
   };
 
   const handleCustomBidSet = (index) => {
     const newSelectedBids = [...selectedBids];
     newSelectedBids[index] = customBids[index];
     setSelectedBids(newSelectedBids);
+
     const newCustomBids = [...customBids];
     newCustomBids[index] = "";
     setCustomBids(newCustomBids);
+
     setShowBids((prevState) => prevState.map(() => false));
-  };
 
-  // 1st modal start buyer info
-
-  const handleModalOpen = (index) => {
-    if (selectedBids[index]) {
-      setSelectedPrice(selectedBids[index]);
-      setIsModalOpen(true); // Open the modal
-    }
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
-
-  const submitBuyerModal = (values) => {
-    setPaymentMethodModal(true);
-    setIsModalOpen(false);
-    console.log(values);
-  };
-
-  // first modal end
-
-  // 2nd modal start
-
-  const handlePaymentModalClose = () => {
-    setIsModalOpen(true);
-    setPaymentMethodModal(false);
+    handleBidSubmit(index, selectedBids[index]); // 👈 Call API with selected custom bid
   };
 
   // 2nd modal end
@@ -210,13 +165,6 @@ const AuctionSlider = () => {
   }, [sliderData]); // Re-run effect if sliderData changes
 
   // date time calculate end
-
-  // modal scroll offf
-
-  useEffect(() => {
-    document.body.style.overflow =
-      isModalOpen || paymentModal ? "hidden" : "auto";
-  }, [isModalOpen, paymentModal]);
 
   if (sliderData.length === 0) {
     return (
@@ -361,10 +309,7 @@ const AuctionSlider = () => {
                         {/* Bid Button and Dropdown */}
                         <div className="relative flex flex-col items-end w-full">
                           <div className="flex">
-                            <button
-                              onClick={() => handleModalOpen(index)} // Pass the entire slide object to the modal
-                              className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-4 py-2.5 hover:bg-[#2c241f] transition w-fit"
-                            >
+                            <button className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-2 py-2.5 hover:bg-[#2c241f] transition w-fit">
                               {selectedBids[index]
                                 ? selectedBids[index]
                                 : slide.price}{" "}
@@ -453,7 +398,7 @@ const AuctionSlider = () => {
         </Slider>
       </div>
       {/* small device */}
-      <div className=" lg:hidden " >
+      <div className=" lg:hidden ">
         <div className="flex flex-col gap-y-7">
           {sliderData.map((slide, index) => (
             <div key={slide.id}>
@@ -653,11 +598,6 @@ const AuctionSlider = () => {
           ))}
         </div>
       </div>
-
-
-
-
-
     </>
   );
 };

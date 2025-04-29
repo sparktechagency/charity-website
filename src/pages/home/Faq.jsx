@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 const Faq = () => {
   const axiosPublic = useAxiosPublic();
+  const [loading,setLoading] = useState(false)
   const [data, setData] = useState([]);
   const [openIndex, setOpenIndex] = useState(0);
   useEffect(() => {
@@ -14,7 +15,7 @@ const Faq = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        console.log(`Team data fetched`);
+        setLoading(false)
       }
     }
     fetchData();

@@ -38,7 +38,6 @@ const HomeSlider = () => {
 
   const donateFull = Form.useWatch("donateFull", form);
 
-  console.log(!donateFull);
 
   var settings = {
     dots: true,
@@ -119,10 +118,8 @@ const HomeSlider = () => {
   };
 
   const submitBuyerInfo = (values) => {
-    console.log(values);
     setFirstModal(false);
     setSecondModal(true);
-    console.log("ishan");
   };
 
   // first modal end
@@ -130,7 +127,6 @@ const HomeSlider = () => {
   // 2nd modal start
 
   const handleSecondCancelModal = () => {
-    console.log("Second modal opened: ");
     setSecondModal(false);
     setFirstModal(true);
   };

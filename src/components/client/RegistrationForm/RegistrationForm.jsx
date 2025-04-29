@@ -51,18 +51,22 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
         otp: otpCode,
       });
 
+      console.log(res);
+
       if (res.data.success) {
         message.success("OTP Verified Successfully!");
         form.resetFields();
         setOtp(["", "", "", "", "", ""]);
         setOtpModal(false);
-        setLoginModal(true)
+        setLoginModal(true);
       } else {
         message.error(res.data.message || "Invalid OTP!");
       }
     } catch (error) {
       console.error(error);
-      message.error(error.response?.data?.message || "OTP Verification Failed!");
+      message.error(
+        error.response?.data?.message || "OTP Verification Failed!"
+      );
     } finally {
       setLoading(false);
     }
@@ -72,9 +76,9 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
     setOtpModal(false);
   };
 
-  const openOtpModal = ()=>{
-    setOtpModal(true)
-  }
+  const openOtpModal = () => {
+    setOtpModal(true);
+  };
 
   // otp verify related function end
 
@@ -84,14 +88,12 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
     setFileList(info.fileList);
   };
   const onFinish = async (values) => {
-    console.log("Registration Success:", values);
-
-    const formData = new FormData(); // 👈 You need to create FormData here
+    const formData = new FormData();
     formData.append("full_name", values.full_name);
     formData.append("email", values.email);
     formData.append("password", values.password);
     formData.append("password_confirmation", values.password_confirmation);
-    formData.append("image", fileList[0]?.originFileObj); // 👈 get file from fileList
+    formData.append("image", fileList[0]?.originFileObj);
 
     try {
       setLoading(true);
@@ -106,11 +108,11 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
         toast.success(`Registration successful`);
         form.resetFields();
         setIsOpenModal(false);
-        setLoginModal(true);
-        setOtpModal(true);
+        setLoginModal(false);
+        setOtpModal(true); // 👉 Move here
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -129,8 +131,8 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
   };
 
   useEffect(() => {
-    document.body.style.overflow = isModalOpen ? "hidden" : "auto";
-  }, [isModalOpen]);
+    document.body.style.overflow = isModalOpen || otpModal ? "hidden" : "auto";
+  }, [isModalOpen, otpModal]);
 
   return (
     <div className="">
@@ -263,7 +265,6 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
         open={otpModal}
         onCancel={onClose}
         footer={null}
-
         centered
         width={400}
         closable={true}
@@ -271,7 +272,7 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
         <div className="text-center py-4">
           <h2 className="text-2xl font-bold mb-2">Verify OTP</h2>
           <p className="text-gray-500 mb-6 text-sm">
-            Enter the 4-digit code sent to your email.
+            Enter the 6-digit code sent to your email.
           </p>
 
           <Form
