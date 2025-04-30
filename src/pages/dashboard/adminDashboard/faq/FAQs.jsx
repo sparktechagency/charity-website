@@ -1,55 +1,83 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, Form } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { useDashboardFaqMutation } from "../../../../redux/dashboardFeatures/postDashboardFaqApi";
 import toast from "react-hot-toast";
+import { useDeleteDashboardFaqApiMutation, useGetDashboardFaqApiQuery, usePostDashboardFaqApiMutation, useUpdateDashboardFaqApiMutation } from "../../../../redux/dashboardFeatures/DashboardFaqApi";
+import { useState } from "react";
+
+
 
 const FAQs = () => {
-  const [dashboardFaq] = useDashboardFaqMutation();
+  const [postDashboardFaqApi] = usePostDashboardFaqApiMutation();
+  const { data,refetch } = useGetDashboardFaqApiQuery();
+  const [deleteFaq] = useDeleteDashboardFaqApiMutation();
+  const [updateDashboardFaqApi] = useUpdateDashboardFaqApiMutation()
   const [formOne] = useForm();
+  const [selectedFaqId, setSelectedFaqId] = useState(null);
+
+  const allFaqData = data?.data?.data
 
 
-  const questionData = [
-    {
-      questionName: "Question",
-      title: "first question",
-    },
-    {
-      questionName: "Question",
-      title: "first question",
-    },
-    {
-      questionName: "Question",
-      title: "first question",
-    },
-    {
-      questionName: "Question",
-      title: "first question",
-    },
-    {
-      questionName: "Question",
-      title: "first question",
-    },
-  ];
-
-  const onFinishOne = async (valus) => {
+  // post & update request
+  const onFinishOne = async (values) => {
     const faqInfo = {
-      question: valus.question,
-      answer: valus.answer,
+      question: values.question,
+      answer: values.answer,
     };
-
+  
     try {
-      const res = await dashboardFaq(faqInfo).unwrap();
-      if(res?.data){
-        toast.success(res?.message)
-        formOne.resetFields()
+      if (selectedFaqId) {
+        // update
+        const res = await updateDashboardFaqApi({
+          id: selectedFaqId,
+          faqInfo: faqInfo,
+        }).unwrap();
+  
+        if (res?.data) {
+          toast.success(res?.message);
+          formOne.resetFields();
+          setSelectedFaqId(null); // reset selected
+          refetch();
+        }
+      } else {
+        // add
+        const res = await postDashboardFaqApi(faqInfo).unwrap();
+        if (res?.data) {
+          toast.success(res?.message);
+          formOne.resetFields();
+          refetch();
+        }
       }
-     
+    } catch (errors) {
+      toast.error(errors.message);
+    }
+  };
+  
+
+
+  // delete request
+  const handleDelete = async (faqId) => {
+    try {
+      const res = await deleteFaq(faqId).unwrap();
+      if (res?.success === true) {
+        toast.success(res.message);
+        refetch() // refresh list after delete
+      } else {
+        toast.error("Delete failed.");
+      }
     } catch (errors) {
       toast.error(errors.message);
     }
   };
 
+  // update request
+  const handleUpdate = (item) =>{
+    formOne.setFieldsValue({
+      question: item.question,
+      answer: item.answer,
+    });
+    setSelectedFaqId(item.id);
+  }
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
@@ -73,7 +101,7 @@ const FAQs = () => {
                 padding: "8px",
                 width: "100%",
                 color: "#ffffff",
-                borderRadius:"10px"
+                borderRadius: "10px"
               }}
             />
           </Form.Item>
@@ -88,7 +116,7 @@ const FAQs = () => {
                 padding: "8px",
                 width: "100%",
                 color: "#ffffff",
-                borderRadius:"10px"
+                borderRadius: "10px"
               }}
             />
           </Form.Item>
@@ -101,21 +129,25 @@ const FAQs = () => {
 
 
 
-      <div className=" h-auto text-white p-4">
-        {questionData.map((question, index) => (
+      <div className=" h-auto text-[#ffff] p-4">
+        {allFaqData?.map((item, index) => (
           <div
             key={index}
             className="flex justify-between items-center border-b border-gray-700 py-4"
           >
             <div className="flex flex-col">
-              <span className="text-xl">{question.questionName}</span>
-              <span className="text-xs text-gray-400">
-                Ans: {question.title}
-              </span>
+              <span className="text-xl">{item?.question}?</span>
+              <p className="text-sm text-gray-400">
+                <span className="text-xl text-[#ffff]">Ans : </span> {item?.answer}
+              </p>
             </div>
             <div className="flex gap-4">
-              <EditOutlined className="cursor-pointer hover:text-blue-400" />
-              <DeleteOutlined className="cursor-pointer hover:text-red-400" />
+              <EditOutlined 
+              onClick={()=> handleUpdate(item)}
+              className="cursor-pointer hover:text-blue-400" />
+              <DeleteOutlined
+                onClick={() => handleDelete(item?.id)}
+                className="cursor-pointer hover:text-red-400" />
             </div>
           </div>
         ))}

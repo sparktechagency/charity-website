@@ -15,8 +15,6 @@ export const baseApi = createApi({
         }
     }), 
     // refresh for this tag
-    tagTypes:[
-       "donationTransitions" 
-    ],
+    tagTypes: ['faq'],
     endpoints:()=>({}),
 });
