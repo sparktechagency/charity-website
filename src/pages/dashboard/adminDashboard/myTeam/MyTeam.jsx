@@ -62,9 +62,9 @@ const MyTeam = () => {
     formData.append("linkedIn_link",values.linkedIn_link)
     formData.append("instagram_link",values.instagram_link)
 
-  //  console.log(formData.forEach(value =>{
-  //   console.log(value)
-  //  }))
+   console.log(formData.forEach(value =>{
+    console.log(value)
+   }))
 
 
 
@@ -84,35 +84,52 @@ const MyTeam = () => {
   };
   // ========= team modal one end ===============
 
+
+  
   // ========= team modal two start =============
+
   const showTeamModalTwo = () => {
-    dispatch(closeTeamModalOpenOne());
     dispatch(teamModalOpenTwo());
   };
   const teamModalOkTwo = () => {
-    dispatch(closeTeamModalOpenTwo());
+    
   };
-  const teamModalCancelTwo = () => {
+  const teamModalCancelTwo= () => {
     dispatch(closeTeamModalOpenTwo());
   };
   // ========= team modal two end ===============
 
+
+
+
   // ========= team modal three start =============
   const showTeamModalThree = () => {
-    dispatch(closeTeamModalOpenOne());
     dispatch(teamModalOpenThree());
+    dispatch(closeTeamModalOpenTwo());
   };
   const teamModalOkThree = () => {
-    dispatch(closeTeamModalOpenThree());
+    
   };
-  const teamModalCancelThree = () => {
+  const teamModalCancelThree= () => {
     dispatch(closeTeamModalOpenThree());
   };
   // ========= team modal three end ===============
 
+
+
+
+
+
+
+
+
+
+
   // ========= team modal four start =============
   const showTeamModalFour = () => {
+    dispatch(closeTeamModalOpenTwo());
     dispatch(teamModalOpenFour());
+
   };
   const teamModalOkFour = () => {
     dispatch(closeTeamModalOpenFour());
@@ -128,9 +145,6 @@ const MyTeam = () => {
 
 
 
-  const onFinishTwo = () => {
-    console.log("clcik");
-  };
 
   const teamData = [
     {
@@ -1016,7 +1030,7 @@ const MyTeam = () => {
                           <span>{item.twitterIcon}</span>
                         </div>
                         <div
-                          onClick={showTeamModalOne}
+                         onClick={showTeamModalTwo}
                           className="cursor-pointer"
                         >
                           <span>{item.dotIcon}</span>
@@ -1041,7 +1055,7 @@ const MyTeam = () => {
                     <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
                       <button
                         className="hover:bg-[#A6ABAC] text-[#ffffff] py-2 px-4 rounded"
-                        onClick={teamModalOkOne}
+                        onClick={teamModalCancelOne}
                       >
                         Cancel
                       </button>
@@ -1230,51 +1244,51 @@ const MyTeam = () => {
 
 
 
-                {/* modal one */}
-                {/* <Modal
+                {/* modal two */}
+                <Modal
                   className=""
                   centered
-                  open={teamModalOne}
-                  onOk={teamModalOkOne}
-                  onCancel={teamModalCancelOne}
+                  open={teamModalTwo}
+                  onOk={teamModalOkTwo}
+                  onCancel={teamModalCancelTwo}
                   width={250}
                   footer={null}
                 >
                   <div>
                     <h1
-                      onClick={showTeamModalTwo}
                       className="text-[14px] font-semibold text-[#263234] border-b pb-4 cursor-pointer"
+                      onClick={showTeamModalThree}
                     >
                       Edit profile
                     </h1>
                     <h1
-                      onClick={showTeamModalThree}
+                      onClick={showTeamModalFour}
                       className="text-[14px] font-semibold text-[#DA453F] pt-4 cursor-pointer"
                     >
                       Remove teammate
                     </h1>
                   </div>
-                </Modal> */}
+                </Modal>
 
-                {/* modal two */}
-                {/* <Modal
+                {/* modal three */}
+                <Modal
                   className="custom-ai-modal"
                   centered
-                  open={teamModalTwo}
-                  onOk={teamModalOkTwo}
-                  onCancel={teamModalCancelTwo}
+                  open={teamModalThree}
+                  onOk={teamModalOkThree}
+                  onCancel={teamModalCancelThree}
                   width={600}
                   footer={
                     <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
                       <button
                         className="hover:bg-[#A6ABAC] text-[#FFFFFF] px-6 rounded"
-                        onClick={teamModalCancelTwo}
+                        onClick={teamModalCancelThree}
                       >
                         Cancel
                       </button>
                       <button
                         className="bg-[#ffffff] py-2 px-4 rounded"
-                        onClick={teamModalOkTwo}
+                        onClick={teamModalOkThree}
                       >
                         Update Information
                       </button>
@@ -1429,27 +1443,27 @@ const MyTeam = () => {
                       </div>
                     </Form>
                   </div>
-                </Modal> */}
+                </Modal>
 
-                {/* modal three */}
-                {/* <Modal
+                {/* modal four */}
+                <Modal
                   className="custom-ai-modal"
                   centered
-                  open={teamModalThree}
-                  onOk={teamModalOkThree}
-                  onCancel={teamModalCancelThree}
+                  open={teamModalFour}
+                  onOk={teamModalOkFour}
+                  onCancel={teamModalCancelFour}
                   width={500}
                   footer={
                     <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
                       <button
                         className="hover:bg-[#A6ABAC] text-[#DA453F] py-2 px-4 rounded"
-                        onClick={teamModalOkThree}
+                        onClick={teamModalOkFour}
                       >
                         Yes, remove
                       </button>
                       <button
                         className="bg-[#ffffff] px-6 rounded"
-                        onClick={teamModalCancelThree}
+                        onClick={teamModalCancelFour}
                       >
                         No, cancel
                       </button>
@@ -1467,7 +1481,7 @@ const MyTeam = () => {
                       </p>
                     </div>
                   </div>
-                </Modal> */}
+                </Modal>
 
 
               </div>
