@@ -1,114 +1,29 @@
 import { EyeOutlined } from "@ant-design/icons";
 import { Input, Pagination, Select, Space, Table } from "antd";
-import { EyeIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useGetDashboardSubscribersApiQuery } from "../../../../redux/dashboardFeatures/dashboardSubscribersApi";
 
 const Subscribers = () => {
   const [searchText, setSearchText] = useState("");
-  const [selectValue, stetSelectValue] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(11);
 
-  const dataSource = [
-    {
-      key: 1,
-      name: "kodom ali",
-      email: "kodom @ gmail.com",
-      subscribedOn: "09/05/2025",
-    },
-    {
-      key: 2,
-      name: "Rashed Hossain",
-      email: "rashed@gmail.com",
-      subscribedOn: "04/05/2025",
-    },
-    {
-      key: 3,
-      name: "Shahina Begum",
-      email: "shahina@outlook.com",
-      subscribedOn: "26/05/2025",
-    },
-    {
-      key: 4,
-      name: "Mizanur Rahman",
-      email: "mizan@ymail.com",
-      subscribedOn: "17/05/2025",
-    },
-    {
-      key: 5,
-      name: "Selina Parvin",
-      email: "selina@hotmail.com",
-      subscribedOn: "17/05/2025",
-    },
-    {
-      key: 6,
-      name: "Abdul Kader",
-      email: "abdukader@gmail.com",
-      subscribedOn: "17/05/2025",
-    },
-    {
-      key: 7,
-      name: "Nusrat Jahan",
-      email: "nusrat@live.com",
-      subscribedOn: "17/05/2025",
-    },
-    {
-      key: 8,
-      name: "Fahim Shahin",
-      email: "fahim@yahoo.com",
-      subscribedOn: "17/05/2025",
-    },
-    {
-      key: 9,
-      name: "Kamal Hossain",
-      email: "kamal@outlook.com",
-      subscribedOn: "17/05/2025",
-    },
-    {
-      key: 10,
-      name: "Arifa Akter",
-      email: "arifa@gmail.com",
-      subscribedOn: "17/05/2025",
-    },
-    {
-      key: 11,
-      name: "Rubi Sultana",
-      email: "rubi@live.com",
-      subscribedOn: "17/05/2025",
-    },
-    {
-      key: 12,
-      name: "Tariq Jamil",
-      email: "tariq@gmail.com",
-      subscribedOn: "17/05/2025",
-    },
-    {
-      key: 13,
-      name: "Farhana Akter",
-      email: "farhana@ymail.com",
-      subscribedOn: "14/05/2025",
-    },
-    {
-      key: 14,
-      name: "Mashiur Rahman",
-      email: "mashiur@hotmail.com",
-      subscribedOn: "19/05/2025",
-    },
-    {
-      key: 15,
-      name: "Shahidul Alam",
-      email: "shahidul@live.com",
-      subscribedOn: "10/05/2025",
-    },
-    {
-      key: 16,
-      name: "Samiul Islam",
-      email: "samiul@yahoo.com",
-      subscribedOn: "17/05/2025",
-    },
-  ];
+  const { data, refetch,isLoading } = useGetDashboardSubscribersApiQuery({ page: currentPage, per_page: perPage, search:searchText  })
 
-  const handleSelect = (value) => {
-    console.log(value);
+  const allSubscriberData = data?.data?.data
+
+
+  // This function handles the search input change and refetches the data
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+    setCurrentPage(1); // Reset to the first page whenever the search term changes
   };
+
+  useEffect(() => {
+    refetch(); // Refetch the data when searchText, currentPage, or perPage changes
+  }, [searchText, currentPage, perPage, refetch]);
+
+
 
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
@@ -127,37 +42,20 @@ const Subscribers = () => {
             <Input.Search
               placeholder="Search contributors..."
               className="custom-search"
-              onSearch={(value) => {
-                setSearchText(value);
-              }}
-              onChange={(e) => {
-                setSearchText(e.target.value);
-              }}
+              value={searchText} // Controlled value for the input
+              onChange={handleSearchChange} // Handle search input change
+              enterButton
             />
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <Table
-            dataSource={dataSource}
+            dataSource={allSubscriberData}
             columns={[
               {
                 title: "Name",
                 dataIndex: "name",
-                filteredValue: [searchText],
-                onFilter: (value, record) => {
-                  return (
-                    String(record.name)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.email)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.subscribedOn)
-                      .toLowerCase()
-                      .includes(value.toLowerCase())
-                  );
-                },
               },
               {
                 title: "Email",
@@ -170,12 +68,21 @@ const Subscribers = () => {
             ]}
             pagination={false}
             className="custom-ant-table"
+            loading={isLoading}
           />
         </div>
 
         {/* pagination */}
         <div className="flex justify-end pt-4">
-          <Pagination defaultCurrent={6} total={500} />
+          <Pagination
+            current={currentPage}
+            pageSize={perPage}
+            total={data?.data?.total || 0}
+            onChange={(page, pageSize) => {
+              setCurrentPage(page)
+              setPerPage(pageSize)
+            }}
+          />
         </div>
       </div>
     </div>
