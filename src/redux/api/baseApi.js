@@ -4,7 +4,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
     reducerPath:"api",
     baseQuery:fetchBaseQuery({
-        baseUrl:"http://137.59.180.219:8000/api",
+        // baseUrl:"http://137.59.180.219:8000/api",
+        baseUrl:import.meta.env.VITE_API_BASE_URL,
         prepareHeaders:(headers,{getState}) =>{
             const adminToken = localStorage.getItem("admin_token");
             if(adminToken){

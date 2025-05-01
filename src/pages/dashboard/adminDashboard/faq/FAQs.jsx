@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Form } from "antd";
+import { Button, Form, Spin } from "antd";
 import { useForm } from "antd/es/form/Form";
 import toast from "react-hot-toast";
 import { useDeleteDashboardFaqApiMutation, useGetDashboardFaqApiQuery, usePostDashboardFaqApiMutation, useUpdateDashboardFaqApiMutation } from "../../../../redux/dashboardFeatures/DashboardFaqApi";
@@ -9,7 +9,7 @@ import { useState } from "react";
 
 const FAQs = () => {
   const [postDashboardFaqApi] = usePostDashboardFaqApiMutation();
-  const { data,refetch } = useGetDashboardFaqApiQuery();
+  const { data, refetch,isLoading } = useGetDashboardFaqApiQuery();
   const [deleteFaq] = useDeleteDashboardFaqApiMutation();
   const [updateDashboardFaqApi] = useUpdateDashboardFaqApiMutation()
   const [formOne] = useForm();
@@ -24,7 +24,7 @@ const FAQs = () => {
       question: values.question,
       answer: values.answer,
     };
-  
+
     try {
       if (selectedFaqId) {
         // update
@@ -32,7 +32,7 @@ const FAQs = () => {
           id: selectedFaqId,
           faqInfo: faqInfo,
         }).unwrap();
-  
+
         if (res?.data) {
           toast.success(res?.message);
           formOne.resetFields();
@@ -52,7 +52,7 @@ const FAQs = () => {
       toast.error(errors.message);
     }
   };
-  
+
 
 
   // delete request
@@ -71,7 +71,7 @@ const FAQs = () => {
   };
 
   // update request
-  const handleUpdate = (item) =>{
+  const handleUpdate = (item) => {
     formOne.setFieldsValue({
       question: item.question,
       answer: item.answer,
@@ -92,7 +92,14 @@ const FAQs = () => {
 
       <Form form={formOne} onFinish={onFinishOne}>
         <div>
-          <Form.Item name="question">
+          <Form.Item name="question"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your question"
+              },
+            ]}
+          >
             <textarea
               placeholder="Enter Your Question"
               style={{
@@ -107,7 +114,14 @@ const FAQs = () => {
           </Form.Item>
         </div>
         <div>
-          <Form.Item name="answer">
+          <Form.Item name="answer"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your answer"
+              },
+            ]}
+          >
             <textarea
               placeholder="Enter Your Answer"
               style={{
@@ -126,32 +140,37 @@ const FAQs = () => {
         </div>
       </Form>
 
-
-
-
-      <div className=" h-auto text-[#ffff] p-4">
-        {allFaqData?.map((item, index) => (
-          <div
-            key={index}
-            className="flex justify-between items-center border-b border-gray-700 py-4"
-          >
-            <div className="flex flex-col">
-              <span className="text-xl">{item?.question}?</span>
-              <p className="text-sm text-gray-400">
-                <span className="text-xl text-[#ffff]">Ans : </span> {item?.answer}
-              </p>
-            </div>
-            <div className="flex gap-4">
-              <EditOutlined 
-              onClick={()=> handleUpdate(item)}
-              className="cursor-pointer hover:text-blue-400" />
-              <DeleteOutlined
-                onClick={() => handleDelete(item?.id)}
-                className="cursor-pointer hover:text-red-400" />
-            </div>
+      {
+        isLoading ? ( // Check if data is loading
+          <Spin size="large" className="flex justify-center items-center" />
+        )
+          :
+          <div className=" h-auto text-[#ffff] p-4">
+            {allFaqData?.slice(0, 5).map((item, index) => (
+              <div
+                key={index}
+                className="flex justify-between items-center border-b border-gray-700 py-4"
+              >
+                <div className="flex flex-col">
+                  <span className="text-xl">{item?.question}?</span>
+                  <p className="text-sm text-gray-400">
+                    <span className="text-xl text-[#ffff]">Ans : </span> {item?.answer}
+                  </p>
+                </div>
+                <div className="flex gap-4">
+                  <EditOutlined
+                    onClick={() => handleUpdate(item)}
+                    className="cursor-pointer hover:text-blue-400" />
+                  <DeleteOutlined
+                    onClick={() => handleDelete(item?.id)}
+                    className="cursor-pointer hover:text-red-400" />
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+      }
+
+
     </div>
   );
 };

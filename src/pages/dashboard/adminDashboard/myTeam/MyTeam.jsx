@@ -21,8 +21,12 @@ import {
   XOutlined,
 } from "@ant-design/icons";
 import { useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { useGetDashboardMyTeamApiQuery, usePostDashboardMyTeamApiMutation } from "../../../../redux/dashboardFeatures/dashboardMyTeamApi";
 
 const MyTeam = () => {
+  const [postDashboardMyTeamApi] = usePostDashboardMyTeamApiMutation() // post
+  const { data } = useGetDashboardMyTeamApiQuery(); // get
   const [formOne] = useForm();
   const [formTwo] = useForm();
   const dispatch = useDispatch();
@@ -31,12 +35,9 @@ const MyTeam = () => {
   const teamModalThree = useSelector((state) => state.modal.teamModalThree);
   const teamModalFour = useSelector((state) => state.modal.teamModalFour);
   const [fileList, setFileList] = useState([]);
-
   const handleUpload = ({ fileList }) => {
     setFileList(fileList);
   };
-
-
   const inputRef = useRef(null);
   const handleCopy = () => {
     if (inputRef.current?.input) {
@@ -45,9 +46,11 @@ const MyTeam = () => {
     }
   };
 
+  const allMyTeams = data?.data?.data;
+
 
   // ========= team modal one start =============
-  const onFinishOne = (values) => {
+  const onFinishOne = async (values) => {
     const formData = new FormData();
     // Get the actual file object
     const file = values.upload?.[0]?.originFileObj;
@@ -55,46 +58,55 @@ const MyTeam = () => {
       formData.append("photo", file);
     }
 
-    formData.append("name",values.name)
-    formData.append("designation",values.designation)
-    formData.append("work_experience",values.work_experience)
-    formData.append("twitter_link",values.twitter_link)
-    formData.append("linkedIn_link",values.linkedIn_link)
-    formData.append("instagram_link",values.instagram_link)
+    formData.append("name", values.name)
+    formData.append("designation", values.designation)
+    formData.append("work_experience", values.work_experience)
+    formData.append("twitter_link", values.twitter_link)
+    formData.append("linkedIn_link", values.linkedIn_link)
+    formData.append("instagram_link", values.instagram_link)
 
-   console.log(formData.forEach(value =>{
-    console.log(value)
-   }))
+    // console.log(formData.forEach(value => {
+    //   console.log(value)
+    // }))
 
+    try {
+      const res = await postDashboardMyTeamApi(formData).unwrap()
 
+      if (res?.data) {
+        toast.success(res?.message)
+        formOne.resetFields()
+        dispatch(closeTeamModalOpenOne());
+      }
+    } catch (errors) {
+      toast.error(errors.message);
+    }
 
 
   };
-  
+
   const showTeamModalOne = () => {
     dispatch(teamModalOpenOne());
   };
   const teamModalOkOne = () => {
-    // dispatch(closeTeamModalOpenOne());
     formOne.submit();
   };
   const teamModalCancelOne = () => {
     dispatch(closeTeamModalOpenOne());
-    
+
   };
   // ========= team modal one end ===============
 
 
-  
+
   // ========= team modal two start =============
 
   const showTeamModalTwo = () => {
     dispatch(teamModalOpenTwo());
   };
   const teamModalOkTwo = () => {
-    
+
   };
-  const teamModalCancelTwo= () => {
+  const teamModalCancelTwo = () => {
     dispatch(closeTeamModalOpenTwo());
   };
   // ========= team modal two end ===============
@@ -108,9 +120,9 @@ const MyTeam = () => {
     dispatch(closeTeamModalOpenTwo());
   };
   const teamModalOkThree = () => {
-    
+
   };
-  const teamModalCancelThree= () => {
+  const teamModalCancelThree = () => {
     dispatch(closeTeamModalOpenThree());
   };
   // ========= team modal three end ===============
@@ -134,7 +146,7 @@ const MyTeam = () => {
   const teamModalOkFour = () => {
     dispatch(closeTeamModalOpenFour());
 
-   
+
 
 
   };
@@ -142,7 +154,6 @@ const MyTeam = () => {
     dispatch(closeTeamModalOpenFour());
   };
   // ========= team modal four end ===============
-
 
 
 
@@ -999,41 +1010,125 @@ const MyTeam = () => {
         </div>
 
         <div>
-          {!teamData?.length ? (
+          {!allMyTeams?.length ? (
             <>
               <CustomNotFound />
             </>
           ) : (
             <div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 max-w-6xl mx-auto">
-                {teamData.map((item, index) => {
+                {allMyTeams.map((item, index) => {
                   return (
                     <div key={index} className="max-w-[308px] ">
                       <img
-                        src={item.image}
+                        src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${item.photo}`}
                         alt="my team"
-                        className="rounded-[12px] object-cover"
+                        className="rounded-[12px] object-cover md:h-[296px] md:w-[280px]"
+                        onError={(e) => {
+                          e.target.onerror = null; 
+                          e.target.src = '/dashboardPhoto/404.jpg';
+                        }}
                       />
                       <h3 className="text-[20px] text-[#FFFFFF] pt-[24px] pb-[8px] font-semibold">
                         {item.name}
                       </h3>
-                      <p className="text-[#B1ADAA]">{item.title}</p>
+                      <p className="text-[#B1ADAA]">{item.work_experience}</p>
                       <p className="pt-[16px] pb-[20px] text-[#B1ADAA] text-wrap">
-                        {item.description}
+                        {item.designation}
                       </p>
 
                       <div className="flex justify-between items-center md:pr-1 lg:pr-2">
                         <div className="flex items-center gap-[20px]">
-                          <span>{item.instragrumIcon}</span>
+                          <a href={item.instagram_link}>  <svg
+                            width="25"
+                            height="24"
+                            viewBox="0 0 25 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M16.4455 23L10.896 15.0901L3.94886 23H1.00977L9.59209 13.2311L1.00977 1H8.55571L13.786 8.45502L20.3393 1H23.2784L15.0943 10.3165L23.9914 23H16.4455ZM19.7185 20.77H17.7398L5.21811 3.23H7.1971L12.2121 10.2532L13.0793 11.4719L19.7185 20.77Z"
+                              fill="#A6ABAC"
+                            />
+                          </svg></a>
 
-                          <span>{item.linkedinIcon}</span>
-                          <span>{item.twitterIcon}</span>
+                          <a href={item.linkedIn_link}><svg
+                            width="25"
+                            height="24"
+                            viewBox="0 0 25 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M22.7234 0H2.27187C1.29219 0 0.5 0.773438 0.5 1.72969V22.2656C0.5 23.2219 1.29219 24 2.27187 24H22.7234C23.7031 24 24.5 23.2219 24.5 22.2703V1.72969C24.5 0.773438 23.7031 0 22.7234 0ZM7.62031 20.4516H4.05781V8.99531H7.62031V20.4516ZM5.83906 7.43438C4.69531 7.43438 3.77188 6.51094 3.77188 5.37187C3.77188 4.23281 4.69531 3.30937 5.83906 3.30937C6.97813 3.30937 7.90156 4.23281 7.90156 5.37187C7.90156 6.50625 6.97813 7.43438 5.83906 7.43438ZM20.9516 20.4516H17.3937V14.8828C17.3937 13.5562 17.3703 11.8453 15.5422 11.8453C13.6906 11.8453 13.4094 13.2937 13.4094 14.7891V20.4516H9.85625V8.99531H13.2687V10.5609H13.3156C13.7891 9.66094 14.9516 8.70938 16.6813 8.70938C20.2859 8.70938 20.9516 11.0813 20.9516 14.1656V20.4516Z"
+                              fill="#A6ABAC"
+                            />
+                          </svg></a>
+                          <a href={item.twitter_link}><svg
+                            width="25"
+                            height="24"
+                            viewBox="0 0 25 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <g clip-path="url(#clip0_179908_6549)">
+                              <path
+                                d="M12.5 2.16094C15.7063 2.16094 16.0859 2.175 17.3469 2.23125C18.5188 2.28281 19.1516 2.47969 19.5734 2.64375C20.1313 2.85938 20.5344 3.12188 20.9516 3.53906C21.3734 3.96094 21.6313 4.35938 21.8469 4.91719C22.0109 5.33906 22.2078 5.97656 22.2594 7.14375C22.3156 8.40937 22.3297 8.78906 22.3297 11.9906C22.3297 15.1969 22.3156 15.5766 22.2594 16.8375C22.2078 18.0094 22.0109 18.6422 21.8469 19.0641C21.6313 19.6219 21.3687 20.025 20.9516 20.4422C20.5297 20.8641 20.1313 21.1219 19.5734 21.3375C19.1516 21.5016 18.5141 21.6984 17.3469 21.75C16.0813 21.8062 15.7016 21.8203 12.5 21.8203C9.29375 21.8203 8.91406 21.8062 7.65313 21.75C6.48125 21.6984 5.84844 21.5016 5.42656 21.3375C4.86875 21.1219 4.46563 20.8594 4.04844 20.4422C3.62656 20.0203 3.36875 19.6219 3.15313 19.0641C2.98906 18.6422 2.79219 18.0047 2.74063 16.8375C2.68438 15.5719 2.67031 15.1922 2.67031 11.9906C2.67031 8.78438 2.68438 8.40469 2.74063 7.14375C2.79219 5.97187 2.98906 5.33906 3.15313 4.91719C3.36875 4.35938 3.63125 3.95625 4.04844 3.53906C4.47031 3.11719 4.86875 2.85938 5.42656 2.64375C5.84844 2.47969 6.48594 2.28281 7.65313 2.23125C8.91406 2.175 9.29375 2.16094 12.5 2.16094ZM12.5 0C9.24219 0 8.83438 0.0140625 7.55469 0.0703125C6.27969 0.126563 5.40313 0.332812 4.64375 0.628125C3.85156 0.9375 3.18125 1.34531 2.51563 2.01562C1.84531 2.68125 1.4375 3.35156 1.12813 4.13906C0.832812 4.90313 0.626563 5.775 0.570313 7.05C0.514063 8.33437 0.5 8.74219 0.5 12C0.5 15.2578 0.514063 15.6656 0.570313 16.9453C0.626563 18.2203 0.832812 19.0969 1.12813 19.8563C1.4375 20.6484 1.84531 21.3188 2.51563 21.9844C3.18125 22.65 3.85156 23.0625 4.63906 23.3672C5.40313 23.6625 6.275 23.8687 7.55 23.925C8.82969 23.9812 9.2375 23.9953 12.4953 23.9953C15.7531 23.9953 16.1609 23.9812 17.4406 23.925C18.7156 23.8687 19.5922 23.6625 20.3516 23.3672C21.1391 23.0625 21.8094 22.65 22.475 21.9844C23.1406 21.3188 23.5531 20.6484 23.8578 19.8609C24.1531 19.0969 24.3594 18.225 24.4156 16.95C24.4719 15.6703 24.4859 15.2625 24.4859 12.0047C24.4859 8.74688 24.4719 8.33906 24.4156 7.05938C24.3594 5.78438 24.1531 4.90781 23.8578 4.14844C23.5625 3.35156 23.1547 2.68125 22.4844 2.01562C21.8188 1.35 21.1484 0.9375 20.3609 0.632812C19.5969 0.3375 18.725 0.13125 17.45 0.075C16.1656 0.0140625 15.7578 0 12.5 0Z"
+                                fill="#A6ABAC"
+                              />
+                              <path
+                                d="M12.5 5.83594C9.09688 5.83594 6.33594 8.59688 6.33594 12C6.33594 15.4031 9.09688 18.1641 12.5 18.1641C15.9031 18.1641 18.6641 15.4031 18.6641 12C18.6641 8.59688 15.9031 5.83594 12.5 5.83594ZM12.5 15.9984C10.2922 15.9984 8.50156 14.2078 8.50156 12C8.50156 9.79219 10.2922 8.00156 12.5 8.00156C14.7078 8.00156 16.4984 9.79219 16.4984 12C16.4984 14.2078 14.7078 15.9984 12.5 15.9984Z"
+                                fill="#A6ABAC"
+                              />
+                              <path
+                                d="M20.3469 5.59141C20.3469 6.38828 19.7 7.03047 18.9078 7.03047C18.1109 7.03047 17.4688 6.3836 17.4688 5.59141C17.4688 4.79453 18.1156 4.15234 18.9078 4.15234C19.7 4.15234 20.3469 4.79922 20.3469 5.59141Z"
+                                fill="#A6ABAC"
+                              />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_179908_6549">
+                                <rect
+                                  width="24"
+                                  height="24"
+                                  fill="white"
+                                  transform="translate(0.5)"
+                                />
+                              </clipPath>
+                            </defs>
+                          </svg></a>
                         </div>
                         <div
-                         onClick={showTeamModalTwo}
+                          onClick={showTeamModalTwo}
                           className="cursor-pointer"
                         >
-                          <span>{item.dotIcon}</span>
+                          <span> <svg
+                            width="25"
+                            height="24"
+                            viewBox="0 0 25 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M10.5 12C10.5 10.8954 11.3954 10 12.5 10C13.6046 10 14.5 10.8954 14.5 12C14.5 13.1046 13.6046 14 12.5 14C11.3954 14 10.5 13.1046 10.5 12Z"
+                              fill="#B1ADAA"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M17.5 12C17.5 10.8954 18.3954 10 19.5 10C20.6046 10 21.5 10.8954 21.5 12C21.5 13.1046 20.6046 14 19.5 14C18.3954 14 17.5 13.1046 17.5 12Z"
+                              fill="#B1ADAA"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M3.5 12C3.5 10.8954 4.39543 10 5.5 10C6.60457 10 7.5 10.8954 7.5 12C7.5 13.1046 6.60457 14 5.5 14C4.39543 14 3.5 13.1046 3.5 12Z"
+                              fill="#B1ADAA"
+                            />
+                          </svg></span>
                         </div>
                       </div>
                     </div>

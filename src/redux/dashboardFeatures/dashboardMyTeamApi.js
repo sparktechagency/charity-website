@@ -3,20 +3,20 @@ import { baseApi } from "../api/baseApi";
 const dashboardMyTeamApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         postDashboardMyTeamApi: builder.mutation({
-            query: (faqInfo) => ({
-                url: `/create-faq`,
+            query: (createTeam) => ({
+                url: `/create-team`,
                 method:"POST",
-                body:faqInfo,
+                body:createTeam,
             }),
-            invalidatesTags: ['my-team'],
+            invalidatesTags: ['team'],
         }),
-        // getDashboardFaqApi: builder.query({
-        //     query: () => ({
-        //         url: `/get-faqs`,
-        //         method:"GET"
-        //     }),
-        //     invalidatesTags: ['faq']
-        // }),
+        getDashboardMyTeamApi: builder.query({
+            query: () => ({
+                url: `/get-team?search`,
+                method:"GET"
+            }),
+            providesTags: ['team'],
+        }),
         // deleteDashboardFaqApi: builder.mutation({
         //     query: (id) => ({
         //         url: `/delete-faq?faq_id=${id}`,
@@ -36,4 +36,4 @@ const dashboardMyTeamApi = baseApi.injectEndpoints({
 })
 
 
-export const {usePostDashboardMyTeamApiMutation} = dashboardMyTeamApi;
+export const {usePostDashboardMyTeamApiMutation,useGetDashboardMyTeamApiQuery} = dashboardMyTeamApi;

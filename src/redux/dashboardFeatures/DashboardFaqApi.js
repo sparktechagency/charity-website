@@ -15,7 +15,7 @@ const DashboardFaqApi = baseApi.injectEndpoints({
                 url: `/get-faqs`,
                 method:"GET"
             }),
-            invalidatesTags: ['faq']
+            providesTags: ['faq']
         }),
         deleteDashboardFaqApi: builder.mutation({
             query: (id) => ({
