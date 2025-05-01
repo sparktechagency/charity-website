@@ -25,8 +25,8 @@ const UserDetails = () => {
   };
 
   return (
-    <div>
-      <div className="max-w-2xl border mx-auto p-6 bg-white rounded-2xl shadow-md">
+    <div className="flex flex-col lg:flex-row max-w-[1512px] mx-auto " >
+      <div className=" max-w-2xl border mx-auto p-6 bg-white rounded-2xl w-full  shadow-md">
         <h2 className="text-2xl font-semibold text-center mb-6">
           Review Donation
         </h2>
@@ -86,7 +86,7 @@ const UserDetails = () => {
           </Button>
         </div>
       </div>
-      <div>
+      <div className="w-full" >
         <StripeForm />
       </div>
     </div>

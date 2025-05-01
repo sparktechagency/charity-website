@@ -53,7 +53,7 @@ console.log("client secreat is ",clientSecret)
   };
 
   return (
-    <div className="max-w-[600px] mx-auto py-28">
+    <div className="max-w-[600px] mx-auto py-28 ">
       {clientSecret ? (
         <Elements options={{ clientSecret, appearance }} stripe={stripePromise}>
           <CheckoutForm data={payload} />

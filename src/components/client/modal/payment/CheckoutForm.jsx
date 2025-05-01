@@ -44,7 +44,7 @@ const CheckoutForm = ({ data }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto ">
       <form onSubmit={handleSubmit} id="payment-form" className="w-full">
         <PaymentElement id="payment-element" options={paymentElementOptions} />
 
