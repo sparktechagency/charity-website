@@ -1,12 +1,12 @@
 import { EyeOutlined } from "@ant-design/icons";
 import { Input, Pagination, Select, Space, Table } from "antd";
-import { EyeIcon } from "lucide-react";
-import { useGetDonationTransitionQuery } from "../../../../redux/dashboardFeatures/getDonationTransition";
+import { useGetDashboardDonationTransitionApiQuery } from "../../../../redux/dashboardFeatures/dashboardDonationTransitionApi";
 
 const DonationTransaction = () => {
-  const { data } = useGetDonationTransitionQuery({ page: 1 });
+  const { data } = useGetDashboardDonationTransitionApiQuery();
+const allDonationTransitions = data?.data?.data
+console.log(allDonationTransitions)
 
-  console.log(data, "data---------");
 
   const dataSource = [
     {
@@ -171,6 +171,8 @@ const DonationTransaction = () => {
     },
   ];
 
+
+  
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>

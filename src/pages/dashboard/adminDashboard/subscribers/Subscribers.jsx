@@ -8,10 +8,11 @@ const Subscribers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(11);
 
-  const { data, refetch,isLoading } = useGetDashboardSubscribersApiQuery({ page: currentPage, per_page: perPage, search:searchText  })
+  const { data, refetch, isLoading } = useGetDashboardSubscribersApiQuery({ page: currentPage, per_page: perPage, search: searchText })
 
   const allSubscriberData = data?.data?.data
-
+  // const subscribedDate = '2025-05-01 03:45:25'.split(' ')[0];
+  console.log(allSubscriberData)
 
   // This function handles the search input change and refetches the data
   const handleSearchChange = (e) => {
@@ -63,7 +64,8 @@ const Subscribers = () => {
               },
               {
                 title: "Subscribed on",
-                dataIndex: "subscribedOn",
+                dataIndex: "subscribed_on",
+                render: (text) => text?.split(" ")[0],
               },
             ]}
             pagination={false}

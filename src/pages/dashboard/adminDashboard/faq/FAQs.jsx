@@ -62,8 +62,6 @@ const FAQs = () => {
       if (res?.success === true) {
         toast.success(res.message);
         refetch() // refresh list after delete
-      } else {
-        toast.error("Delete failed.");
       }
     } catch (errors) {
       toast.error(errors.message);

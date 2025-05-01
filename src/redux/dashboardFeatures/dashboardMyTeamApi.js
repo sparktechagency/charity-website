@@ -17,23 +17,30 @@ const dashboardMyTeamApi = baseApi.injectEndpoints({
             }),
             providesTags: ['team'],
         }),
-        // deleteDashboardFaqApi: builder.mutation({
-        //     query: (id) => ({
-        //         url: `/delete-faq?faq_id=${id}`,
-        //         method: "DELETE",
-        //     }),
-        //     invalidatesTags: ['faq'],
-        // }),
-        // updateDashboardFaqApi: builder.mutation({
-        //     query: ({id,faqInfo}) => ({
-        //         url: `/update-faq?faq_id=${id}`,
-        //         method:"PUT",
-        //         body:faqInfo,
-        //     }),
-        //     invalidatesTags: ['faq'],
-        // }),
+        deleteDashboardMyTeamApi: builder.mutation({
+            query: (id) => ({
+                url: `/delete-team?team_id=${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ['team'],
+        }),
+        updateDashboardMyTeamApi: builder.mutation({
+            query: ({team_id,updateInfo}) => ({
+                url: `/update-team?team_id=${team_id}`,
+                method:"POST",
+                body:updateInfo,
+            }),
+            invalidatesTags: ['team'],
+        }),
+        singleGetDashboardMyTeamApi: builder.query({
+            query: (id) => ({
+                url: `/team?team_id=${id}`,
+                method:"GET"
+            }),
+            providesTags: ['team'],
+        }),
     })
 })
 
 
-export const {usePostDashboardMyTeamApiMutation,useGetDashboardMyTeamApiQuery} = dashboardMyTeamApi;
+export const {usePostDashboardMyTeamApiMutation,useGetDashboardMyTeamApiQuery,useDeleteDashboardMyTeamApiMutation,useUpdateDashboardMyTeamApiMutation,useSingleGetDashboardMyTeamApiQuery} = dashboardMyTeamApi;
