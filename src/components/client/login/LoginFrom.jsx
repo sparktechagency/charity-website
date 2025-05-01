@@ -13,7 +13,8 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
   const [success, setSuccess] = useState(false);
   const formData = new FormData();
 
-  const onFinish = async (values) => {
+  const  
+  onFinish = async (values) => {
     try {
       setLoading(true);
       const formData = new FormData(); // 👈 Create FormData first!
@@ -98,6 +99,8 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
     alert(`Password reset successfully`);
   };
 
+
+
   // otp verify modal
   const [isOtpVerifyModal, setIsOtpVerifyModal] = useState(false);
   const closeOtpVerifyModal = () => {
@@ -153,13 +156,18 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         setForgetPasswordModal(false);
         setLoginModal(false);
         setIsOtpVerifyModal(true);
+        form.resetFields();
+        return;
       } else {
         toast.error("Failed to send verification email.");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
+      
       setLoading(false);
+      form.resetFields();
+      return;
     }
   };
 

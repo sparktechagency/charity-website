@@ -2,6 +2,7 @@ import { Form, Input, Button, Upload, message } from "antd";
 import { UserOutlined, UploadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
+import { imgUrl } from './../../../helper/imgUrl';
 
 export default function UserForm({ updateProfileModal, setUpdateProfileModal }) {
   const axiosPublic = useAxiosPublic();
@@ -17,21 +18,30 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
     },
   };
 
-  // Fetch user info (no image preview)
+  // Fetch user info (including image)
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axiosPublic.get("/profile", config);
         const user = response.data?.data;
 
+        console.log(`user data is ${user}`);
+
         form.setFieldsValue({
           full_name: user.full_name,
-          email: user.email,
         });
 
-        // ❌ Don't set fileList to preloaded image — user must manually upload if needed
-        // ✅ So no image preview shown by default
-
+        // Only set fileList if image exists
+        if (user.image) {
+          setFileList([
+            {
+              uid: "-1",
+              name: "profile.jpg",
+              status: "done",
+              url: `http://137.59.180.219:8000/${user.image}`, // must be accessible
+            },
+          ]);
+        }
       } catch (err) {
         console.error("Failed to load user info", err);
       }
@@ -39,9 +49,8 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
 
     fetchUserData();
   }, [form]);
-
-  const handleUploadChange = ( info) => {
-    console.log(info.fileList)
+  const handleUploadChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
   };
 
   const onFinish = async (values) => {
@@ -51,20 +60,15 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
       formData.append("full_name", values.full_name);
 
       const file = fileList[0];
-
       if (file?.originFileObj) {
-        formData.append("image", fileList[0]?.originFileObj);
+        formData.append("image", file.originFileObj);
       }
 
-      const response = await axiosPublic.post(
-        "/update-profile?_method=PUT",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axiosPublic.post("/update-profile?_method=PUT", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       message.success("User information submitted successfully!");
       form.resetFields();
@@ -109,7 +113,7 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
           >
             <Button
               icon={<UploadOutlined />}
-              className="flex items-center bg-btnColor text-white font-semibold px-4 py-2 rounded-lg "
+              className="flex items-center bg-btnColor text-white font-semibold px-4 py-2 rounded-lg"
             >
               Upload Image
             </Button>

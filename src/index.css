@@ -589,6 +589,8 @@ span.ant-menu-title-content {
 
 
 
+
+
 /* footer css  */
 .ant-menu-item-selected{
   background-color: transparent !important;
@@ -615,7 +617,10 @@ span.ant-menu-title-content {
   background-color: white !important;
 }
 
-
+/* .input#name{
+  color: black;
+  background: red;
+} */
 
 
 /* ===================== dashboar component style ================= */

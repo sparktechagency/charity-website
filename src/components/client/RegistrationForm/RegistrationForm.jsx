@@ -1,4 +1,4 @@
-import { Form, Input, Button, Upload, Card, Modal, Space, message } from "antd";
+import { Form, Input, Button, Upload, Card, Modal, Space, message, InputNumber } from "antd";
 import {
   UploadOutlined,
   MailOutlined,
@@ -16,59 +16,15 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
   const [form] = Form.useForm();
   // otp verify related function start
 
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [otp, setOtp] = useState("");
   const [otpModal, setOtpModal] = useState(false);
 
-  const handleChange = (value, index) => {
-    if (/^\d*$/.test(value)) {
-      const newOtp = [...otp];
-      newOtp[index] = value;
-      setOtp(newOtp);
 
-      // Auto focus next input
-      if (value && index < otp.length - 1) {
-        document.getElementById(`otp-input-${index + 1}`)?.focus();
-      }
-      // If empty and backspace, go to previous input
-      if (!value && index > 0) {
-        document.getElementById(`otp-input-${index - 1}`)?.focus();
-      }
-    }
-  };
+  const handleChange = (value) => {
+    if (!/^\d*$/.test(value)) return; // Ensure only numbers are entered
 
-  const handleSubmit = async () => {
-    const otpCode = otp.join("");
-    if (otpCode.length !== otp.length) {
-      message.error("Please enter the full 6-digit OTP!");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      // 👉 API Call here
-      const res = await axiosPublic.post(`/otp-verify`, {
-        otp: otpCode,
-      });
-
-      console.log(res);
-
-      if (res.data.success) {
-        message.success("OTP Verified Successfully!");
-        form.resetFields();
-        setOtp(["", "", "", "", "", ""]);
-        setOtpModal(false);
-        setLoginModal(true);
-      } else {
-        message.error(res.data.message || "Invalid OTP!");
-      }
-    } catch (error) {
-      console.error(error);
-      message.error(
-        error.response?.data?.message || "OTP Verification Failed!"
-      );
-    } finally {
-      setLoading(false);
+    if (value.length <= 6) { // Limit OTP to 6 digits
+      setOtp(value);
     }
   };
 
@@ -103,18 +59,22 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
         },
       });
 
-      console.log(res);
       if (res.data.success) {
         toast.success(`Registration successful`);
         form.resetFields();
         setIsOpenModal(false);
         setLoginModal(false);
-        setOtpModal(true); // 👉 Move here
+        form.resetFields();
+
+        setOtpModal(true);
+        return;
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
+      form.resetFields();
+      return;
     }
   };
   const normFile = (e) => {
@@ -128,6 +88,28 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
   const openLoginModal = () => {
     setLoginModal(true);
     setIsOpenModal(false);
+  };
+
+  const handleSubmitOtp = async (values) => {
+    try {
+      setLoading(true);
+
+      const res = await axiosPublic.post(`/otp-verify`, { otp: values.otp });
+
+      if (res.data.success) {
+        form.resetFields()
+        toast.success(`OTP verified successfully`);
+        return setOtpModal(false);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+      return;
+    } finally {
+      form.resetFields();
+      setLoading(false);
+      setOtpModal(false)
+      return
+    }
   };
 
   useEffect(() => {
@@ -236,7 +218,6 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
         {/* Submit Button */}
         <Form.Item>
           <Button
-            onClick={openOtpModal}
             loading={loading}
             disabled={loading}
             type="primary"
@@ -266,59 +247,53 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
         onCancel={onClose}
         footer={null}
         centered
-        width={400}
-        closable={true}
+        closable
       >
         <div className="text-center py-4">
           <h2 className="text-2xl font-bold mb-2">Verify OTP</h2>
-          <p className="text-gray-500 mb-6 text-sm">
+          <p className="mb-6 text-sm">
             Enter the 6-digit code sent to your email.
           </p>
 
           <Form
             form={form}
-            onFinish={handleSubmit}
-            autoComplete="off"
+            onFinish={handleSubmitOtp}
+            layout="vertical"
             className="flex flex-col items-center"
+            style={{ backgroundColor: "white", color: "black" }}
           >
-            <Space size="middle" className="mb-6">
-              {otp.map((digit, idx) => (
-                <Form.Item
-                  key={idx}
-                  name={`otp-${idx}`}
-                  rules={[
-                    { required: true, message: "" },
-                    { pattern: /^[0-9]$/, message: "" },
-                  ]}
-                  noStyle
-                >
-                  <Input
-                    id={`otp-input-${idx}`}
-                    maxLength={1}
-                    value={digit}
-                    onChange={(e) => handleChange(e.target.value, idx)}
-                    className="lg:!w-12 !h-12 text-center text-lg font-semibold rounded-lg"
-                    autoFocus={idx === 0}
-                  />
-                </Form.Item>
-              ))}
-            </Space>
+            <Form.Item
+              label="OTP"
+              name="otp"
+              rules={[
+                { required: true, message: "Please input your OTP!" },
+                {
+                  validator: (_, value) =>
+                    value && value.toString().length === 6
+                      ? Promise.resolve()
+                      : Promise.reject("OTP must be 6 digits"),
+                },
+              ]}
+            >
+              <InputNumber
+                placeholder="Enter your OTP"
+                className="w-full py-1"
+                controls={false}
+                maxLength={6} // visually prevent typing more than 6 digits
+              />
+            </Form.Item>
 
             <Button
+              loading={loading}
+              disabled={loading}
               htmlType="submit"
               type="primary"
               block
-              className="h-11 lg:w-full !w-20 rounded-lg font-semibold bg-btnColor border-none "
+              className="h-11 lg:w-full !w-20 rounded-lg block mx-auto font-semibold bg-btnColor border-none"
             >
               Verify
             </Button>
           </Form>
-
-          {/* Optional Resend Section */}
-          {/* <p className="mt-4 text-gray-500 text-sm">
-            Didn't receive code?{" "}
-            <span className="text-blue-600 cursor-pointer">Resend</span>
-          </p> */}
         </div>
       </Modal>
 

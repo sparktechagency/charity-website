@@ -71,7 +71,7 @@ const DonationFormModal = () => {
   // }
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-md">
+    <div className="max-w-2xl  mx-auto p-6 bg-white rounded-2xl shadow-md">
       <h2 className="text-2xl text-[#263234] font-semibold text-center mb-6">
         Enter Donation Details
       </h2>
@@ -171,7 +171,7 @@ const DonationFormModal = () => {
         >
           <Input
             style={{ padding: "10px 20px", outline: "none" }}
-            className=" placeholder:text-lg placeholder:text-[#818889] "
+            className=" placeholder:text-lg !text-black bg-gray-600 placeholder:text-[#818889] "
             placeholder="John Doe"
           />
         </Form.Item>
