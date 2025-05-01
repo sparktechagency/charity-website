@@ -16,7 +16,7 @@ const StripeForm = () => {
   const price = payload?.amount;
 
   const [clientSecret, setClientSecret] = useState("");
-
+console.log("client secreat is ",clientSecret)
   useEffect(() => {
     if (!price) {
       navigate("/donation");
@@ -33,14 +33,15 @@ const StripeForm = () => {
       // No body needed for this API
     })
       .then((res) => {
+        console.log('res',res)
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }
         return res.json();
       })
       .then((data) => {
-        console.log("Payment Intent:", data);
-        setClientSecret(data.clientSecret);
+        console.log("Payment data:",data?.data?.client_secret);
+        setClientSecret(data?.data?.client_secret);
       })
       .catch((error) => {
         console.error("Error creating payment intent:", error);
@@ -57,9 +58,9 @@ const StripeForm = () => {
         <Elements options={{ clientSecret, appearance }} stripe={stripePromise}>
           <CheckoutForm data={payload} />
         </Elements>
-      ) : (
+  ) : (
         <p className="text-center">Loading payment form...</p>
-      )}
+      )} 
     </div>
   );
 };

@@ -1,6 +1,5 @@
-import { Form, Input, InputNumber, Select, Checkbox, Button } from "antd";
+
 import React, { useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
 
 const AggrementPage = () => {
   const [verified, isVerified] = useState(false);
@@ -10,7 +9,6 @@ const AggrementPage = () => {
     isVerified(true);
     form.resetFields();
   }
-  const [form] = Form.useForm();
   const [donateAll, setDonateAll] = useState(false);
 
   const onFinish = (values) => {
@@ -272,184 +270,7 @@ const AggrementPage = () => {
           </p>
 
           <div>
-            {/* donation for  */}
-            <Form onFinish={onFinish} form={form} layout="vertical">
-              {/* donar name  */}
-              <Form.Item
-                style={{ marginBottom: "0px" }}
-                label={
-                  <span className=" text-sm text-[#263234] font-medium ">
-                    Donor Name :{" "}
-                  </span>
-                }
-                rules={[
-                  {
-                    required: true,
-                    message: "Enter you name?",
-                  },
-                ]}
-                name={"name"}
-              >
-                <Input
-                  style={{
-                    border: " 1px solid #A6ABAC ",
-                    outline: "none",
-                    padding: "",
-                  }}
-                  className=" hover:outline-0! focus:outline-0! py-3.5 placeholder:text-lg placeholder:text-[#818889] "
-                  placeholder="Enter your name."
-                />
-              </Form.Item>
 
-              {/* email  */}
-
-              <Form.Item
-                style={{ marginBottom: "0px", marginTop: "16px" }}
-                label={
-                  <span className=" text-sm text-[#263234] font-medium ">
-                    Email Address:{" "}
-                  </span>
-                }
-                name={"email"}
-                rules={[
-                  {
-                    required: true,
-                    message: "Enter your email",
-                  },
-                  {
-                    type: "email",
-                  },
-                ]}
-              >
-                <Input
-                  style={{
-                    border: " 1px solid #A6ABAC ",
-                    outline: "none",
-                    padding: "",
-                  }}
-                  className=" hover:outline-0! focus:outline-0! py-3.5 placeholder:text-lg placeholder:text-[#818889] "
-                  placeholder="Enter your email."
-                />
-              </Form.Item>
-
-              {/* phone number  */}
-
-              <Form.Item
-                style={{ marginBottom: "0px", marginTop: "16px" }}
-                label={
-                  <span className=" text-sm text-[#263234] font-medium ">
-                    Phone Number
-                  </span>
-                }
-                name={"phone-number"}
-                rules={[
-                  {
-                    type: Number,
-                  },
-                ]}
-              >
-                <InputNumber
-                  style={{
-                    width: "100%",
-                    border: " 1px solid #A6ABAC ",
-                    outline: "none",
-                    padding: "",
-                  }}
-                  className=" hover:outline-0! focus:outline-0! py-2.5 placeholder:text-lg placeholder:text-[#818889] "
-                  placeholder="Enter your number"
-                />
-              </Form.Item>
-
-              {/* item description */}
-
-              <Form.Item
-                style={{ marginBottom: "0px", marginTop: "16px" }}
-                label={
-                  <span className=" text-sm text-[#263234] font-medium ">
-                    Item's Description
-                  </span>
-                }
-                rules={[
-                  {
-                    required: true,
-                    message: "Enter item description",
-                  },
-                ]}
-                name={"description"}
-              >
-                <Input.TextArea
-                  style={{
-                    border: " 1px solid #A6ABAC ",
-                    outline: "none",
-                    padding: "",
-                  }}
-                  rows={6}
-                />
-              </Form.Item>
-
-              {/* Receive Percentage */}
-
-              <Form.Item
-                style={{
-                  marginBottom: "0px",
-                  marginTop: "16px",
-                  border: "1px",
-                }}
-                label={
-                  <span className="text-sm text-[#263234] font-medium">
-                    Preferred Revenue Share (%)
-                  </span>
-                }
-                name="preferredShare"
-                rules={[
-                  {
-                    required: !donateAll,
-                    message: "Please enter your preferred revenue share",
-                  },
-                  {
-                    type: "number",
-                    min: 1,
-                    max: 99,
-                    message: "Must be between 1 and 99%",
-                  },
-                ]}
-              >
-                <InputNumber
-                  min={1}
-                  max={99}
-                  disabled={donateAll}
-                  placeholder="Enter % to keep"
-                  style={{
-                    width: "100%",
-                    padding: "",
-                    border: " 1px solid #A6ABAC ",
-                  }}
-                  className=" text-lg py-2   placeholder:text-[#818889] focus:outline-none"
-                />
-              </Form.Item>
-
-              <Form.Item name="donateAll" valuePropName="checked">
-                <Checkbox onChange={(e) => setDonateAll(e.target.checked)}>
-                  Donate 100% to Virtue Hope
-                </Checkbox>
-              </Form.Item>
-              {/* captcha  */}
-              <div className="   my-5 ">
-                <Form.Item>
-                  <ReCAPTCHA
-                    sitekey="6Len-w8rAAAAAE68L5bXR-wOuwmID9i0xVW1Eqp1"
-                    onChange={onChange}
-                  />
-                </Form.Item>
-              </div>
-              <Button
-                className="missionModalBtn2"
-                disabled={!verified}
-                htmlType="submit"
-              >
-                Submit
-              </Button>
-            </Form>
           </div>
         </div>
       </div>

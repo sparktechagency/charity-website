@@ -428,7 +428,7 @@ const Navbar = () => {
         width={400}
         className="rounded-2xl"
       >
-        <ProfileCard closeProfileCardModal = {closeProfileCardModal} profileData = {profileData}  handleLogout = {handleLogout} />
+        <ProfileCard  setProfileCard = {setProfileCard} profileData = {profileData}  handleLogout = {handleLogout} />
       </Modal>
     </nav>
   );

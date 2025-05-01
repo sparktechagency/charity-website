@@ -58,7 +58,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
     setIsOpenModal(false);
   };
 
-  const token = localStorage.getItem(`forgetToken`)
+  const token = localStorage.getItem(`forgetToken`);
 
   const config = {
     headers: {
@@ -66,8 +66,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
     },
   };
 
-// 👈 true if token exists
-
+  // 👈 true if token exists
 
   // new password set modal
   const [newPasswordModal, setNewPasswordModal] = useState(false);
@@ -78,20 +77,22 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
 
   const submitNewPasswordModal = async (values) => {
     try {
-      setLoading(true)
-      let res = await axiosPublic.post(`/create-new-password`,{
-        email : values.email,
-        new_password : values.new_password,
-        new_password_confirmation : values.new_password_confirmation
-      },config);
+      setLoading(true);
+      let res = await axiosPublic.post(
+        `/create-new-password`,
+        {
+          email: values.email,
+          new_password: values.new_password,
+          new_password_confirmation: values.new_password_confirmation,
+        },
+        config
+      );
 
-      console.log(`response is ${res}`)
-
-      
+      console.log(`response is ${res}`);
     } catch (error) {
-      toast.error(`Password forget fail please try again!`)
-    }finally{
-      setLoading(false)
+      toast.error(`Password forget fail please try again!`);
+    } finally {
+      setLoading(false);
     }
     setNewPasswordModal(false);
     alert(`Password reset successfully`);
@@ -123,7 +124,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
       setLoading(false);
     }
     // setNewPasswordModal(true);
-    // 
+    //
   };
 
   // forget password modal
@@ -267,8 +268,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         footer={null}
         closable={true}
         onCancel={closeForgetPasswordModal}
-        maskClosable={false} 
-        
+        maskClosable={false}
         centered
       >
         <Form form={form} onFinish={submitForgetPasswordFrom} layout="vertical">
@@ -306,7 +306,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         footer={null}
         onCancel={closeOtpVerifyModal}
         centered
-        maskClosable={false} 
+        maskClosable={false}
         // width="400px"
         style={{ padding: "15px", top: 0 }}
       >
@@ -347,82 +347,84 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         closable={true}
         onCancel={closeNewPasswordModal}
         centered
-        
-        maskClosable={false} 
+        maskClosable={false}
       >
-       <Form
-  name="new_password_set"
-  layout="vertical"
-  onFinish={submitNewPasswordModal}
-  autoComplete="off"
->
-  <Form.Item
-    label="Email"
-    name="email"
-    rules={[
-      { required: true, message: "Please input your email!" },
-      { type: "email", message: "Please enter a valid email!" },
-    ]}
-  >
-    <Input
-      prefix={<MailOutlined />}
-      placeholder="Enter your email"
-      className="py-2"
-    />
-  </Form.Item>
+        <Form
+          name="new_password_set"
+          layout="vertical"
+          onFinish={submitNewPasswordModal}
+          autoComplete="off"
+        >
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Please input your email!" },
+              { type: "email", message: "Please enter a valid email!" },
+            ]}
+          >
+            <Input
+              prefix={<MailOutlined />}
+              placeholder="Enter your email"
+              className="py-2"
+            />
+          </Form.Item>
 
-  <Form.Item
-    label="Password"
-    name="new_password"
-    rules={[
-      { required: true, message: "Please input your password!" },
-      { min: 6, message: "Password must be minimum 6 characters." },
-    ]}
-    hasFeedback
-  >
-    <Input.Password
-      prefix={<LockOutlined />}
-      placeholder="Enter your password"
-      className="py-2"
-    />
-  </Form.Item>
+          <Form.Item
+            label="Password"
+            name="new_password"
+            rules={[
+              { required: true, message: "Please input your password!" },
+              { min: 6, message: "Password must be minimum 6 characters." },
+            ]}
+            hasFeedback
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Enter your password"
+              className="py-2"
+            />
+          </Form.Item>
 
-  <Form.Item
-    label="Confirm Password"
-    name="new_password_confirmation"
-    dependencies={["new_password"]} 
-    hasFeedback
-    rules={[
-      { required: true, message: "Please confirm your password!" },
-      ({ getFieldValue }) => ({
-        validator(_, value) {
-          if (!value || getFieldValue("new_password") === value) {
-            return Promise.resolve();
-          }
-          return Promise.reject(new Error("Passwords do not match!"));
-        },
-      }),
-    ]}
-  >
-    <Input.Password
-      prefix={<LockOutlined />}
-      placeholder="Confirm your password"
-      className="py-2"
-    />
-  </Form.Item>
+          <Form.Item
+            label="Confirm Password"
+            name="new_password_confirmation"
+            dependencies={["new_password"]}
+            hasFeedback
+            rules={[
+              { required: true, message: "Please confirm your password!" },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("new_password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("Passwords do not match!"));
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Confirm your password"
+              className="py-2"
+            />
+          </Form.Item>
 
-  <Form.Item>
-    <Button
-      loading={loading}
-      type="primary"
-      htmlType="submit"
-      className="lg:w-full bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
-    >
-      Set new password
-    </Button>
-  </Form.Item>
-</Form>
+          <Form.Item>
+            <Button
+              loading={loading}
+              type="primary"
+              htmlType="submit"
+              className="lg:w-full bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
+            >
+              Set new password
+            </Button>
+          </Form.Item>
+        </Form>
       </Modal>
+
+
+      
     </div>
   );
 };
