@@ -13,6 +13,19 @@ import CommonDashboard from "../pages/dashboard/adminDashboard/commonDashboard/C
 import Contributors from "../pages/dashboard/adminDashboard/contributors/Contributors";
 import Volunteers from "../pages/dashboard/adminDashboard/volunteers/Volunteers";
 import Auction from "../pages/dashboard/adminDashboard/auction/Auction";
+
+import DonationTransaction from "../pages/dashboard/adminDashboard/donationTransaction/DonationTransaction";
+import PodcastStories from "../pages/dashboard/adminDashboard/podcastStories/PodcastStories";
+import Subscribers from "../pages/dashboard/adminDashboard/subscribers/Subscribers";
+import MyTeam from "../pages/dashboard/adminDashboard/myTeam/MyTeam";
+import Settings from "../pages/dashboard/adminDashboard/settings/Settings";
+import FAQs from "../pages/dashboard/adminDashboard/faq/FAQs";
+import AdminDashboardLogin from "../pages/dashboard/adminDashboard/authtication/AdminDashboardLogin";
+import DashboardForgetPassword from "../pages/dashboard/adminDashboard/authtication/DashboardForgetPassword";
+import DashboardOtp from "../pages/dashboard/adminDashboard/authtication/DashboardOtp";
+import DashboardCreateNewPassword from "../pages/dashboard/adminDashboard/authtication/DashboardCreateNewPassword";
+import AdminRoutes from "./AdminRoutes";
+
 import AggrementPage from "../pages/aggrement/AggrementPage";
 import StripeForm from "../components/client/modal/payment/StripeForm";
 import CustomCalendar from "../components/client/calender/DateCalender";
@@ -25,6 +38,7 @@ import UserDetails from "../components/client/modal/payment/UserDetails";
 import AudioFile from "../components/client/audio/AudioFile";
 import LoginForm from "../components/client/login/LoginFrom";
 import RegistrationForm from "../components/client/RegistrationForm/RegistrationForm";
+
 
 export const router = createBrowserRouter([
   {
@@ -116,10 +130,14 @@ export const router = createBrowserRouter([
   // admin dashboard routes here
   {
     path: "/admin/dashboard",
-    element: <AdminDashboard />,
+    element: (
+      <AdminRoutes>
+        <AdminDashboard />
+      </AdminRoutes>
+    ),
     children: [
       {
-        index: true,
+        path: "/admin/dashboard",
         element: <CommonDashboard />,
       },
       {
@@ -134,6 +152,49 @@ export const router = createBrowserRouter([
         path: "auction",
         element: <Auction />,
       },
+      {
+        path: "donation-transaction",
+        element: <DonationTransaction />,
+      },
+      {
+        path: "podcast-stories",
+        element: <PodcastStories />,
+      },
+      {
+        path: "subscribers",
+        element: <Subscribers />,
+      },
+      {
+        path: "my-team",
+        element: <MyTeam />,
+      },
+      {
+        path: "faq-page",
+        element: <FAQs />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
+      },
     ],
+  },
+
+  //=================== Dashboard Authentication ================
+
+  {
+    path: "/admin/dashboard/login",
+    element: <AdminDashboardLogin />,
+  },
+  {
+    path: "/admin/dashboard/forget-password",
+    element: <DashboardForgetPassword />,
+  },
+  {
+    path: "/admin/dashboard/otp",
+    element: <DashboardOtp />,
+  },
+  {
+    path: "/admin/dashboard/create-new-password",
+    element: <DashboardCreateNewPassword />,
   },
 ]);
