@@ -9,6 +9,7 @@ import "react-calendar/dist/Calendar.css";
 import { format } from "date-fns";
 import GeneralTermCondictionModal from "../../components/client/GeneralTermCondictionModal/GeneralTermCondictionModal";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 const timeSlots = [
   { id: 1, slot: "10:00 AM" },
@@ -35,19 +36,17 @@ const bookedSlots = [
 
 export const LuxerySection = () => {
   const axiosPublic = useAxiosPublic();
+  const [loading,setLoading] = useState(false)
   // booking related function
 
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  console.log("selected date type", typeof selectedDate);
 
   const [selectedTime, setSelectedTime] = useState(null);
 
-  console.log(`selectedTime type is `, typeof selectedTime);
 
   const formattedDate = format(selectedDate, "yyyy-MM-dd");
 
-  console.log(formattedDate);
 
   const isTimeBooked = (timeId) => {
     return bookedSlots.some(
@@ -95,16 +94,17 @@ export const LuxerySection = () => {
         book_time: String(selectedTime),
         book_date: formattedDate,
       };
+      setLoading(true)
       const res = await axiosPublic.post(`/create-book`, payload);
-      console.log(res);
       setIsModalOpen(false);
       form.resetFields();
-    } catch (error) {
-      console.error("Error booking:", error);
-      setIsModalOpen(false);
-      form.resetFields();
-    } finally {
       bookingSuccessAlert();
+    } catch (error) {
+      setIsModalOpen(false);
+      form.resetFields();
+      return toast.error(`Something went wrong`)
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -394,7 +394,7 @@ export const LuxerySection = () => {
             <Button onClick={cancelBookingModal} className="serviceBtn2">
               Cancel
             </Button>
-            <Button className="serviceBtn3" htmlType="submit">
+            <Button disabled = {loading} loading = {loading} className="serviceBtn3" htmlType="submit">
               Proceed next step
             </Button>
           </div>

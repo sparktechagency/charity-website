@@ -27,7 +27,6 @@ const AuctionSlider = () => {
           setSliderData(res.data.data);
         }
       } catch (error) {
-        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -66,17 +65,14 @@ const AuctionSlider = () => {
         bit_online: bidPrice,
       },config);
 
-      console.log(`auction bit data is ${res}`)
 
       if (res.data.success) {
         toast.success("Bid submitted successfully!");
-        console.log("Bid response:", res.data);
         // You can refresh data here if needed
       } else {
         toast.error(res.data.message || "Failed to submit bid");
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -402,7 +398,7 @@ const AuctionSlider = () => {
         <div className="flex flex-col gap-y-7">
           {sliderData.map((slide, index) => (
             <div key={slide.id}>
-              <div className="bg-[#ecebea] px-4 rounded-2xl">
+              <div className="bg-[#ecebea]  rounded-2xl">
                 <div className="">
                   <div className="bg-white shadow rounded-2xl flex  flex-col py-6 gap-6">
                     {/* LEFT SECTION */}

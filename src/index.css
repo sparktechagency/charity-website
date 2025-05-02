@@ -628,6 +628,9 @@ input#name {
 input#email {
   color: black !important;
 }
+input#contact_number {
+  color: black !important;
+}
 
 input.ant-input.css-dev-only-do-not-override-1d4w9r2.ant-input-outlined{
   color: black !important;
@@ -641,6 +644,12 @@ input#item_name {
 }
 
 span.ant-select-selection-item {
+  color: black !important;
+}
+input#location {
+  color: black !important;
+}
+input#number {
   color: black !important;
 }
 
