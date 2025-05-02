@@ -12,7 +12,7 @@ const ArtAntiqModal = ({
   setSupportModal,
   setDonateTerm,
 }) => {
-  const [donateFull,setDonateFull] = useState(false)
+  const [donateFull, setDonateFull] = useState(false)
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -111,6 +111,7 @@ const ArtAntiqModal = ({
               padding: "12px",
               border: "1px solid #A6ABAC",
               outline: "none",
+              color: "black !important"  // Ensure the color is black
             }}
             placeholder="Enter your name"
           />
@@ -151,6 +152,7 @@ const ArtAntiqModal = ({
           ]}
         >
           <Input
+            className=" inputText "
             style={{
               padding: "12px",
               border: "1px solid #A6ABAC",
@@ -247,44 +249,44 @@ const ArtAntiqModal = ({
           </Upload.Dragger>
         </Form.Item>
         <Form.Item
-              label={
-                <span className="text-sm text-[#263234] font-medium">
-                  I want to receive
-                </span>
-              }
-              style={{ marginBottom: 0, marginTop: "16px" }}
+          label={
+            <span className="text-sm text-[#263234] font-medium">
+              I want to receive
+            </span>
+          }
+          style={{ marginBottom: 0, marginTop: "16px" }}
+        >
+          <Form.Item name="donate_share" noStyle>
+            <Select
+              style={{
+                width: "100%",
+                height: "50px",
+                borderRadius: "5px",
+                outline: 0,
+                border: "none",
+              }}
+              placeholder="30% of net value"
+              disabled={donateFull}
             >
-              <Form.Item name="donate_share" noStyle>
-                <Select
-                  style={{
-                    width: "100%",
-                    height: "50px",
-                    borderRadius: "5px",
-                    outline: 0,
-                    border: "none",
-                  }}
-                  placeholder="30% of net value"
-                  disabled={donateFull}
-                >
-                  <Option value="30">30%</Option>
-                </Select>
-              </Form.Item>
-            </Form.Item>
+              <Option value="30">30%</Option>
+            </Select>
+          </Form.Item>
+        </Form.Item>
 
-            <Form.Item style={{ marginBottom: 0 }}>
-              <Checkbox
-                checked={donateFull}
-                onChange={(e) => {
-                  const checked = e.target.checked;
-                  setDonateFull(checked);
-                  form.setFieldsValue({
-                    donate_share: checked ? "100" : "30", // or reset to previous value
-                  });
-                }}
-              >
-                I want to donate 100%.
-              </Checkbox>
-            </Form.Item>
+        <Form.Item style={{ marginBottom: 0 }}>
+          <Checkbox
+            checked={donateFull}
+            onChange={(e) => {
+              const checked = e.target.checked;
+              setDonateFull(checked);
+              form.setFieldsValue({
+                donate_share: checked ? "100" : "30", // or reset to previous value
+              });
+            }}
+          >
+            I want to donate 100%.
+          </Checkbox>
+        </Form.Item>
         {/* Checkbox */}
         <Form.Item
           name="terms"
