@@ -77,7 +77,7 @@ const Team = () => {
             <div key={index} className="text-center lg:text-start">
               <div className="lg:mt-16">
                 <img
-                  className="object-cover mx-auto rounded-lg"
+                  className="object-cover w-[270px] h-[276px] object-cover mx-auto rounded-lg"
                   src={`${imgUrl}/${member?.photo}  `}
                   alt={member?.name}
                 />
