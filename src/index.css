@@ -106,7 +106,7 @@ span.ant-menu-title-content {
 .bannerBtn {
   display: block;
   margin-left: 0;
-  color: "white";
+  /* color: "white"; */
   padding: "30px 24px";
   font-weight: 700;
   background-color: #403730;
@@ -622,6 +622,27 @@ span.ant-menu-title-content {
   background: red;
 } */
 
+input#name {
+  color: black !important;
+};
+input#email {
+  color: black !important;
+}
+
+input.ant-input.css-dev-only-do-not-override-1d4w9r2.ant-input-outlined{
+  color: black !important;
+}
+input#email {
+  color: black !important;
+}
+
+input#item_name {
+  color: black !important;
+}
+
+span.ant-select-selection-item {
+  color: black !important;
+}
 
 /* ===================== dashboar component style ================= */
 
@@ -646,7 +667,11 @@ span.ant-menu-title-content {
 input.ant-input.css-dev-only-do-not-override-1d4w9r2.ant-input-outlined:hover {
   background-color: transparent !important;
   border-color: gray !important; /* Keep border color consistent */
+  color: black;
 }
+
+
+
 
 /* Ensure no hover effect on the search button */
 button.ant-btn.css-dev-only-do-not-override-1d4w9r2.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.ant-btn-icon-only.ant-input-search-button:hover {
@@ -777,3 +802,4 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
   box-shadow: none !important;
 }
 /* ========= modal input field custom color add end ========= */
+
