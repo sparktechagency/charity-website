@@ -5,22 +5,22 @@ const items = [
     id: 1,
     img: "sliderImg-4.jpg",
     heading: "Selection of long guns",
-    title: "Estimated price: £599-£2,000",
-    price: "£85,000",
+    title: "Estimated price: $599-$2,000",
+    price: "$85,000",
   },
   {
     id: 2,
     img: "sliderImg-5.jpg",
     heading: "American made classic car 1947",
-    title: "Estimated price: £9,000-£12,000",
-    price: "£18,000",
+    title: "Estimated price: $9,000-$12,000",
+    price: "$18,000",
   },
   {
     id: 3,
     img: "sliderImg-6.jpg",
     heading: "Capturing the first light of day",
-    title: "Estimated price: £59-£200",
-    price: "£180",
+    title: "Estimated price: $59-$200",
+    price: "$180",
   },
   
 ];

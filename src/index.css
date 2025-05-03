@@ -670,6 +670,10 @@ input#card_number {
 .ant-select:hover .ant-select-selector {
   border: 1px solid black;
 }
+input#phone_number {
+  color: black !important;
+}
+
 
 /* ===================== dashboar component style ================= */
 
