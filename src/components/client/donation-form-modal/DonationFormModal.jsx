@@ -108,11 +108,11 @@ const DonationFormModal = () => {
                         setCustomAmount("");
                       }}
                     >
-                      £{amount}
+                      ${amount}
                     </Button>
                   ))}
                   <Input
-                    prefix="£"
+                    prefix="$"
                     style={{ padding: "10px 20px", outline: "none" }}
                     className=" placeholder:text-lg placeholder:text-[#818889] "
                     placeholder="Other"
@@ -147,7 +147,7 @@ const DonationFormModal = () => {
                   <Input
                     style={{ padding: "10px 20px", outline: "none" }}
                     className=" placeholder:text-lg placeholder:text-[#818889] "
-                    prefix="£"
+                    prefix="$"
                     placeholder="Enter recurring amount"
                     value={customAmount}
                     onChange={(e) => {
