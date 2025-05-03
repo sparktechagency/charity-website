@@ -140,9 +140,9 @@ const DonationFormModal = () => {
                     defaultValue="monthly"
                     name="frequency"
                   >
-                    <Radio.Button value="monthly">montly</Radio.Button>
-                    <Radio.Button value="quarterly">quantely </Radio.Button>
-                    <Radio.Button value="annually">annually</Radio.Button>
+                    <Radio.Button value="monthly">Montly</Radio.Button>
+                    <Radio.Button value="quarterly">Yearly </Radio.Button>
+                    <Radio.Button value="annually">Annually</Radio.Button>
                   </Radio.Group>
                   <Input
                     style={{ padding: "10px 20px", outline: "none" }}

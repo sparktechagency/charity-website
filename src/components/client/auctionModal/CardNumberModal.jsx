@@ -147,27 +147,7 @@ const CardNumberModal = ({
 
           {/* Form Start */}
           <Form form={form} onFinish={handleSubmit} layout="vertical">
-            {/* Card Number */}
-            <Form.Item
-              name="card_number"
-              label={
-                <span className="text-[#414651] text-[14px] font-medium">
-                  Enter your card number
-                </span>
-              }
-              rules={[{ required: true, message: "Card number is required" }]}
-              style={{ marginBottom: "0px" }}
-            >
-              <Input
-                className="py-3 px-4 placeholder:text-[16px] w-full"
-                placeholder="Enter your card number"
-                maxLength={19}
-                style={{
-                  border: "1px solid #D5D7DA",
-                  outline: "none",
-                }}
-              />
-            </Form.Item>
+          
 
             {/* Payment Method */}
             <Form.Item
@@ -210,13 +190,34 @@ const CardNumberModal = ({
                 </Option>
               </Select>
             </Form.Item>
+              {/* Card Number */}
+              <Form.Item
+              name="card_number"
+              label={
+                <span className="text-[#414651] text-[14px] font-medium">
+                  Enter your card number
+                </span>
+              }
+              rules={[{ required: true, message: "Card number is required" }]}
+              style={{ marginBottom: "0px" }}
+            >
+              <Input
+                className="py-3 px-4 placeholder:text-[16px] w-full"
+                placeholder="Enter your card number"
+                maxLength={19}
+                style={{
+                  border: "1px solid #D5D7DA",
+                  outline: "none",
+                }}
+              />
+            </Form.Item>
 
             {/* Buttons */}
-            <div className="flex flex-col lg:flex-row md:flex-row lg:justify-end lg:gap-8">
+            <div className="flex flex-col mt-4 lg:flex-row md:flex-row lg:justify-end lg:gap-8">
               <Button onClick={backModal} className="missionModalBtn1">
                 Go Back
               </Button>
-              <Button loading = {loading} htmlType="submit" className="missionModalBtn2">
+              <Button  loading = {loading} htmlType="submit" className="missionModalBtn2">
                 Complete process
               </Button>
             </div>
