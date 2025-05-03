@@ -304,6 +304,12 @@ const ContactFrom = () => {
               style={{ marginBottom: "0px" }}
               name="terms"
               valuePropName="checked"
+              rules={[
+                {
+                  required: true,
+                  message: "Please accept terms and condiction   ",
+                },
+              ]}
             >
               <Checkbox style={{ color: "#263234", fontSize: "14px" }}>
                 I agree with Virtue Hope's{" "}
