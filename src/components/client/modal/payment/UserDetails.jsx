@@ -20,7 +20,6 @@ const UserDetails = () => {
   };
 
   const onEdit = () => {
-    console.log(`go to to edit page`);
     navigate(`/donate-from`, { state: payload });
   };
 

@@ -653,6 +653,24 @@ input#number {
   color: black !important;
 }
 
+input#city {
+  color: black !important;
+  border: 1px solid black;
+}
+
+input#address {
+  color: black !important;
+}
+input#title {
+  color: black !important;
+}
+input#card_number {
+  color: black !important;
+}
+.ant-select:hover .ant-select-selector {
+  border: 1px solid black;
+}
+
 /* ===================== dashboar component style ================= */
 
 li.ant-menu-item-selected {

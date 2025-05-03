@@ -197,7 +197,7 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
 
         {/* Photo Upload */}
         <Form.Item
-          label="Photo"
+          label="Photo ID"
           name="image"
           valuePropName="fileList"
           getValueFromEvent={normFile}
