@@ -33,12 +33,19 @@ const MyTeam = () => {
   const { data, refetch, isLoading } = useGetDashboardMyTeamApiQuery(); // get
   const [deleteDashboardMyTeamApi] = useDeleteDashboardMyTeamApiMutation() // delete
   const [updateDashboardMyTeamApi] = useUpdateDashboardMyTeamApiMutation() // update
-  const { data: singleData } = useSingleGetDashboardMyTeamApiQuery(selectId); // single team get
+  const { data: singleData } = useSingleGetDashboardMyTeamApiQuery(selectId, {
+    skip: !selectId, // Prevent call until ID is available
+  }); // single team get
+
+
+  const allMyTeams = data?.data?.data;
+  const singleTeamData = singleData?.data;
 
 
 
   const [formOne] = useForm();
   const [formTwo] = useForm();
+  const [formThree] = useForm();
   const dispatch = useDispatch();
   const teamModalOne = useSelector((state) => state.modal.teamModalOne);
   const teamModalTwo = useSelector((state) => state.modal.teamModalTwo);
@@ -54,8 +61,38 @@ const MyTeam = () => {
     }
   };
 
-  const allMyTeams = data?.data?.data;
-  const singleTeamData = singleData?.data;
+
+
+
+
+  useEffect(() => {
+    if (singleTeamData?.photo) {
+      const imageObj = {
+        uid: '-1',
+        name: 'existing_image.jpg',
+        status: 'done',
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleTeamData?.photo}`
+        // url: singleTeamData.photo,
+      };
+
+      // First set form values
+      formThree.setFieldsValue({
+        name: singleTeamData.name,
+        designation: singleTeamData.designation,
+        work_experience: singleTeamData.work_experience,
+        twitter_link: singleTeamData.twitter_link,
+        linkedIn_link: singleTeamData.linkedIn_link,
+        instagram_link: singleTeamData.instagram_link,
+        image: [imageObj], // ✅ use it after defining
+      });
+
+      // Then set image file list
+      setImageFileList([imageObj]);
+    }
+  }, [singleTeamData]);
+
+
+
 
 
 
@@ -64,7 +101,7 @@ const MyTeam = () => {
     const formData = new FormData();
     if (ImageFileList[0]?.originFileObj) {
       formData.append("photo", ImageFileList[0].originFileObj);
-  }
+    }
 
     formData.append("name", values.name)
     formData.append("designation", values.designation)
@@ -126,8 +163,41 @@ const MyTeam = () => {
 
 
   // ========= team modal three start =============
-  const onFinishTwo = async (values) => {
-    console.log(values)
+  const onFinishThree = async (values) => {
+    const formData = new FormData();
+    if (ImageFileList[0]?.originFileObj) {
+      formData.append("photo", ImageFileList[0].originFileObj);
+    }
+
+    formData.append("name", values.name)
+    formData.append("designation", values.designation)
+    formData.append("work_experience", values.work_experience)
+    formData.append("twitter_link", values.twitter_link)
+    formData.append("linkedIn_link", values.linkedIn_link)
+    formData.append("instagram_link", values.instagram_link)
+    formData.append("_method", "PUT");
+
+    // console.log(formData.forEach(value => {
+    //   console.log(value)
+    // }))
+
+    try {
+      const res = await updateDashboardMyTeamApi({
+        updateInfo: formData,
+        team_id: selectId
+      }).unwrap()
+
+      if (res?.data) {
+        toast.success(res?.message)
+        setImageFileList([]);
+        formOne.resetFields()
+        dispatch(closeTeamModalOpenThree());
+      }
+    } catch (errors) {
+      toast.error(errors.message);
+    }
+
+
 
   }
   const showTeamModalThree = () => {
@@ -136,7 +206,7 @@ const MyTeam = () => {
 
   };
   const teamModalOkThree = () => {
-    formTwo.submit()
+    formThree.submit()
   };
   const teamModalCancelThree = () => {
     dispatch(closeTeamModalOpenThree());
@@ -437,7 +507,7 @@ const MyTeam = () => {
                             ]}
                           >
                             <Upload
-                             
+
                               accept="image/*"
                               maxCount={1}
                               showUploadList={{ showPreviewIcon: true }}
@@ -445,7 +515,7 @@ const MyTeam = () => {
                               onChange={({ fileList }) => setImageFileList(fileList)}
                               listType="picture-card"
                               className="w-full"
-                              beforeUpload={()=>false}
+                              beforeUpload={() => false}
                             >
                               <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
                                 <UploadCloud className="w-5 h-5 text-gray-400" />
@@ -624,7 +694,7 @@ const MyTeam = () => {
                     <h1 className="text-[#FFFFFF] font-bold text-[24px] py-4">
                       Edit information
                     </h1>
-                    <Form form={formTwo} onFinish={onFinishTwo}>
+                    <Form form={formThree} onFinish={onFinishThree}>
                       <div>
                         <p className="text-[#FFFFFF] ">Name</p>
                         <Form.Item name="name">
@@ -654,33 +724,35 @@ const MyTeam = () => {
                         </Form.Item>
                       </div>
 
-                      {/* <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
+                      <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
                         <Form.Item
-                          name="upload"
-                          valuePropName="fileList"
-                          getValueFromEvent={(e) => e?.fileList || []}
+                          className="md:col-span-2"
+                          name="image"
                           rules={[
                             {
-                              required: true,
-                              message: "Please upload an png or svg image",
+                              required: ImageFileList.length === 0,
+                              message: "Image required!",
                             },
                           ]}
                         >
                           <Upload
+
+                            accept="image/*"
+                            maxCount={1}
+                            showUploadList={{ showPreviewIcon: true }}
+                            fileList={ImageFileList}
+                            onChange={({ fileList }) => setImageFileList(fileList)}
                             listType="picture-card"
+                            className="w-full"
                             beforeUpload={() => false}
-                            onChange={handleUpload}
-                            fileList={fileList}
                           >
-                            {fileList.length >= 1 ? null : (
-                              <div style={{ textAlign: "center" }}>
-                                <UploadOutlined style={{ fontSize: 24 }} />
-                                <div>Upload photo</div>
-                              </div>
-                            )}
+                            <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
+                              <UploadCloud className="w-5 h-5 text-gray-400" />
+                              <span className="mt-2">Choose File</span>
+                            </div>
                           </Upload>
                         </Form.Item>
-                      </div> */}
+                      </div>
 
                       <div className="pt-4">
                         <div>
@@ -819,7 +891,12 @@ const MyTeam = () => {
                 >
                   <div className="">
                     <div>
-                      <h1 className="text-[#E9EBEB] font-semibold text-[20px]">
+                      <h1 className="text-[#E9EBEB] font-semibold text-[20px] flex items-center gap-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3ZM1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12Z" fill="#DA453F" />
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M12 11C12.5523 11 13 11.4477 13 12V16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16V12C11 11.4477 11.4477 11 12 11Z" fill="#DA453F" />
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M11 8C11 7.44772 11.4477 7 12 7H12.01C12.5623 7 13.01 7.44772 13.01 8C13.01 8.55228 12.5623 9 12.01 9H12C11.4477 9 11 8.55228 11 8Z" fill="#DA453F" />
+                        </svg>
                         Remove teammate
                       </h1>
                       <p className="text-[#A6ABAC]">

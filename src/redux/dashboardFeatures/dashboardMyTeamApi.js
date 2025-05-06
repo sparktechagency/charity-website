@@ -33,8 +33,8 @@ const dashboardMyTeamApi = baseApi.injectEndpoints({
             invalidatesTags: ['team'],
         }),
         singleGetDashboardMyTeamApi: builder.query({
-            query: (id) => ({
-                url: `/team?team_id=${id}`,
+            query: (team_id) => ({
+                url: `/team?team_id=${team_id}`,
                 method:"GET"
             }),
             providesTags: ['team'],

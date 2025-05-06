@@ -1,7 +1,8 @@
 import { FiArrowDownRight, FiArrowLeft, FiArrowRight } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CustomNotFound = ({ offBack }) => {
+  const navigate = useNavigate()
   return (
     <div>
       <div className="flex flex-col justify-center items-center lg:h-[840px]">
@@ -9,12 +10,14 @@ const CustomNotFound = ({ offBack }) => {
           data not found
         </h1>
         {!offBack && (
-          <div className="flex gap-2 items-center justify-center pt-2">
+          <div 
+          onClick={()=>navigate(-1)}
+          className="flex gap-2 items-center justify-center pt-2 text-[#1b69ad] cursor-pointer">
             <FiArrowLeft size={20} color="#1b69ad" />
 
-            <Link className="text-[#1b69ad] " to={"/"}>
+            {/* <Link className="text-[#1b69ad] " to={"/"}> */}
               Go Back
-            </Link>
+            {/* </Link> */}
           </div>
         )}
       </div>

@@ -10,12 +10,12 @@ export const baseApi = createApi({
             const adminToken = localStorage.getItem("admin_token");
             if(adminToken){
                 headers.set("Authorization", `Bearer ${adminToken}`);
-                headers.set("acceppt", "application/json")
+                headers.set("accept", "application/json")
             }
             return headers;
         }
     }), 
     // refresh for this tag
-    tagTypes: ['faq'],
+    tagTypes: ['faq','team'],
     endpoints:()=>({}),
 });
