@@ -1,4 +1,4 @@
-import { baseApi } from "../api/baseApi";
+import { baseApi } from "../../api/baseApi";
 
 const dashboardMyTeamApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({

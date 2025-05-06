@@ -7,9 +7,9 @@ const EditImage = () => {
     // example
     const { data: singleData } = useSingleGetDashboardMyTeamApiQuery(selectId, {
         skip: !selectId, // Prevent call until ID is available
-      }); 
+    });
 
-      const singleTeamData = singleData.data;
+    const singleTeamData = singleData.data;
 
     // edit ta show in form for
     useEffect(() => {
@@ -54,36 +54,31 @@ const EditImage = () => {
         }
 
         formData.append("name", values.name);
+        formData.append("_method", "PUT");
+
 
 
         try {
-            let res;
-
-            if (editData?._id) {
-                // Update API (send ID and formData)
-                res = await updateDashboardMyTeamApi({ id: editData._id, data: formData }).unwrap();
-            } else {
-                // Create new
-                res = await postDashboardMyTeamApi(formData).unwrap();
-            }
+            const res = await updateDashboardMyTeamApi({
+                updateInfo: formData,
+                team_id: selectId
+            }).unwrap()
 
             if (res?.data) {
-                toast.success(res?.message);
+                toast.success(res?.message)
                 setImageFileList([]);
-                formOne.resetFields();
-                setEditData(null); // Clear edit mode
-                dispatch(closeTeamModalOpenOne());
+                formOne.resetFields()
+                dispatch(closeTeamModalOpenThree());
             }
         } catch (errors) {
             toast.error(errors.message);
         }
-    };
 
 
 
-    return (
-        <div>EditImage</div>
-    )
-}
+        return (
+            <div>EditImage</div>
+        )
+    }
 
-export default EditImage
+    export default EditImage
