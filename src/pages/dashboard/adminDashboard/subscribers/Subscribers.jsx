@@ -2,6 +2,7 @@ import { EyeOutlined } from "@ant-design/icons";
 import { Input, Pagination, Select, Space, Table } from "antd";
 import { useEffect, useState } from "react";
 import { useGetDashboardSubscribersApiQuery } from "../../../../redux/dashboardFeatures/dashboardSubscribersApi";
+import CustomLoading from "../../shared/CustomLoading";
 
 const Subscribers = () => {
   const [searchText, setSearchText] = useState("");
@@ -25,6 +26,7 @@ const Subscribers = () => {
   }, [searchText, currentPage, perPage, refetch]);
 
 
+if(isLoading) return <CustomLoading />
 
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
@@ -35,7 +37,7 @@ const Subscribers = () => {
               Subscribers
             </h2>
             <div>
-              <h2 className="text-[#ffffff]">( 102 )</h2>
+              <h2 className="text-[#ffffff]">( {allSubscriberData?.length} )</h2>
             </div>
           </div>
 

@@ -4,6 +4,7 @@ import { useForm } from "antd/es/form/Form";
 import toast from "react-hot-toast";
 import { useDeleteDashboardFaqApiMutation, useGetDashboardFaqApiQuery, usePostDashboardFaqApiMutation, useUpdateDashboardFaqApiMutation } from "../../../../redux/dashboardFeatures/DashboardFaqApi";
 import { useState } from "react";
+import CustomLoading from "../../shared/CustomLoading";
 
 
 
@@ -76,6 +77,8 @@ const FAQs = () => {
     });
     setSelectedFaqId(item.id);
   }
+
+  if(isLoading) return <CustomLoading />
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
@@ -137,12 +140,6 @@ const FAQs = () => {
           <Button htmlType="submit">Add</Button>
         </div>
       </Form>
-
-      {
-        isLoading ? ( // Check if data is loading
-          <Spin size="large" className="flex justify-center items-center" />
-        )
-          :
           <div className=" h-auto text-[#ffff] p-4">
             {allFaqData?.slice(0, 5).map((item, index) => (
               <div
@@ -166,9 +163,6 @@ const FAQs = () => {
               </div>
             ))}
           </div>
-      }
-
-
     </div>
   );
 };
