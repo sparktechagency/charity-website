@@ -7,7 +7,7 @@ const dashboardSubscribersApi = baseApi.injectEndpoints({
                 url: `/get-subscriber?per_page=${per_page}&page=${page}&search=${search}`,
                 method:"GET"
             }),
-            providesTags: ['subscribers']
+            providesTags: ['subscriber']
         }),
       
     })

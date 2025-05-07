@@ -4,8 +4,10 @@ const getActionApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAction: builder.query({
             query: ()=> ({
-                url: `/get-auction?search&stat`
-            })
+                url: `/get-auction?search&stat`,
+                method:"GET",
+            }),
+            providesTags:["autcion"],
         })
     })
 })

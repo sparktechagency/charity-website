@@ -1,7 +1,7 @@
 import { EyeOutlined } from "@ant-design/icons";
 import { Input, Modal, Pagination, Select, Space, Table } from "antd";
 import { EyeIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   actionModalOpenOne,
@@ -11,182 +11,42 @@ import {
   closeActionModalOpenThree,
   closeActionModalOpenTwo,
 } from "../../../../features/modal/modalSlice";
-import { useGetActionQuery } from "../../../../redux/dashboardFeatures/getActionApi";
+
 import CustomLoading from "../../shared/CustomLoading";
+import { useGetDashboardAuctionApiQuery } from "../../../../redux/dashboardFeatures/dashboardAuctionApi";
 
 
 
 const Auction = () => {
   const [searchText, setSearchText] = useState("");
-  const [selectValue, stetSelectValue] = useState("");
+  const [statusValue, setStatusValue] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(1);
+
+
+
+
+
+
   const dispatch = useDispatch();
   const actionModalOne = useSelector((state) => state.modal.actionModalOne);
   const actionModalTwo = useSelector((state) => state.modal.actionModalTwo);
   const actionModalThree = useSelector((state) => state.modal.actionModalThree);
-const {data,isError,isLoading,refetch} = useGetActionQuery()
-const allActionData = data?.data?.data
+  const { data, isLoading, refetch } = useGetDashboardAuctionApiQuery({ search: searchText, status: statusValue });
+
+  const allAuctionData = data?.data?.data
+
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+    setCurrentPage(1); // Reset to the first page whenever the search term changes
+  };
+
+  useEffect(() => {
+    refetch(); // Refetch the data when searchText, currentPage, or perPage changes
+  }, [searchText, currentPage, perPage, refetch]);
 
 
-  
-
-  const dataSource = [
-    {
-      key: 1,
-      name: "kodom ali",
-      email: "kodom @ gmail.com",
-      contactNumber: "012455",
-      DeclareAction: "05",
-      soldOut: "54546464",
-      donated: "85464684",
-    },
-    {
-      key: 2,
-      name: "Rashed Hossain",
-      email: "rashed@gmail.com",
-      contactNumber: "013456",
-      DeclareAction: "03",
-      soldOut: "34567890",
-      donated: "12345678",
-      action: "Declare",
-    },
-    {
-      key: 3,
-      name: "Shahina Begum",
-      email: "shahina@outlook.com",
-      contactNumber: "014567",
-      DeclareAction: "06",
-      soldOut: "7891011",
-      donated: "11223344",
-      action: "Declare",
-    },
-    {
-      key: 4,
-      name: "Mizanur Rahman",
-      email: "mizan@ymail.com",
-      contactNumber: "015678",
-      DeclareAction: "02",
-      soldOut: "99887766",
-      donated: "66554433",
-      action: "Declare",
-    },
-    {
-      key: 5,
-      name: "Selina Parvin",
-      email: "selina@hotmail.com",
-      contactNumber: "016789",
-      DeclareAction: "07",
-      soldOut: "10293847",
-      donated: "38475639",
-    },
-    {
-      key: 6,
-      name: "Abdul Kader",
-      email: "abdukader@gmail.com",
-      contactNumber: "017890",
-      DeclareAction: "04",
-      soldOut: "76543210",
-      donated: "12345678",
-      action: "Declare",
-    },
-    {
-      key: 7,
-      name: "Nusrat Jahan",
-      email: "nusrat@live.com",
-      contactNumber: "018901",
-      DeclareAction: "03",
-      soldOut: "65432109",
-      donated: "56473829",
-      action: "Declare",
-    },
-    {
-      key: 8,
-      name: "Fahim Shahin",
-      email: "fahim@yahoo.com",
-      contactNumber: "019012",
-      DeclareAction: "05",
-      soldOut: "10293847",
-      donated: "73829183",
-      action: "Declare",
-    },
-    {
-      key: 9,
-      name: "Kamal Hossain",
-      email: "kamal@outlook.com",
-      contactNumber: "020123",
-      DeclareAction: "01",
-      soldOut: "19384756",
-      donated: "74638492",
-      action: "Declare",
-    },
-    {
-      key: 10,
-      name: "Arifa Akter",
-      email: "arifa@gmail.com",
-      contactNumber: "021234",
-      DeclareAction: "07",
-      soldOut: "10293847",
-      donated: "73829183",
-    },
-    {
-      key: 11,
-      name: "Rubi Sultana",
-      email: "rubi@live.com",
-      contactNumber: "022345",
-      DeclareAction: "06",
-      soldOut: "54673892",
-      donated: "84736291",
-      action: "Declare",
-    },
-    {
-      key: 12,
-      name: "Tariq Jamil",
-      email: "tariq@gmail.com",
-      contactNumber: "023456",
-      DeclareAction: "04",
-      soldOut: "56783921",
-      donated: "93148362",
-      action: "Declare",
-    },
-    {
-      key: 13,
-      name: "Farhana Akter",
-      email: "farhana@ymail.com",
-      contactNumber: "024567",
-      DeclareAction: "02",
-      soldOut: "11223344",
-      donated: "44556677",
-      action: "Declare",
-    },
-    {
-      key: 14,
-      name: "Mashiur Rahman",
-      email: "mashiur@hotmail.com",
-      contactNumber: "025678",
-      DeclareAction: "01",
-      soldOut: "98765432",
-      donated: "12345678",
-    },
-    {
-      key: 15,
-      name: "Shahidul Alam",
-      email: "shahidul@live.com",
-      contactNumber: "026789",
-      DeclareAction: "05",
-      soldOut: "12345678",
-      donated: "87654321",
-      action: "Declare",
-    },
-    {
-      key: 16,
-      name: "Samiul Islam",
-      email: "samiul@yahoo.com",
-      contactNumber: "027890",
-      DeclareAction: "06",
-      soldOut: "23456789",
-      donated: "45678901",
-      action: "Declare",
-    },
-  ];
+  if (isLoading) return <CustomLoading />
 
   const handleSelect = (value) => {
     console.log(value);
@@ -232,7 +92,7 @@ const allActionData = data?.data?.data
   //======== action modal three end =========
 
 
-  if(isLoading) return <CustomLoading />
+  if (isLoading) return <CustomLoading />
 
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
@@ -264,20 +124,37 @@ const allActionData = data?.data?.data
             <Input.Search
               placeholder="Search contributors..."
               className="custom-search"
-              onSearch={(value) => {
-                setSearchText(value);
-              }}
-              onChange={(e) => {
-                setSearchText(e.target.value);
-              }}
+              value={searchText} // Controlled value for the input
+              onChange={handleSearchChange} // Handle search input change
+              enterButton
             />
           </div>
         </div>
 
+        {/* 
+        // donate_share,
+        // status,title, */}
         <div className="overflow-x-auto">
           <Table
-            dataSource={dataSource}
+            dataSource={allAuctionData}
             columns={[
+              {
+                title: "Image",
+                dataIndex: "image",
+                render: (_, record) => {
+                  const hasImage = record.image && record.image !== "null" && record.image !== null;
+
+                  return hasImage ? (
+                    <img
+                      src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${record.image}`}
+                      alt="user"
+                      className="object-cover w-[30px] h-[30px] rounded-full"
+                    />
+                  ) : (
+                    <div className="w-[30px] h-[30px]"></div> // Empty space
+                  );
+                },
+              },
               {
                 title: "Name",
                 dataIndex: "name",
@@ -314,18 +191,18 @@ const allActionData = data?.data?.data
               },
               {
                 title: "Contact number",
-                dataIndex: "contactNumber",
+                dataIndex: "contact_number",
               },
               {
-                title: "Declare action",
-                dataIndex: "DeclareAction",
+                title: "City",
+                dataIndex: "city",
               },
               {
-                title: "Sold out",
-                dataIndex: "soldOut",
+                title: "Status",
+                dataIndex: "status",
               },
               {
-                title: "Donated",
+                title: "",
                 dataIndex: "donated",
               },
               {
@@ -546,7 +423,15 @@ const allActionData = data?.data?.data
 
         {/* pagination */}
         <div className="flex justify-end pt-4">
-          <Pagination defaultCurrent={6} total={500} />
+          <Pagination
+            current={currentPage}
+            pageSize={perPage}
+            total={data?.data?.data?.total || 0}
+            onChange={(page, pageSize) => {
+              setCurrentPage(page)
+              setPerPage(pageSize)
+            }}
+          />
         </div>
       </div>
     </div>
