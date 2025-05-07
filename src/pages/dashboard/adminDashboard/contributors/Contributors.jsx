@@ -10,6 +10,7 @@ import {
   modalOpenThree,
   modalOpenTwo,
 } from "../../../../features/modal/modalSlice";
+import { useGetDashboardContibutorsApiQuery } from "../../../../redux/dashboardFeatures/getDashboardContibutors";
 
 const Contributors = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,6 +23,19 @@ const Contributors = () => {
   const modalOne = useSelector((state) => state.modal.modalOne);
   const modalTwo = useSelector((state) => state.modal.modalTwo);
   const modalThree = useSelector((state) => state.modal.modalThree);
+
+const {data,isLoading } = useGetDashboardContibutorsApiQuery();
+
+const allContibutorData = data?.data?.contributors
+console.log(allContibutorData)
+
+
+
+
+
+
+
+
 
   // ============== modal one start =========
   const showModalOne = () => {

@@ -7,13 +7,13 @@ import CustomLoading from "../../shared/CustomLoading";
 const Subscribers = () => {
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(11);
+  const [perPage, setPerPage] = useState(10);
 
   const { data, refetch, isLoading } = useGetDashboardSubscribersApiQuery({ page: currentPage, per_page: perPage, search: searchText })
 
   const allSubscriberData = data?.data?.data
   // const subscribedDate = '2025-05-01 03:45:25'.split(' ')[0];
-  console.log(allSubscriberData)
+
 
   // This function handles the search input change and refetches the data
   const handleSearchChange = (e) => {
@@ -56,10 +56,6 @@ if(isLoading) return <CustomLoading />
           <Table
             dataSource={allSubscriberData}
             columns={[
-              {
-                title: "Name",
-                dataIndex: "name",
-              },
               {
                 title: "Email",
                 dataIndex: "email",

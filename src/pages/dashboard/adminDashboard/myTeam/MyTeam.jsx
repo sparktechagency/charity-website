@@ -27,6 +27,7 @@ import toast from "react-hot-toast";
 
 import { UploadCloud } from "lucide-react";
 import { useDeleteDashboardMyTeamApiMutation, useGetDashboardMyTeamApiQuery, usePostDashboardMyTeamApiMutation, useSingleGetDashboardMyTeamApiQuery, useUpdateDashboardMyTeamApiMutation } from "../../../../redux/dashboardFeatures/myTeam/dashboardMyTeamApi";
+import CustomLoading from "../../shared/CustomLoading";
 
 
 const MyTeam = () => {
@@ -35,7 +36,7 @@ const MyTeam = () => {
   const { data, refetch, isLoading } = useGetDashboardMyTeamApiQuery(); // get
   const [deleteDashboardMyTeamApi] = useDeleteDashboardMyTeamApiMutation() // delete
   const [updateDashboardMyTeamApi] = useUpdateDashboardMyTeamApiMutation() // update
-  const { data: singleData } = useSingleGetDashboardMyTeamApiQuery(selectId, {
+  const { data: singleData, } = useSingleGetDashboardMyTeamApiQuery(selectId, {
     skip: !selectId, // Prevent call until ID is available
   }); // single team get
 
@@ -249,7 +250,7 @@ const MyTeam = () => {
   // ========= team modal four end ===============
 
 
-
+if(isLoading)return <CustomLoading />
 
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg lg:min-h-[840px]">

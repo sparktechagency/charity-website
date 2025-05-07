@@ -13,4 +13,4 @@
 
 
 3. work done
-  [faq, my_tem, ]
+  [faq, my_tem,subscribers,donationTransition ]

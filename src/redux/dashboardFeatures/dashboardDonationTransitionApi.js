@@ -3,9 +3,9 @@ import { baseApi } from "../api/baseApi";
 const dashboardDonationTransitionApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getDashboardDonationTransitionApi: builder.query({
-            query: () => ({
-                url: `/donate-transations?per_page=10&page`,
-                method: "GET"
+            query: ({page=page, per_page=per_page,}) => ({
+                url: `/donate-transations?per_page=${per_page}&page=${page}`,
+                method:"GET"
             }),
             providesTags: ['donationTransition'],
         }),
