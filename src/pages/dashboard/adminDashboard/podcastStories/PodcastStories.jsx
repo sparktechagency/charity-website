@@ -4,21 +4,47 @@ import { useDispatch, useSelector } from "react-redux";
 import { closePodcastModalOpenOne, podcastModalOpenOne } from "../../../../features/modal/modalSlice";
 import { useForm } from "antd/es/form/Form";
 import TextArea from "antd/es/input/TextArea";
+import { usePostpodcastApiMutation, useUpdatepodcastApiMutation } from "../../../../redux/dashboardFeatures/podcastApi";
 
 const PodcastStories = () => {
   const [formOne] = useForm()
   const [searchText, setSearchText] = useState('')
-
+  const [postpodcastApi] = usePostpodcastApiMutation(); // post api
+  const [updatepodcastApi] = useUpdatepodcastApiMutation();
   const dispatch = useDispatch();
   const podcastModalOne = useSelector((state) => state.modal.podcastModalOne);
-  console.log(podcastModalOne)
+
 
 
 
 
   //======== podcast modal one start =========
-  const onFinishOne = () => {
-    console.log('click')
+  const onFinishOne = async (values) => {
+    const formData = new FormData();
+    formData.append("podcast_title", values.podcast_title)
+    formData.append("host_title", values.host_title)
+    formData.append("guest_title", values.guest_title)
+    formData.append("description", values.description)
+    // formData.append("host_profile", values.)
+    // formData.append("guest_profile", values.)
+    // formData.append("mp3", values.)
+    // formData.append("thumbnail", values.)
+
+
+    try {
+      const res = await postpodcastApi(formData).unwrap()
+
+      // if (res?.data) {
+      //   toast.success(res?.message)
+      //   setImageFileList([]);
+      //   formOne.resetFields()
+      //   dispatch(closeTeamModalOpenOne());
+      // }
+    } catch (errors) {
+      // toast.error(errors.message);
+    }
+
+
   }
 
   const showPodcastModalOne = () => {
@@ -139,7 +165,7 @@ const PodcastStories = () => {
             {/* products description */}
             <div>
               <Form.Item name="description">
-                <TextArea placeholder="Write a description..."  style={{backgroundColor:"transparent", padding: "10px",border: "1px solid gray",color:"#fff", height:"150px",resize:"none"}}
+                <TextArea placeholder="Write a description..." style={{ backgroundColor: "transparent", padding: "10px", border: "1px solid gray", color: "#fff", height: "150px", resize: "none" }}
                 />
               </Form.Item>
             </div>
