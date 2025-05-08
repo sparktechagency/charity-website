@@ -8,8 +8,23 @@ const getActionApi = baseApi.injectEndpoints({
                 method:"GET",
             }),
             providesTags:["autcion"],
+        }),
+        deleteAction: builder.mutation({
+            query: ({id})=> ({
+                url: `/delete-auction?id=${id}`,
+                method:"DELETE",
+            }),
+            invalidatesTags:["autcion"],
+        }),
+        updateAction: builder.mutation({
+            query: ({updateInfo,auction_id})=> ({
+                url: `/assign-budget?auction_id=${auction_id}`,
+                method:"PUT",
+                body:updateInfo,
+            }),
+            invalidatesTags:["autcion"],
         })
     })
 })
 
-export const {useGetActionQuery} = getActionApi;
+export const {useGetActionQuery,useDeleteActionMutation,useUpdateActionMutation} = getActionApi;

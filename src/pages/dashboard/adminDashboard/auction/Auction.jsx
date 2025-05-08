@@ -1,5 +1,5 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Input, Modal, Pagination, Select, Space, Table } from "antd";
+import { Form, Input, InputNumber, Modal, Pagination, Select, Space, Table } from "antd";
 import { EyeIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,10 +14,15 @@ import {
 
 import CustomLoading from "../../shared/CustomLoading";
 import { useGetDashboardAuctionApiQuery } from "../../../../redux/dashboardFeatures/dashboardAuctionApi";
+import { useDeleteActionMutation, useUpdateActionMutation } from "../../../../redux/dashboardFeatures/getActionApi";
+import { useForm } from "antd/es/form/Form";
+import toast from "react-hot-toast";
 
 
 
 const Auction = () => {
+  const [formOne] = useForm();
+  const [selectId, setSelectId] = useState('')
   const [searchText, setSearchText] = useState("");
   const [statusValue, setStatusValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,6 +38,12 @@ const Auction = () => {
   const actionModalTwo = useSelector((state) => state.modal.actionModalTwo);
   const actionModalThree = useSelector((state) => state.modal.actionModalThree);
   const { data, isLoading, refetch } = useGetDashboardAuctionApiQuery({ search: searchText, status: statusValue });
+  const [deleteAction] = useDeleteActionMutation()
+  const [updateAction] = useUpdateActionMutation()
+
+
+
+
 
   const allAuctionData = data?.data?.data
 
@@ -53,12 +64,42 @@ const Auction = () => {
   };
 
   //======== action modal one start =========
-  const showActionModalOne = () => {
+  const onFinishOne = async (values) => {
+
+    const formData = new FormData();
+    formData.append("start_budget", values.start_budget)
+    formData.append("end_budget", values.end_budget)
+    formData.append("duration", values.duration)
+    formData.append("_method", "PUT");
+
+    try {
+      const res = await updateAction({
+        updateInfo: formData,
+        auction_id: selectId
+      }).unwrap()
+      console.log(res)
+
+      if (res?.data) {
+        toast.success(res?.message)
+        setImageFileList([]);
+        formOne.resetFields()
+        dispatch(closeActionModalOpenOne());
+      }
+    } catch (errors) {
+      toast.error(errors?.message);
+    }
+  }
+
+
+  const showActionModalOne = (record) => {
+    setSelectId(record?.id)
     dispatch(actionModalOpenOne());
   };
 
   const actionModalOkOne = () => {
-    dispatch(closeActionModalOpenOne());
+    formOne.submit()
+    // dispatch(closeActionModalOpenOne());
+
   };
   const actionModalCancelOne = () => {
     dispatch(closeActionModalOpenOne());
@@ -66,12 +107,25 @@ const Auction = () => {
   //======== action modal one end =========
 
   //======== action modal two start =========
-  const showActionModalTwo = () => {
+  const showActionModalTwo = (record) => {
+    setSelectId(record?.id)
     dispatch(actionModalOpenTwo());
   };
 
-  const actionModalOkTwo = () => {
-    dispatch(closeActionModalOpenTwo());
+  const actionModalOkTwo = async () => {
+    try {
+      const res = await deleteAction({ id: selectId }).unwrap()
+      if (res?.data){
+        refetch()
+        toast.success(res?.message)
+        dispatch(closeActionModalOpenTwo());
+      }
+    } catch (errors) {
+      toast.error(errors?.message)
+    }
+
+
+    
   };
   const actionModalCancelTwo = () => {
     dispatch(closeActionModalOpenTwo());
@@ -90,7 +144,6 @@ const Auction = () => {
     dispatch(closeActionModalOpenThree());
   };
   //======== action modal three end =========
-
 
   if (isLoading) return <CustomLoading />
 
@@ -211,13 +264,13 @@ const Auction = () => {
                 render: (_, record) => (
                   <Space size="middle">
                     <p
-                      onClick={showActionModalOne}
+                      onClick={() => showActionModalOne(record)}
                       className="text-[#658A30] cursor-pointer"
                     >
                       Declare
                     </p>
                     <p
-                      onClick={showActionModalTwo}
+                      onClick={() => showActionModalTwo(record)}
                       className="text-[#DA453F] cursor-pointer"
                     >
                       Remove
@@ -276,10 +329,52 @@ const Auction = () => {
               <h1 className="text-[#E9EBEB] font-semibold text-[20px]">
                 Declare auction
               </h1>
-              <p className="text-[#A6ABAC]">
-                Do you want to declare the auction?
-              </p>
             </div>
+            <Form form={formOne} onFinish={onFinishOne}>
+              {/* maximum budget */}
+              <div>
+                <p className="text-[#fff]">Maximum budget</p>
+                <Form.Item name="start_budget" rules={[
+                  { required: true, message: 'Please enter the maximum budget' },
+                  {
+                    type: 'number',
+                    min: 0,
+                    message: 'Budget must be a positive number',
+                  },
+                ]}>
+                  <InputNumber style={{ width: "100%", height: "40px" }} />
+                </Form.Item>
+              </div>
+
+              {/* minimum budget */}
+              <div>
+                <p className="text-[#fff]">Minimum budget</p>
+                <Form.Item name="end_budget" rules={[
+                  { required: true, message: 'Please enter the minimum budget' },
+                  {
+                    type: 'number',
+                    min: 0,
+                    message: 'Budget must be a positive number',
+                  },
+                ]}>
+                  <InputNumber style={{ width: "100%", height: "40px" }} />
+                </Form.Item>
+              </div>
+              {/* duration time */}
+              <div>
+                <p className="text-[#fff]">Duration time</p>
+                <Form.Item name="duration" rules={[
+                  { required: true, message: 'Please enter the duration time' },
+                  {
+                    type: 'number',
+                    min: 1,
+                    message: 'Duration must be at least 1',
+                  },
+                ]}>
+                  <InputNumber style={{ width: "100%", height: "40px" }} />
+                </Form.Item>
+              </div>
+            </Form>
           </div>
         </Modal>
 
@@ -295,13 +390,13 @@ const Auction = () => {
             <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
               <button
                 className="hover:bg-[#A6ABAC] text-[#DA453F] px-6 rounded"
-                onClick={actionModalCancelTwo}
+                onClick={actionModalOkTwo}
               >
                 Yes, remove
               </button>
               <button
                 className="bg-[#ffffff] py-2 px-4 rounded"
-                onClick={actionModalOkTwo}
+                onClick={actionModalCancelTwo}
               >
                 No, keep it
               </button>
