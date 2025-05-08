@@ -16,6 +16,6 @@ export const baseApi = createApi({
         }
     }), 
     // refresh for this tag
-    tagTypes: ['faq','team','subscriber','donationTransition',],
+    tagTypes: ['faq','team','subscriber','donationTransition','autcion',],
     endpoints:()=>({}),
 });

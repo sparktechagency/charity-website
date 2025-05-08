@@ -17,13 +17,13 @@ const getActionApi = baseApi.injectEndpoints({
             invalidatesTags:["autcion"],
         }),
         updateAction: builder.mutation({
-            query: ({updateInfo,auction_id})=> ({
+            query: ({auction_id,updateInfo})=> ({
                 url: `/assign-budget?auction_id=${auction_id}`,
-                method:"PUT",
+                method:"POST",
                 body:updateInfo,
             }),
             invalidatesTags:["autcion"],
-        })
+        }),
     })
 })
 
