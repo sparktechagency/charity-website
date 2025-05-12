@@ -1,14 +1,25 @@
-import { Form, Input, Modal } from "antd";
+import { Button, Form, Input, Modal, Upload } from "antd";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closePodcastModalOpenOne, podcastModalOpenOne } from "../../../../features/modal/modalSlice";
 import { useForm } from "antd/es/form/Form";
-import TextArea from "antd/es/input/TextArea";
 import { usePostpodcastApiMutation, useUpdatepodcastApiMutation } from "../../../../redux/dashboardFeatures/podcastApi";
+import { UploadOutlined } from "@ant-design/icons";
+import { InboxOutlined } from '@ant-design/icons';
+import { UploadCloud } from "lucide-react";
+
+const { Dragger } = Upload;
 
 const PodcastStories = () => {
   const [formOne] = useForm()
   const [searchText, setSearchText] = useState('')
+  const [ImageFileListHost, setImageFileListHost] = useState([]);
+  const [ImageFileListGuest, setImageFileListGuest] = useState([]);
+  const [ImageFileListThumbail, setImageFileListThumbail] = useState([]);
+
+
+
+
   const [postpodcastApi] = usePostpodcastApiMutation(); // post api
   const [updatepodcastApi] = useUpdatepodcastApiMutation();
   const dispatch = useDispatch();
@@ -18,41 +29,52 @@ const PodcastStories = () => {
 
 
 
+
   //======== podcast modal one start =========
-  const onFinishOne = async (values) => {
-    const formData = new FormData();
-    formData.append("podcast_title", values.podcast_title)
-    formData.append("host_title", values.host_title)
-    formData.append("guest_title", values.guest_title)
-    formData.append("description", values.description)
-    // formData.append("host_profile", values.)
-    // formData.append("guest_profile", values.)
-    // formData.append("mp3", values.)
-    // formData.append("thumbnail", values.)
-
-
-    try {
-      const res = await postpodcastApi(formData).unwrap()
-
-      // if (res?.data) {
-      //   toast.success(res?.message)
-      //   setImageFileList([]);
-      //   formOne.resetFields()
-      //   dispatch(closeTeamModalOpenOne());
-      // }
-    } catch (errors) {
-      // toast.error(errors.message);
-    }
-
-
-  }
 
   const showPodcastModalOne = () => {
     dispatch(podcastModalOpenOne())
+
   };
 
+  const onFinishOne = async (values) => {
+      const formData = new FormData();
+    const fileObj = values?.mp3File?.originFileObj;
+    if (!fileObj) {
+      message.error("No file selected!");
+      return;
+    }
+
+
+    //======= image file upload =======
+
+    if (ImageFileListHost[0]?.originFileObj) {
+      formData.append("host_profile", ImageFileListHost[0].originFileObj);
+    }
+    if (ImageFileListGuest[0]?.originFileObj) {
+      formData.append("guest_profile", ImageFileListGuest[0].originFileObj);
+    }
+    if (ImageFileListThumbail[0]?.originFileObj) {
+      formData.append("thumbnail", ImageFileListThumbail[0].originFileObj);
+    }
+
+
+
+
+
+  
+    formData.append('mp3', fileObj);
+
+    console.log(formData.forEach(item => {
+      console.log(item)
+    }))
+
+  }
+
+
   const podcastModalOkOne = () => {
-    dispatch(closePodcastModalOpenOne());
+    // dispatch(closePodcastModalOpenOne());
+    formOne.submit()
   };
   const podcastModalCancelOne = () => {
     dispatch(closePodcastModalOpenOne());
@@ -119,54 +141,147 @@ const PodcastStories = () => {
         }
       >
         <div className="">
-          <div className="pb-6">
-            <h1 className="text-[#E9EBEB] font-semibold text-[20px]">
-              Post podcast stories
-            </h1>
-          </div>
+
           <Form form={formOne} onFinish={onFinishOne}>
-            {/* podcast title */}
-            <div>
-              <p className="text-[#FFFFFF] ">Podcast title</p>
-              <Form.Item name="podcast_title">
-                <Input
-                  placeholder="Enter title"
-                  style={{ padding: "10px" }}
-                />
+
+
+            {/* host image upload */}
+            <div className="flex justify-center border-2 border-dashed border-[#B6B6BA] rounded-md mb-2 pt-5">
+              <Form.Item
+                className="md:col-span-2"
+                name="image"
+                rules={[
+                  {
+                    required: ImageFileListHost.length === 0,
+                    message: "Image required!",
+                  },
+                ]}
+              >
+                <Upload
+
+                  accept="image/*"
+                  maxCount={1}
+                  showUploadList={{ showPreviewIcon: true }}
+                  fileList={ImageFileListHost}
+                  onChange={({ fileList }) => setImageFileListHost(fileList)}
+                  listType="picture-card"
+                  className="w-full"
+                  beforeUpload={() => false}
+                >
+                  <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
+                    <UploadCloud className="w-5 h-5 text-gray-400" />
+                    <span className="mt-2">Upload guest photo</span>
+                  </div>
+                </Upload>
               </Form.Item>
             </div>
 
-            {/* host tile and gest title */}
-            <div className="flex items-center justify-between gap-4">
-              {/* Host title */}
-              <div className="w-full">
-                <p className="text-[#FFFFFF] ">Host title</p>
-                <Form.Item name="host_title">
-                  <Input
-                    placeholder="Enter title"
-                    style={{ padding: "10px" }}
-                  />
-                </Form.Item>
-              </div>
-              {/* Gust title */}
-              <div className="w-full">
-                <p className="text-[#FFFFFF] ">Guest title</p>
-                <Form.Item name="guest_title">
-                  <Input
-                    placeholder="Enter title"
-                    style={{ padding: "10px" }}
-                  />
-                </Form.Item>
-              </div>
+
+            {/* guest image upload */}
+            <div className="flex justify-center border-2 border-dashed border-[#B6B6BA] rounded-md mb-2 pt-5">
+              <Form.Item
+                className="md:col-span-2"
+                name="image"
+                rules={[
+                  {
+                    required: ImageFileListGuest.length === 0,
+                    message: "Image required!",
+                  },
+                ]}
+              >
+                <Upload
+
+                  accept="image/*"
+                  maxCount={1}
+                  showUploadList={{ showPreviewIcon: true }}
+                  fileList={ImageFileListGuest}
+                  onChange={({ fileList }) => setImageFileListGuest(fileList)}
+                  listType="picture-card"
+                  className="w-full"
+                  beforeUpload={() => false}
+                >
+                  <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
+                    <UploadCloud className="w-5 h-5 text-gray-400" />
+                    <span className="mt-2">Upload host photo</span>
+                  </div>
+                </Upload>
+              </Form.Item>
             </div>
 
-            {/* image upload */}
 
-            {/* products description */}
+
+
+            {/* mp3 file upload */}
             <div>
-              <Form.Item name="description">
-                <TextArea placeholder="Write a description..." style={{ backgroundColor: "transparent", padding: "10px", border: "1px solid gray", color: "#fff", height: "150px", resize: "none" }}
-                />
+              <Form.Item
+                name="mp3File"
+                valuePropName="file"
+                getValueFromEvent={(e) => e && e.fileList[0]}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please upload an MP3 file!',
+                  },
+                ]}
+              >
+                <Dragger
+                  beforeUpload={() => false}
+                  accept=".mp3"
+                  maxCount={1}
+                  style={{
+                    backgroundColor: 'transparent',
+                    border: '2px dashed #888',
+                    borderRadius: '8px',
+                    padding: '30px 20px',
+                  }}
+                >
+                  <p className="">
+                    <InboxOutlined style={{ color: '#fff', fontSize: '32px' }} />
+                  </p>
+                  <p style={{ color: '#fff', fontSize: '16px', fontWeight: 500 }}>
+                    Upload podcast of drag & drop here.
+                  </p>
+                  <p style={{ color: '#aaa', marginTop: '4px' }}>
+                    Supported format MP3<br />
+                    Max file size: 1 GB.
+                  </p>
+                </Dragger>
+              </Form.Item>
+            </div>
+
+
+
+
+
+
+            {/* guest image upload */}
+            <div className="flex justify-center border-2 border-dashed border-[#B6B6BA] rounded-md mb-2 pt-5">
+              <Form.Item
+                className="md:col-span-2"
+                name="image"
+                rules={[
+                  {
+                    required: ImageFileListThumbail.length === 0,
+                    message: "Image required!",
+                  },
+                ]}
+              >
+                <Upload
+
+                  accept="image/*"
+                  maxCount={1}
+                  showUploadList={{ showPreviewIcon: true }}
+                  fileList={ImageFileListThumbail}
+                  onChange={({ fileList }) => setImageFileListThumbail(fileList)}
+                  listType="picture-card"
+                  className="w-full"
+                  beforeUpload={() => false}
+                >
+                  <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
+                    <UploadCloud className="w-5 h-5 text-gray-400" />
+                    <span className="mt-2">Upload thumbnail.</span>
+                  </div>
+                </Upload>
               </Form.Item>
             </div>
           </Form>

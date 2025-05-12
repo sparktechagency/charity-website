@@ -4,13 +4,20 @@ const GetDashboardContibutorsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getDashboardContibutorsApi: builder.query({
             query: () => ({
-                url: `/get-contributor?search&status=&per_page=10&page=1`,
+                url: `/get-contributor`,
                 method:"GET"
             }),
             providesTags: ['contibutor']
         }),
+        // getDashboardContibutorsApi: builder.query({
+        //     query: ({search="",status,per_page,page}) => ({
+        //         url: `/get-contributor?search=${search}&status=${status}&per_page=${per_page}&page=${page}`,
+        //         method:"GET"
+        //     }),
+        //     providesTags: ['contibutor']   // {search="",status,per_page,page}
+        // }),
     })
 })
 
 
-export const {useGetDashboardContibutorsApiQuery,useUpdateDashboardContibutorsApiMutation} = GetDashboardContibutorsApi;
+export const {useGetDashboardContibutorsApiQuery} = GetDashboardContibutorsApi;

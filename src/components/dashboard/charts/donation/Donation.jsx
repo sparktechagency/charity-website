@@ -42,7 +42,7 @@ const Donation = () => {
       },
       stroke: {
         curve: "smooth", // Smooth line
-        width: 3,
+        width: 1,
       },
       markers: {
         size: 2,
@@ -126,7 +126,7 @@ const Donation = () => {
           options={state.options}
           series={state.series}
           type="area"
-          height={280}
+          height={600}
         />
       </div>
     </div>

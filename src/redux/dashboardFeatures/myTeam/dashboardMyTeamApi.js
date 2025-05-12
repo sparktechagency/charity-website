@@ -11,8 +11,8 @@ const dashboardMyTeamApi = baseApi.injectEndpoints({
             invalidatesTags: ['team'],
         }),
         getDashboardMyTeamApi: builder.query({
-            query: () => ({
-                url: `/get-team?search`,
+            query: ({per_page,page}) => ({
+                url: `/get-team?search=&per_page=${per_page}&page=${page}`,
                 method:"GET"
             }),
             providesTags: ['team'],

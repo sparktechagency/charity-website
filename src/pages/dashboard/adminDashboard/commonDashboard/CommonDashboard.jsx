@@ -2,8 +2,17 @@ import Donation from "../../../../components/dashboard/charts/donation/Donation"
 import PerFormance from "../../../../components/dashboard/charts/performance/PerFormance";
 
 import Visitors from "../../../../components/dashboard/charts/visitors/Visitors";
+import { useGetChartQuery } from "../../../../redux/dashboardFeatures/getDashboardChartApi";
 
 const CommonDashboard = () => {
+  const { data } = useGetChartQuery();
+
+  const dashboardData = data?.data
+  const thisYearData = data?.data
+  const lastYearData = data?.data
+  console.log(dashboardData)
+
+
   return (
     <div>
       {/* dashboard curds */}
@@ -31,20 +40,20 @@ const CommonDashboard = () => {
       </div>
 
       {/* chart one/two components */}
-      <div className="flex flex-col lg:flex-row justify-between gap-[20px] py-[20px]">
+      {/* <div className="flex flex-col lg:flex-row justify-between gap-[20px] py-[20px]">
         <div className="bg-[#1B2324] w-full md:h-[300px] rounded-lg">
           <Visitors />
         </div>
         <div className="bg-[#1B2324] w-full md:h-[300px] rounded-lg ">
           <PerFormance />
         </div>
-      </div>
+      </div> */}
 
       {/* chart three components */}
-      <div className="bg-[#1B2324] w-full md:h-[390px] rounded-lg">
+      <div className="bg-[#1B2324] w-full md:h-[690px] rounded-lg mt-6">
         <Donation />
       </div>
-  
+
     </div>
   );
 };

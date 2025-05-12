@@ -32,8 +32,12 @@ import CustomLoading from "../../shared/CustomLoading";
 
 const MyTeam = () => {
   const [selectId, setSelectId] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(8);
+
+
   const [postDashboardMyTeamApi] = usePostDashboardMyTeamApiMutation() // post
-  const { data, refetch, isLoading } = useGetDashboardMyTeamApiQuery(); // get
+  const { data, refetch, isLoading } = useGetDashboardMyTeamApiQuery({ page: currentPage, per_page: perPage }); // get
   const [deleteDashboardMyTeamApi] = useDeleteDashboardMyTeamApiMutation() // delete
   const [updateDashboardMyTeamApi] = useUpdateDashboardMyTeamApiMutation() // update
   const { data: singleData, } = useSingleGetDashboardMyTeamApiQuery(selectId, {
@@ -42,6 +46,7 @@ const MyTeam = () => {
 
 
   const allMyTeams = data?.data?.data;
+  const totalLength = data?.data?.total
   const singleTeamData = singleData?.data;
 
 
@@ -249,8 +254,12 @@ const MyTeam = () => {
   };
   // ========= team modal four end ===============
 
+  useEffect(() => {
+    refetch(); 
+  }, [currentPage, perPage, refetch]);
 
-if(isLoading)return <CustomLoading />
+
+  if (isLoading) return <CustomLoading />
 
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg lg:min-h-[840px]">
@@ -261,7 +270,7 @@ if(isLoading)return <CustomLoading />
               My teammate
             </h2>
             <div>
-              <h2 className="text-[#ffffff]">({allMyTeams?.length})</h2>
+              <h2 className="text-[#ffffff]">({totalLength})</h2>
             </div>
           </div>
 
@@ -915,7 +924,15 @@ if(isLoading)return <CustomLoading />
 
               {/* pagination */}
               <div className="flex justify-end pt-10">
-                <Pagination defaultCurrent={6} total={500} />
+                <Pagination
+                  current={currentPage}
+                  pageSize={perPage}
+                  total={data?.data?.total || 0}
+                  onChange={(page, pageSize) => {
+                    setCurrentPage(page)
+                    setPerPage(pageSize)
+                  }}
+                />
               </div>
             </div>
           )}

@@ -1,6 +1,6 @@
 import { EyeOutlined } from "@ant-design/icons";
 import { Button, Input, Modal, Pagination, Select, Space, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   closeModalOpenOne,
@@ -11,6 +11,7 @@ import {
   modalOpenTwo,
 } from "../../../../features/modal/modalSlice";
 import { useGetDashboardContibutorsApiQuery } from "../../../../redux/dashboardFeatures/getDashboardContibutors";
+import CustomLoading from "../../shared/CustomLoading";
 
 const Contributors = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,10 +25,16 @@ const Contributors = () => {
   const modalTwo = useSelector((state) => state.modal.modalTwo);
   const modalThree = useSelector((state) => state.modal.modalThree);
 
-const {data,isLoading } = useGetDashboardContibutorsApiQuery();
+  // const { data, isLoading,refetch } = useGetDashboardContibutorsApiQuery({ page: currentPage, per_page: perPage, search: searchText });
 
-const allContibutorData = data?.data?.contributors
-console.log(allContibutorData)
+  const { data, isLoading,refetch } = useGetDashboardContibutorsApiQuery();
+
+
+
+
+  const allContibutorData = data?.data?.contributors
+  console.log(allContibutorData?.map(item=> item.auction))
+  console.log(allContibutorData)
 
 
 
@@ -247,6 +254,13 @@ console.log(allContibutorData)
   const handleclcik = () => {
     console.log("click");
   };
+
+  useEffect(() => {
+    refetch(); // Refetch the data when searchText, currentPage, or perPage changes
+  }, [searchText, currentPage, perPage, refetch]);
+
+
+  if(isLoading) return <CustomLoading />
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
@@ -628,8 +642,12 @@ console.log(allContibutorData)
         <div className="flex justify-end pt-4">
           <Pagination
             current={currentPage}
-            total={totalPage}
             pageSize={perPage}
+            total={data?.data?.total || 0}
+            onChange={(page, pageSize) => {
+              setCurrentPage(page)
+              setPerPage(pageSize)
+            }}
           />
         </div>
       </div>
