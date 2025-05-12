@@ -787,3 +787,11 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 }
 
 
+
+/* button hover effect remove============== */
+.no-hover.ant-btn-primary:hover,
+.no-hover.ant-btn-primary:focus {
+  background-color: #1677ff !important;
+  border-color: #1677ff !important;
+  box-shadow: none !important;
+}

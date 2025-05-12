@@ -1,32 +1,31 @@
 import { Button, Form, Input, Modal, Upload } from "antd";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 import { closePodcastModalOpenOne, podcastModalOpenOne } from "../../../../features/modal/modalSlice";
 import { useForm } from "antd/es/form/Form";
-import { usePostpodcastApiMutation, useUpdatepodcastApiMutation } from "../../../../redux/dashboardFeatures/podcastApi";
 import { UploadOutlined } from "@ant-design/icons";
 import { InboxOutlined } from '@ant-design/icons';
 import { UploadCloud } from "lucide-react";
+import TextArea from "antd/es/input/TextArea";
+import { usePostDashboardPodcastApiMutation } from "../../../../redux/dashboardFeatures/dashboardPodcastApi";
+
 
 const { Dragger } = Upload;
 
 const PodcastStories = () => {
   const [formOne] = useForm()
   const [searchText, setSearchText] = useState('')
+  const [loading, setLoading] = useState(false);
   const [ImageFileListHost, setImageFileListHost] = useState([]);
   const [ImageFileListGuest, setImageFileListGuest] = useState([]);
   const [ImageFileListThumbail, setImageFileListThumbail] = useState([]);
 
-
-
-
-  const [postpodcastApi] = usePostpodcastApiMutation(); // post api
-  const [updatepodcastApi] = useUpdatepodcastApiMutation();
   const dispatch = useDispatch();
   const podcastModalOne = useSelector((state) => state.modal.podcastModalOne);
 
 
-
+  const [postDashboardPodcastApi] = usePostDashboardPodcastApiMutation()
 
 
 
@@ -38,7 +37,7 @@ const PodcastStories = () => {
   };
 
   const onFinishOne = async (values) => {
-      const formData = new FormData();
+    const formData = new FormData();
     const fileObj = values?.mp3File?.originFileObj;
     if (!fileObj) {
       message.error("No file selected!");
@@ -62,12 +61,33 @@ const PodcastStories = () => {
 
 
 
-  
+    formData.append("podcast_title", values.podcast_title)
+    formData.append("host_title", values.host_title)
+    formData.append("guest_title", values.guest_title)
+    formData.append("description", values.description)
     formData.append('mp3', fileObj);
 
-    console.log(formData.forEach(item => {
-      console.log(item)
-    }))
+    // console.log(formData.forEach(item => {
+    //   console.log(item)
+    // }))
+
+    try {
+      setLoading(true);
+      const res = await postDashboardPodcastApi(formData).unwrap()
+      if (res?.data) {
+        toast.success(res?.message)
+        setImageFileListHost([]);
+        setImageFileListGuest([]);
+        setImageFileListThumbail([]);
+        formOne.resetFields()
+        dispatch(closePodcastModalOpenOne());
+      }
+    } catch (errors) {
+      toast.error(errors.message);
+    }
+    finally {
+      setLoading(false); // End loading
+    }
 
   }
 
@@ -131,19 +151,55 @@ const PodcastStories = () => {
             >
               Cancel
             </button>
-            <button
-              className="bg-[#ffffff] py-2 px-4 rounded"
-              onClick={podcastModalOkOne}
+            <Button 
+            onClick={podcastModalOkOne}
+            type="primary" htmlType="submit" loading={loading}
+            className="no-hover"
             >
               Post now
-            </button>
+            </Button>
           </div>
         }
       >
         <div className="">
 
           <Form form={formOne} onFinish={onFinishOne}>
+            {/* podcast title */}
+            <div>
+              <p className="text-[#FFFFFF] ">Podcast title</p>
+              <Form.Item name="podcast_title">
+                <Input
+                  placeholder="Enter title"
+                  style={{ padding: "10px" }}
+                />
+              </Form.Item>
+            </div>
 
+            {/* host tile and gest title */}
+            <div className="flex items-center justify-between gap-4">
+              {/* Host title */}
+              <div className="w-full">
+                <p className="text-[#FFFFFF] ">Host title</p>
+                <Form.Item name="host_title">
+                  <Input
+                    placeholder="Enter title"
+                    style={{ padding: "10px" }}
+                  />
+                </Form.Item>
+              </div>
+
+
+              {/* Gust title */}
+              <div className="w-full">
+                <p className="text-[#FFFFFF] ">Guest title</p>
+                <Form.Item name="guest_title">
+                  <Input
+                    placeholder="Enter title"
+                    style={{ padding: "10px" }}
+                  />
+                </Form.Item>
+              </div>
+            </div>
 
             {/* host image upload */}
             <div className="flex justify-center border-2 border-dashed border-[#B6B6BA] rounded-md mb-2 pt-5">
@@ -176,6 +232,12 @@ const PodcastStories = () => {
               </Form.Item>
             </div>
 
+            <div className="pt-4">
+              <Form.Item name="description">
+                <TextArea placeholder="Write a description..." style={{ backgroundColor: "transparent", padding: "10px", border: "1px solid gray", color: "#fff", height: "100px", resize: "none" }}
+                />
+              </Form.Item>
+            </div>
 
             {/* guest image upload */}
             <div className="flex justify-center border-2 border-dashed border-[#B6B6BA] rounded-md mb-2 pt-5">
