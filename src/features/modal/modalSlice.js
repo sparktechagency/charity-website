@@ -15,6 +15,8 @@ const initialState = {
     teamModalFour : false,
     settingModalOne : false,
     podcastModalOne: false,
+    podcastModalTwo: false,
+    podcastModalThree: false,
 }
 
 const modalSlice = createSlice({
@@ -61,8 +63,14 @@ const modalSlice = createSlice({
 
         podcastModalOpenOne : (state) =>{state.podcastModalOne = true},
         closePodcastModalOpenOne : (state) =>{state.podcastModalOne = false},
+
+        podcastModalOpenTwo : (state) =>{state.podcastModalTwo = true},
+        closePodcastModalOpenTwo : (state) =>{state.podcastModalTwo = false},
+
+        podcastModalOpenThree : (state) =>{state.podcastModalThree = true},
+        closePodcastModalOpenThree : (state) =>{state.podcastModalThree = false},
     }
 })
 
-export const {modalOpenOne,closeModalOpenOne,modalOpenTwo,closeModalOpenTwo,modalOpenThree,closeModalOpenThree,volunterModalOpenOne,closeVlounterModalOpenOne,volunterModalOpenTwo,closeVlounterModalOpenTwo,actionModalOpenOne,closeActionModalOpenOne,actionModalOpenTwo,closeActionModalOpenTwo,actionModalOpenThree,closeActionModalOpenThree,teamModalOpenOne,closeTeamModalOpenOne,teamModalOpenTwo,closeTeamModalOpenTwo,teamModalOpenThree,closeTeamModalOpenThree,teamModalOpenFour,closeTeamModalOpenFour,settingModalOpenOne,closeSettingModalOpenOne,podcastModalOpenOne,closePodcastModalOpenOne} = modalSlice.actions;
+export const {modalOpenOne,closeModalOpenOne,modalOpenTwo,closeModalOpenTwo,modalOpenThree,closeModalOpenThree,volunterModalOpenOne,closeVlounterModalOpenOne,volunterModalOpenTwo,closeVlounterModalOpenTwo,actionModalOpenOne,closeActionModalOpenOne,actionModalOpenTwo,closeActionModalOpenTwo,actionModalOpenThree,closeActionModalOpenThree,teamModalOpenOne,closeTeamModalOpenOne,teamModalOpenTwo,closeTeamModalOpenTwo,teamModalOpenThree,closeTeamModalOpenThree,teamModalOpenFour,closeTeamModalOpenFour,settingModalOpenOne,closeSettingModalOpenOne,podcastModalOpenOne,closePodcastModalOpenOne,podcastModalOpenTwo,closePodcastModalOpenTwo,podcastModalOpenThree,closePodcastModalOpenThree} = modalSlice.actions;
 export default modalSlice.reducer;
