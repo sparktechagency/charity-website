@@ -745,9 +745,16 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 
 /* ========== modal custom design start ================ */
 /* style.css or a global style file */
-.custom-ai-modal .ant-modal-content {
-  background-color: #d5dadbe3;
+.custom-auction-modal .ant-modal-content {
+  background-color: #c6cecf;
 }
+
+
+.custom-ai-modal .ant-modal-content {
+  background-color: #263234;
+}
+
+
 
 
 .custom-view-modal .ant-modal-close {
@@ -802,6 +809,5 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 
 /* 
 1. button hover effect remove
-2. .custom-ai-modal ------------ modal background add
 
-*/ 
+*/

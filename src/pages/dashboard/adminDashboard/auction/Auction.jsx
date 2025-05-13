@@ -1,12 +1,14 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Form, Input, InputNumber, Modal, Pagination, Select, Space, Table } from "antd";
-import { EyeIcon } from "lucide-react";
+import { Form, Input, InputNumber, Modal, Pagination, Select, Space, Table, Upload } from "antd";
+import { EyeIcon, UploadCloud } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  actionModalOpenFour,
   actionModalOpenOne,
   actionModalOpenThree,
   actionModalOpenTwo,
+  closeActionModalOpenFour,
   closeActionModalOpenOne,
   closeActionModalOpenThree,
   closeActionModalOpenTwo,
@@ -23,13 +25,17 @@ import { usePDF } from 'react-to-pdf';
 
 const Auction = () => {
   const [formOne] = useForm();
+  const [formFour] = useForm();
   const [selectId, setSelectId] = useState('')
   const [modalThreeData, setModalThreeData] = useState({})
   const [searchText, setSearchText] = useState("");
-  const [statusValue, setStatusValue] = useState("");
+  const [selectValue, stetSelectValue] = useState("Pending");
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(1);
-  const { toPDF, targetRef } = usePDF({filename: 'page.pdf'}); // pdf file download for
+  const [perPage, setPerPage] = useState(10);
+  const [ImageFileListOne, setImageFileListOne] = useState([]);
+  const [ImageFileListTwo, setImageFileListTwo] = useState([]);
+
+  const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' }); // pdf file download for
 
 
 
@@ -39,7 +45,8 @@ const Auction = () => {
   const actionModalOne = useSelector((state) => state.modal.actionModalOne);
   const actionModalTwo = useSelector((state) => state.modal.actionModalTwo);
   const actionModalThree = useSelector((state) => state.modal.actionModalThree);
-  const { data, isLoading, refetch } = useGetDashboardAuctionApiQuery({ search: searchText, status: statusValue });
+  const actionModalFour = useSelector((state) => state.modal.actionModalFour);
+  const { data, isLoading, refetch } = useGetDashboardAuctionApiQuery({ page: currentPage, per_page: perPage, search: searchText, status: selectValue });
   const [deleteAction] = useDeleteActionMutation();
   const [updateAction] = useUpdateActionMutation();
 
@@ -50,21 +57,39 @@ const Auction = () => {
 
   const allAuctionData = data?.data?.data
 
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
-    setCurrentPage(1); // Reset to the first page whenever the search term changes
-  };
-
-  useEffect(() => {
-    refetch(); // Refetch the data when searchText, currentPage, or perPage changes
-  }, [searchText, currentPage, perPage, refetch]);
 
 
-  if (isLoading) return <CustomLoading />
 
-  const handleSelect = (value) => {
-    console.log(value);
-  };
+  // useEffect(() => {
+  //   if (singleTeamData?.photo) {
+  //     const imageObj = {
+  //       uid: '-1',
+  //       name: 'existing_image.jpg',
+  //       status: 'done',
+  //       url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleTeamData?.photo}`
+  //       // url: singleTeamData.photo,
+  //     };
+
+  //     // First set form values
+  //     formThree.setFieldsValue({
+  //       name: singleTeamData.name,
+  //       designation: singleTeamData.designation,
+  //       work_experience: singleTeamData.work_experience,
+  //       twitter_link: singleTeamData.twitter_link,
+  //       linkedIn_link: singleTeamData.linkedIn_link,
+  //       instagram_link: singleTeamData.instagram_link,
+  //       image: [imageObj], // ✅ use it after defining
+  //     });
+
+  //     // Then set image file list
+  //     setImageFileList([imageObj]);
+  //   }
+  // }, [singleTeamData]);
+
+
+
+
+
 
   //======== action modal one start =========
   const onFinishOne = async (values) => {
@@ -156,27 +181,122 @@ const Auction = () => {
 
 
 
+
+
+
+
+
+
+
+  //======== action modal four start =========
+  const onFinishFour = (values) => {
+
+    const formData = new FormData();
+    if (ImageFileListOne[0]?.originFileObj) {
+      formData.append("photo", ImageFileListOne[0].originFileObj);
+    }
+
+    if (ImageFileListTwo[0]?.originFileObj) {
+      formData.append("photo", ImageFileListTwo[0].originFileObj);
+    }
+
+    formData.append("title", values.title)
+    formData.append("description", values.description)
+    formData.append("donate_share", values.donate_share)
+    formData.append("name", values.name)
+    formData.append("email", values.email)
+    formData.append("contact_number", values.contact_number)
+    formData.append("city", values.city)
+    formData.append("address", values.address)
+
+    console.log(formData.forEach(value => {
+      console.log(value)
+    }))
+  }
+
+  const showActionModalFour = (record) => {
+    setSelectId(record?.id)
+    dispatch(actionModalOpenFour());
+
+  };
+
+  const actionModalOkFour = () => {
+    formFour.submit()
+    // dispatch(closeActionModalOpenFour());
+  };
+  const actionModalCancelFour = () => {
+    dispatch(closeActionModalOpenFour());
+  };
+  //======== action modal four end =========
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const handleSelect = (value) => {
+    stetSelectValue(value)
+  };
+
+
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+    // stetSelectValue(e.target.value)
+    setCurrentPage(1); // Reset to the first page whenever the search term changes
+  };
+
+  useEffect(() => {
+    refetch(); // Refetch the data when searchText, currentPage, or perPage changes
+  }, [searchText, selectValue, currentPage, perPage, refetch]);
+
+
+
+  useEffect(() => {
+    document.body.style.overflow =
+      actionModalFour
+        ? "hidden"
+        : "auto";
+  }, [actionModalFour]);
+
+
   if (isLoading) return <CustomLoading />
 
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
-        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 pb-8">
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 pb-8">
           <div className="flex flex-col md:flex-row md:items-center gap-2">
             <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
               Manage auction listing
             </h2>
-            <div>
+            <div className="relative z-50">
               <Select
                 showSearch
-                placeholder="Active"
+                placeholder="Volunteer"
                 style={{
                   width: "100%",
                   height: "30px",
+
                 }}
                 options={[
-                  { value: "approved", label: "Approved" },
-                  { value: "pending", label: "Pending" },
+                  { value: "Pending", label: "Pending" },
+                  { value: "Approved", label: "Approved" },
+                  { value: "Suspended", label: "Suspended" },
                 ]}
                 dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)" }}
                 onChange={handleSelect}
@@ -186,7 +306,7 @@ const Auction = () => {
 
           <div>
             <Input.Search
-              placeholder="Search contributors..."
+              placeholder="Search volunteer..."
               className="custom-search"
               value={searchText} // Controlled value for the input
               onChange={handleSearchChange} // Handle search input change
@@ -198,7 +318,7 @@ const Auction = () => {
         {/* 
         // donate_share,
         // status,title, */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto relative z-10">
           <Table
             dataSource={allAuctionData}
             columns={[
@@ -222,32 +342,6 @@ const Auction = () => {
               {
                 title: "Name",
                 dataIndex: "name",
-                filteredValue: [searchText],
-                onFilter: (value, record) => {
-                  return (
-                    String(record.name)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.email)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.contactNumber)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.DeclareAction)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.soldOut)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.donated)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.action)
-                      .toLowerCase()
-                      .includes(value.toLowerCase())
-                  );
-                },
               },
               {
                 title: "Email",
@@ -266,7 +360,7 @@ const Auction = () => {
                 dataIndex: "status",
                 render: (_, record) => (
                   <div>
-                    {record.id}
+                    {record.status}
                   </div>
                 ),
               },
@@ -282,12 +376,28 @@ const Auction = () => {
                     >
                       Declare
                     </p>
+
+                    <p
+                      onClick={() => showActionModalFour(record)}
+                      className=" cursor-pointer"
+                    >
+                      <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 22V18H20V22H0ZM4 14H5.4L13.2 6.225L11.775 4.8L4 12.6V14ZM2 16V11.75L13.2 0.575C13.3833 0.391667 13.5958 0.25 13.8375 0.15C14.0792 0.05 14.3333 0 14.6 0C14.8667 0 15.125 0.05 15.375 0.15C15.625 0.25 15.85 0.4 16.05 0.6L17.425 2C17.625 2.18333 17.7708 2.4 17.8625 2.65C17.9542 2.9 18 3.15833 18 3.425C18 3.675 17.9542 3.92083 17.8625 4.1625C17.7708 4.40417 17.625 4.625 17.425 4.825L6.25 16H2Z" fill="#658A30" />
+                      </svg>
+
+                    </p>
+
                     <p
                       onClick={() => showActionModalTwo(record)}
-                      className="text-[#DA453F] cursor-pointer"
+                      className=" cursor-pointer"
                     >
-                      Remove
+                      <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="#FF5353" />
+                      </svg>
+
                     </p>
+
+
                     <p
                       onClick={() => showActionModalThree(record)}
                       className="cursor-pointer"
@@ -431,7 +541,7 @@ const Auction = () => {
 
         {/* modal three */}
         <Modal
-          className="custom-ai-modal custom-view-modal"
+          className="custom-auction-modal custom-view-modal"
           centered
           open={actionModalThree}
           onOk={actionModalOkThree}
@@ -516,7 +626,7 @@ const Auction = () => {
                   </p>
                 </div>
 
-              
+
               </div>
 
               <div>
@@ -526,20 +636,253 @@ const Auction = () => {
                 />
               </div>
             </div>
-              <div className="pt-4">
-                  <button onClick={() => toPDF()} className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">
-                    Download as PDF
-                  </button>
-                </div>
+            <div className="pt-4">
+              <button onClick={() => toPDF()} className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">
+                Download as PDF
+              </button>
+            </div>
           </div>
         </Modal>
+
+
+
+
+
+        {/* modal four */}
+        <Modal
+          className="custom-ai-modal"
+          centered
+          open={actionModalFour}
+          onOk={actionModalOkFour}
+          onCancel={actionModalCancelFour}
+          width={900}
+          footer={
+            <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
+              <button
+                className="hover:bg-[#A6ABAC] text-[#DA453F] px-6 rounded"
+                onClick={actionModalCancelFour}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="bg-[#ffffff] py-2 px-4 rounded"
+                onClick={actionModalOkFour}
+              >
+                Update
+              </button>
+
+            </div>
+          }
+        >
+          <div className="">
+            <Form form={formFour} onFinish={onFinishFour} style={{marginTop:"20px"}}>
+              <div className="flex items-center gap-4">
+                {/* name */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">Name</p>
+                  <Form.Item
+                    name="name"
+                    rules={[{ required: true, message: "Please enter your name" }]}
+                  >
+                    <Input
+                      placeholder="Enter Your Name"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+
+                {/* email */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">Email</p>
+                  <Form.Item
+                    name="email"
+                    rules={[
+                      { required: true, message: "Please enter your email" },
+                      { type: "email", message: "Please enter a valid email" },
+                    ]}
+                  >
+                    <Input
+                      placeholder="Enter Your Email"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                {/* title */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">Title</p>
+                  <Form.Item
+                    name="title"
+                    rules={[{ required: true, message: "Please enter your title" }]}
+                  >
+                    <Input
+                      placeholder="Enter Your Title"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+
+                {/* description */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">Description</p>
+                  <Form.Item
+                    name="description"
+                    rules={[{ required: true, message: "Please enter your description" }]}
+                  >
+                    <Input
+                      placeholder="Enter Your description"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                {/* city */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">City</p>
+                  <Form.Item
+                    name="city"
+                    rules={[{ required: true, message: "Please enter your city" }]}
+                  >
+                    <Input
+                      placeholder="Enter Your City"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+
+                {/* address */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">Address</p>
+                  <Form.Item
+                    name="address"
+                    rules={[{ required: true, message: "Please enter your address" }]}
+                  >
+                    <Input
+                      placeholder="Enter Your Address"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                {/* contact number */}
+                <div className="w-[50%]">
+                  <p className="text-[#fff]">Contact number</p>
+                  <Form.Item name="contact_number" rules={[
+                    { required: true, message: 'Please enter the Contact number' },
+                    {
+                      type: 'number',
+                      min: 1,
+                      message: 'Contact number must be at least 1',
+                    },
+                  ]}>
+                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                  </Form.Item>
+                </div>
+
+                {/* donate share */}
+                <div className="w-[50%]">
+                  <p className="text-[#fff]">Donate share</p>
+                  <Form.Item name="donate_share" rules={[
+                    { required: true, message: 'Please enter the Donate share' },
+                    {
+                      type: 'number',
+                      min: 1,
+                      message: 'Donate share must be at least 1',
+                    },
+                  ]}>
+                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                  </Form.Item>
+                </div>
+              </div>
+
+              {/* image */}
+              <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
+                <Form.Item
+                  className="md:col-span-2"
+                  name="image"
+                  rules={[
+                    {
+                      required: ImageFileListOne.length === 0,
+                      message: "Image required!",
+                    },
+                  ]}
+                >
+                  <Upload
+
+                    accept="image/*"
+                    maxCount={1}
+                    showUploadList={{ showPreviewIcon: true }}
+                    fileList={ImageFileListOne}
+                    onChange={({ fileList }) => setImageFileListOne(fileList)}
+                    listType="picture-card"
+                    className="w-full"
+                    beforeUpload={() => false}
+                  >
+                    <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
+                      <UploadCloud className="w-5 h-5 text-gray-400" />
+                      <span className="mt-2 text-[#fff]">Choose Your photo</span>
+                    </div>
+                  </Upload>
+                </Form.Item>
+              </div>
+
+
+
+
+              {/*profile image  */}
+              <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
+                <Form.Item
+                  className="md:col-span-2"
+                  name="image"
+                  rules={[
+                    {
+                      required: ImageFileListTwo.length === 0,
+                      message: "Image required!",
+                    },
+                  ]}
+                >
+                  <Upload
+
+                    accept="image/*"
+                    maxCount={1}
+                    showUploadList={{ showPreviewIcon: true }}
+                    fileList={ImageFileListTwo}
+                    onChange={({ fileList }) => setImageFileListTwo(fileList)}
+                    listType="picture-card"
+                    className="w-full"
+                    beforeUpload={() => false}
+                  >
+                    <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
+                      <UploadCloud className="w-5 h-5 text-gray-400" />
+                      <span className="mt-2 text-[#fff]">Choose profile photo</span>
+                    </div>
+                  </Upload>
+                </Form.Item>
+              </div>
+
+            </Form>
+          </div>
+        </Modal>
+
+
+
+
+
+
 
         {/* pagination */}
         <div className="flex justify-end pt-4">
           <Pagination
             current={currentPage}
             pageSize={perPage}
-            total={data?.data?.data?.total || 0}
+            total={data?.data?.total || 0}
             onChange={(page, pageSize) => {
               setCurrentPage(page)
               setPerPage(pageSize)

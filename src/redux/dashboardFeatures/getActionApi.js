@@ -3,8 +3,8 @@ import { baseApi } from "../api/baseApi";
 const getActionApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAction: builder.query({
-            query: ()=> ({
-                url: `/get-auction?search&stat`,
+            query: ({search="",status})=> ({
+                url: `/get-auction?search=${search}&status=${status}`,
                 method:"GET",
             }),
             providesTags:["autcion"],
