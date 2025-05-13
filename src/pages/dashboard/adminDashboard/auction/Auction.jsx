@@ -17,6 +17,7 @@ import { useGetDashboardAuctionApiQuery } from "../../../../redux/dashboardFeatu
 import { useDeleteActionMutation, useUpdateActionMutation, } from "../../../../redux/dashboardFeatures/getActionApi";
 import { useForm } from "antd/es/form/Form";
 import toast from "react-hot-toast";
+import { usePDF } from 'react-to-pdf';
 
 
 
@@ -28,7 +29,7 @@ const Auction = () => {
   const [statusValue, setStatusValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(1);
-
+  const { toPDF, targetRef } = usePDF({filename: 'page.pdf'}); // pdf file download for
 
 
 
@@ -442,14 +443,14 @@ const Auction = () => {
           {/* address, city, contact_number, description, donate_share, duration, email, ennd_budget, image, name,profile, start_buget,status, title*/}
 
           <div>
-            <div className="flex justify-between gap-4">
+            <div ref={targetRef} className="flex justify-between gap-4">
               <div>
                 <span className="text-5xl font-semibold text-red-500"> {modalThreeData.id}</span>
-                <h2 className="text-[24px] md:text-[48px] text-[#ffff] ">
+                <h2 className="text-[24px] md:text-[48px]  ">
                   The ancient statue <br /> of Sri Lanka
                 </h2>
                 <div className="flex flex-col ">
-                  <p className="text-[#ffff] py-2">
+                  <p className=" py-2">
                     Estimated price: <span>$5,900-$20,000</span>
                   </p>
                   <div className="flex items-center gap-2">
@@ -465,23 +466,23 @@ const Auction = () => {
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M9 2C9 1.44772 9.44772 1 10 1H14C14.5523 1 15 1.44772 15 2C15 2.55228 14.5523 3 14 3H10C9.44772 3 9 2.55228 9 2Z"
-                          fill="#E9EBEB"
+                          fill="#263234"
                         />
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M15.7071 10.2929C16.0976 10.6834 16.0976 11.3166 15.7071 11.7071L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071C10.9024 14.3166 10.9024 13.6834 11.2929 13.2929L14.2929 10.2929C14.6834 9.90237 15.3166 9.90237 15.7071 10.2929Z"
-                          fill="#E9EBEB"
+                          fill="#263234"
                         />
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M12 7C8.13401 7 5 10.134 5 14C5 17.866 8.13401 21 12 21C15.866 21 19 17.866 19 14C19 10.134 15.866 7 12 7ZM3 14C3 9.02944 7.02944 5 12 5C16.9706 5 21 9.02944 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z"
-                          fill="#E9EBEB"
+                          fill="#263234"
                         />
                       </svg>
                     </span>
-                    <p className="text-[#ffff]">07:03: 39sec left</p>
+                    <p className="">07:03: 39sec left</p>
                   </div>
                 </div>
 
@@ -494,14 +495,14 @@ const Auction = () => {
                     />
                   </div>
                   <div>
-                    <h3 className="text-[20px] text-[#ffffff] font-semibold">
+                    <h3 className="text-[20px]  font-semibold">
                       Alexander Pope
                     </h3>
-                    <h4 className="text-[#E9EBEB]">Contributor</h4>
+                    <h4 className="">Contributor</h4>
                   </div>
                 </div>
 
-                <div className="bg-[#4B5557] text-[#ffffff] p-4 rounded-lg max-w-[433px] mt-4">
+                <div className="bg-[#4b55571e]  p-4 rounded-lg max-w-[433px] mt-4">
                   <p>
                     I am privileged to donate The Ancient Statue of Sri Lanka to
                     this auction, supporting Healing and Hope for Women. This
@@ -515,11 +516,7 @@ const Auction = () => {
                   </p>
                 </div>
 
-                <div className="pt-4">
-                  <button className="bg-[#ffffff] text-[#403730] py-2 px-6 rounded-lg">
-                    Download as PDF
-                  </button>
-                </div>
+              
               </div>
 
               <div>
@@ -529,6 +526,11 @@ const Auction = () => {
                 />
               </div>
             </div>
+              <div className="pt-4">
+                  <button onClick={() => toPDF()} className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">
+                    Download as PDF
+                  </button>
+                </div>
           </div>
         </Modal>
 
