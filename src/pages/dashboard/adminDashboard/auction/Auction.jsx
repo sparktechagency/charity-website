@@ -234,21 +234,6 @@ const Auction = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const handleSelect = (value) => {
     stetSelectValue(value)
   };
