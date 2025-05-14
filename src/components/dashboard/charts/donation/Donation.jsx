@@ -236,7 +236,7 @@ export default function Donation() {
         padding: "24px",
       }}
     >
-      <div style={{ height: "600px", width: "100%" }}>
+      <div style={{ height: "540px", width: "100%" }}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
             <defs>
