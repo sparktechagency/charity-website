@@ -15,11 +15,11 @@ import {
 } from "../../../../features/modal/modalSlice";
 
 import CustomLoading from "../../shared/CustomLoading";
-import { useGetDashboardAuctionApiQuery } from "../../../../redux/dashboardFeatures/dashboardAuctionApi";
-import { useDeleteActionMutation, useUpdateActionMutation, } from "../../../../redux/dashboardFeatures/getActionApi";
+
 import { useForm } from "antd/es/form/Form";
 import toast from "react-hot-toast";
 import { usePDF } from 'react-to-pdf';
+import { useDeleteActionMutation, useGetActionQuery, useSingleGetActionQuery, useUpdateActionMutation } from "../../../../redux/dashboardFeatures/dashboardGetActionApi";
 
 
 
@@ -46,9 +46,10 @@ const Auction = () => {
   const actionModalTwo = useSelector((state) => state.modal.actionModalTwo);
   const actionModalThree = useSelector((state) => state.modal.actionModalThree);
   const actionModalFour = useSelector((state) => state.modal.actionModalFour);
-  const { data, isLoading, refetch } = useGetDashboardAuctionApiQuery({ page: currentPage, per_page: perPage, search: searchText, status: selectValue });
+  const { data, isLoading, refetch } = useGetActionQuery({ page: currentPage, per_page: perPage, });
   const [deleteAction] = useDeleteActionMutation();
   const [updateAction] = useUpdateActionMutation();
+  const { data: singleAction, } = useSingleGetActionQuery({ id: selectId })
 
 
 
@@ -59,32 +60,17 @@ const Auction = () => {
 
 
 
+  useEffect(() => {
+    if (singleAction?.start_budget) {
+      // First set form values
+      formOne.setFieldsValue({
+        start_budget: Number(singleAction?.start_budget),
+        end_budget: Number(singleAction?.end_budget || 0),
+        duration: Number(singleAction?.duration || 0),
 
-  // useEffect(() => {
-  //   if (singleTeamData?.photo) {
-  //     const imageObj = {
-  //       uid: '-1',
-  //       name: 'existing_image.jpg',
-  //       status: 'done',
-  //       url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleTeamData?.photo}`
-  //       // url: singleTeamData.photo,
-  //     };
-
-  //     // First set form values
-  //     formThree.setFieldsValue({
-  //       name: singleTeamData.name,
-  //       designation: singleTeamData.designation,
-  //       work_experience: singleTeamData.work_experience,
-  //       twitter_link: singleTeamData.twitter_link,
-  //       linkedIn_link: singleTeamData.linkedIn_link,
-  //       instagram_link: singleTeamData.instagram_link,
-  //       image: [imageObj], // ✅ use it after defining
-  //     });
-
-  //     // Then set image file list
-  //     setImageFileList([imageObj]);
-  //   }
-  // }, [singleTeamData]);
+      });
+    }
+  }, [singleAction]);
 
 
 
@@ -101,9 +87,9 @@ const Auction = () => {
     formData.append("duration", values.duration)
     formData.append("_method", "PUT");
 
-    //  console.log(formData.forEach(value => {
-    //     console.log(value)
-    //   }))
+    console.log(formData.forEach(value => {
+      console.log(value)
+    }))
 
     try {
       const res = await updateAction({
@@ -119,7 +105,7 @@ const Auction = () => {
       }
     }
     catch (errors) {
-      toast.error(errors?.message);
+      toast.error(errors?.data?.message)
     }
   }
 
@@ -230,10 +216,6 @@ const Auction = () => {
   //======== action modal four end =========
 
 
-
-
-
-
   const handleSelect = (value) => {
     stetSelectValue(value)
   };
@@ -253,10 +235,10 @@ const Auction = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-      actionModalFour
+      actionModalOne || actionModalFour
         ? "hidden"
         : "auto";
-  }, [actionModalFour]);
+  }, [actionModalOne, actionModalFour]);
 
 
   if (isLoading) return <CustomLoading />
@@ -264,8 +246,43 @@ const Auction = () => {
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
-        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 pb-8">
+        {/* <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 pb-8">
           <div className="flex flex-col md:flex-row md:items-center gap-2">
+            <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
+              Manage auction listing
+            </h2>
+            <div className="relative z-50">
+              <Select
+                showSearch
+                placeholder="Volunteer"
+                style={{
+                  width: "100%",
+                  height: "30px",
+
+                }}
+                options={[
+                  { value: "Pending", label: "Pending" },
+                  { value: "Approved", label: "Approved" },
+                  { value: "Suspended", label: "Suspended" },
+                ]}
+                dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)" }}
+                onChange={handleSelect}
+              />
+            </div>
+          </div>
+
+          <div>
+            <Input.Search
+              placeholder="Search volunteer..."
+              className="custom-search"
+              value={searchText} // Controlled value for the input
+              onChange={handleSearchChange} // Handle search input change
+              enterButton
+            />
+          </div>
+        </div> */}
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 pb-8">
+          <div className="flex flex-col md:flex-row md:items-center gap-10">
             <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
               Manage auction listing
             </h2>
@@ -337,8 +354,19 @@ const Auction = () => {
                 dataIndex: "contact_number",
               },
               {
-                title: "City",
-                dataIndex: "city",
+                title: "Start Budget",
+                dataIndex: "start_budget",
+                // render: (start_budget) => start_budget ?? "N/A"
+              },
+              {
+                title: "End Eudget",
+                dataIndex: "end_budget",
+                // render: (end_budget) => end_budget ?? "N/A"
+              },
+              {
+                title: "Duration",
+                dataIndex: "duration",
+                // render: (duration) => duration ?? "N/A"
               },
               {
                 title: "Status",
@@ -407,84 +435,86 @@ const Auction = () => {
 
         {/* modal components */}
         {/* modal one */}
-        <Modal
-          className="custom-ai-modal"
-          centered
-          open={actionModalOne}
-          onOk={actionModalOkOne}
-          onCancel={actionModalCancelOne}
-          width={500}
-          footer={
-            <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
-              <button
-                className="hover:bg-[#A6ABAC] px-6 rounded"
-                onClick={actionModalCancelOne}
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-[#ffffff] py-2 px-4 rounded"
-                onClick={actionModalOkOne}
-              >
-                Yes, declare
-              </button>
-            </div>
-          }
-        >
-          <div className="">
-            <div className="pb-6">
-              <h1 className="text-[#E9EBEB] font-semibold text-[20px]">
-                Declare auction
-              </h1>
-            </div>
-            <Form form={formOne} onFinish={onFinishOne}>
-              {/* maximum budget */}
-              <div>
-                <p className="text-[#fff]">Maximum budget</p>
-                <Form.Item name="start_budget" rules={[
-                  { required: true, message: 'Please enter the maximum budget' },
-                  {
-                    type: 'number',
-                    min: 0,
-                    message: 'Budget must be a positive number',
-                  },
-                ]}>
-                  <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }}
-                  />
-                </Form.Item>
+        {
+          singleAction && <Modal
+            className="custom-ai-modal"
+            centered
+            open={actionModalOne}
+            onOk={actionModalOkOne}
+            onCancel={actionModalCancelOne}
+            width={500}
+            footer={
+              <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
+                <button
+                  className="hover:bg-[#A6ABAC] px-6 rounded"
+                  onClick={actionModalCancelOne}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-[#ffffff] py-2 px-4 rounded"
+                  onClick={actionModalOkOne}
+                >
+                  Yes, declare
+                </button>
               </div>
+            }
+          >
+            <div className="">
+              <div className="pb-6">
+                <h1 className="text-[#E9EBEB] font-semibold text-[20px]">
+                  Declare auction
+                </h1>
+              </div>
+              <Form form={formOne} onFinish={onFinishOne}>
+                {/* maximum budget */}
+                <div>
+                  <p className="text-[#fff]">Maximum budget</p>
+                  <Form.Item name="start_budget" rules={[
+                    { required: true, message: 'Please enter the maximum budget' },
+                    {
+                      type: 'number',
+                      min: 0,
+                      message: 'Budget must be a positive number',
+                    },
+                  ]}>
+                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }}
+                    />
+                  </Form.Item>
+                </div>
 
-              {/* minimum budget */}
-              <div>
-                <p className="text-[#fff]">Minimum budget</p>
-                <Form.Item name="end_budget" rules={[
-                  { required: true, message: 'Please enter the minimum budget' },
-                  {
-                    type: 'number',
-                    min: 0,
-                    message: 'Budget must be a positive number',
-                  },
-                ]}>
-                  <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
-                </Form.Item>
-              </div>
-              {/* duration time */}
-              <div>
-                <p className="text-[#fff]">Duration time</p>
-                <Form.Item name="duration" rules={[
-                  { required: true, message: 'Please enter the duration time' },
-                  {
-                    type: 'number',
-                    min: 1,
-                    message: 'Duration must be at least 1',
-                  },
-                ]}>
-                  <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
-                </Form.Item>
-              </div>
-            </Form>
-          </div>
-        </Modal>
+                {/* minimum budget */}
+                <div>
+                  <p className="text-[#fff]">Minimum budget</p>
+                  <Form.Item name="end_budget" rules={[
+                    { required: true, message: 'Please enter the minimum budget' },
+                    {
+                      type: 'number',
+                      min: 0,
+                      message: 'Budget must be a positive number',
+                    },
+                  ]}>
+                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                  </Form.Item>
+                </div>
+                {/* duration time */}
+                <div>
+                  <p className="text-[#fff]">Duration time</p>
+                  <Form.Item name="duration" rules={[
+                    { required: true, message: 'Please enter the duration time' },
+                    {
+                      type: 'number',
+                      min: 1,
+                      message: 'Duration must be at least 1',
+                    },
+                  ]}>
+                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                  </Form.Item>
+                </div>
+              </Form>
+            </div>
+          </Modal>
+        }
 
         {/* modal two */}
         <Modal
@@ -661,7 +691,7 @@ const Auction = () => {
           }
         >
           <div className="">
-            <Form form={formFour} onFinish={onFinishFour} style={{marginTop:"20px"}}>
+            <Form form={formFour} onFinish={onFinishFour} style={{ marginTop: "20px" }}>
               <div className="flex items-center gap-4">
                 {/* name */}
                 <div className="w-[50%]">

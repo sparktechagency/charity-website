@@ -16,30 +16,27 @@ const CommonDashboard = () => {
   return (
     <div>
       {/* dashboard curds */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[20px]">
-
-        {/* ,        paidTransitions acceptedServiceBooks */}
-
+      <div className="grid grid-cols-12 gap-[20px]">
         {/* card one */}
-        <div className="max-w-[400px] max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
+        <div className="col-span-10 md:col-span-11 lg:col-span-3 max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
           <h2>Approved Volunteers</h2>
           <h2 className="font-semibold text-[30px] text-[#ffffff]">{dashboardData?.approvedVolunteers}</h2>
         </div>
 
         {/* card two */}
-        <div className="max-w-[400px] max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
+        <div className="col-span-10 md:col-span-11 lg:col-span-3 max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
           <h2>Declared Auctions</h2>
           <h2 className="font-semibold text-[30px] text-[#ffffff]">{dashboardData?.declaredAuctions}</h2>
         </div>
 
         {/* card thre */}
-        <div className="max-w-[400px] max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
+        <div className="col-span-10 md:col-span-11 lg:col-span-3 max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
           <h2>Unique Contributors</h2>
           <h2 className="font-semibold text-[30px] text-[#ffffff]">{dashboardData?.uniqueContributors}</h2>
         </div>
 
         {/* card four */}
-        <div className="max-w-[400px] max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
+        <div className="col-span-10 md:col-span-11 lg:col-span-3 max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
           <h2>Podcasts</h2>
           <h2 className="font-semibold text-[30px] text-[#ffffff]">
             {dashboardData?.podcastsCount}
@@ -47,25 +44,25 @@ const CommonDashboard = () => {
         </div>
 
         {/* card five */}
-        <div className="max-w-[400px] max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
+        <div className="col-span-10 md:col-span-11 lg:col-span-3 max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
           <h2>Subscribers</h2>
           <h2 className="font-semibold text-[30px] text-[#ffffff]">{dashboardData?.subscribersCount}</h2>
         </div>
 
         {/* card six */}
-        <div className="max-w-[400px] max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
+        <div className="col-span-10 md:col-span-11 lg:col-span-3 max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
           <h2 className="text-white font-roboto">Teams</h2>
           <h2 className="font-semibold text-[30px] text-[#ffffff]">{dashboardData?.teamsCount}</h2>
         </div>
 
         {/* card seven */}
-        <div className="max-w-[400px] max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
+        <div className="col-span-10 md:col-span-11 lg:col-span-3 max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
           <h2>Paid Transitions</h2>
           <h2 className="font-semibold text-[30px] text-[#ffffff]">{dashboardData?.paidTransitions}</h2>
         </div>
 
         {/* card eight */}
-        <div className="max-w-[400px] max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
+        <div className="col-span-10 md:col-span-11 lg:col-span-3 max-h-[120px] bg-primary text-[#ffffff] p-[20px] rounded-lg">
           <h2>Volunteers</h2>
           <h2 className="font-semibold text-[30px] text-[#ffffff]">
             {dashboardData?.approvedVolunteers}

@@ -1,10 +1,10 @@
 import { baseApi } from "../api/baseApi";
 
-const getActionApi = baseApi.injectEndpoints({
+const dashboardGetActionApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAction: builder.query({
-            query: ({search="",status})=> ({
-                url: `/get-auction?search=${search}&status=${status}`,
+            query: ({per_page,page})=> ({
+                url: `/get-auction?per_page=${per_page}&page=${page}`,
                 method:"GET",
             }),
             providesTags:["autcion"],
@@ -24,7 +24,14 @@ const getActionApi = baseApi.injectEndpoints({
             }),
             invalidatesTags:["autcion"],
         }),
+        singleGetAction: builder.query({
+            query: ({id})=> ({
+                url: `/auction-details?id=${id}`,
+                method:"GET",
+            }),
+            providesTags:["autcion"],
+        }),
     })
 })
 
-export const {useGetActionQuery,useDeleteActionMutation,useUpdateActionMutation} = getActionApi;
+export const {useGetActionQuery,useDeleteActionMutation,useUpdateActionMutation,useSingleGetActionQuery} = dashboardGetActionApi;
