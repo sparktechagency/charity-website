@@ -18,3 +18,6 @@
 4. provlem----> [update_auction, pdf file download, ]
 
 5. Not complate[settings---- prodcus----volunterrs-----contributors, podcast ar get api changes for pagination]
+
+
+6. setting a profile image upload ar kaj baki--------> only profile image upload 

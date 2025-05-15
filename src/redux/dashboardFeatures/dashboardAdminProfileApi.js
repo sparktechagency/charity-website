@@ -4,9 +4,10 @@ import { baseApi } from "../api/baseApi";
 const dashboardAdminProfileApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         postDashboardAdminProfileApi: builder.mutation({
-            query: () => ({
+            query: (formData) => ({
                 url: `/create-new-password`,
                 method: "POST",
+                body:formData,
             }),
             invalidatesTags: ['admin-profile'],
         }),

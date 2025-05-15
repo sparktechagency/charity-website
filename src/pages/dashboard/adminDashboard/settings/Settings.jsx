@@ -34,9 +34,17 @@ const Settings = () => {
 
 
 
+  // one
+  useEffect(() => {
+    if (settingModalOne && profileData) {
+      formOne.setFieldsValue({
+        email: profileData.email,
+      });
+    }
+  }, [settingModalOne, profileData, formOne]);
 
 
-
+  // two
   useEffect(() => {
     if (settingModalTwo && profileData) {
 
@@ -67,13 +75,14 @@ const Settings = () => {
 
 
 
+
   // ==== setting modal one start =======
   const onFinishOne = async (values) => {
-    
+    setLoading(true)
     const formData = new FormData();
     formData.append("new_password", values.new_password)
     formData.append("new_password_confirmation", values.new_password_confirmation)
-    formData.append("email", profileData?.email)
+    formData.append("email", values.email)
 
     // console.log(formData.forEach(value => {
     //   console.log(value)
@@ -81,11 +90,16 @@ const Settings = () => {
 
     try {
       const res = await postDashboardAdminProfileApi(formData).unwrap()
+      console.log(res)
       if (res?.data) {
         toast.success(res?.message)
+        formOne.resetFields()
+        dispatch(closeSettingModalOpenOne());
       }
     } catch (errors) {
       toast.error(errors.data.message)
+    } finally {
+      setLoading(false)
     }
 
   }
@@ -97,7 +111,6 @@ const Settings = () => {
   };
   const settingModalOkOne = () => {
     formOne.submit()
-    // dispatch(closeSettingModalOpenOne());
   };
   const settingModalCancelOne = () => {
     dispatch(closeSettingModalOpenOne());
@@ -208,6 +221,32 @@ const Settings = () => {
           </div>
         </div>
 
+{/* 
+        <div className="bg-white  mx-52 mt-5 rounded-lg flex flex-col justify-center items-center py-8">
+          <div className="relative">
+            {previewImage ? <img src={previewImage} alt="" className="w-[137px] rounded-full h-[137ppx] object-cover" /> : <img src={profileIMg} alt="" />}
+            <Upload
+              showUploadList={false}
+              beforeUpload={handleBeforeUpload}
+              accept="image/*"
+            >
+              <button className="w-8 bg-white flex justify-center items-center p-2 shadow-lg rounded-full absolute right-0 bottom-5">
+                <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${profileData?.image}`} className="w-5" alt="" />
+              </button>
+            </Upload>
+          </div>
+          <h3 className="font-roboto font-medium text-[30px]">Jhon Doe</h3>
+          <p className="text-[#B1A8A8] font-roboto font-medium text-xl">
+            example@gmail.com
+          </p>
+        </div> */}
+
+
+
+
+
+
+
         <div className=" max-w-2xl">
           <div className="  text-[#E9EBEB] px-4 sm:px-6 md:px-12 py-16 space-y-12">
             {/* Personal Information */}
@@ -276,7 +315,9 @@ const Settings = () => {
                 className="bg-[#ffffff] py-2 px-4 rounded"
                 onClick={settingModalOkOne}
               >
-                Update password
+                {
+                  loading ? "Loading...." : "Update password"
+                }
               </button>
             </div>
           }
@@ -308,11 +349,12 @@ const Settings = () => {
                 </p>
                 <Form.Item
                   name="email">
-                  <Input style={{
+                  <Input readOnly style={{
                     border: "1px solid #B6B6BA",
                     padding: "10px",
                     backgroundColor: "transparent",
                     color: "#ffffff",
+
                   }} />
                 </Form.Item>
               </div>
