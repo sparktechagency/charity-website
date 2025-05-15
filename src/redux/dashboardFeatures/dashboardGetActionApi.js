@@ -3,8 +3,8 @@ import { baseApi } from "../api/baseApi";
 const dashboardGetActionApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAction: builder.query({
-            query: ({per_page,page})=> ({
-                url: `/get-auction?per_page=${per_page}&page=${page}`,
+            query: ({ search = "", status, per_page, page })=> ({
+                url: `/get-auction?search=${search}&status=${status}&per_page=${per_page}&page=${page}`,
                 method:"GET",
             }),
             providesTags:["autcion"],

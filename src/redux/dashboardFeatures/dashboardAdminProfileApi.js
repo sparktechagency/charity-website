@@ -6,19 +6,27 @@ const dashboardAdminProfileApi = baseApi.injectEndpoints({
         postDashboardAdminProfileApi: builder.mutation({
             query: () => ({
                 url: `/create-new-password`,
-                method:"POST",
+                method: "POST",
             }),
             invalidatesTags: ['admin-profile'],
         }),
         getDashboardAdminProfileApi: builder.query({
             query: () => ({
                 url: `/profile`,
-                method:"GET"
+                method: "GET"
             }),
             providesTags: ['admin-profile'],
+        }),
+        updateDashboardAdminProfileApi: builder.mutation({
+            query: ({updateInfo}) => ({
+                url: `/update-profile`,
+                method: "POST",
+                body:updateInfo,
+            }),
+            invalidatesTags: ['admin-profile'],
         }),
     })
 })
 
 
-export const {useGetDashboardAdminProfileApiQuery,usePostDashboardAdminProfileApiMutation } = dashboardAdminProfileApi;
+export const { useGetDashboardAdminProfileApiQuery, usePostDashboardAdminProfileApiMutation,useUpdateDashboardAdminProfileApiMutation } = dashboardAdminProfileApi;

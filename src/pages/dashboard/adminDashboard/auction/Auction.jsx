@@ -46,7 +46,7 @@ const Auction = () => {
   const actionModalTwo = useSelector((state) => state.modal.actionModalTwo);
   const actionModalThree = useSelector((state) => state.modal.actionModalThree);
   const actionModalFour = useSelector((state) => state.modal.actionModalFour);
-  const { data, isLoading, refetch } = useGetActionQuery({ page: currentPage, per_page: perPage, });
+  const { data, isLoading, refetch } = useGetActionQuery({ search:searchText, status:selectValue, per_page:perPage, page:currentPage });
   const [deleteAction] = useDeleteActionMutation();
   const [updateAction] = useUpdateActionMutation();
   const { data: singleAction, } = useSingleGetActionQuery({ id: selectId })
@@ -223,13 +223,12 @@ const Auction = () => {
 
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
-    // stetSelectValue(e.target.value)
     setCurrentPage(1); // Reset to the first page whenever the search term changes
   };
 
   useEffect(() => {
     refetch(); // Refetch the data when searchText, currentPage, or perPage changes
-  }, [searchText, selectValue, currentPage, perPage, refetch]);
+  }, [searchText, selectValue, currentPage, perPage,]);
 
 
 
@@ -246,41 +245,6 @@ const Auction = () => {
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
-        {/* <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 pb-8">
-          <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
-              Manage auction listing
-            </h2>
-            <div className="relative z-50">
-              <Select
-                showSearch
-                placeholder="Volunteer"
-                style={{
-                  width: "100%",
-                  height: "30px",
-
-                }}
-                options={[
-                  { value: "Pending", label: "Pending" },
-                  { value: "Approved", label: "Approved" },
-                  { value: "Suspended", label: "Suspended" },
-                ]}
-                dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)" }}
-                onChange={handleSelect}
-              />
-            </div>
-          </div>
-
-          <div>
-            <Input.Search
-              placeholder="Search volunteer..."
-              className="custom-search"
-              value={searchText} // Controlled value for the input
-              onChange={handleSearchChange} // Handle search input change
-              enterButton
-            />
-          </div>
-        </div> */}
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 pb-8">
           <div className="flex flex-col md:flex-row md:items-center gap-10">
             <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
@@ -289,7 +253,7 @@ const Auction = () => {
             <div className="relative z-50">
               <Select
                 showSearch
-                placeholder="Volunteer"
+                placeholder="select value"
                 style={{
                   width: "100%",
                   height: "30px",
@@ -323,23 +287,6 @@ const Auction = () => {
           <Table
             dataSource={allAuctionData}
             columns={[
-              // {
-              //   title: "Image",
-              //   dataIndex: "image",
-              //   render: (_, record) => {
-              //     const hasImage = record.image && record.image !== "null" && record.image !== null;
-
-              //     return hasImage ? (
-              //       <img
-              //         src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${record.image}`}
-              //         alt="user"
-              //         className="object-cover w-[30px] h-[30px] rounded-full"
-              //       />
-              //     ) : (
-              //       <div className="w-[30px] h-[30px]"></div> // Empty space
-              //     );
-              //   },
-              // },
               {
                 title: "Name",
                 dataIndex: "name",
@@ -433,6 +380,7 @@ const Auction = () => {
             ]}
             pagination={false}
             className="custom-ant-table"
+            loading={isLoading}
           />
         </div>
 
@@ -900,7 +848,7 @@ const Auction = () => {
           <Pagination
             current={currentPage}
             pageSize={perPage}
-            total={data?.data?.total || 0}
+            total={data?.data.total || 0}
             onChange={(page, pageSize) => {
               setCurrentPage(page)
               setPerPage(pageSize)

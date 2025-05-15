@@ -9,13 +9,14 @@ import { Form, Input, Modal, Upload } from "antd";
 import { UploadCloud } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
-import { useGetDashboardAdminProfileApiQuery, usePostDashboardAdminProfileApiMutation } from "../../../../redux/dashboardFeatures/dashboardAdminProfileApi";
+import { useGetDashboardAdminProfileApiQuery, usePostDashboardAdminProfileApiMutation, useUpdateDashboardAdminProfileApiMutation } from "../../../../redux/dashboardFeatures/dashboardAdminProfileApi";
 import CustomLoading from "../../shared/CustomLoading";
 import toast from "react-hot-toast";
 
 
 
 const Settings = () => {
+  const [loading, setLoading] = useState(false)
   const [formOne] = useForm()
   const [formTwo] = useForm()
   const [ImageFileList, setImageFileList] = useState([]);
@@ -26,11 +27,36 @@ const Settings = () => {
 
   const [postDashboardAdminProfileApi] = usePostDashboardAdminProfileApiMutation() // post
   const { data, isLoading } = useGetDashboardAdminProfileApiQuery() // get
+  const [updateDashboardAdminProfileApi] = useUpdateDashboardAdminProfileApiMutation(); // update
 
   const profileData = data?.data
   // console.log(profileData)
 
-  if (isLoading) return <CustomLoading />
+
+
+
+
+
+  useEffect(() => {
+    if (settingModalTwo && profileData) {
+
+      const imageObj = {
+        uid: '-1',
+        name: 'existing_image.jpg',
+        status: 'done',
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${profileData?.image}`
+        // url: singleTeamData.photo,
+      };
+
+
+      formTwo.setFieldsValue({
+        full_name: profileData.full_name,
+        image: [imageObj],
+      });
+
+      setImageFileList([imageObj]);
+    }
+  }, [settingModalTwo, profileData, formTwo]);
 
 
 
@@ -43,7 +69,7 @@ const Settings = () => {
 
   // ==== setting modal one start =======
   const onFinishOne = async (values) => {
-
+    
     const formData = new FormData();
     formData.append("new_password", values.new_password)
     formData.append("new_password_confirmation", values.new_password_confirmation)
@@ -84,19 +110,34 @@ const Settings = () => {
 
 
   // ==== setting modal two start =======
-  const onFinishTwo = (values) => {
-
+  const onFinishTwo = async (values) => {
+    setLoading(true)
     const formData = new FormData();
     if (ImageFileList[0]?.originFileObj) {
       formData.append("image", ImageFileList[0].originFileObj);
     }
 
     formData.append("full_name", values.full_name)
-
+    formData.append("_method", "PUT");
 
     // console.log(formData.forEach(value => {
     //   console.log(value)
     // }))
+
+
+
+    try {
+      const res = await updateDashboardAdminProfileApi({ updateInfo: formData }).unwrap()
+      if (res?.data) {
+        toast.success(res?.message)
+        dispatch(closeSettingModalOpenTwo());
+      }
+    } catch (errors) {
+      toast.error(errors.message);
+    } finally {
+      setLoading(false)
+    }
+
   }
 
   const showSettingModalTwo = () => {
@@ -104,7 +145,6 @@ const Settings = () => {
   };
   const settingModalOkTwo = () => {
     formTwo.submit()
-    dispatch(closeSettingModalOpenTwo());
   };
   const settingModalCancelTwo = () => {
     dispatch(closeSettingModalOpenTwo());
@@ -112,8 +152,16 @@ const Settings = () => {
   // ==== setting modal two end =========
 
 
+  useEffect(() => {
+    document.body.style.overflow =
+      settingModalOne || settingModalTwo
+        ? "hidden"
+        : "auto";
+  }, [settingModalOne, settingModalTwo]);
 
 
+
+  if (isLoading) return <CustomLoading />
 
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
@@ -324,7 +372,7 @@ const Settings = () => {
           </div>
         </Modal>
 
-        {/* setting modal one */}
+        {/* setting modal two */}
         <Modal
           centered
           className="custom-ai-modal"
@@ -344,7 +392,9 @@ const Settings = () => {
                 className="bg-[#ffffff] py-2 px-4 rounded"
                 onClick={settingModalOkTwo}
               >
-                Update Profile
+                {
+                  loading ? "Loading....." : "Update Profile"
+                }
               </button>
             </div>
           }
