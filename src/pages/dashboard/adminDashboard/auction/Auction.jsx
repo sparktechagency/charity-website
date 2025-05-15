@@ -297,8 +297,7 @@ const Auction = () => {
                 }}
                 options={[
                   { value: "Pending", label: "Pending" },
-                  { value: "Approved", label: "Approved" },
-                  { value: "Suspended", label: "Suspended" },
+                  { value: "Declared", label: "Declared" },
                 ]}
                 dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)" }}
                 onChange={handleSelect}
@@ -308,7 +307,7 @@ const Auction = () => {
 
           <div>
             <Input.Search
-              placeholder="Search volunteer..."
+              placeholder="Search title or description"
               className="custom-search"
               value={searchText} // Controlled value for the input
               onChange={handleSearchChange} // Handle search input change
@@ -324,30 +323,34 @@ const Auction = () => {
           <Table
             dataSource={allAuctionData}
             columns={[
-              {
-                title: "Image",
-                dataIndex: "image",
-                render: (_, record) => {
-                  const hasImage = record.image && record.image !== "null" && record.image !== null;
+              // {
+              //   title: "Image",
+              //   dataIndex: "image",
+              //   render: (_, record) => {
+              //     const hasImage = record.image && record.image !== "null" && record.image !== null;
 
-                  return hasImage ? (
-                    <img
-                      src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${record.image}`}
-                      alt="user"
-                      className="object-cover w-[30px] h-[30px] rounded-full"
-                    />
-                  ) : (
-                    <div className="w-[30px] h-[30px]"></div> // Empty space
-                  );
-                },
-              },
+              //     return hasImage ? (
+              //       <img
+              //         src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${record.image}`}
+              //         alt="user"
+              //         className="object-cover w-[30px] h-[30px] rounded-full"
+              //       />
+              //     ) : (
+              //       <div className="w-[30px] h-[30px]"></div> // Empty space
+              //     );
+              //   },
+              // },
               {
                 title: "Name",
                 dataIndex: "name",
               },
               {
-                title: "Email",
-                dataIndex: "email",
+                title: "Title",
+                dataIndex: "title",
+              },
+              {
+                title: "Description",
+                dataIndex: "description",
               },
               {
                 title: "Contact number",
@@ -842,7 +845,7 @@ const Auction = () => {
                   >
                     <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
                       <UploadCloud className="w-5 h-5 text-gray-400" />
-                      <span className="mt-2 text-[#fff]">Choose Your photo</span>
+                      <span className="mt-2 text-[#fff] px-1">Choose Auction photo</span>
                     </div>
                   </Upload>
                 </Form.Item>
