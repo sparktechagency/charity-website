@@ -1,4 +1,4 @@
-import { Button, Form, Input, message, Modal, Space, Table, Upload } from "antd";
+import { Button, Form, Input, message, Modal, Pagination, Space, Table, Upload } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -26,7 +26,10 @@ const PodcastStories = () => {
   const [formFour] = useForm()
   const [formFive] = useForm()
   const [selectId, setselectId] = useState(null)
-  const [searchText, setSearchText] = useState('')
+  const [searchText, setSearchText] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(6);
+
   const [loading, setLoading] = useState(false);
   const [ImageFileListHost, setImageFileListHost] = useState([]);
   const [ImageFileListGuest, setImageFileListGuest] = useState([]);
@@ -43,7 +46,7 @@ const PodcastStories = () => {
 
 
   const [postDashboardPodcastApi] = usePostDashboardPodcastApiMutation() // post
-  const { data, isLoading, refetch } = useGetDashboardPodcastApiQuery(); // get
+  const { data, isLoading, refetch } = useGetDashboardPodcastApiQuery({ page:currentPage, per_page:perPage,search:searchText}); // get
   const [deleteDashboardPodcastApi] = useDeleteDashboardPodcastApiMutation(); // delete
   const { data: podcastData } = useSingleGetDashboardPodcastApiQuery({ podcast_id: selectId }) // single podcast data
   const [updateDashboardPodcastApi] = useUpdateDashboardPodcastApiMutation(); // update
@@ -354,7 +357,7 @@ const PodcastStories = () => {
     formData.append("guest_title", values.guest_title)
     formData.append("description", values.description)
     formData.append('mp3', fileObj);
-     formData.append("_method", "PUT");
+    formData.append("_method", "PUT");
 
     // console.log(formData.forEach(item => {
     //   console.log(item)
@@ -400,14 +403,6 @@ const PodcastStories = () => {
     dispatch(closePodcastModalOpenFive());
   };
   // ======= podcast modal five end ===========
-
-
-
-
-  const handleSearchChange = () => {
-
-  }
-
 
 
   const handleDelete = async (id) => {
@@ -519,6 +514,15 @@ const PodcastStories = () => {
   ];
 
 
+  // This function handles the search input change and refetches the data
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+    setCurrentPage(1); // Reset to the first page whenever the search term changes
+  };
+
+  useEffect(() => {
+    refetch(); // Refetch the data when searchText, currentPage, or perPage changes
+  }, [searchText, currentPage, perPage, refetch]);
 
   if (isLoading) return <CustomLoading />
 
@@ -534,14 +538,14 @@ const PodcastStories = () => {
           </button>
         </div>
         <div>
-          <Input.Search
-            placeholder="Search volunteer..."
-            className="custom-search"
-            value={searchText}
-            onChange={handleSearchChange}
-            enterButton
-            style={{ width: '250px', margin: "20px 0px" }}
-          />
+            <Input.Search
+              placeholder="Search host title or guest title or description"
+              className="custom-search"
+              value={searchText} // Controlled value for the input
+              onChange={handleSearchChange} // Handle search input change
+              enterButton
+              style={{ width: '350px', margin: "20px 0px" }}
+            />
         </div>
       </div>
 
@@ -553,9 +557,29 @@ const PodcastStories = () => {
         <Table
           columns={columns}
           dataSource={allPodcastData}
+          pagination={false}
           className="custom-ant-table"
         />
       </div>
+
+
+      {/* pagination */}
+      <div className="flex justify-end pt-4">
+        <Pagination
+          current={currentPage}
+          pageSize={perPage}
+          total={data?.data?.total || 0}
+          onChange={(page, pageSize) => {
+            setCurrentPage(page)
+            setPerPage(pageSize)
+          }}
+        />
+      </div>
+
+
+
+
+
 
       {/* modal component */}
       {/* modal one */}

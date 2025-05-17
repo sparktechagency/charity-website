@@ -12,8 +12,8 @@ const dashboardPodcastApi = baseApi.injectEndpoints({
             invalidatesTags: ['podcast'],
         }),
         getDashboardPodcastApi: builder.query({
-            query: () => ({
-                url: `/get-podcast?search=&per_page=10&page=1`,
+            query: ({ page, per_page,search=""}) => ({
+                url: `/get-podcast?search=${search}&per_page=${per_page}&page=${page}`,
                 method:"GET",
               
             }),
