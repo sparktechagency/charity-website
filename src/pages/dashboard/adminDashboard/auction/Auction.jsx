@@ -12,6 +12,7 @@ import {
   closeActionModalOpenOne,
   closeActionModalOpenThree,
   closeActionModalOpenTwo,
+  closeTeamModalOpenFour,
 } from "../../../../features/modal/modalSlice";
 
 import CustomLoading from "../../shared/CustomLoading";
@@ -46,7 +47,7 @@ const Auction = () => {
   const actionModalTwo = useSelector((state) => state.modal.actionModalTwo);
   const actionModalThree = useSelector((state) => state.modal.actionModalThree);
   const actionModalFour = useSelector((state) => state.modal.actionModalFour);
-  const { data, isLoading, refetch } = useGetActionQuery({ search:searchText, status:selectValue, per_page:perPage, page:currentPage });
+  const { data, isLoading, refetch } = useGetActionQuery({ search: searchText, status: selectValue, per_page: perPage, page: currentPage });
   const [deleteAction] = useDeleteActionMutation();
   const [updateAction] = useUpdateActionMutation();
   const { data: singleAction, } = useSingleGetActionQuery({ id: selectId })
@@ -175,7 +176,7 @@ const Auction = () => {
 
 
   //======== action modal four start =========
-  const onFinishFour = (values) => {
+  const onFinishFour = async (values) => {
 
     const formData = new FormData();
     if (ImageFileListOne[0]?.originFileObj) {
@@ -194,10 +195,29 @@ const Auction = () => {
     formData.append("contact_number", values.contact_number)
     formData.append("city", values.city)
     formData.append("address", values.address)
+    formData.append("_method", "PUT");
 
-    console.log(formData.forEach(value => {
-      console.log(value)
-    }))
+    // console.log(formData.forEach(value => {
+    //   console.log(value)
+    // }))
+
+    try {
+      const res = await updateAction({
+        updateInfo: formData,
+        auction_id: selectId
+      }).unwrap()
+console.log(res)
+      if (res?.data) {
+        toast.success(res?.message)
+        setImageFileListOne([]);
+        setImageFileListTwo([]);
+        formFour.resetFields()
+        dispatch(closeTeamModalOpenFour());
+      }
+    } catch (errors) {
+      toast.error(errors.message);
+    }
+
   }
 
   const showActionModalFour = (record) => {
@@ -234,10 +254,10 @@ const Auction = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-      actionModalOne || actionModalFour
+      actionModalOne || actionModalTwo || actionModalThree || actionModalFour
         ? "hidden"
         : "auto";
-  }, [actionModalOne, actionModalFour]);
+  }, [actionModalOne, actionModalTwo, actionModalThree, actionModalFour]);
 
 
   if (isLoading) return <CustomLoading />
@@ -262,6 +282,7 @@ const Auction = () => {
                 options={[
                   { value: "Pending", label: "Pending" },
                   { value: "Declared", label: "Declared" },
+                  { value: "Remove", label: "Remove" },
                 ]}
                 dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)" }}
                 onChange={handleSelect}
@@ -515,8 +536,6 @@ const Auction = () => {
           width={1000}
           footer={null}
         >
-
-          {/* address, city, contact_number, description, donate_share, duration, email, ennd_budget, image, name,profile, start_buget,status, title*/}
 
           <div>
             <div ref={targetRef} className="flex justify-between gap-4">

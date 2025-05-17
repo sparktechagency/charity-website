@@ -26,8 +26,16 @@ const dashboardAdminProfileApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ['admin-profile'],
         }),
+        singleImageupdateDashboardAdminProfileApi: builder.mutation({
+            query: ({updateInfo}) => ({
+                url: `/update-profile`,
+                method: "POST",
+                body:updateInfo,
+            }),
+            invalidatesTags: ['admin-profile'],
+        }),
     })
 })
 
 
-export const { useGetDashboardAdminProfileApiQuery, usePostDashboardAdminProfileApiMutation,useUpdateDashboardAdminProfileApiMutation } = dashboardAdminProfileApi;
+export const { useGetDashboardAdminProfileApiQuery, usePostDashboardAdminProfileApiMutation,useUpdateDashboardAdminProfileApiMutation,useSingleImageupdateDashboardAdminProfileApiMutation } = dashboardAdminProfileApi;

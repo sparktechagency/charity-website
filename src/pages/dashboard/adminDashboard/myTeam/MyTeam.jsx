@@ -255,9 +255,16 @@ const MyTeam = () => {
   // ========= team modal four end ===============
 
   useEffect(() => {
-    refetch(); 
+    refetch();
   }, [currentPage, perPage, refetch]);
 
+
+  useEffect(() => {
+    document.body.style.overflow =
+      teamModalOne || teamModalTwo || teamModalThree || teamModalFour
+        ? "hidden"
+        : "auto";
+  }, [teamModalOne, teamModalTwo, teamModalThree, teamModalFour]);
 
   if (isLoading) return <CustomLoading />
 

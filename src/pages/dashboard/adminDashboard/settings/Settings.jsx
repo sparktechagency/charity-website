@@ -9,9 +9,10 @@ import { Form, Input, Modal, Upload } from "antd";
 import { UploadCloud } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
-import { useGetDashboardAdminProfileApiQuery, usePostDashboardAdminProfileApiMutation, useUpdateDashboardAdminProfileApiMutation } from "../../../../redux/dashboardFeatures/dashboardAdminProfileApi";
+import { useGetDashboardAdminProfileApiQuery, usePostDashboardAdminProfileApiMutation, useSingleImageupdateDashboardAdminProfileApiMutation, useUpdateDashboardAdminProfileApiMutation } from "../../../../redux/dashboardFeatures/dashboardAdminProfileApi";
 import CustomLoading from "../../shared/CustomLoading";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 
 
@@ -28,9 +29,17 @@ const Settings = () => {
   const [postDashboardAdminProfileApi] = usePostDashboardAdminProfileApiMutation() // post
   const { data, isLoading } = useGetDashboardAdminProfileApiQuery() // get
   const [updateDashboardAdminProfileApi] = useUpdateDashboardAdminProfileApiMutation(); // update
+  const [singleImageupdateDashboardAdminProfileApi] = useSingleImageupdateDashboardAdminProfileApiMutation()
 
   const profileData = data?.data
   // console.log(profileData)
+
+  const [imageUrl, setImageUrl] = useState("");
+  useEffect(() => {
+    if (data?.data?.image) {
+      setImageUrl(`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${data.data.image}`);
+    }
+  }, [data]);
 
 
 
@@ -165,14 +174,46 @@ const Settings = () => {
   // ==== setting modal two end =========
 
 
+
+
+
+
+  // only image upload function
+  const handleUpload = async ({ file }) => {
+    setLoading(true)
+
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("_method", "PUT");
+
+    try {
+      const res = await singleImageupdateDashboardAdminProfileApi({ updateInfo: formData }).unwrap()
+      if (res?.data) {
+        toast.success('Image update successfully')
+      }
+    }
+    catch (errors) {
+      toast.error(errors.message);
+    } finally {
+      setLoading(false)
+    }
+  };
+
+
+
+
+
+
+
+
+
+
   useEffect(() => {
     document.body.style.overflow =
       settingModalOne || settingModalTwo
         ? "hidden"
         : "auto";
   }, [settingModalOne, settingModalTwo]);
-
-
 
   if (isLoading) return <CustomLoading />
 
@@ -189,57 +230,45 @@ const Settings = () => {
 
         {/* setting */}
         <div className="bg-[#263234] py-3 px-3 md:px-0 md:py-10 rounded-lg flex justify-center items-center">
-          <div className="relative">
-            <img
-              src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${profileData?.image}`}
-              alt=""
-              className="h-[200px] object-cover rounded-lg "
-            />
-            <span className="absolute bottom-0 right-0">
-              <svg
-                width="50"
-                height="50"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="32" height="32" rx="2" fill="#263234" />
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M12.7318 7.35982C12.9218 7.13182 13.2032 7 13.5 7H18.5C18.7968 7 19.0782 7.13182 19.2682 7.35982L21.4684 10H24C24.7957 10 25.5587 10.3161 26.1213 10.8787C26.6839 11.4413 27 12.2043 27 13V22C27 22.7957 26.6839 23.5587 26.1213 24.1213C25.5587 24.6839 24.7957 25 24 25H8C7.20435 25 6.44129 24.6839 5.87868 24.1213C5.31607 23.5587 5 22.7956 5 22V13C5 12.2044 5.31607 11.4413 5.87868 10.8787C6.44129 10.3161 7.20435 10 8 10H10.5316L12.7318 7.35982ZM13.9684 9L11.7682 11.6402C11.5782 11.8682 11.2968 12 11 12H8C7.73478 12 7.48043 12.1054 7.29289 12.2929C7.10536 12.4804 7 12.7348 7 13V22C7 22.2652 7.10536 22.5196 7.29289 22.7071C7.48043 22.8946 7.73478 23 8 23H24C24.2652 23 24.5196 22.8946 24.7071 22.7071C24.8946 22.5196 25 22.2652 25 22V13C25 12.7348 24.8946 12.4804 24.7071 12.2929C24.5196 12.1054 24.2652 12 24 12H21C20.7032 12 20.4218 11.8682 20.2318 11.6402L18.0316 9H13.9684Z"
-                  fill="#E9EBEB"
-                />
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M16 15C14.8954 15 14 15.8954 14 17C14 18.1046 14.8954 19 16 19C17.1046 19 18 18.1046 18 17C18 15.8954 17.1046 15 16 15ZM12 17C12 14.7909 13.7909 13 16 13C18.2091 13 20 14.7909 20 17C20 19.2091 18.2091 21 16 21C13.7909 21 12 19.2091 12 17Z"
-                  fill="#E9EBEB"
-                />
-              </svg>
-            </span>
+          <div className="relative cursor-pointer">
+            <Upload
+              accept="image/*"
+              maxCount={1}
+              showUploadList={false}
+              customRequest={handleUpload}
+            >
+              <img
+                src={imageUrl}
+                alt=""
+                className="h-[200px] w-[200px] object-cover rounded-full"
+              />
+              <span className="absolute bottom-0 right-0">
+                <svg
+                  width="50"
+                  height="50"
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="32" height="32" rx="2" fill="#263234" />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12.7318 7.35982C12.9218 7.13182 13.2032 7 13.5 7H18.5C18.7968 7 19.0782 7.13182 19.2682 7.35982L21.4684 10H24C24.7957 10 25.5587 10.3161 26.1213 10.8787C26.6839 11.4413 27 12.2043 27 13V22C27 22.7957 26.6839 23.5587 26.1213 24.1213C25.5587 24.6839 24.7957 25 24 25H8C7.20435 25 6.44129 24.6839 5.87868 24.1213C5.31607 23.5587 5 22.7956 5 22V13C5 12.2044 5.31607 11.4413 5.87868 10.8787C6.44129 10.3161 7.20435 10 8 10H10.5316L12.7318 7.35982ZM13.9684 9L11.7682 11.6402C11.5782 11.8682 11.2968 12 11 12H8C7.73478 12 7.48043 12.1054 7.29289 12.2929C7.10536 12.4804 7 12.7348 7 13V22C7 22.2652 7.10536 22.5196 7.29289 22.7071C7.48043 22.8946 7.73478 23 8 23H24C24.2652 23 24.5196 22.8946 24.7071 22.7071C24.8946 22.5196 25 22.2652 25 22V13C25 12.7348 24.8946 12.4804 24.7071 12.2929C24.5196 12.1054 24.2652 12 24 12H21C20.7032 12 20.4218 11.8682 20.2318 11.6402L18.0316 9H13.9684Z"
+                    fill="#E9EBEB"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M16 15C14.8954 15 14 15.8954 14 17C14 18.1046 14.8954 19 16 19C17.1046 19 18 18.1046 18 17C18 15.8954 17.1046 15 16 15ZM12 17C12 14.7909 13.7909 13 16 13C18.2091 13 20 14.7909 20 17C20 19.2091 18.2091 21 16 21C13.7909 21 12 19.2091 12 17Z"
+                    fill="#E9EBEB"
+                  />
+                </svg>
+              </span>
+            </Upload>
           </div>
         </div>
 
-{/* 
-        <div className="bg-white  mx-52 mt-5 rounded-lg flex flex-col justify-center items-center py-8">
-          <div className="relative">
-            {previewImage ? <img src={previewImage} alt="" className="w-[137px] rounded-full h-[137ppx] object-cover" /> : <img src={profileIMg} alt="" />}
-            <Upload
-              showUploadList={false}
-              beforeUpload={handleBeforeUpload}
-              accept="image/*"
-            >
-              <button className="w-8 bg-white flex justify-center items-center p-2 shadow-lg rounded-full absolute right-0 bottom-5">
-                <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${profileData?.image}`} className="w-5" alt="" />
-              </button>
-            </Upload>
-          </div>
-          <h3 className="font-roboto font-medium text-[30px]">Jhon Doe</h3>
-          <p className="text-[#B1A8A8] font-roboto font-medium text-xl">
-            example@gmail.com
-          </p>
-        </div> */}
 
 
 
