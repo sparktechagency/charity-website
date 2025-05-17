@@ -58,6 +58,7 @@ const Auction = () => {
 
 
   const allAuctionData = data?.data?.data
+  console.log(singleAction)
 
 
 
@@ -70,6 +71,38 @@ const Auction = () => {
         duration: Number(singleAction?.duration || 0),
 
       });
+    }
+  }, [singleAction]);
+
+
+  useEffect(() => {
+    if (singleAction && singleAction?.image && singleAction?.profile) {
+
+      const autionImage = {
+        uid: '-2',
+        name: 'host_profile.jpg',
+        status: 'done',
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.host_profile}`,
+      };
+
+      const ProfileImage = {
+        uid: '-3',
+        name: 'thumbnail.jpg',
+        status: 'done',
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.thumbnail}`,
+      };
+
+      // First set form values
+      formFour.setFieldsValue({
+        name: singleAction.name,
+        title: singleAction.title,
+        guest_title: singleAction.guest_title,
+        image: [autionImage,ProfileImage], // ✅ use it after defining
+      });
+
+      // Then set image file list
+      setImageFileListOne([autionImage]);
+      setImageFileListTwo([ProfileImage]);
     }
   }, [singleAction]);
 
@@ -206,7 +239,6 @@ const Auction = () => {
         updateInfo: formData,
         auction_id: selectId
       }).unwrap()
-console.log(res)
       if (res?.data) {
         toast.success(res?.message)
         setImageFileListOne([]);
@@ -223,7 +255,6 @@ console.log(res)
   const showActionModalFour = (record) => {
     setSelectId(record?.id)
     dispatch(actionModalOpenFour());
-
   };
 
   const actionModalOkFour = () => {

@@ -813,10 +813,8 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 */
 
 
-
-
 /*================ ant modal custom style start ============= */
-.ant-modal-content {
+/* .ant-modal-content {
   padding: 0px !important;
 
 }
@@ -838,7 +836,7 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 }
 
 .ant-form-item-required {
-  /* font-family: "Roboto", sans-serif !important; */
+  font-family: "Roboto", sans-serif !important;
   font-weight: 400 !important;
   font-size: 18px !important;
   content: "" !important;
@@ -853,5 +851,7 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 .ant-card-body {
   padding: 0px;
   border-radius: 10px !important;
-}
+} */
 /*================ ant modal custom style end ============= */
+
+

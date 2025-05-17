@@ -589,7 +589,7 @@ const PodcastStories = () => {
         open={podcastModalOne}
         onOk={podcastModalOkOne}
         onCancel={podcastModalCancelOne}
-        width={800}
+         width={1000}
         footer={
           <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
             <button
@@ -610,7 +610,7 @@ const PodcastStories = () => {
       >
         <div className="">
 
-          <Form form={formOne} onFinish={onFinishOne}>
+          <Form form={formOne} onFinish={onFinishOne} style={{ padding: "80px 60px", }}>
             {/* podcast title */}
             <div>
               <p className="text-[#FFFFFF] ">Podcast title</p>
