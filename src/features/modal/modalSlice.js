@@ -20,6 +20,7 @@ const initialState = {
     podcastModalTwo: false,
     podcastModalThree: false,
     podcastModalFour: false,
+    podcastModalFive: false,
 }
 
 const modalSlice = createSlice({
@@ -81,8 +82,11 @@ const modalSlice = createSlice({
 
         podcastModalOpenFour : (state) =>{state.podcastModalFour = true},
         closePodcastModalOpenFour : (state) =>{state.podcastModalFour = false},
+
+        podcastModalOpenFive : (state) =>{state.podcastModalFive = true},
+        closePodcastModalOpenFive : (state) =>{state.podcastModalFive = false},
     }
 })
 
-export const {modalOpenOne,closeModalOpenOne,modalOpenTwo,closeModalOpenTwo,modalOpenThree,closeModalOpenThree,volunterModalOpenOne,closeVlounterModalOpenOne,volunterModalOpenTwo,closeVlounterModalOpenTwo,actionModalOpenOne,closeActionModalOpenOne,actionModalOpenTwo,closeActionModalOpenTwo,actionModalOpenThree,closeActionModalOpenThree,actionModalOpenFour,closeActionModalOpenFour,teamModalOpenOne,closeTeamModalOpenOne,teamModalOpenTwo,closeTeamModalOpenTwo,teamModalOpenThree,closeTeamModalOpenThree,teamModalOpenFour,closeTeamModalOpenFour,settingModalOpenOne,closeSettingModalOpenOne,settingModalOpenTwo, closeSettingModalOpenTwo, podcastModalOpenOne,closePodcastModalOpenOne,podcastModalOpenTwo,closePodcastModalOpenTwo,podcastModalOpenThree,closePodcastModalOpenThree,podcastModalOpenFour,closePodcastModalOpenFour} = modalSlice.actions;
+export const {modalOpenOne,closeModalOpenOne,modalOpenTwo,closeModalOpenTwo,modalOpenThree,closeModalOpenThree,volunterModalOpenOne,closeVlounterModalOpenOne,volunterModalOpenTwo,closeVlounterModalOpenTwo,actionModalOpenOne,closeActionModalOpenOne,actionModalOpenTwo,closeActionModalOpenTwo,actionModalOpenThree,closeActionModalOpenThree,actionModalOpenFour,closeActionModalOpenFour,teamModalOpenOne,closeTeamModalOpenOne,teamModalOpenTwo,closeTeamModalOpenTwo,teamModalOpenThree,closeTeamModalOpenThree,teamModalOpenFour,closeTeamModalOpenFour,settingModalOpenOne,closeSettingModalOpenOne,settingModalOpenTwo, closeSettingModalOpenTwo, podcastModalOpenOne,closePodcastModalOpenOne,podcastModalOpenTwo,closePodcastModalOpenTwo,podcastModalOpenThree,closePodcastModalOpenThree,podcastModalOpenFour,closePodcastModalOpenFour,podcastModalOpenFive,closePodcastModalOpenFive} = modalSlice.actions;
 export default modalSlice.reducer;

@@ -1,14 +1,14 @@
-import { Button, Form, Input, Modal, Space, Table, Upload } from "antd";
+import { Button, Form, Input, message, Modal, Space, Table, Upload } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { closePodcastModalOpenFour, closePodcastModalOpenOne, closePodcastModalOpenThree, closePodcastModalOpenTwo, podcastModalOpenFour, podcastModalOpenOne, podcastModalOpenThree, podcastModalOpenTwo } from "../../../../features/modal/modalSlice";
+import { closePodcastModalOpenFive, closePodcastModalOpenFour, closePodcastModalOpenOne, closePodcastModalOpenThree, closePodcastModalOpenTwo, podcastModalOpenFive, podcastModalOpenFour, podcastModalOpenOne, podcastModalOpenThree, podcastModalOpenTwo } from "../../../../features/modal/modalSlice";
 import { useForm } from "antd/es/form/Form";
 import { UploadOutlined } from "@ant-design/icons";
 import { InboxOutlined } from '@ant-design/icons';
 import { UploadCloud } from "lucide-react";
 import TextArea from "antd/es/input/TextArea";
-import { useDeleteDashboardPodcastApiMutation, useGetDashboardPodcastApiQuery, usePostDashboardPodcastApiMutation, useSingleGetDashboardPodcastApiQuery } from "../../../../redux/dashboardFeatures/dashboardPodcastApi";
+import { useDeleteDashboardPodcastApiMutation, useGetDashboardPodcastApiQuery, usePostDashboardPodcastApiMutation, useSingleGetDashboardPodcastApiQuery, useUpdateDashboardPodcastApiMutation } from "../../../../redux/dashboardFeatures/dashboardPodcastApi";
 import CustomLoading from "../../shared/CustomLoading";
 import Search from "antd/es/input/Search";
 import Swal from "sweetalert2";
@@ -23,24 +23,30 @@ const PodcastStories = () => {
   const [formOne] = useForm()
   const [formTwo] = useForm()
   const [formThree] = useForm()
+  const [formFour] = useForm()
+  const [formFive] = useForm()
   const [selectId, setselectId] = useState(null)
   const [searchText, setSearchText] = useState('')
   const [loading, setLoading] = useState(false);
   const [ImageFileListHost, setImageFileListHost] = useState([]);
   const [ImageFileListGuest, setImageFileListGuest] = useState([]);
   const [ImageFileListThumbail, setImageFileListThumbail] = useState([]);
+  const [mp3FileList, setMp3FileList] = useState([]);
+
 
   const dispatch = useDispatch();
   const podcastModalOne = useSelector((state) => state.modal.podcastModalOne);
   const podcastModalTwo = useSelector((state) => state.modal.podcastModalTwo);
   const podcastModalThree = useSelector((state) => state.modal.podcastModalThree);
   const podcastModalFour = useSelector((state) => state.modal.podcastModalFour);
+  const podcastModalFive = useSelector((state) => state.modal.podcastModalFive);
 
 
   const [postDashboardPodcastApi] = usePostDashboardPodcastApiMutation() // post
   const { data, isLoading, refetch } = useGetDashboardPodcastApiQuery(); // get
   const [deleteDashboardPodcastApi] = useDeleteDashboardPodcastApiMutation(); // delete
   const { data: podcastData } = useSingleGetDashboardPodcastApiQuery({ podcast_id: selectId }) // single podcast data
+  const [updateDashboardPodcastApi] = useUpdateDashboardPodcastApiMutation(); // update
 
 
   const allPodcastData = data?.data?.data
@@ -48,7 +54,7 @@ const PodcastStories = () => {
   const singlePodcastData = allPodcastData?.find(item => item.id === Number(selectId));
 
 
-  console.log(podcastData)
+  // console.log(podcastData)
 
 
 
@@ -76,6 +82,57 @@ const PodcastStories = () => {
   }, [singlePodcastData]);
 
 
+  // default value show modal for Five
+  useEffect(() => {
+    if (singlePodcast) {
+      const guestImage = {
+        uid: '-1',
+        name: 'guest_profile.jpg',
+        status: 'done',
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.guest_profile}`,
+      };
+
+      const hostImage = {
+        uid: '-2',
+        name: 'host_profile.jpg',
+        status: 'done',
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.host_profile}`,
+      };
+
+      const thumbnailImage = {
+        uid: '-3',
+        name: 'thumbnail.jpg',
+        status: 'done',
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.thumbnail}`,
+      };
+
+      const mp3File = {
+        uid: '-1',
+        name: 'existing_audio.mp3',
+        status: 'done',
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.mp3}`,
+      };
+
+      // First set form values
+      formFive.setFieldsValue({
+        podcast_title: singlePodcast.podcast_title,
+        host_title: singlePodcast.host_title,
+        guest_title: singlePodcast.guest_title,
+        description: singlePodcast.description,
+        mp3File: mp3File,
+        image: [guestImage, hostImage, thumbnailImage], // ✅ use it after defining
+      });
+
+      // Then set image file list
+      setMp3FileList([mp3File]);
+
+      setImageFileListGuest([guestImage]);
+      setImageFileListHost([hostImage]);
+      setImageFileListThumbail([thumbnailImage]);
+    }
+  }, [singlePodcast]);
+
+
 
 
 
@@ -90,14 +147,14 @@ const PodcastStories = () => {
     };
   }, []);
 
-const formatDate = (isoDate) => {
-  const date = new Date(isoDate);
-  return date.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric'
-  });
-};
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
 
 
 
@@ -259,8 +316,96 @@ const formatDate = (isoDate) => {
   // ======= podcast modal four end ===========
 
 
+
+
+
+
+
+  // ======= podcast modal five start =========
+  const onFinishFive = async (values) => {
+    setLoading(true);
+
+    const formData = new FormData();
+    const fileObj = values?.mp3File?.originFileObj;
+    if (!fileObj) {
+      message.error("No file selected!");
+      return;
+    }
+
+
+    //======= image file upload =======
+
+    if (ImageFileListHost[0]?.originFileObj) {
+      formData.append("host_profile", ImageFileListHost[0].originFileObj);
+    }
+    if (ImageFileListGuest[0]?.originFileObj) {
+      formData.append("guest_profile", ImageFileListGuest[0].originFileObj);
+    }
+    if (ImageFileListThumbail[0]?.originFileObj) {
+      formData.append("thumbnail", ImageFileListThumbail[0].originFileObj);
+    }
+
+
+
+
+
+    formData.append("podcast_title", values.podcast_title)
+    formData.append("host_title", values.host_title)
+    formData.append("guest_title", values.guest_title)
+    formData.append("description", values.description)
+    formData.append('mp3', fileObj);
+     formData.append("_method", "PUT");
+
+    // console.log(formData.forEach(item => {
+    //   console.log(item)
+    // }))
+
+    try {
+      const res = await updateDashboardPodcastApi({
+        updateInfo: formData,
+        podcast_id: selectId
+      }).unwrap()
+      console.log(res)
+      if (res?.data) {
+        toast.success(res?.message)
+        setImageFileListHost([]);
+        setImageFileListGuest([]);
+        setImageFileListThumbail([]);
+        formFive.resetFields()
+        dispatch(closePodcastModalOpenOne());
+      }
+    } catch (errors) {
+      toast.error(errors.message);
+    }
+    finally {
+      setLoading(false);
+    }
+  }
+
+
+  const showPodcastModalFive = (id) => {
+    setselectId(id)
+    dispatch(podcastModalOpenFive())
+
+  };
+
+
+  const podcastModalOkFive = () => {
+    formFive.submit()
+    // dispatch(closePodcastModalOpenFive());
+
+  };
+
+  const podcastModalCancelFive = () => {
+    dispatch(closePodcastModalOpenFive());
+  };
+  // ======= podcast modal five end ===========
+
+
+
+
   const handleSearchChange = () => {
-    console.log('click')
+
   }
 
 
@@ -351,7 +496,9 @@ const formatDate = (isoDate) => {
           </button>
 
           {/* edit icon */}
-          <button>
+          <button
+            onClick={() => showPodcastModalFive(record?.id)}
+          >
             <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M0 22V18H20V22H0ZM4 14H5.4L13.2 6.225L11.775 4.8L4 12.6V14ZM2 16V11.75L13.2 0.575C13.3833 0.391667 13.5958 0.25 13.8375 0.15C14.0792 0.05 14.3333 0 14.6 0C14.8667 0 15.125 0.05 15.375 0.15C15.625 0.25 15.85 0.4 16.05 0.6L17.425 2C17.625 2.18333 17.7708 2.4 17.8625 2.65C17.9542 2.9 18 3.15833 18 3.425C18 3.675 17.9542 3.92083 17.8625 4.1625C17.7708 4.40417 17.625 4.625 17.425 4.825L6.25 16H2Z" fill="#49ADF4" />
             </svg>
@@ -418,7 +565,7 @@ const formatDate = (isoDate) => {
         open={podcastModalOne}
         onOk={podcastModalOkOne}
         onCancel={podcastModalCancelOne}
-        width={500}
+        width={800}
         footer={
           <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
             <button
@@ -954,6 +1101,227 @@ const formatDate = (isoDate) => {
           </div>
         </div>
       </Modal >
+
+
+
+      {/* modal five */}
+      <Modal
+        className="custom-ai-modal"
+        centered
+        open={podcastModalFive}
+        onOk={podcastModalOkFive}
+        onCancel={podcastModalCancelFive}
+        width={1000}
+        footer={
+          <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
+            <button
+              className="hover:bg-[#A6ABAC] px-6 rounded"
+              onClick={podcastModalCancelFive}
+            >
+              Cancel
+            </button>
+            <Button
+              onClick={podcastModalOkFive}
+              type="primary" htmlType="submit" loading={loading}
+              className="no-hover"
+            >
+              {
+                loading ? "Loading..." : "Update"
+              }
+            </Button>
+          </div>
+        }
+      >
+        <div className="">
+
+          <Form form={formFive} onFinish={onFinishFive} style={{ padding: "80px 60px", }}>
+            {/* podcast title */}
+            <div>
+              <p className="text-[#FFFFFF] ">Podcast title</p>
+              <Form.Item name="podcast_title">
+                <Input
+                  placeholder="Enter title"
+                  style={{ padding: "10px" }}
+                />
+              </Form.Item>
+            </div>
+
+            {/* host tile and gest title */}
+            <div className="flex items-center justify-between gap-4">
+              {/* Host title */}
+              <div className="w-full">
+                <p className="text-[#FFFFFF] ">Host title</p>
+                <Form.Item name="host_title">
+                  <Input
+                    placeholder="Enter title"
+                    style={{ padding: "10px" }}
+                  />
+                </Form.Item>
+              </div>
+
+
+              {/* Gust title */}
+              <div className="w-full">
+                <p className="text-[#FFFFFF] ">Guest title</p>
+                <Form.Item name="guest_title">
+                  <Input
+                    placeholder="Enter title"
+                    style={{ padding: "10px" }}
+                  />
+                </Form.Item>
+              </div>
+            </div>
+
+            {/* host image upload */}
+            <div className="flex justify-center border-2 border-dashed border-[#B6B6BA] rounded-md mb-2 pt-5">
+              <Form.Item
+                className="md:col-span-2"
+                name="image"
+                rules={[
+                  {
+                    required: ImageFileListHost.length === 0,
+                    message: "Image required!",
+                  },
+                ]}
+              >
+                <Upload
+
+                  accept="image/*"
+                  maxCount={1}
+                  showUploadList={{ showPreviewIcon: true }}
+                  fileList={ImageFileListHost}
+                  onChange={({ fileList }) => setImageFileListHost(fileList)}
+                  listType="picture-card"
+                  className="w-full"
+                  beforeUpload={() => false}
+                >
+                  <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
+                    <UploadCloud className="w-5 h-5 text-gray-400" />
+                    <span className="mt-2">Upload guest photo</span>
+                  </div>
+                </Upload>
+              </Form.Item>
+            </div>
+
+            <div className="pt-4">
+              <Form.Item name="description">
+                <TextArea placeholder="Write a description..." style={{ backgroundColor: "transparent", padding: "10px", border: "1px solid gray", color: "#fff", height: "100px", resize: "none" }}
+                />
+              </Form.Item>
+            </div>
+
+            {/* guest image upload */}
+            <div className="flex justify-center border-2 border-dashed border-[#B6B6BA] rounded-md mb-2 pt-5">
+              <Form.Item
+                className="md:col-span-2"
+                name="image"
+                rules={[
+                  {
+                    required: ImageFileListGuest.length === 0,
+                    message: "Image required!",
+                  },
+                ]}
+              >
+                <Upload
+
+                  accept="image/*"
+                  maxCount={1}
+                  showUploadList={{ showPreviewIcon: true }}
+                  fileList={ImageFileListGuest}
+                  onChange={({ fileList }) => setImageFileListGuest(fileList)}
+                  listType="picture-card"
+                  className="w-full"
+                  beforeUpload={() => false}
+                >
+                  <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
+                    <UploadCloud className="w-5 h-5 text-gray-400" />
+                    <span className="mt-2">Upload host photo</span>
+                  </div>
+                </Upload>
+              </Form.Item>
+            </div>
+
+
+
+
+            {/* mp3 file upload */}
+            <div>
+              <Form.Item
+                name="mp3File"
+                valuePropName="file"
+                getValueFromEvent={(e) => e && e.fileList[0]}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please upload an MP3 file!',
+                  },
+                ]}
+              >
+                <Dragger
+                  beforeUpload={() => false}
+                  accept=".mp3"
+                  maxCount={1}
+                  fileList={mp3FileList}
+                  onChange={({ fileList }) => setMp3FileList(fileList)}
+                  style={{
+                    backgroundColor: 'transparent',
+                    border: '2px dashed #888',
+                    borderRadius: '8px',
+                    padding: '30px 20px',
+                  }}
+                >
+                  <p className="">
+                    <InboxOutlined style={{ color: '#fff', fontSize: '32px' }} />
+                  </p>
+                  <p style={{ color: '#fff', fontSize: '16px', fontWeight: 500 }}>
+                    Upload podcast of drag & drop here.
+                  </p>
+                  <p style={{ color: '#aaa', marginTop: '4px' }}>
+                    Supported format MP3<br />
+                    Max file size: 1 GB.
+                  </p>
+                </Dragger>
+              </Form.Item>
+            </div>
+
+
+
+
+
+
+            {/* guest image upload */}
+            <div className="flex justify-center border-2 border-dashed border-[#B6B6BA] rounded-md mb-2 pt-5">
+              <Form.Item
+                className="md:col-span-2"
+                name="image"
+                rules={[
+                  {
+                    required: ImageFileListThumbail.length === 0,
+                    message: "Image required!",
+                  },
+                ]}
+              >
+                <Upload
+
+                  accept="image/*"
+                  maxCount={1}
+                  showUploadList={{ showPreviewIcon: true }}
+                  fileList={ImageFileListThumbail}
+                  onChange={({ fileList }) => setImageFileListThumbail(fileList)}
+                  listType="picture-card"
+                  className="w-full"
+                  beforeUpload={() => false}
+                >
+                  <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
+                    <UploadCloud className="w-5 h-5 text-gray-400" />
+                    <span className="mt-2">Upload thumbnail.</span>
+                  </div>
+                </Upload>
+              </Form.Item>
+            </div>
+          </Form>
+        </div>
+      </Modal>
 
     </div>
   </section>;

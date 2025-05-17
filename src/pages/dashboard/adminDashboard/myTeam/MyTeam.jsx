@@ -202,7 +202,9 @@ const MyTeam = () => {
         dispatch(closeTeamModalOpenThree());
       }
     } catch (errors) {
-      toast.error(errors.message);
+      if(errors){
+        toast.error(errors.message);
+      }
     }
 
 

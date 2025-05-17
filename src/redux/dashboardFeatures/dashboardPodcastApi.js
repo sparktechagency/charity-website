@@ -34,16 +34,17 @@ const dashboardPodcastApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ['podcast'],
         }),
-        // updateDashboardPodcastApi: builder.query({
-        //     query: () => ({
-        //         url: `/get-podcast?search=&per_page=10&page=1`,
-        //         method:"GET",
+        updateDashboardPodcastApi: builder.mutation({
+            query: ({podcast_id,updateInfo}) => ({
+                url: `/update-podcast?podcast_id=${podcast_id}`,
+                method:"POST",
+                body:updateInfo
               
-        //     }),
-        //     invalidatesTags: ['podcast'],
-        // }),
+            }),
+            invalidatesTags: ['podcast'],
+        }),
     })
 })
 
 
-export const {usePostDashboardPodcastApiMutation,useGetDashboardPodcastApiQuery,useSingleGetDashboardPodcastApiQuery,useDeleteDashboardPodcastApiMutation} = dashboardPodcastApi;
+export const {usePostDashboardPodcastApiMutation,useGetDashboardPodcastApiQuery,useSingleGetDashboardPodcastApiQuery,useDeleteDashboardPodcastApiMutation,useUpdateDashboardPodcastApiMutation} = dashboardPodcastApi;
