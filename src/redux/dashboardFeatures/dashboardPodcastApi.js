@@ -19,6 +19,13 @@ const dashboardPodcastApi = baseApi.injectEndpoints({
             }),
             providesTags: ['podcast'],
         }),
+        singleGetDashboardPodcastApi: builder.query({
+            query: ({podcast_id}) => ({
+                url: `/details-podcast?podcast_id=${podcast_id}`,
+                method:"GET",
+            }),
+            providesTags: ['podcast'],
+        }),
         deleteDashboardPodcastApi: builder.mutation({
             query: ({podcast_id}) => ({
                 url: `/delete-podcast?podcast_id=${podcast_id}`,
@@ -39,4 +46,4 @@ const dashboardPodcastApi = baseApi.injectEndpoints({
 })
 
 
-export const {usePostDashboardPodcastApiMutation,useGetDashboardPodcastApiQuery,useDeleteDashboardPodcastApiMutation} = dashboardPodcastApi;
+export const {usePostDashboardPodcastApiMutation,useGetDashboardPodcastApiQuery,useSingleGetDashboardPodcastApiQuery,useDeleteDashboardPodcastApiMutation} = dashboardPodcastApi;

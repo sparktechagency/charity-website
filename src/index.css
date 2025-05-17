@@ -811,3 +811,47 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 1. button hover effect remove
 
 */
+
+
+
+
+/*================ ant modal custom style start ============= */
+.ant-modal-content {
+  padding: 0px !important;
+
+}
+
+.ant-modal-close-icon {
+  color: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.ant-modal-body {
+  background-color: #1B2324!important;
+  margin-top: -8px !important;
+}
+
+.ant-modal-body {
+  border-radius: 0 0 6px 6px !important;
+}
+
+.ant-form-item-required {
+  /* font-family: "Roboto", sans-serif !important; */
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  content: "" !important;
+}
+
+.ant-tag-close-icon {
+  color: black !important;
+  padding-left: 20px;
+  font-size: 18px !important;
+}
+
+.ant-card-body {
+  padding: 0px;
+  border-radius: 10px !important;
+}
+/*================ ant modal custom style end ============= */
