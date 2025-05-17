@@ -311,16 +311,6 @@ const Settings = () => {
       </div>
 
 
-
-
-
-
-
-
-
-
-
-
       {/* setting modal components */}
       <div>
 
