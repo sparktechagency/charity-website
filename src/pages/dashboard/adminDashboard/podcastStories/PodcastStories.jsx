@@ -40,7 +40,7 @@ const PodcastStories = () => {
   const [postDashboardPodcastApi] = usePostDashboardPodcastApiMutation() // post
   const { data, isLoading, refetch } = useGetDashboardPodcastApiQuery(); // get
   const [deleteDashboardPodcastApi] = useDeleteDashboardPodcastApiMutation(); // delete
-  const { data: podcastData } = useSingleGetDashboardPodcastApiQuery({podcast_id:selectId}) // single podcast data
+  const { data: podcastData } = useSingleGetDashboardPodcastApiQuery({ podcast_id: selectId }) // single podcast data
 
 
   const allPodcastData = data?.data?.data
@@ -89,6 +89,19 @@ const PodcastStories = () => {
       }
     };
   }, []);
+
+const formatDate = (isoDate) => {
+  const date = new Date(isoDate);
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  });
+};
+
+
+
+
 
 
   //======== podcast modal one start =========
@@ -229,7 +242,7 @@ const PodcastStories = () => {
   // ======= podcast modal four start =========
 
   const showPodcastModalFour = (id) => {
-   setselectId(id)
+    setselectId(id)
     dispatch(podcastModalOpenFour())
 
   };
@@ -324,7 +337,7 @@ const PodcastStories = () => {
         <div className="flex items-center justify-center gap-3">
           {/* view details icon */}
           <button
-            onClick={()=>showPodcastModalFour(record?.id)}
+            onClick={() => showPodcastModalFour(record?.id)}
             className=" p-1 rounded bg-blue"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -891,7 +904,7 @@ const PodcastStories = () => {
                 className="w-[120px] h-[100px]  object-cover rounded-md"
               />
               <div>
-                <p className="text-sm text-[#fff]">21 February, 2025</p>
+                <p className="text-sm text-[#fff]">{formatDate(singlePodcast?.created_at)}</p>
                 <h2 className="text-xl font-bold">
                   {singlePodcast?.podcast_title}
                 </h2>
@@ -902,10 +915,10 @@ const PodcastStories = () => {
             <div className="mt-4">
               <AudioPlayer
                 ref={playerRef}
-                 src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.mp3}`}
+                src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.mp3}`}
                 onPlay={e => console.log("Playing audio:", singlePodcast?.data?.mp3)}
-                   showJumpControls={false}
-                style={{background:"#1B2324",borderRadius:"20px",color:"#ffff"}}
+                showJumpControls={false}
+                style={{ background: "#1B2324", borderRadius: "20px", color: "#ffff" }}
               />
             </div>
 
@@ -929,7 +942,7 @@ const PodcastStories = () => {
                 </div>
                 <div className="text-center">
                   <img
-                   src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.guest_profile}`}
+                    src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.guest_profile}`}
                     alt="Richard Mathew"
                     className="w-[40px] h-[40px] object-cover rounded-full"
                   />
