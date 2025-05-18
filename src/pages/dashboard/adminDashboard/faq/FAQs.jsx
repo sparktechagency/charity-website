@@ -109,8 +109,9 @@ const FAQs = () => {
                 padding: "8px",
                 width: "100%",
                 color: "#ffffff",
-                borderRadius: "10px"
+                borderRadius: "5px"
               }}
+              className="resize-none"
             />
           </Form.Item>
         </div>
@@ -130,9 +131,11 @@ const FAQs = () => {
                 border: "1px solid gray",
                 padding: "8px",
                 width: "100%",
+                height:"150px",
                 color: "#ffffff",
-                borderRadius: "10px"
+                borderRadius: "5px"
               }}
+              className="resize-none"
             />
           </Form.Item>
         </div>

@@ -1,4 +1,4 @@
-import { Form, Input, message, Modal, Pagination, Upload } from "antd";
+import { Button, Form, Input, message, Modal, Pagination, Upload } from "antd";
 import CustomNotFound from "../../../../components/shared/CustomNotFound";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -34,6 +34,7 @@ const MyTeam = () => {
   const [selectId, setSelectId] = useState(null)
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(8);
+  const [loading,setLoading] = useState(false)
 
 
   const [postDashboardMyTeamApi] = usePostDashboardMyTeamApiMutation() // post
@@ -106,6 +107,7 @@ const MyTeam = () => {
 
   // ========= team modal one start =============
   const onFinishOne = async (values) => {
+    setLoading(true)
     const formData = new FormData();
     if (ImageFileList[0]?.originFileObj) {
       formData.append("photo", ImageFileList[0].originFileObj);
@@ -133,6 +135,9 @@ const MyTeam = () => {
       }
     } catch (errors) {
       toast.error(errors.message);
+    }
+    finally{
+      setLoading(false)
     }
 
 
@@ -172,6 +177,7 @@ const MyTeam = () => {
 
   // ========= team modal three start =============
   const onFinishThree = async (values) => {
+    setLoading(true)
     const formData = new FormData();
     if (ImageFileList[0]?.originFileObj) {
       formData.append("photo", ImageFileList[0].originFileObj);
@@ -205,6 +211,8 @@ const MyTeam = () => {
       if(errors){
         toast.error(errors.message);
       }
+    }finally{
+      setLoading(false)
     }
 
 
@@ -472,12 +480,13 @@ const MyTeam = () => {
                       >
                         Cancel
                       </button>
-                      <button
+                      <Button
                         className="bg-[#ffffff] px-6 rounded"
                         onClick={teamModalOkOne}
+                        loading={loading}
                       >
-                        Add
-                      </button>
+                        {loading ? "Loading...." : "Add" }
+                      </Button>
                     </div>
                   }
                 >
@@ -702,12 +711,13 @@ const MyTeam = () => {
                       >
                         Cancel
                       </button>
-                      <button
+                      <Button
                         className="bg-[#ffffff] py-2 px-4 rounded"
                         onClick={teamModalOkThree}
+                        loading={loading}
                       >
-                        Update Information
-                      </button>
+                          {loading ? "Loading...." : "Update" }
+                      </Button>
                     </div>
                   }
                 >

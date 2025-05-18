@@ -12,12 +12,11 @@
 
 
 
-3. work done
-  [faq, my_tem,subscribers,donationTransition ]
+3. work done [
+  1. faq section
+  2. my_teams section
+  3. subscribers
+  4. 
 
-4. provlem----> [update_auction, pdf file download, ]
+  ]
 
-5. Not complate[settings---- prodcus----volunterrs-----contributors, podcast ar get api changes for pagination]
-
-
-6. setting a profile image upload ar kaj baki--------> only profile image upload 
