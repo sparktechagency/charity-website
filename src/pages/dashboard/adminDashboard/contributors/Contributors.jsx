@@ -16,11 +16,10 @@ import CustomLoading from "../../shared/CustomLoading";
 const Contributors = () => {
   const [selectId, setSelectId] = useState(null)
   const [singleAuctionId, setSingleAuctionId] = useState(null)
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(20);
-  const [perPage, setPerPage] = useState(4);
   const [searchText, setSearchText] = useState("");
-  const [selectValue, stetSelectValue] = useState("");
+  const [selectValue, stetSelectValue] = useState("Pending");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
 
   const dispatch = useDispatch();
   const modalOne = useSelector((state) => state.modal.modalOne);
@@ -29,7 +28,7 @@ const Contributors = () => {
 
   // const { data, isLoading,refetch } = useGetDashboardContibutorsApiQuery({ page: currentPage, per_page: perPage, search: searchText });
 
-  const { data, isLoading, refetch } = useGetDashboardContibutorsApiQuery();
+  const { data, isLoading, refetch } = useGetDashboardContibutorsApiQuery({search:searchText, status:selectValue, per_page:perPage, page:currentPage});
   const { data: singleData } = useSingleGetDashboardContibutorsApiQuery({ id: selectId })
   const { data: singleContAuction } = useSingleGetDashboardContibutorsAuctionApiQuery({ auction_id: singleAuctionId })
 
@@ -135,12 +134,19 @@ const Contributors = () => {
   ]
 
   const handleSelect = (value) => {
-    console.log(value);
+    stetSelectValue(value)
+  };
+
+
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+    // stetSelectValue(e.target.value)
+    setCurrentPage(1); // Reset to the first page whenever the search term changes
   };
 
   useEffect(() => {
     refetch(); // Refetch the data when searchText, currentPage, or perPage changes
-  }, [searchText, currentPage, perPage, refetch]);
+  }, [searchText, selectValue, currentPage, perPage, refetch]);
 
 
   if (isLoading) return <CustomLoading />
@@ -153,18 +159,20 @@ const Contributors = () => {
               Manage contributors
             </h2>
             <div>
-              <Select
+             <Select
                 showSearch
-                placeholder="Approved"
+                placeholder="Volunteer"
                 style={{
                   width: "100%",
                   height: "30px",
+              
                 }}
                 options={[
-                  { value: "approved", label: "Approved" },
-                  { value: "pending", label: "Pending" },
+                  { value: "Pending", label: "Pending" },
+                  { value: "Approved", label: "Approved" },
+                  { value: "Suspended", label: "Suspended" },
                 ]}
-                dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)" }}
+                dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)"}}
                 onChange={handleSelect}
               />
             </div>
@@ -172,14 +180,11 @@ const Contributors = () => {
 
           <div>
             <Input.Search
-              placeholder="Search contributors..."
+              placeholder="Search user name"
               className="custom-search"
-              onSearch={(value) => {
-                setSearchText(value);
-              }}
-              onChange={(e) => {
-                setSearchText(e.target.value);
-              }}
+              value={searchText} // Controlled value for the input
+              onChange={handleSearchChange} // Handle search input change
+              enterButton
             />
           </div>
         </div>

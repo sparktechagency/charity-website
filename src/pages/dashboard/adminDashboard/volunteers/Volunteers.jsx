@@ -156,7 +156,7 @@ const Volunteers = () => {
 
           <div>
             <Input.Search
-              placeholder="Search volunteer..."
+              placeholder="Search name or email"
               className="custom-search"
               value={searchText} // Controlled value for the input
               onChange={handleSearchChange} // Handle search input change
