@@ -111,7 +111,7 @@ const PodcastStories = () => {
 
       const mp3File = {
         uid: '-1',
-        name: 'existing_audio.mp3',
+        name: 'must upload_audio.mp3',
         status: 'done',
         url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.mp3}`,
       };
