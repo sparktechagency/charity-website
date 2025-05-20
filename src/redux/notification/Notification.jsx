@@ -30,9 +30,9 @@ const Notification = () => {
         }
     }
 
-    const handleSingleRed = async(id) => {
+    const handleSingleRed = async (id) => {
         try {
-            const res = await redNotificationApi({id:id}).unwrap()
+            const res = await redNotificationApi({ id: id }).unwrap()
             console.log(res)
             if (res.success === true) {
                 toast.success(res.message)
@@ -57,17 +57,45 @@ const Notification = () => {
                     return (
                         <div
                             key={index}
-                            onClick={() => handleSingleRed(item?.id)}
-                            className={`border border-[#ccc] rounded-lg p-2 mb-4 ${item?.read_at === null ? '' : 'bg-green-400 border-none'}`}>
-                            <div className={`flex items-center justify-evenly py-8 cursor-pointer `}>
-                                <p>id: {item.id}</p>
+                            className={`grid grid-cols-12 gap-4 items-center border border-[#ccc] rounded-lg mb-4 p-4 ${item?.read_at === null ? '' : 'bg-red-400 text-[#ffff] border-none'
+                                }`}
+                        >
+                            {/* 1st div: image */}
+                            <div className="col-span-1">
                                 <img src='/videoImg.jpg' alt="" className="w-[40px] h-[40px] rounded-full object-cover" />
-                                <p>{item.data.message}</p>
                             </div>
+
+                            {/* 2nd div: title or short info */}
+                            <div className="col-span-2">
+                                <h3 className="font-semibold text-xl">{item?.data?.name}</h3>
+                            </div>
+
+                            {/* 3rd div: description */}
+                            <div className="col-span-7">
+                                <p className=" text-lg">
+                                    {item?.data?.message}
+                                </p>
+                            </div>
+
+                            {/* 4th div: button */}
+                            {
+                                item?.read_at === null ?
+                                    <div className="col-span-2 text-right">
+                                        <button 
+                                        onClick={() => handleSingleRed(item?.id)}
+                                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                            Read
+                                        </button>
+                                    </div>
+                                    :
+                                    ''
+                            }
+
                         </div>
-                    )
+                    );
                 })
             }
+
         </section>
     )
 }
