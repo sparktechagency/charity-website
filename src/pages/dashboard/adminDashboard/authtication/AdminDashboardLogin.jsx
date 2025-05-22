@@ -63,9 +63,14 @@ const AdminDashboardLogin = () => {
               ]}
             >
               <Input
+                id="email"
                 placeholder="Enter your email"
-                className="w-full border p-2 rounded-md"
-                style={{ backgroundColor: "transparent" }}
+                className="w-full  border p-2 rounded-md "
+                style={{
+                  backgroundColor: "transparent", color: "#ffffff",
+                  caretColor: "white",
+                }}
+
               />
             </Form.Item>
           </div>
@@ -104,7 +109,7 @@ const AdminDashboardLogin = () => {
 
           {/* Submit Button */}
           <Form.Item>
-            <Button
+            {/* <Button
               htmlType="submit"
               className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
               style={{
@@ -117,7 +122,16 @@ const AdminDashboardLogin = () => {
               }}
             >
               Log in
-            </Button>
+            </Button> */}
+            <button type="submit" className="w-full rounded-md bg-[#ffff] hover:bg-[#ffffff6e] " style={{
+              fontFamily: "Roboto",
+              fontWeight: "bold",
+              fontSize: "16px",
+              height: "40px",
+              marginLeft: "0px",
+            }}>
+              Log in
+            </button>
           </Form.Item>
 
           <Link to={"/admin/dashboard/forget-password"}>

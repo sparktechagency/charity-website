@@ -10,7 +10,7 @@ import CustomLoading from "../../shared/CustomLoading";
 
 const FAQs = () => {
   const [postDashboardFaqApi] = usePostDashboardFaqApiMutation();
-  const { data, refetch,isLoading } = useGetDashboardFaqApiQuery();
+  const { data, refetch, isLoading } = useGetDashboardFaqApiQuery();
   const [deleteFaq] = useDeleteDashboardFaqApiMutation();
   const [updateDashboardFaqApi] = useUpdateDashboardFaqApiMutation()
   const [formOne] = useForm();
@@ -78,7 +78,7 @@ const FAQs = () => {
     setSelectedFaqId(item.id);
   }
 
-  if(isLoading) return <CustomLoading />
+  if (isLoading) return <CustomLoading />
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
@@ -131,7 +131,7 @@ const FAQs = () => {
                 border: "1px solid gray",
                 padding: "8px",
                 width: "100%",
-                height:"150px",
+                height: "150px",
                 color: "#ffffff",
                 borderRadius: "5px"
               }}
@@ -140,32 +140,42 @@ const FAQs = () => {
           </Form.Item>
         </div>
         <div className="flex justify-end">
-          <Button htmlType="submit">Add</Button>
+          <button type="submit" className=" px-6 rounded-md bg-[#ffff] hover:bg-[#ffffff6e] " style={{
+            fontFamily: "Roboto",
+            fontWeight: "bold",
+            fontSize: "16px",
+            height: "40px",
+            marginLeft: "0px",
+          }}>
+            Add
+          </button>
+          {/* <Button htmlType="submit"></Button> */}
+
         </div>
       </Form>
-          <div className=" h-auto text-[#ffff] p-4">
-            {allFaqData?.slice(0, 5).map((item, index) => (
-              <div
-                key={index}
-                className="flex justify-between items-center border-b border-gray-700 py-4"
-              >
-                <div className="flex flex-col">
-                  <span className="text-xl">{item?.question}?</span>
-                  <p className="text-sm text-gray-400">
-                    <span className="text-xl text-[#ffff]">Ans : </span> {item?.answer}
-                  </p>
-                </div>
-                <div className="flex gap-4">
-                  <EditOutlined
-                    onClick={() => handleUpdate(item)}
-                    className="cursor-pointer hover:text-blue-400" />
-                  <DeleteOutlined
-                    onClick={() => handleDelete(item?.id)}
-                    className="cursor-pointer hover:text-red-400" />
-                </div>
-              </div>
-            ))}
+      <div className=" h-auto text-[#ffff] p-4">
+        {allFaqData?.slice(0, 5).map((item, index) => (
+          <div
+            key={index}
+            className="flex justify-between items-center border-b border-gray-700 py-4"
+          >
+            <div className="flex flex-col">
+              <span className="text-xl">{item?.question}</span>
+              <p className="text-sm text-gray-400">
+                <span className="text-xl text-[#ffff]">Ans : </span> {item?.answer}
+              </p>
+            </div>
+            <div className="flex gap-4">
+              <EditOutlined
+                onClick={() => handleUpdate(item)}
+                className="cursor-pointer hover:text-blue-400" />
+              <DeleteOutlined
+                onClick={() => handleDelete(item?.id)}
+                className="cursor-pointer hover:text-red-400" />
+            </div>
           </div>
+        ))}
+      </div>
     </div>
   );
 };

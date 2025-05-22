@@ -70,15 +70,15 @@ if(isLoading) return <CustomLoading />
       }}
     >
       {/* select years */}
-      {/* <div className=" pb-8">
-        <select
+      <div className=" pb-8">
+        {/* <select
           value={selectedYear}
           onChange={handleChange}
           name="" id="" className="w-[80px] bg-transparent border border-[#ccc] text-[#ccc] rounded-md cursor-pointer px-2 py-1">
           <option value="2025">2025</option>
           <option value="2024">2024</option>
-        </select>
-      </div> */}
+        </select> */}
+      </div>
 
       <div style={{ height: "500px", width: "100%" }}>
         <ResponsiveContainer width="100%" height="100%">
