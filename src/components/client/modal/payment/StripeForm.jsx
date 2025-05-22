@@ -12,12 +12,11 @@ const stripePromise = loadStripe(
 
 const StripeForm = ({ price }) => {
   const navigate = useNavigate();
-  const axiosPublic = useAxiosPublic();
   const donationMoney = 20;
   // const donationMoney = Number(price);
   console.log(typeof `donationMoney is ${parseFloat(donationMoney)} `)
-  const payload = donationMoney
   const [clientSecret, setClientSecret] = useState("");
+  const payload = clientSecret
   useEffect(() => {
     if (!price) {
       navigate("/donation");
@@ -62,7 +61,7 @@ const StripeForm = ({ price }) => {
     <div className="max-w-[600px] mx-auto py-28 ">
       {clientSecret ? (
         <Elements options={{ clientSecret, appearance }} stripe={stripePromise}>
-          <CheckoutForm data={payload} />
+          <CheckoutForm clientSecret={clientSecret} />
         </Elements>
       ) : (
         <p className="text-center">Loading payment form...</p>
