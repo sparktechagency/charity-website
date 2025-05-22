@@ -38,6 +38,7 @@ import UserDetails from "../components/client/modal/payment/UserDetails";
 import AudioFile from "../components/client/audio/AudioFile";
 import LoginForm from "../components/client/login/LoginFrom";
 import RegistrationForm from "../components/client/RegistrationForm/RegistrationForm";
+import Notification from "../redux/notification/Notification";
 
 
 export const router = createBrowserRouter([
@@ -175,6 +176,10 @@ export const router = createBrowserRouter([
       {
         path: "settings",
         element: <Settings />,
+      },
+      {
+        path: "notification",
+        element: <Notification />,
       },
     ],
   },

@@ -740,6 +740,8 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
   border: none !important;
 }
 
+
+
 /* ========= search input field style end ========= */
 
 
@@ -804,9 +806,16 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 
 /* ========== modal custom design start ================ */
 /* style.css or a global style file */
+.custom-auction-modal .ant-modal-content {
+  background-color: #c6cecf;
+}
+
+
 .custom-ai-modal .ant-modal-content {
   background-color: #263234;
 }
+
+
 
 
 .custom-view-modal .ant-modal-close {
@@ -833,4 +842,77 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
   box-shadow: none !important;
 }
 /* ========= modal input field custom color add end ========= */
+
+
+/* not found ant table style */
+.ant-table-wrapper .ant-table-tbody>tr.ant-table-placeholder {
+  background: #1B2324;
+ 
+}
+
+:where(.css-dev-only-do-not-override-1d4w9r2).ant-empty .ant-empty-description {
+  color: #fff 
+}
+
+
+
+/* button hover effect remove============== */
+.no-hover.ant-btn-primary:hover,
+.no-hover.ant-btn-primary:focus {
+  background-color: #1677ff !important;
+  border-color: #1677ff !important;
+  box-shadow: none !important;
+}
+
+
+
+
+
+/* 
+1. button hover effect remove
+
+*/
+
+
+/*================ ant modal custom style start ============= */
+/* .ant-modal-content {
+  padding: 0px !important;
+
+}
+
+.ant-modal-close-icon {
+  color: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.ant-modal-body {
+  background-color: #1B2324!important;
+  margin-top: -8px !important;
+}
+
+.ant-modal-body {
+  border-radius: 0 0 6px 6px !important;
+}
+
+.ant-form-item-required {
+  font-family: "Roboto", sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  content: "" !important;
+}
+
+.ant-tag-close-icon {
+  color: black !important;
+  padding-left: 20px;
+  font-size: 18px !important;
+}
+
+.ant-card-body {
+  padding: 0px;
+  border-radius: 10px !important;
+} */
+/*================ ant modal custom style end ============= */
+
 
