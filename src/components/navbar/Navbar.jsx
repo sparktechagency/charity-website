@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { DownOutlined, MenuOutlined } from "@ant-design/icons";
-import { Drawer, Modal, Form, Dropdown, Menu } from "antd";
+import { Drawer, Modal, Form, Dropdown, Menu, message } from "antd";
 import logo from "../../assets/image/logo.svg";
 import AggrementPage from "../../pages/aggrement/AggrementPage";
 import PaymentModal from "../client/modal/payment/PaymentModal";
-import DonateModal from "../client/modal/donate/DonateModal";
 import ArtAntiqModal from "../client/modal/art-antique/ArtAntiqModal";
-import DonerDetailsModal from "../client/modal/doner-details/DonerDetailsModal";
 import SupportModal from "../client/modal/support-modal/SupportModal";
-import DonationFormModal from "../client/donation-form-modal/DonationFormModal";
 import LoginForm from "../client/login/LoginFrom";
 import useAxiosPublic from "../../pages/hooks/useAxiosPublic";
-import toast from "react-hot-toast";
 import ProfileCard from "../client/profile-card/ProfileCard";
 
 const Navbar = () => {
   // api and token related function start
   const [profileData, setProfileData] = useState({});
-  const [profileCard,setProfileCard] = useState(false);
+  const [profileCard, setProfileCard] = useState(false);
   const axiosPublic = useAxiosPublic();
   const token = localStorage.getItem("token");
   const isLoggedIn = !!token; // 👈 true if token exists
@@ -43,18 +39,18 @@ const Navbar = () => {
           setProfileData(res.data.data);
         }
       } catch (error) {
-        // toast.error(error.response.data.message);
+        // message.error(error.response.data.message);
       }
     };
     fetchData();
-  }, []);
+  }, [profileData]);
 
   // profile card modal 
 
-  const openProfileCardModal = ()=>{
+  const openProfileCardModal = () => {
     setProfileCard(true)
   };
-  const closeProfileCardModal = ()=>{
+  const closeProfileCardModal = () => {
     setProfileCard(false)
   }
 
@@ -138,13 +134,12 @@ const Navbar = () => {
       supportModal || paymentModal || antiquesModal || loginModal || profileCard
         ? "hidden"
         : "auto";
-  }, [supportModal, paymentModal, antiquesModal, loginModal,profileCard]);
+  }, [supportModal, paymentModal, antiquesModal, loginModal, profileCard]);
 
   return (
     <nav
-      className={`fixed w-full z-[100] transition-all duration-300 ${
-        isScrolled ? "bg-[#F9F9F9] shadow" : "bg-transparent"
-      }`}
+      className={`fixed w-full z-[100] transition-all duration-300 ${isScrolled ? "bg-[#F9F9F9] shadow" : "bg-transparent"
+        }`}
     >
       <div className="max-w-7xl  mx-auto py-3 flex items-center justify-between px-4 md:px-3">
         {/* Logo */}
@@ -161,10 +156,9 @@ const Navbar = () => {
                 <NavLink
                   to={`/${item.path}`}
                   className={({ isActive }) =>
-                    `text-sm transition-colors ${
-                      isActive
-                        ? "font-bold px-6 py-3 bg-[#dee1e6] rounded-3xl"
-                        : "text-[#263234] hover:text-gray-700"
+                    `text-sm transition-colors ${isActive
+                      ? "font-bold px-6 py-3 bg-[#dee1e6] rounded-3xl"
+                      : "text-[#263234] hover:text-gray-700"
                     }`
                   }
                 >
@@ -202,9 +196,8 @@ const Navbar = () => {
               <div className="cursor-pointer bg-white ">
                 <img
                   className="w-10 h-10 object-cover bg-white! rounded-full  "
-                  src={`http://137.59.180.219:8000/${
-                    profileData?.image || "default-image/defaultImage.jpg"
-                  }`}
+                  src={`http://137.59.180.219:8000/${profileData?.image || "default-image/defaultImage.jpg"
+                    }`}
                   alt="Profile"
                 />
               </div>
@@ -246,8 +239,7 @@ const Navbar = () => {
                 <NavLink
                   to={`/${item.path}`}
                   className={({ isActive }) =>
-                    `text-sm block py-3 px-4 transition-all ${
-                      isActive ? "font-bold bg-[#e6dede]" : "text-[#263234]"
+                    `text-sm block py-3 px-4 transition-all ${isActive ? "font-bold bg-[#e6dede]" : "text-[#263234]"
                     }`
                   }
                   onClick={toggleDrawer}
@@ -428,7 +420,7 @@ const Navbar = () => {
         width={400}
         className="rounded-2xl"
       >
-        <ProfileCard  setProfileCard = {setProfileCard} profileData = {profileData}  handleLogout = {handleLogout} />
+        <ProfileCard setProfileCard={setProfileCard} profileData={profileData} handleLogout={handleLogout} />
       </Modal>
     </nav>
   );

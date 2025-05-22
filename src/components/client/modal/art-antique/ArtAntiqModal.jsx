@@ -103,7 +103,7 @@ const ArtAntiqModal = ({
           style={{ marginBottom: "0px" }}
           rules={[
             { required: true, message: "Please input your name!" },
-            { min: 6, message: "Name must be at least 6 characters!" },
+            { min: 3, message: "Name must be at least 6 characters!" },
           ]}
         >
           <Input

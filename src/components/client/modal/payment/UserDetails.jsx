@@ -6,12 +6,12 @@ import StripeForm from "./StripeForm";
 const UserDetails = () => {
   const location = useLocation();
   const payload = location.state;
-  console.log(payload);
+  console.log( typeof payload?.amount);
 
   const navigate = useNavigate();
   const donationData = {
     donationType: "recurring",
-    amount: "24.50",
+    amount: payload?.amount,
     frequency: "monthly",
     name: "Jane Doe",
     email: "jane@example.com",
@@ -22,7 +22,7 @@ const UserDetails = () => {
   const onEdit = () => {
     navigate(`/donate-from`, { state: payload });
   };
-
+const price = Number(payload?.amount)
   return (
     <div className="flex flex-col lg:flex-row max-w-[1512px] mx-auto " >
       <div className=" max-w-2xl border mx-auto p-6 bg-white rounded-2xl w-full  shadow-md">
@@ -86,7 +86,7 @@ const UserDetails = () => {
         </div>
       </div>
       <div className="w-full" >
-        <StripeForm />
+        <StripeForm price = {price}  />
       </div>
     </div>
   );

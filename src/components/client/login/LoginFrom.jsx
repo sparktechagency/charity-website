@@ -1,4 +1,4 @@
-import { Form, Input, Button, Card, Alert, Modal, InputNumber } from "antd";
+import { Form, Input, Button, Card, Alert, Modal, InputNumber, message } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -13,40 +13,40 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
   const [success, setSuccess] = useState(false);
   const formData = new FormData();
 
-  const  
-  onFinish = async (values) => {
-    try {
-      setLoading(true);
-      const formData = new FormData(); // 👈 Create FormData first!
-      formData.append("email", values.email);
-      formData.append("password", values.password);
+  const
+    onFinish = async (values) => {
+      try {
+        setLoading(true);
+        const formData = new FormData(); // 👈 Create FormData first!
+        formData.append("email", values.email);
+        formData.append("password", values.password);
 
-      const res = await axiosPublic.post(`/login`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+        const res = await axiosPublic.post(`/login`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
-      if (res.data.success) {
-        toast.success(`User login successfully`);
-        localStorage.setItem("token", res.data.data.token);
-        localStorage.setItem(`authId`, res.data.data.user.id);
-        form.resetFields(); // 👈 No need to "return" this, just call it
+        if (res.data.success) {
+          message.success(`User login successfully`);
+          localStorage.setItem("token", res.data.data.token);
+          localStorage.setItem(`authId`, res.data.data.user.id);
+          form.resetFields(); // 👈 No need to "return" this, just call it
+          return setLoginModal(false);
+        }
+
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+        }, 3000);
+      } catch (error) {
+        message.error(
+          `${error.response?.data?.message || "Something went wrong!"}`
+        );
+      } finally {
+        setLoading(false);
       }
-
-      setSuccess(true);
-      setTimeout(() => {
-        setSuccess(false);
-      }, 3000);
-    } catch (error) {
-      toast.error(
-        `${error.response?.data?.message || "Something went wrong!"}`
-      );
-    } finally {
-      setLoading(false);
-      setLoginModal(false);
-    }
-  };
+    };
 
   // registration modal
 
@@ -89,14 +89,19 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         config
       );
 
-      console.log(`response is ${res}`);
+      if (res) {
+        message.success(`${res.data.message}`);
+        setNewPasswordModal(false);
+        form.resetFields()
+      }
+
+
     } catch (error) {
-      toast.error(`Password forget fail please try again!`);
+
+      message.error(error.response.data.message);
     } finally {
       setLoading(false);
     }
-    setNewPasswordModal(false);
-    alert(`Password reset successfully`);
   };
 
 
@@ -107,32 +112,57 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
     setIsOtpVerifyModal(false);
   };
 
-  const submitOtpVerifyModal = async (values) => {
+  const validateOtp = (value) => {
+    if (!value) {
+      return "Please input your OTP!";
+    }
+    if (!/^\d{4,6}$/.test(value)) {
+      return "OTP must be 4-6 digit number";
+    }
+    return "";
+  };
+  const [otp, setOtp] = useState("");
+
+  const [error, setError] = useState("");
+  const [forgetPasswordModal, setForgetPasswordModal] = useState(false);
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true);
     try {
-      setLoading(true);
-      let res = await axiosPublic.post(`/otp-verify`, {
-        otp: values.otp,
-      });
-      if (res.data.success) {
-        localStorage.setItem(`forgetToken`, res?.data?.data?.token);
-        form.resetFields();
+      // Replace this URL with your actual OTP verification endpoint
+      // const response = await fetch("https://your-api.com/verify-otp", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ otp }),
+      // });
+      const res = await axiosPublic.post(`/otp-verify`, { otp: otp })
+      if (res) {
+        localStorage.setItem("forgetToken", res.data?.data?.token)
+        message.success(res.data?.message)
+        // Assuming success means:
         setNewPasswordModal(true);
         setIsOtpVerifyModal(false);
-        toast.success(`Otp verify successfully`);
-        return;
+        return setOtp("")
+
       }
+
+
+
+      // You can use 'data' here if needed
     } catch (error) {
-      toast.error(`Otp verify fail.`);
+      alert(error.response.data.message);
     } finally {
       setLoading(false);
     }
-    // setNewPasswordModal(true);
-    //
   };
 
   // forget password modal
 
-  const [forgetPasswordModal, setForgetPasswordModal] = useState(false);
+
 
   const openForgetPasswordModal = () => {
     setForgetPasswordModal(true);
@@ -164,7 +194,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
-      
+
       setLoading(false);
       form.resetFields();
       return;
@@ -259,8 +289,8 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         closable={true}
         onCancel={closeModal}
         centered
-        // width="400px"
-        // style={{ padding: "15px", top: 0 }}
+      // width="400px"
+      // style={{ padding: "15px", top: 0 }}
       >
         <RegistrationForm
           setIsOpenModal={setIsOpenModal}
@@ -318,33 +348,44 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         // width="400px"
         style={{ padding: "15px", top: 0 }}
       >
-        <Form form={form} onFinish={submitOtpVerifyModal} layout="vertical">
-          <Form.Item
-            label="OTP"
-            name="otp"
-            rules={[
-              { required: true, message: "Please input your OTP!" },
-              { type: "number", message: "OTP must be a valid number!" },
-            ]}
-          >
-            <InputNumber
+        <div style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
+          <form onSubmit={handleSubmit} style={{ color: "black" }}>
+            <label htmlFor="otp" style={{ display: "block", marginBottom: 8 }}>
+              OTP
+            </label>
+            <input
+              id="otp"
+              name="otp"
+              type="text"
               placeholder="Enter your OTP"
-              className="w-full py-2"
-              controls={false} // number increment/decrement button hide kore
+              maxLength={6}
+              value={otp}
+              className=" hover:outline-0 focus:outline-none "
+              onChange={(e) => setOtp(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "8px",
+                border: error ? "1px solid red" : "1px solid #ccc",
+                borderRadius: 4,
+                marginBottom: error ? 4 : 16,
+                color: "black",
+                fontSize: 16,
+              }}
             />
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              loading={loading}
-              type="primary"
-              htmlType="submit"
-              className="lg:w-full bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
+            {error && (
+              <div style={{ color: "red", marginBottom: 16, fontSize: 14 }}>
+                {error}
+              </div>
+            )}
+            <button
+              type="submit"
+              disabled={loading}
+              className=" bg-btnColor w-full py-2 text-white rounded-md font-semibold text-lg "
             >
-              Verify Otp
-            </Button>
-          </Form.Item>
-        </Form>
+              {loading ? "Verifying..." : "Verify Otp"}
+            </button>
+          </form>
+        </div>
       </Modal>
 
       {/* set new password modal  */}
@@ -401,14 +442,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
             hasFeedback
             rules={[
               { required: true, message: "Please confirm your password!" },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("new_password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error("Passwords do not match!"));
-                },
-              }),
+
             ]}
           >
             <Input.Password
@@ -432,7 +466,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
       </Modal>
 
 
-      
+
     </div>
   );
 };
