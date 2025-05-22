@@ -2,7 +2,7 @@ import { Form, Input, Button, Upload, message } from "antd";
 import { UserOutlined, UploadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
-import { imgUrl } from './../../../helper/imgUrl';
+import { imgUrl } from "../../../helper/imgUrl";
 
 export default function UserForm({ updateProfileModal, setUpdateProfileModal }) {
   const axiosPublic = useAxiosPublic();
@@ -25,7 +25,6 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
         const response = await axiosPublic.get("/profile", config);
         const user = response.data?.data;
 
-        console.log(`user data is ${user}`);
 
         form.setFieldsValue({
           full_name: user.full_name,
@@ -38,7 +37,7 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
               uid: "-1",
               name: "profile.jpg",
               status: "done",
-              url: `http://137.59.180.219:8000/${user.image}`, // must be accessible
+              url: `${imgUrl}/${user.image}`, // must be accessible
             },
           ]);
         }
@@ -49,6 +48,8 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
 
     fetchUserData();
   }, [form]);
+
+  
   const handleUploadChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };

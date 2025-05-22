@@ -4,8 +4,6 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useEffect, useState } from "react";
 import { Button, Checkbox, Form, Input, Modal } from "antd";
-import { Radio } from "antd";
-import { FaCcMastercard } from "react-icons/fa";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2 } from "lucide-react";
@@ -21,19 +19,27 @@ const AuctionSlider = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        let res = await axiosPublic.get(`/get-bit-auction`);
+        const res = await axiosPublic.get("/get-bit-auction");
         if (res.data.success) {
           setSliderData(res.data.data);
         }
       } catch (error) {
-      } finally {
-        setLoading(false);
+        console.error("Error fetching data", error);
       }
     };
 
+    // Initial fetch
     fetchData();
+
+    // Poll every 5 seconds
+    const interval = setInterval(() => {
+      fetchData();
+    }, 1000); // 
+
+    // Clean up on unmount
+    return () => clearInterval(interval);
   }, []);
+
   // States for each slide's bid selection and bid visibility
   const [selectedBids, setSelectedBids] = useState(
     new Array(sliderData.length).fill("") // Initializes an empty array for selected bids
@@ -63,7 +69,7 @@ const AuctionSlider = () => {
 
       const res = await axiosPublic.post(`/bit-contributor?auction_id=${auctionId}`, {
         bit_online: bidPrice,
-      },config);
+      }, config);
 
 
       if (res.data.success) {
@@ -293,7 +299,7 @@ const AuctionSlider = () => {
                         <div>
                           <button className=" flex items-center gap-3  ">
                             <p className=" text-[#263234] font-bold text-3xl ">
-                            ${slide.max_bit_online}
+                              ${slide.max_bit_online}
                             </p>{" "}
                             <span className=" text-xl text-[#4B5557] ">
                               {" "}
@@ -306,7 +312,7 @@ const AuctionSlider = () => {
                         <div className="relative flex flex-col items-end w-full">
                           <div className="flex">
                             <button className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-2 py-2.5 hover:bg-[#2c241f] transition w-fit">
-                            $ {selectedBids[index]
+                              $ {selectedBids[index]
                                 ? selectedBids[index]
                                 : slide.price}{" "}
                               {/* Show selected bid or price */}
@@ -398,9 +404,9 @@ const AuctionSlider = () => {
         <div className="flex flex-col gap-y-7">
           {sliderData.map((slide, index) => (
             <div key={slide.id}>
-              <div className="bg-[#ecebea]  rounded-2xl">
+              <div className="bg-[#ecebea]  rounded-2xl  ">
                 <div className="">
-                  <div className="bg-white shadow rounded-2xl flex  flex-col py-6 gap-6">
+                  <div className="bg-white shadow rounded-2xl flex  flex-col py-6 gap-6 px-3 ">
                     {/* LEFT SECTION */}
                     <div className="">
                       <div className="">
