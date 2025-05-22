@@ -46,13 +46,13 @@ const AuctionBanner = () => {
 
   return (
     <>
-      <div className="pt-20">
-        <div className="relative w-full h-[50vh] lg:h-[90vh] bg-[url('/auctionBg-img.jpg')] bg-cover bg-center flex items-center">
+      <div className="pt-20  ">
+        <div className="relative w-full h-[50vh] lg:h-[90vh]  bg-[url('/auctionBg-img.jpg')] bg-cover bg-center flex items-center">
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 
           {/* Content */}
-          <div className="relative  lg:mt-48 z-10 w-full max-w-6xl mx-auto px-4 flex flex-col items-center text-center lg:items-start lg:text-left">
+          <div className="relative  lg:mt-48 z-10 w-full max-w-7xl  mx-auto px-4 flex flex-col items-center text-center lg:items-start lg:text-left">
             {/* Heading */}
             <h1 className="text-[#ECEBEA]  text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight">
               Empower women to <br />

@@ -65,8 +65,10 @@ const AuctionDetailsModal = ({
           if (res.data?.success) {
             auctionMsg();
             setAuctionDetailsModal(false);
+            return form.resetFields()
           }
         })
+      form.resetFields()
         .catch((error) => {
           Swal.fire({
             position: "top-end",
@@ -82,6 +84,7 @@ const AuctionDetailsModal = ({
       auctionDetailsData(payload); // Send to parent or save for next step
       setUserDetailsModal(true);
       setAuctionDetailsModal(false);
+      form.resetFields()
     }
   };
 

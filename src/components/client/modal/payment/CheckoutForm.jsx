@@ -7,7 +7,7 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const CheckoutForm = ({ data }) => {
+const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
@@ -24,7 +24,7 @@ const CheckoutForm = ({ data }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:5173/succeeded", // Replace with your actual redirect URL
+        return_url: "http://localhost:5175/payment-success", // Replace with your actual redirect URL
       },
     });
 

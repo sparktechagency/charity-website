@@ -110,7 +110,7 @@ export const router = createBrowserRouter([
     element : <CustomCalendar></CustomCalendar>
   },
   {
-    path : "/succeeded",
+    path : "/payment-success",
     element : <PaymentSuccess></PaymentSuccess>
   },
 

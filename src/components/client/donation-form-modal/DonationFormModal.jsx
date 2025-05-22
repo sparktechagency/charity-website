@@ -7,20 +7,20 @@ const { TextArea } = Input;
 
 const DonationFormModal = () => {
   const { paymentCard } = useParams();
-  console.log(typeof paymentCard);
   const [form] = Form.useForm();
   const [donationType, setDonationType] = useState("oneTime");
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState("");
   const [paymentType, setPaymentType] = useState("montly");
 
-  const presetAmounts = ["19.50", "24.50", "45.50", "99.50"];
+  const presetAmounts = [19.50, 24.50, 45.50, 99.50];
   const navigate = useNavigate();
-  const [data,setData] = useState(null)
-  
+  const [data, setData] = useState(null)
+
 
   const handleSubmit = async (values) => {
-    const amount = selectedAmount === "custom" ? customAmount : selectedAmount;
+    const amount = selectedAmount === "custom" ? customAmount : parseFloat(selectedAmount);
+    console.log( typeof `type of amount ${amount} `)
 
     if (!amount) {
       message.warning("Please select or enter a donation amount.");
@@ -30,45 +30,18 @@ const DonationFormModal = () => {
     const payload = {
       ...values,
       donation_type: donationType,
-      amount,
+      amount: Number(amount),
       payment_type: paymentCard,
-      frequency:paymentType
+      frequency: paymentType,
     };
 
-    setData(payload)
-    navigate("/payment-form",{state:payload});
-  };
+    setData(payload);
+    navigate("/payment-form", { state: payload });
 
-  // const handleSubmit=async()=>{
-  // const formData = new FormData();
+  }
 
-    // // Append key-value pairs to FormData
-    // Object.entries(payload).forEach(([key, value]) => {
-    //   formData.append(key, value);
-    // });
 
-    // try {
-    //   setLoading(true);
-    //   const res = await axiosPublic.post(`/donate-money`, formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   });
-    //   console.log("Response:", res.data);
 
-    //   Optionally reset the form
-    //   message.success("Donation details submitted!");
-    //   form.resetFields();
-    //   setSelectedAmount(null);
-    //   setCustomAmount("");
-    //   navigate("/payment-form");
-    // } catch (error) {
-    //   console.log("Error:", error?.response?.data?.errors || error.message);
-    // } finally {
-    //   setLoading(false);
-    //   console.log("Form submission finished");
-    // }
-  // }
 
   return (
     <div className="max-w-2xl  mx-auto p-6 bg-white rounded-2xl shadow-md">
@@ -98,11 +71,10 @@ const DonationFormModal = () => {
                   {presetAmounts.map((amount) => (
                     <Button
                       key={amount}
-                      className={`border rounded-lg h-12 ${
-                        selectedAmount === amount
-                          ? "bg-blue-500 text-white"
-                          : "bg-white"
-                      }`}
+                      className={`border rounded-lg h-12 ${selectedAmount === amount
+                        ? "bg-blue-500 text-white"
+                        : "bg-white"
+                        }`}
                       onClick={() => {
                         setSelectedAmount(amount);
                         setCustomAmount("");

@@ -1,88 +1,120 @@
 import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { CiPause1 } from "react-icons/ci";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import { imgUrl } from "../../helper/imgUrl";
+const audios = [
+  {
+    podcast_title: "Tech Talks",
+    host_title: "Hosted by John Doe",
+    guest_title: "Guest: Jane Smith",
+    host_profile: "/host-john.png",
+    guest_profile: "/guest-jane.png",
+    description:
+      "In this episode, we dive into the future of AI with Jane Smith.",
+    date: "21 February, 2025",
+    file: "audio/podcast-1.mp3",
+    thumbnail: "/podcast-thumbnail1.png",
+    title: "Season 2 Episode 6 - The London",
+  },
+  {
+    title: "Season 2 Episode 7 - The Return",
+    date: "1 March, 2025",
+    file: "audio/podcast-2.mp3",
+    thumbnail: "/podcast-thumbnail2.png",
+  },
+  {
+    podcast_title: "Tech Talks",
+    host_title: "Hosted by John Doe",
+    guest_title: "Guest: Jane Smith",
+    host_profile: "/host-john.png",
+    guest_profile: "/guest-jane.png",
+    description:
+      "In this episode, we dive into the future of AI with Jane Smith.",
+    date: "21 February, 2025",
+    file: "audio/podcast-1.mp3",
+    thumbnail: "/podcast-thumbnail1.png",
+    title: "Season 2 Episode 6 - The London",
+  },
+  {
+    title: "Season 2 Episode 9 - The Finale",
+    date: "20 March, 2025",
+    file: "audio/podcast-4.mp3",
+    thumbnail: "/podcast-thumbnail3.png",
+  },
+  {
+    podcast_title: "Tech Talks",
+    host_title: "Hosted by John Doe",
+    guest_title: "Guest: Jane Smith",
+    host_profile: "/host-john.png",
+    guest_profile: "/guest-jane.png",
+    description:
+      "In this episode, we dive into the future of AI with Jane Smith.",
+    date: "21 February, 2025",
+    file: "audio/podcast-1.mp3",
+    thumbnail: "/podcast-thumbnail1.png",
+    title: "Season 2 Episode 6 - The London",
+  },
+  {
+    podcast_title: "Tech Talks",
+    host_title: "Hosted by John Doe",
+    guest_title: "Guest: Jane Smith",
+    host_profile: "/host-john.png",
+    guest_profile: "/guest-jane.png",
+    description:
+      "In this episode, we dive into the future of AI with Jane Smith.",
+    date: "21 February, 2025",
+    file: "audio/podcast-1.mp3",
+    thumbnail: "/podcast-thumbnail1.png",
+    title: "Season 2 Episode 6 - The London",
+  },
+];
 const PodcastBanner = () => {
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
-
-  const audios = [
-    {
-      podcast_title: "Tech Talks",
-      host_title: "Hosted by John Doe",
-      guest_title: "Guest: Jane Smith",
-      host_profile: "/host-john.png",
-      guest_profile: "/guest-jane.png",
-      description:
-        "In this episode, we dive into the future of AI with Jane Smith.",
-      date: "21 February, 2025",
-      file: "audio/podcast-1.mp3",
-      thumbnail: "/podcast-thumbnail1.png",
-      title: "Season 2 Episode 6 - The London",
-    },
-    {
-      title: "Season 2 Episode 7 - The Return",
-      date: "1 March, 2025",
-      file: "audio/podcast-2.mp3",
-      thumbnail: "/podcast-thumbnail2.png",
-    },
-    {
-      podcast_title: "Tech Talks",
-      host_title: "Hosted by John Doe",
-      guest_title: "Guest: Jane Smith",
-      host_profile: "/host-john.png",
-      guest_profile: "/guest-jane.png",
-      description:
-        "In this episode, we dive into the future of AI with Jane Smith.",
-      date: "21 February, 2025",
-      file: "audio/podcast-1.mp3",
-      thumbnail: "/podcast-thumbnail1.png",
-      title: "Season 2 Episode 6 - The London",
-    },
-    {
-      title: "Season 2 Episode 9 - The Finale",
-      date: "20 March, 2025",
-      file: "audio/podcast-4.mp3",
-      thumbnail: "/podcast-thumbnail3.png",
-    },
-    {
-      podcast_title: "Tech Talks",
-      host_title: "Hosted by John Doe",
-      guest_title: "Guest: Jane Smith",
-      host_profile: "/host-john.png",
-      guest_profile: "/guest-jane.png",
-      description:
-        "In this episode, we dive into the future of AI with Jane Smith.",
-      date: "21 February, 2025",
-      file: "audio/podcast-1.mp3",
-      thumbnail: "/podcast-thumbnail1.png",
-      title: "Season 2 Episode 6 - The London",
-    },
-    {
-      podcast_title: "Tech Talks",
-      host_title: "Hosted by John Doe",
-      guest_title: "Guest: Jane Smith",
-      host_profile: "/host-john.png",
-      guest_profile: "/guest-jane.png",
-      description:
-        "In this episode, we dive into the future of AI with Jane Smith.",
-      date: "21 February, 2025",
-      file: "audio/podcast-1.mp3",
-      thumbnail: "/podcast-thumbnail1.png",
-      title: "Season 2 Episode 6 - The London",
-    },
-  ];
-
+  const axiosPublic = useAxiosPublic()
+  const [loading, setLoading] = useState(false);
+  const [audios, setAudios] = useState([]);
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
 
   useEffect(() => {
-    if (!waveformRef.current) return;
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const res = await axiosPublic.get("/get-podcast");
+        if (res.status === 200) {
+          setAudios(res.data?.data?.data || []);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [axiosPublic]);
 
+  function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
+
+
+  useEffect(() => {
+    if (!waveformRef.current || !audios[currentTrack]?.mp3) return;
+
+    const url = `${imgUrl}/${audios[currentTrack].mp3}`;
     waveformRef.current.innerHTML = "";
 
     if (wavesurfer.current) {
+      if (wavesurfer.current.isPlaying()) wavesurfer.current.pause();
       wavesurfer.current.destroy();
     }
 
@@ -94,15 +126,25 @@ const PodcastBanner = () => {
       barWidth: 2,
       responsive: true,
       normalize: true,
+      xhr: {
+        cache: 'default',
+        mode: 'cors',
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+        ],
+      },
     });
 
-    wavesurfer.current.load(audios[currentTrack].file);
+    wavesurfer.current.load(url).catch((err) => {
+      console.log(`url is ${url}`)
+      console.error("Failed to load audio:", err);
+    });
 
     wavesurfer.current.on("ready", () => {
       setTotalDuration(wavesurfer.current.getDuration());
       setCurrentTime(wavesurfer.current.getCurrentTime());
-
-      // ✅ Auto play if previous track was playing
       if (isPlaying) {
         wavesurfer.current.play();
       }
@@ -113,40 +155,44 @@ const PodcastBanner = () => {
     });
 
     wavesurfer.current.on("finish", () => {
+      setIsPlaying(false);
       handleNext();
     });
 
-    return () => {
-      if (wavesurfer.current) {
-        wavesurfer.current.destroy();
-      }
-    };
-  }, [currentTrack]);
+    wavesurfer.current.on("error", (e) => {
+      console.error("WaveSurfer error:", e);
+    });
 
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
-  };
+    return () => {
+      wavesurfer.current?.destroy();
+    };
+  }, [currentTrack, audios, imgUrl, isPlaying]);
 
   const togglePlay = () => {
-    if (wavesurfer.current) {
-      if (wavesurfer.current.isPlaying()) {
-        wavesurfer.current.pause();
-        setIsPlaying(false);
-      } else {
-        wavesurfer.current.play();
-        setIsPlaying(true);
-      }
+    if (!wavesurfer.current) return;
+    if (wavesurfer.current.isPlaying()) {
+      wavesurfer.current.pause();
+      setIsPlaying(false);
+    } else {
+      wavesurfer.current.play();
+      setIsPlaying(true);
     }
   };
 
   const handlePrev = () => {
     setCurrentTrack((prev) => (prev - 1 + audios.length) % audios.length);
+    setIsPlaying(true); // autoplay previous
   };
 
   const handleNext = () => {
     setCurrentTrack((prev) => (prev + 1) % audios.length);
+    setIsPlaying(true); // autoplay next
+  };
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
   const timeLeft = totalDuration - currentTime;
@@ -181,8 +227,7 @@ const PodcastBanner = () => {
           <div className=" flex justify-between flex-col md:flex-row gap-6 ">
             <div>
               <img
-                // src={audios[currentTrack].thumbnail}
-                src="videoImg2.jpg"
+                src={`${imgUrl}/${audios[currentTrack]?.thumbnail}`}
                 alt="Podcast Cover"
                 className="w-40 h-40 rounded-lg"
               />
@@ -192,12 +237,12 @@ const PodcastBanner = () => {
             <div className="flex-1 w-full">
               {/* Date */}
               <p className="text-[#A6ABAC] text-xs font-semibold">
-                {audios[currentTrack].date}
+                {formatDate(audios[currentTrack]?.created_at)}
               </p>
 
               {/* Title */}
               <h2 className="text-xl lg:text-2xl text-[#E9EBEB] mt-2">
-                {audios[currentTrack].title}
+                {audios[currentTrack]?.podcast_title}
               </h2>
               {/* Time Info */}
               <div className="flex justify-between text-sm text-gray-400 mb-4">
@@ -289,49 +334,58 @@ const PodcastBanner = () => {
 
           {/* date  */}
           <p className="text-sm text-gray-400 mb-1">
-            {audios[currentTrack].date}
+            {formatDate(audios[currentTrack]?.created_at)}
           </p>
 
           {/* podcast title  */}
-          <h2 className="text-xl font-semibold">
-            {audios[currentTrack].podcast_title}
-          </h2>
           {/* podcast title  */}
           <p className="text-sm text-gray-300 mb-1">
-            {audios[currentTrack].title}
+            {audios[currentTrack]?.podcast_title}
           </p>
+          
           {/* host title */}
           <p className="text-sm text-blue-400">
-            {audios[currentTrack].host_title}
+            {audios[currentTrack]?.host_title}
           </p>
           {/* gust title */}
           <p className="text-sm text-green-400 mb-2">
-            {audios[currentTrack].guest_title}
+            {audios[currentTrack]?.guest_title}
           </p>
           <p className="text-sm text-gray-400 mb-4">
-            {audios[currentTrack].description}
+            {audios[currentTrack]?.description}
           </p>
 
           {/* Podcast description  */}
+          <span className="text-xl text-white font-semibold mb-3 ">Host & Guest</span>
 
-          <div className="flex items-center gap-4 mb-4">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-16 mb-4 mt-4">
+            <div className="text-center">
               <img
-                src={audios[currentTrack].host_profile}
-                className="w-10 h-10 rounded-full"
+                src={`${imgUrl}/${audios[currentTrack]?.host_profile}`}
+                className="w-16 h-16 object-cover rounded-full"
                 alt="Host"
               />
-              <span className="text-sm text-white">Host</span>
+              <p className="text-[#A6ABAC] font-medium leading-6 text-[16px]">
+                {audios[currentTrack]?.host_title}
+              </p>
+              <span className="text-sm text-[#A6ABAC]">Host</span>
             </div>
-            <div className="flex items-center gap-2">
+
+            <div className="text-center">
               <img
-                src={audios[currentTrack].guest_profile}
-                className="w-10 h-10 rounded-full"
+                src={`${imgUrl}/${audios[currentTrack]?.guest_profile}`}
+                className="w-16 h-16 object-cover rounded-full"
                 alt="Guest"
               />
-              <span className="text-sm text-white">Guest</span>
+              <p className="text-[#A6ABAC] font-medium leading-6 text-[16px]">
+                {audios[currentTrack]?.guest_title}
+              </p>
+              <span className="text-sm text-[#A6ABAC]">Guest</span>
             </div>
+
+
           </div>
+
         </div>
 
         {/* Episode List */}
@@ -349,13 +403,13 @@ const PodcastBanner = () => {
                 {/* Episode Details */}
                 <div className="flex gap-4">
                   <img
-                    src={audio.image}
+                    src={`${imgUrl}/${audio?.thumbnail}`}
                     className="w-12 h-12 rounded"
                     alt="audio"
                   />
                   <div>
                     <h2 className="text-[#E9EBEB] font-semibold text-sm">
-                      {audio.title}
+                      {audio?.podcast_title}
                     </h2>
                     <p className="text-[#A6ABAC] text-xs mt-1">
                       {audio.duration}
@@ -363,7 +417,7 @@ const PodcastBanner = () => {
                   </div>
                 </div>
                 {/* Date */}
-                <p className="text-[#A6ABAC] text-xs">{audio.date}</p>
+                <p className="text-[#A6ABAC] text-xs">{formatDate(audio?.created_at)}</p>
               </div>
             ))}
           </div>
