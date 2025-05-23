@@ -6,7 +6,7 @@ import StripeForm from "./StripeForm";
 const UserDetails = () => {
   const location = useLocation();
   const payload = location.state;
-  console.log( typeof payload?.amount);
+  console.log(typeof payload?.amount);
 
   const navigate = useNavigate();
   const donationData = {
@@ -20,9 +20,9 @@ const UserDetails = () => {
   };
 
   const onEdit = () => {
-    navigate(`/donate-from`, { state: payload });
+    navigate(`/donate-from/:paymentCard`, { state: payload });
   };
-const price = Number(payload?.amount)
+  const price = Number(payload?.amount)
   return (
     <div className="flex flex-col lg:flex-row max-w-[1512px] mx-auto " >
       <div className=" max-w-2xl border mx-auto p-6 bg-white rounded-2xl w-full  shadow-md">
@@ -46,7 +46,7 @@ const price = Number(payload?.amount)
             </Descriptions.Item>
 
             <Descriptions.Item label="Amount">
-              £{payload.amount}
+              $ {payload.amount}
             </Descriptions.Item>
           </Descriptions>
         </Card>
@@ -86,7 +86,7 @@ const price = Number(payload?.amount)
         </div>
       </div>
       <div className="w-full" >
-        <StripeForm price = {price}  />
+        <StripeForm price={price} />
       </div>
     </div>
   );

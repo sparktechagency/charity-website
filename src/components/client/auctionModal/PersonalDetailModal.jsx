@@ -28,6 +28,14 @@ const PersonalDetailModal = ({
     sendPersonalDataToParent(payload);
     form.resetFields();
   };
+
+
+  const cancelModal = ()=>{
+    setPersonalDetailsModal(false);
+    form.resetFields()
+  }
+
+
   return (
     <div className="  ">
       <h1 className=" text-[#263234] font-semibold text-2xl leading-8 ">
@@ -272,9 +280,7 @@ const PersonalDetailModal = ({
 
         <div className="flex flex-col lg:flex-row md:flex-row lg:justify-end lg:gap-8 ">
           <Button
-            onClick={() => {
-              setPersonalDetailsModal(false);
-            }}
+            onClick={cancelModal}
             className="missionModalBtn1"
           >
             Cancel

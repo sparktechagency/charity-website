@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {
   Form,
@@ -13,33 +14,54 @@ import {
 import axios from "axios";
 const PaymentDetails = () => {
   const navigate = useNavigate();
+
+
+
+  const location = useLocation();
+  const userData = location.state?.donation;
+
+
   const donationData = {
-    donationType: "recurring",
-    amount: "24.50",
-    frequency: "monthly",
-    name: "Jane Doe",
-    email: "jane@example.com",
-    phone: "+44 123456789",
-    message: "For education support",
+    donationType: userData.donationType,
+    amount: userData.amount,
+    frequency: userData.frequency,
+    name: userData.name,
+    email: userData.email,
+    phone: userData.phone,
+    message: userData.message,
   };
+  const [loading, setLoading] = useState(false)
+
 
   const onEdit = () => {
-    console.log(`go to to edit page`);
-    navigate(`/donate-from`);
+    navigate(`/paypa-donate-from`);
   };
-  const onConfirm = () => {
-    console.log(`Proceed to payment`);
-  };
+  
   // paypal payment
 
   const handlePaypalPayment = async () => {
-    let res = await axios.post("http://137.59.180.219:5001/api/v1/payment");
-    console.log(res);
-    if (res && res.data) {
-      let link = res.data.links[1].href;
-      window.location.href = link;
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        `http://137.59.180.219:8000/api/create-paypal-payment-intent?amount=${userData.amount}&currency=USD`
+      );
+
+      const approvalLink = res?.data?.approve_link;
+
+      if (approvalLink) {
+        window.location.href = approvalLink;
+      } else {
+        console.error("PayPal approval link not found in response.");
+      }
+    } catch (error) {
+      console.error("Error creating PayPal payment intent:", error);
+    } finally {
+      setLoading(false);
     }
   };
+
+
+
   return (
     <div>
       <div className="max-w-2xl border mx-auto p-6 bg-white rounded-2xl shadow-md">
@@ -68,7 +90,7 @@ const PaymentDetails = () => {
               )}
 
             <Descriptions.Item label="Amount">
-              £{donationData.amount}
+              ${donationData.amount}
             </Descriptions.Item>
           </Descriptions>
         </Card>
@@ -110,6 +132,8 @@ const PaymentDetails = () => {
             Edit
           </Button>
           <Button
+            loading={loading}
+            disabled={loading}
             onClick={handlePaypalPayment}
             className="w-1/2 h-12 text-white bg-[#403730] border-none font-bold  "
           >
