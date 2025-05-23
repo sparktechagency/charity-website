@@ -1,202 +1,157 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Input, Modal, Pagination, Select, Space, Table } from "antd";
-import { EyeIcon } from "lucide-react";
-import { useState } from "react";
+import { Form, Input, InputNumber, Modal, Pagination, Select, Space, Table, Upload } from "antd";
+import { EyeIcon, UploadCloud } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  actionModalOpenFour,
   actionModalOpenOne,
   actionModalOpenThree,
   actionModalOpenTwo,
+  closeActionModalOpenFour,
   closeActionModalOpenOne,
   closeActionModalOpenThree,
   closeActionModalOpenTwo,
+  closeTeamModalOpenFour,
 } from "../../../../features/modal/modalSlice";
-import { useGetActionQuery } from "../../../../redux/dashboardFeatures/getActionApi";
+
+import CustomLoading from "../../shared/CustomLoading";
+
+import { useForm } from "antd/es/form/Form";
+import toast from "react-hot-toast";
+import { usePDF } from 'react-to-pdf';
+import { useDeleteActionMutation, useGetActionQuery, useSingleGetActionQuery, useUpdateActionMutation } from "../../../../redux/dashboardFeatures/dashboardGetActionApi";
 
 
 
 const Auction = () => {
+  const [formOne] = useForm();
+  const [formFour] = useForm();
+  const [selectId, setSelectId] = useState('')
+  const [modalThreeData, setModalThreeData] = useState({})
   const [searchText, setSearchText] = useState("");
-  const [selectValue, stetSelectValue] = useState("");
+  const [selectValue, stetSelectValue] = useState("Pending");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [ImageFileListOne, setImageFileListOne] = useState([]);
+  const [ImageFileListTwo, setImageFileListTwo] = useState([]);
+
+  const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' }); // pdf file download for
+
+
+
+
+
   const dispatch = useDispatch();
   const actionModalOne = useSelector((state) => state.modal.actionModalOne);
   const actionModalTwo = useSelector((state) => state.modal.actionModalTwo);
   const actionModalThree = useSelector((state) => state.modal.actionModalThree);
-const {data,} = useGetActionQuery()
-  console.log(data,'line-------> 24')
+  const actionModalFour = useSelector((state) => state.modal.actionModalFour);
+  const { data, isLoading, refetch } = useGetActionQuery({ search: searchText, status: selectValue, per_page: perPage, page: currentPage });
+  const [deleteAction] = useDeleteActionMutation();
+  const [updateAction] = useUpdateActionMutation();
+  const { data: singleAction, } = useSingleGetActionQuery({ id: selectId })
 
-  
 
-  const dataSource = [
-    {
-      key: 1,
-      name: "kodom ali",
-      email: "kodom @ gmail.com",
-      contactNumber: "012455",
-      DeclareAction: "05",
-      soldOut: "54546464",
-      donated: "85464684",
-    },
-    {
-      key: 2,
-      name: "Rashed Hossain",
-      email: "rashed@gmail.com",
-      contactNumber: "013456",
-      DeclareAction: "03",
-      soldOut: "34567890",
-      donated: "12345678",
-      action: "Declare",
-    },
-    {
-      key: 3,
-      name: "Shahina Begum",
-      email: "shahina@outlook.com",
-      contactNumber: "014567",
-      DeclareAction: "06",
-      soldOut: "7891011",
-      donated: "11223344",
-      action: "Declare",
-    },
-    {
-      key: 4,
-      name: "Mizanur Rahman",
-      email: "mizan@ymail.com",
-      contactNumber: "015678",
-      DeclareAction: "02",
-      soldOut: "99887766",
-      donated: "66554433",
-      action: "Declare",
-    },
-    {
-      key: 5,
-      name: "Selina Parvin",
-      email: "selina@hotmail.com",
-      contactNumber: "016789",
-      DeclareAction: "07",
-      soldOut: "10293847",
-      donated: "38475639",
-    },
-    {
-      key: 6,
-      name: "Abdul Kader",
-      email: "abdukader@gmail.com",
-      contactNumber: "017890",
-      DeclareAction: "04",
-      soldOut: "76543210",
-      donated: "12345678",
-      action: "Declare",
-    },
-    {
-      key: 7,
-      name: "Nusrat Jahan",
-      email: "nusrat@live.com",
-      contactNumber: "018901",
-      DeclareAction: "03",
-      soldOut: "65432109",
-      donated: "56473829",
-      action: "Declare",
-    },
-    {
-      key: 8,
-      name: "Fahim Shahin",
-      email: "fahim@yahoo.com",
-      contactNumber: "019012",
-      DeclareAction: "05",
-      soldOut: "10293847",
-      donated: "73829183",
-      action: "Declare",
-    },
-    {
-      key: 9,
-      name: "Kamal Hossain",
-      email: "kamal@outlook.com",
-      contactNumber: "020123",
-      DeclareAction: "01",
-      soldOut: "19384756",
-      donated: "74638492",
-      action: "Declare",
-    },
-    {
-      key: 10,
-      name: "Arifa Akter",
-      email: "arifa@gmail.com",
-      contactNumber: "021234",
-      DeclareAction: "07",
-      soldOut: "10293847",
-      donated: "73829183",
-    },
-    {
-      key: 11,
-      name: "Rubi Sultana",
-      email: "rubi@live.com",
-      contactNumber: "022345",
-      DeclareAction: "06",
-      soldOut: "54673892",
-      donated: "84736291",
-      action: "Declare",
-    },
-    {
-      key: 12,
-      name: "Tariq Jamil",
-      email: "tariq@gmail.com",
-      contactNumber: "023456",
-      DeclareAction: "04",
-      soldOut: "56783921",
-      donated: "93148362",
-      action: "Declare",
-    },
-    {
-      key: 13,
-      name: "Farhana Akter",
-      email: "farhana@ymail.com",
-      contactNumber: "024567",
-      DeclareAction: "02",
-      soldOut: "11223344",
-      donated: "44556677",
-      action: "Declare",
-    },
-    {
-      key: 14,
-      name: "Mashiur Rahman",
-      email: "mashiur@hotmail.com",
-      contactNumber: "025678",
-      DeclareAction: "01",
-      soldOut: "98765432",
-      donated: "12345678",
-    },
-    {
-      key: 15,
-      name: "Shahidul Alam",
-      email: "shahidul@live.com",
-      contactNumber: "026789",
-      DeclareAction: "05",
-      soldOut: "12345678",
-      donated: "87654321",
-      action: "Declare",
-    },
-    {
-      key: 16,
-      name: "Samiul Islam",
-      email: "samiul@yahoo.com",
-      contactNumber: "027890",
-      DeclareAction: "06",
-      soldOut: "23456789",
-      donated: "45678901",
-      action: "Declare",
-    },
-  ];
 
-  const handleSelect = (value) => {
-    console.log(value);
-  };
+
+
+
+  const allAuctionData = data?.data?.data
+  console.log(singleAction)
+
+
+
+  useEffect(() => {
+    if (singleAction?.start_budget) {
+      // First set form values
+      formOne.setFieldsValue({
+        start_budget: Number(singleAction?.start_budget),
+        end_budget: Number(singleAction?.end_budget || 0),
+        duration: Number(singleAction?.duration || 0),
+
+      });
+    }
+  }, [singleAction]);
+
+
+  useEffect(() => {
+    if (singleAction && singleAction?.image && singleAction?.profile) {
+
+      const autionImage = {
+        uid: '-2',
+        name: 'host_profile.jpg',
+        status: 'done',
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.host_profile}`,
+      };
+
+      const ProfileImage = {
+        uid: '-3',
+        name: 'thumbnail.jpg',
+        status: 'done',
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.thumbnail}`,
+      };
+
+      // First set form values
+      formFour.setFieldsValue({
+        name: singleAction.name,
+        title: singleAction.title,
+        guest_title: singleAction.guest_title,
+        image: [autionImage,ProfileImage], // ✅ use it after defining
+      });
+
+      // Then set image file list
+      setImageFileListOne([autionImage]);
+      setImageFileListTwo([ProfileImage]);
+    }
+  }, [singleAction]);
+
+
+
+
+
 
   //======== action modal one start =========
-  const showActionModalOne = () => {
+  const onFinishOne = async (values) => {
+
+    const formData = new FormData();
+
+    formData.append("start_budget", values.start_budget)
+    formData.append("end_budget", values.end_budget)
+    formData.append("duration", values.duration)
+    formData.append("_method", "PUT");
+
+    console.log(formData.forEach(value => {
+      console.log(value)
+    }))
+
+    try {
+      const res = await updateAction({
+        updateInfo: formData,
+        auction_id: selectId,
+      }).unwrap()
+      console.log(res)
+
+      if (res?.data) {
+        toast.success(res?.message)
+        formOne.resetFields();
+        dispatch(closeActionModalOpenOne());
+      }
+    }
+    catch (errors) {
+      toast.error(errors?.data?.message)
+    }
+  }
+
+
+  const showActionModalOne = (record) => {
+    setSelectId(record?.id)
     dispatch(actionModalOpenOne());
   };
 
   const actionModalOkOne = () => {
-    dispatch(closeActionModalOpenOne());
+    formOne.submit()
+
   };
   const actionModalCancelOne = () => {
     dispatch(closeActionModalOpenOne());
@@ -204,12 +159,25 @@ const {data,} = useGetActionQuery()
   //======== action modal one end =========
 
   //======== action modal two start =========
-  const showActionModalTwo = () => {
+  const showActionModalTwo = (record) => {
+    setSelectId(record?.id)
     dispatch(actionModalOpenTwo());
   };
 
-  const actionModalOkTwo = () => {
-    dispatch(closeActionModalOpenTwo());
+  const actionModalOkTwo = async () => {
+    try {
+      const res = await deleteAction({ id: selectId }).unwrap()
+      if (res?.data) {
+        refetch()
+        toast.success(res?.message)
+        dispatch(closeActionModalOpenTwo());
+      }
+    } catch (errors) {
+      toast.error(errors?.message)
+    }
+
+
+
   };
   const actionModalCancelTwo = () => {
     dispatch(closeActionModalOpenTwo());
@@ -217,7 +185,9 @@ const {data,} = useGetActionQuery()
   //======== action modal two end =========
 
   //======== action modal three start =========
-  const showActionModalThree = () => {
+  const showActionModalThree = (record) => {
+    setSelectId(record?.id)
+    setModalThreeData(record)
     dispatch(actionModalOpenThree());
   };
 
@@ -229,25 +199,121 @@ const {data,} = useGetActionQuery()
   };
   //======== action modal three end =========
 
+
+
+
+
+
+
+
+
+
+  //======== action modal four start =========
+  const onFinishFour = async (values) => {
+
+    const formData = new FormData();
+    if (ImageFileListOne[0]?.originFileObj) {
+      formData.append("photo", ImageFileListOne[0].originFileObj);
+    }
+
+    if (ImageFileListTwo[0]?.originFileObj) {
+      formData.append("photo", ImageFileListTwo[0].originFileObj);
+    }
+
+    formData.append("title", values.title)
+    formData.append("description", values.description)
+    formData.append("donate_share", values.donate_share)
+    formData.append("name", values.name)
+    formData.append("email", values.email)
+    formData.append("contact_number", values.contact_number)
+    formData.append("city", values.city)
+    formData.append("address", values.address)
+    formData.append("_method", "PUT");
+
+    // console.log(formData.forEach(value => {
+    //   console.log(value)
+    // }))
+
+    try {
+      const res = await updateAction({
+        updateInfo: formData,
+        auction_id: selectId
+      }).unwrap()
+      if (res?.data) {
+        toast.success(res?.message)
+        setImageFileListOne([]);
+        setImageFileListTwo([]);
+        formFour.resetFields()
+        dispatch(closeTeamModalOpenFour());
+      }
+    } catch (errors) {
+      toast.error(errors.message);
+    }
+
+  }
+
+  const showActionModalFour = (record) => {
+    setSelectId(record?.id)
+    dispatch(actionModalOpenFour());
+  };
+
+  const actionModalOkFour = () => {
+    formFour.submit()
+    // dispatch(closeActionModalOpenFour());
+  };
+  const actionModalCancelFour = () => {
+    dispatch(closeActionModalOpenFour());
+  };
+  //======== action modal four end =========
+
+
+  const handleSelect = (value) => {
+    stetSelectValue(value)
+  };
+
+
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+    setCurrentPage(1); // Reset to the first page whenever the search term changes
+  };
+
+  useEffect(() => {
+    refetch(); // Refetch the data when searchText, currentPage, or perPage changes
+  }, [searchText, selectValue, currentPage, perPage,]);
+
+
+
+  useEffect(() => {
+    document.body.style.overflow =
+      actionModalOne || actionModalTwo || actionModalThree || actionModalFour
+        ? "hidden"
+        : "auto";
+  }, [actionModalOne, actionModalTwo, actionModalThree, actionModalFour]);
+
+
+  if (isLoading) return <CustomLoading />
+
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 pb-8">
-          <div className="flex flex-col md:flex-row md:items-center gap-2">
+          <div className="flex flex-col md:flex-row md:items-center gap-10">
             <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
               Manage auction listing
             </h2>
-            <div>
+            <div className="relative z-50">
               <Select
                 showSearch
-                placeholder="Active"
+                placeholder="select value"
                 style={{
                   width: "100%",
                   height: "30px",
+
                 }}
                 options={[
-                  { value: "approved", label: "Approved" },
-                  { value: "pending", label: "Pending" },
+                  { value: "Pending", label: "Pending" },
+                  { value: "Declared", label: "Declared" },
+                  { value: "Remove", label: "Remove" },
                 ]}
                 dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)" }}
                 onChange={handleSelect}
@@ -257,91 +323,98 @@ const {data,} = useGetActionQuery()
 
           <div>
             <Input.Search
-              placeholder="Search contributors..."
+              placeholder="Search title or description"
               className="custom-search"
-              onSearch={(value) => {
-                setSearchText(value);
-              }}
-              onChange={(e) => {
-                setSearchText(e.target.value);
-              }}
+              value={searchText} // Controlled value for the input
+              onChange={handleSearchChange} // Handle search input change
+              enterButton
             />
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* 
+        // donate_share,
+        // status,title, */}
+        <div className="overflow-x-auto relative z-10">
           <Table
-            dataSource={dataSource}
+            dataSource={allAuctionData}
             columns={[
               {
                 title: "Name",
                 dataIndex: "name",
-                filteredValue: [searchText],
-                onFilter: (value, record) => {
-                  return (
-                    String(record.name)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.email)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.contactNumber)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.DeclareAction)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.soldOut)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.donated)
-                      .toLowerCase()
-                      .includes(value.toLowerCase()) ||
-                    String(record.action)
-                      .toLowerCase()
-                      .includes(value.toLowerCase())
-                  );
-                },
               },
               {
-                title: "Email",
-                dataIndex: "email",
+                title: "Title",
+                dataIndex: "title",
+              },
+              {
+                title: "Description",
+                dataIndex: "description",
               },
               {
                 title: "Contact number",
-                dataIndex: "contactNumber",
+                dataIndex: "contact_number",
               },
               {
-                title: "Declare action",
-                dataIndex: "DeclareAction",
+                title: "Start Budget",
+                dataIndex: "start_budget",
+                // render: (start_budget) => start_budget ?? "N/A"
               },
               {
-                title: "Sold out",
-                dataIndex: "soldOut",
+                title: "End Eudget",
+                dataIndex: "end_budget",
+                // render: (end_budget) => end_budget ?? "N/A"
               },
               {
-                title: "Donated",
-                dataIndex: "donated",
+                title: "Duration",
+                dataIndex: "duration",
+                // render: (duration) => duration ?? "N/A"
               },
+              {
+                title: "Status",
+                dataIndex: "status",
+                render: (_, record) => (
+                  <div>
+                    {record.status}
+                  </div>
+                ),
+              },
+
               {
                 title: "Action",
                 key: "view",
                 render: (_, record) => (
                   <Space size="middle">
                     <p
-                      onClick={showActionModalOne}
+                      onClick={() => showActionModalOne(record)}
                       className="text-[#658A30] cursor-pointer"
                     >
                       Declare
                     </p>
+
                     <p
-                      onClick={showActionModalTwo}
-                      className="text-[#DA453F] cursor-pointer"
+                      onClick={() => showActionModalFour(record)}
+                      className=" cursor-pointer"
                     >
-                      Remove
+                      <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 22V18H20V22H0ZM4 14H5.4L13.2 6.225L11.775 4.8L4 12.6V14ZM2 16V11.75L13.2 0.575C13.3833 0.391667 13.5958 0.25 13.8375 0.15C14.0792 0.05 14.3333 0 14.6 0C14.8667 0 15.125 0.05 15.375 0.15C15.625 0.25 15.85 0.4 16.05 0.6L17.425 2C17.625 2.18333 17.7708 2.4 17.8625 2.65C17.9542 2.9 18 3.15833 18 3.425C18 3.675 17.9542 3.92083 17.8625 4.1625C17.7708 4.40417 17.625 4.625 17.425 4.825L6.25 16H2Z" fill="#658A30" />
+                      </svg>
+
                     </p>
+
                     <p
-                      onClick={showActionModalThree}
+                      onClick={() => showActionModalTwo(record)}
+                      className=" cursor-pointer"
+                    >
+                      <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="#FF5353" />
+                      </svg>
+
+                    </p>
+
+
+                    <p
+                      onClick={() => showActionModalThree(record)}
                       className="cursor-pointer"
                     >
                       {" "}
@@ -351,7 +424,6 @@ const {data,} = useGetActionQuery()
                           fontSize: "18px",
                           cursor: "pointer",
                         }}
-                        onClick={() => handleView(record)}
                       />
                     </p>
                   </Space>
@@ -360,46 +432,92 @@ const {data,} = useGetActionQuery()
             ]}
             pagination={false}
             className="custom-ant-table"
+            loading={isLoading}
           />
         </div>
 
         {/* modal components */}
         {/* modal one */}
-        <Modal
-          className="custom-ai-modal"
-          centered
-          open={actionModalOne}
-          onOk={actionModalOkOne}
-          onCancel={actionModalCancelOne}
-          width={500}
-          footer={
-            <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
-              <button
-                className="hover:bg-[#A6ABAC] px-6 rounded"
-                onClick={actionModalCancelOne}
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-[#ffffff] py-2 px-4 rounded"
-                onClick={actionModalOkOne}
-              >
-                Yes, declare
-              </button>
+        {
+          singleAction && <Modal
+            className="custom-ai-modal"
+            centered
+            open={actionModalOne}
+            onOk={actionModalOkOne}
+            onCancel={actionModalCancelOne}
+            width={500}
+            footer={
+              <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
+                <button
+                  className="hover:bg-[#A6ABAC] px-6 rounded"
+                  onClick={actionModalCancelOne}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-[#ffffff] py-2 px-4 rounded"
+                  onClick={actionModalOkOne}
+                >
+                  Yes, declare
+                </button>
+              </div>
+            }
+          >
+            <div className="">
+              <div className="pb-6">
+                <h1 className="text-[#E9EBEB] font-semibold text-[20px]">
+                  Declare auction
+                </h1>
+              </div>
+              <Form form={formOne} onFinish={onFinishOne}>
+                {/* maximum budget */}
+                <div>
+                  <p className="text-[#fff]">Maximum budget</p>
+                  <Form.Item name="start_budget" rules={[
+                    { required: true, message: 'Please enter the maximum budget' },
+                    {
+                      type: 'number',
+                      min: 0,
+                      message: 'Budget must be a positive number',
+                    },
+                  ]}>
+                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }}
+                    />
+                  </Form.Item>
+                </div>
+
+                {/* minimum budget */}
+                <div>
+                  <p className="text-[#fff]">Minimum budget</p>
+                  <Form.Item name="end_budget" rules={[
+                    { required: true, message: 'Please enter the minimum budget' },
+                    {
+                      type: 'number',
+                      min: 0,
+                      message: 'Budget must be a positive number',
+                    },
+                  ]}>
+                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                  </Form.Item>
+                </div>
+                {/* duration time */}
+                <div>
+                  <p className="text-[#fff]">Duration time</p>
+                  <Form.Item name="duration" rules={[
+                    { required: true, message: 'Please enter the duration time' },
+                    {
+                      type: 'number',
+                      min: 1,
+                      message: 'Duration must be at least 1',
+                    },
+                  ]}>
+                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                  </Form.Item>
+                </div>
+              </Form>
             </div>
-          }
-        >
-          <div className="">
-            <div>
-              <h1 className="text-[#E9EBEB] font-semibold text-[20px]">
-                Declare auction
-              </h1>
-              <p className="text-[#A6ABAC]">
-                Do you want to declare the auction?
-              </p>
-            </div>
-          </div>
-        </Modal>
+          </Modal>
+        }
 
         {/* modal two */}
         <Modal
@@ -413,13 +531,13 @@ const {data,} = useGetActionQuery()
             <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
               <button
                 className="hover:bg-[#A6ABAC] text-[#DA453F] px-6 rounded"
-                onClick={actionModalCancelTwo}
+                onClick={actionModalOkTwo}
               >
                 Yes, remove
               </button>
               <button
                 className="bg-[#ffffff] py-2 px-4 rounded"
-                onClick={actionModalOkTwo}
+                onClick={actionModalCancelTwo}
               >
                 No, keep it
               </button>
@@ -441,7 +559,7 @@ const {data,} = useGetActionQuery()
 
         {/* modal three */}
         <Modal
-          className="custom-ai-modal custom-view-modal"
+          className="custom-auction-modal custom-view-modal"
           centered
           open={actionModalThree}
           onOk={actionModalOkThree}
@@ -449,14 +567,16 @@ const {data,} = useGetActionQuery()
           width={1000}
           footer={null}
         >
+
           <div>
-            <div className="flex justify-between gap-4">
+            <div ref={targetRef} className="flex justify-between gap-4">
               <div>
-                <h2 className="text-[24px] md:text-[48px] text-[#ffff] ">
+                <span className="text-5xl font-semibold text-red-500"> {modalThreeData.id}</span>
+                <h2 className="text-[24px] md:text-[48px]  ">
                   The ancient statue <br /> of Sri Lanka
                 </h2>
                 <div className="flex flex-col ">
-                  <p className="text-[#ffff] py-2">
+                  <p className=" py-2">
                     Estimated price: <span>$5,900-$20,000</span>
                   </p>
                   <div className="flex items-center gap-2">
@@ -469,26 +589,26 @@ const {data,} = useGetActionQuery()
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M9 2C9 1.44772 9.44772 1 10 1H14C14.5523 1 15 1.44772 15 2C15 2.55228 14.5523 3 14 3H10C9.44772 3 9 2.55228 9 2Z"
-                          fill="#E9EBEB"
+                          fill="#263234"
                         />
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M15.7071 10.2929C16.0976 10.6834 16.0976 11.3166 15.7071 11.7071L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071C10.9024 14.3166 10.9024 13.6834 11.2929 13.2929L14.2929 10.2929C14.6834 9.90237 15.3166 9.90237 15.7071 10.2929Z"
-                          fill="#E9EBEB"
+                          fill="#263234"
                         />
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M12 7C8.13401 7 5 10.134 5 14C5 17.866 8.13401 21 12 21C15.866 21 19 17.866 19 14C19 10.134 15.866 7 12 7ZM3 14C3 9.02944 7.02944 5 12 5C16.9706 5 21 9.02944 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z"
-                          fill="#E9EBEB"
+                          fill="#263234"
                         />
                       </svg>
                     </span>
-                    <p>07:03: 39sec left</p>
+                    <p className="">07:03: 39sec left</p>
                   </div>
                 </div>
 
@@ -501,14 +621,14 @@ const {data,} = useGetActionQuery()
                     />
                   </div>
                   <div>
-                    <h3 className="text-[20px] text-[#ffffff] font-semibold">
+                    <h3 className="text-[20px]  font-semibold">
                       Alexander Pope
                     </h3>
-                    <h4 className="text-[#E9EBEB]">Contributor</h4>
+                    <h4 className="">Contributor</h4>
                   </div>
                 </div>
 
-                <div className="bg-[#4B5557] text-[#ffffff] p-4 rounded-lg max-w-[433px] mt-4">
+                <div className="bg-[#4b55571e]  p-4 rounded-lg max-w-[433px] mt-4">
                   <p>
                     I am privileged to donate The Ancient Statue of Sri Lanka to
                     this auction, supporting Healing and Hope for Women. This
@@ -522,11 +642,7 @@ const {data,} = useGetActionQuery()
                   </p>
                 </div>
 
-                <div className="pt-4">
-                  <button className="bg-[#ffffff] text-[#403730] p-2 rounded-lg">
-                    Mark this auction as featured
-                  </button>
-                </div>
+
               </div>
 
               <div>
@@ -536,12 +652,258 @@ const {data,} = useGetActionQuery()
                 />
               </div>
             </div>
+            <div className="pt-4">
+              <button onClick={() => toPDF()} className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">
+                Download as PDF
+              </button>
+            </div>
           </div>
         </Modal>
 
+
+
+
+
+        {/* modal four */}
+        <Modal
+          className="custom-ai-modal"
+          centered
+          open={actionModalFour}
+          onOk={actionModalOkFour}
+          onCancel={actionModalCancelFour}
+          width={900}
+          footer={
+            <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
+              <button
+                className="hover:bg-[#A6ABAC] text-[#DA453F] px-6 rounded"
+                onClick={actionModalCancelFour}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="bg-[#ffffff] py-2 px-4 rounded"
+                onClick={actionModalOkFour}
+              >
+                Update
+              </button>
+
+            </div>
+          }
+        >
+          <div className="">
+            <Form form={formFour} onFinish={onFinishFour} style={{ marginTop: "20px" }}>
+              <div className="flex items-center gap-4">
+                {/* name */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">Name</p>
+                  <Form.Item
+                    name="name"
+                    rules={[{ required: true, message: "Please enter your name" }]}
+                  >
+                    <Input
+                      placeholder="Enter Your Name"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+
+                {/* email */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">Email</p>
+                  <Form.Item
+                    name="email"
+                    rules={[
+                      { required: true, message: "Please enter your email" },
+                      { type: "email", message: "Please enter a valid email" },
+                    ]}
+                  >
+                    <Input
+                      placeholder="Enter Your Email"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                {/* title */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">Title</p>
+                  <Form.Item
+                    name="title"
+                    rules={[{ required: true, message: "Please enter your title" }]}
+                  >
+                    <Input
+                      placeholder="Enter Your Title"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+
+                {/* description */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">Description</p>
+                  <Form.Item
+                    name="description"
+                    rules={[{ required: true, message: "Please enter your description" }]}
+                  >
+                    <Input
+                      placeholder="Enter Your description"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                {/* city */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">City</p>
+                  <Form.Item
+                    name="city"
+                    rules={[{ required: true, message: "Please enter your city" }]}
+                  >
+                    <Input
+                      placeholder="Enter Your City"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+
+                {/* address */}
+                <div className="w-[50%]">
+                  <p className="text-[#FFFFFF]">Address</p>
+                  <Form.Item
+                    name="address"
+                    rules={[{ required: true, message: "Please enter your address" }]}
+                  >
+                    <Input
+                      placeholder="Enter Your Address"
+                      style={{ padding: "10px" }}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                {/* contact number */}
+                <div className="w-[50%]">
+                  <p className="text-[#fff]">Contact number</p>
+                  <Form.Item name="contact_number" rules={[
+                    { required: true, message: 'Please enter the Contact number' },
+                    {
+                      type: 'number',
+                      min: 1,
+                      message: 'Contact number must be at least 1',
+                    },
+                  ]}>
+                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                  </Form.Item>
+                </div>
+
+                {/* donate share */}
+                <div className="w-[50%]">
+                  <p className="text-[#fff]">Donate share</p>
+                  <Form.Item name="donate_share" rules={[
+                    { required: true, message: 'Please enter the Donate share' },
+                    {
+                      type: 'number',
+                      min: 1,
+                      message: 'Donate share must be at least 1',
+                    },
+                  ]}>
+                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                  </Form.Item>
+                </div>
+              </div>
+
+              {/* image */}
+              <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
+                <Form.Item
+                  className="md:col-span-2"
+                  name="image"
+                  rules={[
+                    {
+                      required: ImageFileListOne.length === 0,
+                      message: "Image required!",
+                    },
+                  ]}
+                >
+                  <Upload
+
+                    accept="image/*"
+                    maxCount={1}
+                    showUploadList={{ showPreviewIcon: true }}
+                    fileList={ImageFileListOne}
+                    onChange={({ fileList }) => setImageFileListOne(fileList)}
+                    listType="picture-card"
+                    className="w-full"
+                    beforeUpload={() => false}
+                  >
+                    <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
+                      <UploadCloud className="w-5 h-5 text-gray-400" />
+                      <span className="mt-2 text-[#fff] px-1">Choose Auction photo</span>
+                    </div>
+                  </Upload>
+                </Form.Item>
+              </div>
+
+
+
+
+              {/*profile image  */}
+              <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
+                <Form.Item
+                  className="md:col-span-2"
+                  name="image"
+                  rules={[
+                    {
+                      required: ImageFileListTwo.length === 0,
+                      message: "Image required!",
+                    },
+                  ]}
+                >
+                  <Upload
+
+                    accept="image/*"
+                    maxCount={1}
+                    showUploadList={{ showPreviewIcon: true }}
+                    fileList={ImageFileListTwo}
+                    onChange={({ fileList }) => setImageFileListTwo(fileList)}
+                    listType="picture-card"
+                    className="w-full"
+                    beforeUpload={() => false}
+                  >
+                    <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
+                      <UploadCloud className="w-5 h-5 text-gray-400" />
+                      <span className="mt-2 text-[#fff]">Choose profile photo</span>
+                    </div>
+                  </Upload>
+                </Form.Item>
+              </div>
+
+            </Form>
+          </div>
+        </Modal>
+
+
+
+
+
+
+
         {/* pagination */}
         <div className="flex justify-end pt-4">
-          <Pagination defaultCurrent={6} total={500} />
+          <Pagination
+            current={currentPage}
+            pageSize={perPage}
+            total={data?.data.total || 0}
+            onChange={(page, pageSize) => {
+              setCurrentPage(page)
+              setPerPage(pageSize)
+            }}
+          />
         </div>
       </div>
     </div>

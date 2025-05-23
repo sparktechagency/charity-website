@@ -9,11 +9,18 @@ const initialState = {
     actionModalOne : false,
     actionModalTwo : false,
     actionModalThree : false,
+    actionModalFour : false,
     teamModalOne : false,
     teamModalTwo : false,
     teamModalThree : false,
     teamModalFour : false,
     settingModalOne : false,
+    settingModalTwo : false,
+    podcastModalOne: false,
+    podcastModalTwo: false,
+    podcastModalThree: false,
+    podcastModalFour: false,
+    podcastModalFive: false,
 }
 
 const modalSlice = createSlice({
@@ -43,6 +50,9 @@ const modalSlice = createSlice({
         actionModalOpenThree : (state) =>{state.actionModalThree = true},
         closeActionModalOpenThree : (state) =>{state.actionModalThree = false},
 
+        actionModalOpenFour : (state) =>{state.actionModalFour = true},
+        closeActionModalOpenFour : (state) =>{state.actionModalFour = false},
+
         teamModalOpenOne : (state) =>{state.teamModalOne = true},
         closeTeamModalOpenOne : (state) =>{state.teamModalOne = false},
 
@@ -57,8 +67,26 @@ const modalSlice = createSlice({
 
         settingModalOpenOne : (state) =>{state.settingModalOne = true},
         closeSettingModalOpenOne : (state) =>{state.settingModalOne = false},
+
+        settingModalOpenTwo : (state) =>{state.settingModalTwo = true},
+        closeSettingModalOpenTwo : (state) =>{state.settingModalTwo = false},
+
+        podcastModalOpenOne : (state) =>{state.podcastModalOne = true},
+        closePodcastModalOpenOne : (state) =>{state.podcastModalOne = false},
+
+        podcastModalOpenTwo : (state) =>{state.podcastModalTwo = true},
+        closePodcastModalOpenTwo : (state) =>{state.podcastModalTwo = false},
+
+        podcastModalOpenThree : (state) =>{state.podcastModalThree = true},
+        closePodcastModalOpenThree : (state) =>{state.podcastModalThree = false},
+
+        podcastModalOpenFour : (state) =>{state.podcastModalFour = true},
+        closePodcastModalOpenFour : (state) =>{state.podcastModalFour = false},
+
+        podcastModalOpenFive : (state) =>{state.podcastModalFive = true},
+        closePodcastModalOpenFive : (state) =>{state.podcastModalFive = false},
     }
 })
 
-export const {modalOpenOne,closeModalOpenOne,modalOpenTwo,closeModalOpenTwo,modalOpenThree,closeModalOpenThree,volunterModalOpenOne,closeVlounterModalOpenOne,volunterModalOpenTwo,closeVlounterModalOpenTwo,actionModalOpenOne,closeActionModalOpenOne,actionModalOpenTwo,closeActionModalOpenTwo,actionModalOpenThree,closeActionModalOpenThree,teamModalOpenOne,closeTeamModalOpenOne,teamModalOpenTwo,closeTeamModalOpenTwo,teamModalOpenThree,closeTeamModalOpenThree,teamModalOpenFour,closeTeamModalOpenFour,settingModalOpenOne,closeSettingModalOpenOne} = modalSlice.actions;
+export const {modalOpenOne,closeModalOpenOne,modalOpenTwo,closeModalOpenTwo,modalOpenThree,closeModalOpenThree,volunterModalOpenOne,closeVlounterModalOpenOne,volunterModalOpenTwo,closeVlounterModalOpenTwo,actionModalOpenOne,closeActionModalOpenOne,actionModalOpenTwo,closeActionModalOpenTwo,actionModalOpenThree,closeActionModalOpenThree,actionModalOpenFour,closeActionModalOpenFour,teamModalOpenOne,closeTeamModalOpenOne,teamModalOpenTwo,closeTeamModalOpenTwo,teamModalOpenThree,closeTeamModalOpenThree,teamModalOpenFour,closeTeamModalOpenFour,settingModalOpenOne,closeSettingModalOpenOne,settingModalOpenTwo, closeSettingModalOpenTwo, podcastModalOpenOne,closePodcastModalOpenOne,podcastModalOpenTwo,closePodcastModalOpenTwo,podcastModalOpenThree,closePodcastModalOpenThree,podcastModalOpenFour,closePodcastModalOpenFour,podcastModalOpenFive,closePodcastModalOpenFive} = modalSlice.actions;
 export default modalSlice.reducer;

@@ -3,6 +3,8 @@ import { LogoutOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme, Tooltip } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useGetNotificationApiQuery } from "../../../redux/dashboardFeatures/dashboardNotificationApi";
+import CustomLoading from "../shared/CustomLoading";
 const { Header, Sider, Content } = Layout;
 
 const AdminDashboard = () => {
@@ -10,6 +12,18 @@ const AdminDashboard = () => {
   const location = useLocation();
   const [selectedKeys, setSelectedKeys] = useState(location.pathname);
   const [collapsed, setCollapsed] = useState(false);
+
+  const { data, isLoading } = useGetNotificationApiQuery(); // get
+
+  const allNotifacitionData = data?.data
+
+
+
+
+// read-null data show
+
+
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -354,6 +368,9 @@ const AdminDashboard = () => {
   const handleNavigate = () => {
     navigate("/");
   };
+  const handleNotification = () => {
+    navigate("/admin/dashboard/notification");
+  };
 
   const handleLogout = () => {
     Swal.fire({
@@ -386,6 +403,8 @@ const AdminDashboard = () => {
     });
   };
 
+
+  if (isLoading) return <CustomLoading />
   return (
     <>
       {/* dashboard header component */}
@@ -438,7 +457,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* notification count compontnt */}
-            <div className="relative">
+            <div onClick={handleNotification} className="relative cursor-pointer">
               <svg
                 width="24"
                 height="24"
@@ -452,7 +471,7 @@ const AdminDashboard = () => {
                 />
               </svg>
               <p className="absolute -top-2 left-4 bg-red-500 w-8 h-6 rounded-full flex justify-center items-center text-xs">
-                11
+                {allNotifacitionData?.length}
               </p>
             </div>
             <div>
