@@ -12,41 +12,50 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const formData = new FormData();
+  // login modal 
+  const onFinish = async (values) => {
+    try {
+      setLoading(true);
+      const formData = new FormData(); // 👈 Create FormData first!
+      formData.append("email", values.email);
+      formData.append("password", values.password);
 
-  const
-    onFinish = async (values) => {
-      try {
-        setLoading(true);
-        const formData = new FormData(); // 👈 Create FormData first!
-        formData.append("email", values.email);
-        formData.append("password", values.password);
+      const res = await axiosPublic.post(`/login`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-        const res = await axiosPublic.post(`/login`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-
-        if (res.data.success) {
-          message.success(`User login successfully`);
-          localStorage.setItem("token", res.data.data.token);
-          localStorage.setItem(`authId`, res.data.data.user.id);
-          form.resetFields(); // 👈 No need to "return" this, just call it
-          return setLoginModal(false);
-        }
-
-        setSuccess(true);
-        setTimeout(() => {
-          setSuccess(false);
-        }, 3000);
-      } catch (error) {
-        message.error(
-          `${error.response?.data?.message || "Something went wrong!"}`
-        );
-      } finally {
-        setLoading(false);
+      if (res.data.success) {
+        message.success(`User login successfully`);
+        localStorage.setItem("token", res.data.data.token);
+        localStorage.setItem(`authId`, res.data.data.user.id);
+        window.location.href = "/"
+        form.resetFields(); // 👈 No need to "return" this, just call it
+        return setLoginModal(false);
       }
-    };
+
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+    } catch (error) {
+      message.error(
+        `${error.response?.data?.message || "Something went wrong!"}`
+      );
+    } finally {
+      form.resetFields()
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!loginModal) {
+      form.resetFields();
+    }
+  }, [loginModal]);
+
+
 
   // registration modal
 
@@ -57,6 +66,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
   };
   const closeModal = () => {
     setIsOpenModal(false);
+    form.resetFields()
   };
 
   const token = localStorage.getItem(`forgetToken`);
@@ -173,11 +183,15 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
     setForgetPasswordModal(false);
   };
 
+  const [userEmail, setUserEmail] = useState(null);
+  console.log("user email is", userEmail)
+
   const submitForgetPasswordFrom = async (values) => {
     try {
       setLoading(true);
       let res = await axiosPublic.post(`/forgot-password`, {
         email: values.email,
+
       }); // 👈 small fix here too (send object, not just string)
 
       if (res.data.success) {
@@ -186,6 +200,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         setForgetPasswordModal(false);
         setLoginModal(false);
         setIsOtpVerifyModal(true);
+        setUserEmail(values.email)
         form.resetFields();
         return;
       } else {
@@ -403,16 +418,12 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
           layout="vertical"
           onFinish={submitNewPasswordModal}
           autoComplete="off"
+          initialValues={{ email: userEmail }}
+
         >
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Please input your email!" },
-              { type: "email", message: "Please enter a valid email!" },
-            ]}
-          >
+          <Form.Item label="Email" name="email">
             <Input
+              disabled
               prefix={<MailOutlined />}
               placeholder="Enter your email"
               className="py-2"

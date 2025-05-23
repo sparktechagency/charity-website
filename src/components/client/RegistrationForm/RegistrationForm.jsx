@@ -60,13 +60,13 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
       });
 
       if (res.data.success) {
-        toast.success(`Registration successful`);
         form.resetFields();
         setIsOpenModal(false);
         setLoginModal(false);
         form.resetFields();
-
         setOtpModal(true);
+        return message.success(`Registration successful`);
+
         return;
       }
     } catch (error) {
@@ -98,7 +98,9 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
 
       if (res.data.success) {
         form.resetFields()
-        toast.success(`OTP verified successfully`);
+        localStorage.setItem(`token`,res.data.data?.token);
+        window.location.href = "/"
+        message.success(res.data.message);
         return setOtpModal(false);
       }
     } catch (error) {

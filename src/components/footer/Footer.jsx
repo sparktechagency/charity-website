@@ -38,16 +38,16 @@ const Footer = () => {
   };
 
   const exploreLinks = [
-    { label: "Overview", to: "/overview" },
+    { label: "Overview", to: "#" },
     { label: "About us", to: "/about" },
-    { label: "Our mission", to: "/mission" },
+    { label: "Our mission", to: "#" },
     { label: "Podcast & success stories", to: "/podcast" },
-    { label: "Way to help", to: "" },
+    { label: "Way to help", to: "#" },
     { label: "Contact us", to: "/contact" },
   ];
 
   const involvedLinks = [
-    { label: "Services", to: "/services" },
+    { label: "Services", to: "/service" },
     { label: "Fundraising & Get Involved", to: "/fundraising-get-involved" },
     { label: "Auction Listing & Sale", to: "/auction" },
     { label: "Support Survivors", to: "" },
@@ -69,7 +69,7 @@ const Footer = () => {
               <h1 className="text-[#4B5557] my-2 font-bold text-xl">Virtue Hope C.I.C</h1>
               <p className="text-[#4B5557] my-2">86-90 Paul Street, London, EC2A 4NE</p>
               <p className="text-[#4B5557] my-2">Registered Company No.: 16173113</p>
-              <p className="text-[#4B5557] my-2">Email: give@virtuehope.com</p>
+              <p className="text-[#4B5557] my-2">Email: NoReply@virtuehope.com</p>
             </div>
 
             {/* Explore Section */}
@@ -147,16 +147,16 @@ const Footer = () => {
 
         <div className="max-w-[1074px] lg:mt-16 mt-4 mx-auto">
           <div className="flex flex-col items-center lg:flex-row lg:justify-between text-[#4B5557] font-thin">
-            <p>© 2077 Virtue Hope. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Virtue Hope. All rights reserved.</p>
             <ul className="flex gap-4">
               <li>
                 <Link to="/terms">Terms</Link>
               </li>
               <li>
-                <Link to="/privacy">Privacy</Link>
+                <Link disabled to="#">Privacy</Link>
               </li>
               <li>
-                <Link to="/cookies">Cookies</Link>
+                <Link disabled to="">Cookies</Link>
               </li>
             </ul>
           </div>
