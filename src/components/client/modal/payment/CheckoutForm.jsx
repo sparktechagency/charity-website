@@ -1,13 +1,13 @@
 import {
-  useElements,
-  PaymentElement,
   useStripe,
+  useElements,
+  CardElement,
 } from "@stripe/react-stripe-js";
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ clientSecret }) => {
+  console.log('client sicret from checkoutpage', clientSecret)
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
@@ -21,32 +21,39 @@ const CheckoutForm = () => {
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: "http://localhost:5175/payment-success", // Replace with your actual redirect URL
-      },
-    });
+    const cardElement = elements.getElement(CardElement);
+
+    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, { payment_method: { card: cardElement, }, }
+    );
 
     if (error) {
-      if (error.type === "card_error" || error.type === "validation_error") {
-        setMessage(error.message);
-      } else {
-        setMessage("An unexpected error occurred.");
-      }
+      setMessage(error.message || "An unexpected error occurred.");
+    } else if (paymentIntent.status === "succeeded") {
+      navigate("/payment-success");
     }
 
     setIsLoading(false);
   };
 
-  const paymentElementOptions = {
-    layout: "accordion",
-  };
-
   return (
-    <div className="max-w-4xl mx-auto ">
-      <form onSubmit={handleSubmit} id="payment-form" className="w-full">
-        <PaymentElement id="payment-element" options={paymentElementOptions} />
+    <div className="max-w-4xl mx-auto  ">
+      <form onSubmit={handleSubmit} className="w-full">
+        <CardElement
+          options={{
+            style: {
+              base: {
+                fontSize: "16px",
+                color: "#32325d",
+                "::placeholder": {
+                  color: "#a0aec0",
+                },
+              },
+              invalid: {
+                color: "#fa755a",
+              },
+            },
+          }}
+        />
 
         <button
           type="submit"
@@ -57,9 +64,7 @@ const CheckoutForm = () => {
         </button>
 
         {message && (
-          <div id="payment-message" className="mt-4 text-red-500 text-center">
-            {message}
-          </div>
+          <div className="mt-4 text-red-500 text-center">{message}</div>
         )}
       </form>
     </div>
