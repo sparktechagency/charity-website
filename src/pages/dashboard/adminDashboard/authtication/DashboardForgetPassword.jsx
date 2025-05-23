@@ -61,21 +61,15 @@ const DashboardForgetPassword = () => {
             </Form.Item>
           </div>
           {/* Submit Button */}
-          {/* <Link to="/admin/dashboard/otp"> */}
-          <Button
-            htmlType="submit"
-            className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
-            style={{
-              backgroundColor: "#ffffff",
+            <button type="submit" className="w-full rounded-md bg-[#ffff] hover:bg-[#ffffff6e] " style={{
               fontFamily: "Roboto",
               fontWeight: "bold",
               fontSize: "16px",
-              padding: "24px ",
+              height: "40px",
               marginLeft: "0px",
-            }}
-          >
-            Get OTP
-          </Button>
+            }}>
+              Get OTP
+            </button>
           {/* </Link> */}
         </Form>
       </div>

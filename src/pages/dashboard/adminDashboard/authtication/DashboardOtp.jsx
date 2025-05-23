@@ -3,15 +3,20 @@ import { useForm } from "antd/es/form/Form";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { usePostOtpMutation } from "../../../../redux/dashboardFeatures/postOtpApi";
 import toast from "react-hot-toast";
+import { usePostForgetPasswordMutation } from "../../../../redux/dashboardFeatures/postForgetPasswordApi";
 
 const DashboardOtp = () => {
   const [postOtp] = usePostOtpMutation();
+  const [postForgetPassword] = usePostForgetPasswordMutation();
+
   const [form] = useForm();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const searchEmail = searchParams.get("email");
 
+
   const onFinish = async (value) => {
+
     try {
       const res = await postOtp({ otp: value.otp }).unwrap();
       const token = res.data?.token;
@@ -26,6 +31,22 @@ const DashboardOtp = () => {
       toast.error(errors?.data?.message);
     }
   };
+
+
+
+
+  // resent otp
+  const handleResentOtp = async () => {
+    try {
+      const res = await postForgetPassword({ email: searchEmail }).unwrap();
+      console.log(res);
+      if (res.data) {
+        toast.success(res?.message);
+      }
+    } catch (errors) {
+      toast.error(errors?.data?.message);
+    }
+  }
   return (
     <div className="flex justify-center items-center h-screen bg-[#171F20] px-2 md:px-0">
       <div className="w-full max-w-[462px] mx-auto bg-[#263234] rounded-lg p-10 py-8">
@@ -47,7 +68,7 @@ const DashboardOtp = () => {
 
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <div>
-            <p className="font-roboto font-bold text-[#E9EBEB] text-[16px] pb-1">
+            <p className="font-roboto font-bold text-[#E9EBEB] text-[16px]">
               OTP code
             </p>
             <Form.Item
@@ -64,22 +85,22 @@ const DashboardOtp = () => {
                 style={{ border: "1px solid #B6B6BA", padding: "10px" }}
               />
             </Form.Item>
+            <p
+              onClick={handleResentOtp}
+              className="cursor-pointer text-[#ffff] underline flex justify-end pb-6"
+            >Resent otp</p>
+
           </div>
           {/* submit button */}
-          <Button
-            htmlType="submit"
-            className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
-            style={{
-              backgroundColor: "#ffffff",
-              fontFamily: "Roboto",
-              fontWeight: "bold",
-              fontSize: "16px",
-              padding: "24px ",
-              marginLeft: "0px",
-            }}
-          >
+          <button type="submit" className="w-full rounded-md bg-[#ffff] hover:bg-[#ffffff6e] " style={{
+            fontFamily: "Roboto",
+            fontWeight: "bold",
+            fontSize: "16px",
+            height: "40px",
+            marginLeft: "0px",
+          }}>
             Submit OTP
-          </Button>
+          </button>
         </Form>
       </div>
     </div>

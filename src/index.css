@@ -916,3 +916,17 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 /*================ ant modal custom style end ============= */
 
 
+/* input field place holder custom color */
+/* Target the real input element inside the Ant Design wrapper */
+input#email {
+    color: #fff !important;
+}
+
+input#name {
+  color: #fff !important;
+}
+
+
+.rhap_time {
+  color: #fff !important;
+}

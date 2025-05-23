@@ -17,6 +17,7 @@ import 'react-h5-audio-player/lib/styles.css';
 
 
 
+
 const { Dragger } = Upload;
 
 const PodcastStories = () => {
@@ -30,6 +31,7 @@ const PodcastStories = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(6);
 
+  const playerRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [ImageFileListHost, setImageFileListHost] = useState([]);
   const [ImageFileListGuest, setImageFileListGuest] = useState([]);
@@ -46,7 +48,7 @@ const PodcastStories = () => {
 
 
   const [postDashboardPodcastApi] = usePostDashboardPodcastApiMutation() // post
-  const { data, isLoading, refetch } = useGetDashboardPodcastApiQuery({ page:currentPage, per_page:perPage,search:searchText}); // get
+  const { data, isLoading, refetch } = useGetDashboardPodcastApiQuery({ page: currentPage, per_page: perPage, search: searchText }); // get
   const [deleteDashboardPodcastApi] = useDeleteDashboardPodcastApiMutation(); // delete
   const { data: podcastData } = useSingleGetDashboardPodcastApiQuery({ podcast_id: selectId }) // single podcast data
   const [updateDashboardPodcastApi] = useUpdateDashboardPodcastApiMutation(); // update
@@ -135,21 +137,6 @@ const PodcastStories = () => {
     }
   }, [singlePodcast]);
 
-
-
-
-
-  const playerRef = useRef(null);
-
-  useEffect(() => {
-    return () => {
-      if (playerRef.current) {
-        playerRef.current.audio.current.pause();
-        playerRef.current.audio.current.currentTime = 0;
-      }
-    };
-  }, []);
-
   const formatDate = (isoDate) => {
     const date = new Date(isoDate);
     return date.toLocaleDateString('en-GB', {
@@ -219,9 +206,9 @@ const PodcastStories = () => {
         dispatch(closePodcastModalOpenOne());
       }
     } catch (errors) {
-     if(errors){
-      toast.error(errors?.data?.message)
-     }
+      if (errors) {
+        toast.error(errors?.data?.message)
+      }
     }
     finally {
       setLoading(false); // End loading
@@ -317,8 +304,17 @@ const PodcastStories = () => {
   };
 
   const podcastModalCancelFour = () => {
+    if (playerRef.current) {
+      playerRef.current.audio.current.pause();
+    }
+
     dispatch(closePodcastModalOpenFour());
   };
+
+  // const podcastModalCancelFour = () => {
+  //   dispatch(closePodcastModalOpenFour());
+  // };
+
   // ======= podcast modal four end ===========
 
 
@@ -381,7 +377,7 @@ const PodcastStories = () => {
         dispatch(closePodcastModalOpenFive());
       }
     } catch (errors) {
-      if(errors){
+      if (errors) {
         console.log(errors)
         toast.error(errors?.data?.message);
       }
@@ -530,6 +526,34 @@ const PodcastStories = () => {
     refetch(); // Refetch the data when searchText, currentPage, or perPage changes
   }, [searchText, currentPage, perPage, refetch]);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+  useEffect(() => {
+    document.body.style.overflow =
+      podcastModalOne || podcastModalFour
+        ? "hidden"
+        : "auto";
+  }, [podcastModalOne, podcastModalFour]);
+
   if (isLoading) return <CustomLoading />
 
   return <section className="text-[#ffff]">
@@ -537,21 +561,30 @@ const PodcastStories = () => {
       <div className="">
         <div className="flex items-center justify-between gap-4">
           <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">Podcast & stories</h2>
-          <button
-            onClick={showPodcastModalOne}
+          {/* <button
+            
             className="bg-[#ffffff3a] text-[#ffff] py-2 px-6 rounded-lg flex items-center gap-3">
+            
+          </button> */}
+          <button onClick={showPodcastModalOne} className=" px-6 rounded-md bg-[#ffff] text-black hover:bg-[#ffffff6e] " style={{
+            fontFamily: "Roboto",
+            fontWeight: "bold",
+            fontSize: "16px",
+            height: "40px",
+            marginLeft: "0px",
+          }}>
             Add new Podcast
           </button>
         </div>
         <div>
-            <Input.Search
-              placeholder="Search host title or guest title or description"
-              className="custom-search"
-              value={searchText} // Controlled value for the input
-              onChange={handleSearchChange} // Handle search input change
-              enterButton
-              style={{ width: '350px', margin: "20px 0px" }}
-            />
+          <Input.Search
+            placeholder="Search host title or guest title or description"
+            className="custom-search"
+            value={searchText} // Controlled value for the input
+            onChange={handleSearchChange} // Handle search input change
+            enterButton
+            style={{ width: '350px', margin: "20px 0px" }}
+          />
         </div>
       </div>
 
@@ -595,7 +628,7 @@ const PodcastStories = () => {
         open={podcastModalOne}
         onOk={podcastModalOkOne}
         onCancel={podcastModalCancelOne}
-         width={1000}
+        width={1000}
         footer={
           <div className="font-roboto flex justify-end gap-x-4 md:px-7 pt-[24px]">
             <button
@@ -606,11 +639,11 @@ const PodcastStories = () => {
             </button>
             <Button
               onClick={podcastModalOkOne}
-              htmlType="submit" 
+              htmlType="submit"
               className="no-hover"
               loading={loading}
             >
-                {loading ? "Loading...." : "Post now" }
+              {loading ? "Loading...." : "Post now"}
             </Button>
           </div>
         }
@@ -1060,20 +1093,30 @@ const PodcastStories = () => {
       {/* modal four--- show details info */}
       <Modal
         centered
-        title={
-          <div className="text-center bg-primary text-[#ffffff] py-4 font-OpenSans text-[18px]  font-semibold rounded-t-lg">
-            Active Reports
-          </div>
-        }
         open={podcastModalFour}
-        onOk={podcastModalOkFour}
-        onCancel={podcastModalCancelFour}
+        onOk={() => {
+          if (playerRef.current) {
+            playerRef.current.audio.current.pause();
+          }
+          podcastModalOkFour();
+        }}
+        onCancel={() => {
+          if (playerRef.current) {
+            playerRef.current.audio.current.pause();
+          }
+          podcastModalCancelFour();
+        }}
         width={700}
         footer={null}
+        className="custom-ai-modal"
       >
 
         <div className="p-8">
-          <div className="bg-[#1B2324] text-white p-6 max-w-4xl mx-auto rounded-xl shadow-lg">
+          <h1 className="text-[#ffff] font-bold text-[24px] py-4">
+            Active Reports
+          </h1>
+
+          <div className="bg-[#3a494b] text-white p-6 max-w-4xl mx-auto rounded-xl shadow-lg">
             {/* Header */}
             <div className="flex gap-4 items-center">
               <img
@@ -1095,10 +1138,22 @@ const PodcastStories = () => {
                 ref={playerRef}
                 src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.mp3}`}
                 onPlay={e => console.log("Playing audio:", singlePodcast?.data?.mp3)}
-                showJumpControls={false}
-                style={{ background: "#1B2324", borderRadius: "20px", color: "#ffff" }}
+                showJumpControls
+
+                style={{
+                  background: "#3a494b",
+                  borderRadius: "20px",
+                  color: "#ffff",
+                }}
               />
+              
             </div>
+
+
+
+
+
+
 
             {/* Description */}
             <p className="mt-4 text-gray-300 text-sm">

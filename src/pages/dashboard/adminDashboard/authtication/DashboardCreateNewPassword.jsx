@@ -19,22 +19,19 @@ const DashboardCreateNewPassword = () => {
       email: searchEmail,
     };
 
+
     try {
       const res = await createNewPassword(updatePassword).unwrap();
       console.log(res);
 
       if (res.data) {
         toast.success(res?.message);
-        navigate("/admin/dashboard/login");
+        navigate("/admin/dashboard");
         form.resetFields();
       }
     } catch (error) {
-      if (error.response && error.response.data.errors) {
-        // Handle validation errors here
-        console.log(error.response.data.errors?.new_password
-        );
-      } else {
-        console.error(error.response);
+      if(error){
+        toast.error(error?.data?.message)
       }
     }
 
@@ -67,11 +64,9 @@ const DashboardCreateNewPassword = () => {
             <Form.Item
               name="new_password"
               rules={[
-                {
-                  required: true,
-                  message: "Please input your new password!",
-                },
+                { required: true, message: "Please input your new password" },
               ]}
+              hasFeedback
             >
               <Input.Password
                 type="password"
@@ -92,11 +87,18 @@ const DashboardCreateNewPassword = () => {
             </p>
             <Form.Item
               name="new_password_confirmation"
+              dependencies={['new_password']}
+              hasFeedback
               rules={[
-                {
-                  required: true,
-                  message: "Please input your confirm new password!",
-                },
+                { required: true, message: "Please input your confirm new password!" },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue('new_password') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(new Error('The two passwords do not match!'));
+                  },
+                }),
               ]}
             >
               <Input.Password
@@ -113,20 +115,15 @@ const DashboardCreateNewPassword = () => {
           </div>
 
           {/* Submit Button */}
-          <Button
-            htmlType="submit"
-            className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
-            style={{
-              backgroundColor: "#ffffff",
-              fontFamily: "Roboto",
-              fontWeight: "bold",
-              fontSize: "16px",
-              padding: "24px ",
-              marginLeft: "0px",
-            }}
-          >
+          <button type="submit" className="w-full rounded-md bg-[#ffff] hover:bg-[#ffffff6e] " style={{
+            fontFamily: "Roboto",
+            fontWeight: "bold",
+            fontSize: "16px",
+            height: "40px",
+            marginLeft: "0px",
+          }}>
             Save changes
-          </Button>
+          </button>
         </Form>
       </div>
     </div>

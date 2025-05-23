@@ -57,7 +57,7 @@ const Notification = () => {
                     return (
                         <div
                             key={index}
-                            className={`grid grid-cols-12 gap-4 items-center border border-[#ccc] rounded-lg mb-4 p-4 ${item?.read_at === null ? '' : 'bg-red-400 text-[#ffff] border-none'
+                            className={`grid grid-cols-12 gap-4 items-center border border-[#ccc] rounded-lg mb-4 p-4 ${item?.read_at === null ? '' : 'bg-[#1B2324] text-[#ffff] border-none'
                                 }`}
                         >
                             {/* 1st div: image */}
@@ -83,7 +83,7 @@ const Notification = () => {
                                     <div className="col-span-2 text-right">
                                         <button 
                                         onClick={() => handleSingleRed(item?.id)}
-                                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                        className="bg-[#1B2324] text-white px-4 py-2 rounded hover:bg-[#1b232494]">
                                             Read
                                         </button>
                                     </div>
