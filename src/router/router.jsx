@@ -39,6 +39,7 @@ import AudioFile from "../components/client/audio/AudioFile";
 import LoginForm from "../components/client/login/LoginFrom";
 import RegistrationForm from "../components/client/RegistrationForm/RegistrationForm";
 import Notification from "../redux/notification/Notification";
+import ServiceBook from "../pages/dashboard/adminDashboard/serviceBook/ServiceBook";
 
 
 export const router = createBrowserRouter([
@@ -156,6 +157,10 @@ export const router = createBrowserRouter([
       {
         path: "donation-transaction",
         element: <DonationTransaction />,
+      },
+      {
+        path: "service-book",
+        element: <ServiceBook />,
       },
       {
         path: "podcast-stories",

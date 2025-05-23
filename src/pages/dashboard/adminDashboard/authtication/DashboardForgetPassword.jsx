@@ -55,6 +55,7 @@ const DashboardForgetPassword = () => {
               ]}
             >
               <Input
+              id="forget_password_email"
                 placeholder="Enter your email"
                 className="w-full border border-gray-400 p-2 rounded-md"
               />

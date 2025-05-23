@@ -918,6 +918,42 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 
 /* input field place holder custom color */
 /* Target the real input element inside the Ant Design wrapper */
+input#forget_password_email {
+    color: #ffff !important;
+    background: transparent;
+}
+input#dashboard_otp {
+    color: #ffff !important;
+    background: transparent;
+}
+input#dashboard_new_password {
+    color: #ffff !important;
+    background: transparent;
+}
+input#dashboard_new_password {
+    color: #ffff !important;
+    background: transparent;
+}
+input#dashboard_password_confirmation {
+    color: #ffff !important;
+    background: transparent;
+}
+input#dashboard_team_create {
+    color: #ffff !important;
+    background: transparent;
+}
+input#dashboard_podcast {
+    color: #ffff !important;
+    background: transparent;
+}
+input#dashboard_setting_name {
+    color: #ffff !important;
+    background: transparent;
+}
+
+
+
+
 input#email {
     color: #fff !important;
 }
@@ -929,4 +965,27 @@ input#name {
 
 .rhap_time {
   color: #fff !important;
+}
+
+
+
+/* image upload name style */
+span.ant-upload-list-item-name {
+    color: #ffff;
+}
+
+a.ant-upload-list-item-name {
+    color: #ffff;
+}
+
+ svg {
+  color: #ffff;
+}
+
+span.mt-2 {
+   color: #ffff;
+}
+
+.custom-textarea::placeholder {
+  color: #99999980; /* your custom placeholder color */
 }

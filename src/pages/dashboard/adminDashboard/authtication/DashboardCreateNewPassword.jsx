@@ -69,6 +69,7 @@ const DashboardCreateNewPassword = () => {
               hasFeedback
             >
               <Input.Password
+              id="dashboard_new_password"
                 type="password"
                 placeholder="Enter your password"
                 style={{
@@ -102,6 +103,7 @@ const DashboardCreateNewPassword = () => {
               ]}
             >
               <Input.Password
+              id="dashboard_password_confirmation"
                 type="password"
                 placeholder="Enter your password"
                 style={{

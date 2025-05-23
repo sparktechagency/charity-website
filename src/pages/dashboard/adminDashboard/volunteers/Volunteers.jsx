@@ -11,13 +11,16 @@ import {
 } from "../../../../features/modal/modalSlice";
 import { useGetAllVolunterDataQuery } from "../../../../redux/dashboardFeatures/getVolunteersApi";
 import CustomLoading from "../../shared/CustomLoading";
+import { FiSearch } from "react-icons/fi";
+import { usePDF } from 'react-to-pdf';
 
 const Volunteers = () => {
   const [searchText, setSearchText] = useState("");
   const [selectValue, stetSelectValue] = useState("Pending");
+  const [selectId, setSelectId] = useState('')
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-
+  const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' }); // pdf file download for
 
   const dispatch = useDispatch();
   const volunteerModalOne = useSelector(
@@ -28,8 +31,33 @@ const Volunteers = () => {
   const { data, isLoading, refetch } = useGetAllVolunterDataQuery({ page: currentPage, per_page: perPage, search: searchText, status: selectValue });
 
   const allVolunterData = data?.data?.data
+  const singleVolunterData = allVolunterData?.find(item => item?.id === selectId)
 
-  console.log(allVolunterData)
+
+
+
+  // date formate function
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Invalid date';
+
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return 'Invalid date';
+
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    }).formatToParts(date);
+
+    const day = parts.find(p => p.type === 'day')?.value;
+    const month = parts.find(p => p.type === 'month')?.value;
+    const year = parts.find(p => p.type === 'year')?.value;
+
+    return `${day} ${month}, ${year}`;
+  };
+
+
+
   // ====== vounter modal one start ===========
   const volunterModalCancelOne = () => {
     dispatch(closeVlounterModalOpenOne());
@@ -43,7 +71,8 @@ const Volunteers = () => {
   // ====== vounter modal one end ===========
 
   // ====== vounter modal two start ===========
-  const showVolunterModalTwo = () => {
+  const showVolunterModalTwo = (id) => {
+    setSelectId(id)
     dispatch(volunterModalOpenTwo());
   };
   const volunterModalOkTwo = () => {
@@ -69,12 +98,18 @@ const Volunteers = () => {
       dataIndex: "contact_number",
     },
     {
-      title: "Status",
-      dataIndex: "status",
+      title: 'updated Date',
+      dataIndex: 'updated_at',
+      key: 'updated_at',
+      render: (text) => formatDate(text),
     },
     {
       title: "Donated",
       dataIndex: "donated",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
     },
     {
       title: "Action",
@@ -88,7 +123,7 @@ const Volunteers = () => {
             {record.action}
           </p>
           <p
-            onClick={showVolunterModalTwo}
+            onClick={() => showVolunterModalTwo(record?.id)}
             className="cursor-pointer"
           >
             {" "}
@@ -98,7 +133,6 @@ const Volunteers = () => {
                 fontSize: "18px",
                 cursor: "pointer",
               }}
-              onClick={() => handleView(record)}
             />
           </p>
         </Space>
@@ -107,9 +141,10 @@ const Volunteers = () => {
   ]
 
 
+  console.log(singleVolunterData)
 
-  const handleSelect = (value) => {
-    stetSelectValue(value)
+  const handleSelect = (e) => {
+    stetSelectValue(e.target.value)
   };
 
 
@@ -124,44 +159,48 @@ const Volunteers = () => {
   }, [searchText, selectValue, currentPage, perPage, refetch]);
 
 
+  useEffect(() => {
+    document.body.style.overflow =
+     volunteerModalOne || volunterModalTwo
+        ? "hidden"
+        : "auto";
+  }, [volunteerModalOne, volunterModalTwo]);
+
   if (isLoading) return <CustomLoading />
 
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 pb-8">
-          <div className="flex flex-col md:flex-row md:items-center gap-10">
+          <div className="flex flex-col md:flex-row md:items-center gap-8">
             <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
               Manage volunteer
             </h2>
             <div className="relative z-50">
-              <Select
-                showSearch
-                placeholder="Volunteer"
-                style={{
-                  width: "100%",
-                  height: "30px",
-              
-                }}
-                options={[
-                  { value: "Pending", label: "Pending" },
-                  { value: "Approved", label: "Approved" },
-                  { value: "Suspended", label: "Suspended" },
-                ]}
-                dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)"}}
+              <select name="" id=""
+                value={selectValue}
                 onChange={handleSelect}
-              />
+                className="w-[120px] p-2 rounded bg-gray-200">
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Suspended">Suspended</option>
+              </select>
             </div>
           </div>
 
           <div>
-            <Input.Search
-              placeholder="Search name or email"
-              className="custom-search"
-              value={searchText} // Controlled value for the input
-              onChange={handleSearchChange} // Handle search input change
-              enterButton
-            />
+            <div className="relative w-fit">
+              <input
+                type="search"
+                id="gsearch"
+                name="gsearch"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                placeholder="Search name or email"
+                className="bg-[#1B2324] text-[#ffff] border px-4 py-2 pl-10 rounded-md w-[300px]"
+              />
+              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#ffff]" />
+            </div>
           </div>
         </div>
 
@@ -219,31 +258,25 @@ const Volunteers = () => {
             onOk={volunterModalOkTwo}
             onCancel={volunterModalCancelTwo}
             width={500}
-            footer={
-              <div className="font-roboto flex justify-end">
-                <button
-                  className="bg-[#ffffff] py-2 px-4 rounded"
-                  onClick={volunterModalOkTwo}
-                >
-                  Done
-                </button>
-              </div>
-            }
+            footer={null}
+          // footer={
+          //   <div className="font-roboto flex justify-end">
+          //     <button
+          //       className="bg-[#ffffff] py-2 px-4 rounded"
+          //       onClick={() => toPDF()}
+          //     >
+          //       PDF Download
+          //     </button>
+          //   </div>
+          // }
           >
-            <div>
+            <div ref={targetRef}>
               <div className="flex  items-center gap-3 border-b pb-4 border-gray-700">
                 <div>
-                  <img
-                    src="/dashboardPhoto/dashboardLoginLogo.png"
-                    alt="photo"
-                    className="w-[40px]"
-                  />
-                </div>
-                <div>
                   <h1 className="text-[14px] font-semibold text-[#ffffff]">
-                    Sophia Mitchel
+                    {singleVolunterData?.name}
                   </h1>
-                  <p className="text-[#D9D9D9]">sophiamitchel@gmail.com</p>
+                  <p className="text-[#D9D9D9]">{singleVolunterData?.email}</p>
                 </div>
               </div>
 
@@ -253,26 +286,41 @@ const Volunteers = () => {
                 </h1>
 
                 {/* Personal Information */}
-                <div className="border-b border-gray-700 pb-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6  mt-6">
+                <div className="">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 ">
                     <div className="space-y-2">
                       <p className="text-sm text-[#E9EBEB]">Contact number</p>
                       <p className="text-sm text-[#E9EBEB]">Location</p>
                       <p className="text-sm text-[#E9EBEB]">Joined</p>
                       <p className="text-sm text-[#E9EBEB]">Donated</p>
+                      <p className="text-sm text-[#E9EBEB]">Reason</p>
+
                     </div>
-                    <div className="flex md:justify-end md:text-end">
+                    <div className="flex  md:text-end">
                       <div className="space-y-2">
-                        <p className="text-sm text-[#E9EBEB]">+123 4567 8978</p>
+                        <p className="text-sm text-[#E9EBEB]">{singleVolunterData?.contact_number}</p>
                         <p className="text-sm text-[#E9EBEB]">
-                          Town Hall Albert Square
+                          {singleVolunterData?.location}
                         </p>
-                        <p className="text-sm text-[#E9EBEB]">12 Mar, 2025</p>
-                        <p className="text-sm text-[#E9EBEB]">$0.00</p>
+                        <p className="text-sm text-[#E9EBEB]">{formatDate(singleVolunterData?.created_at)}</p>
+                        <p className="text-sm text-[#E9EBEB]">{singleVolunterData?.donated}</p>
                       </div>
                     </div>
                   </div>
                 </div>
+                <p className="text-[#fff]">{singleVolunterData?.reason}</p>
+                {
+                  singleVolunterData?.upload_cv && (
+                    <a
+                      href={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData.upload_cv}`}
+                      download
+                      className="text-blue-500 underline"
+                    >
+                      View CV
+                    </a>
+                  )
+                }
+
               </div>
             </div>
           </Modal>

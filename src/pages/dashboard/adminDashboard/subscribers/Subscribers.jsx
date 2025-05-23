@@ -3,6 +3,7 @@ import { Input, Pagination, Select, Space, Table } from "antd";
 import { useEffect, useState } from "react";
 import { useGetDashboardSubscribersApiQuery } from "../../../../redux/dashboardFeatures/dashboardSubscribersApi";
 import CustomLoading from "../../shared/CustomLoading";
+import { FiSearch } from "react-icons/fi";
 
 const Subscribers = () => {
   const [searchText, setSearchText] = useState("");
@@ -26,7 +27,7 @@ const Subscribers = () => {
   }, [searchText, currentPage, perPage, refetch]);
 
 
-if(isLoading) return <CustomLoading />
+  if (isLoading) return <CustomLoading />
 
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
@@ -42,13 +43,19 @@ if(isLoading) return <CustomLoading />
           </div>
 
           <div>
-            <Input.Search
-              placeholder="Search contributors..."
-              className="custom-search"
-              value={searchText} // Controlled value for the input
-              onChange={handleSearchChange} // Handle search input change
-              enterButton
-            />
+            <div className="relative w-fit">
+              <input
+                type="search"
+                id="gsearch"
+                name="gsearch"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                placeholder="Search email..."
+                className="bg-[#1B2324] text-[#ffff] border px-4 py-2 pl-10 rounded-md w-[300px]"
+              />
+              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#ffff]" />
+            </div>
+
           </div>
         </div>
 

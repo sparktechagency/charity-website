@@ -202,6 +202,11 @@ const AdminDashboard = () => {
       label: "Transaction",
     },
     {
+      key: "/admin/dashboard/service-book",
+      icon: <img src="/serviceBook.png" alt="" className="w-[18px]"/>,
+      label: "Service Book",
+    },
+    {
       key: "/admin/dashboard/podcast-stories",
       icon: (
         <svg

@@ -8,10 +8,30 @@ const DonationTransaction = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
 
-  const { data, isLoading } = useGetDashboardDonationTransitionApiQuery({page: currentPage, per_page: perPage,});
+  const { data, isLoading } = useGetDashboardDonationTransitionApiQuery({ page: currentPage, per_page: perPage, });
   const allDonationTransitions = data?.data?.data
 
 
+
+  // date formate function
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Invalid date';
+
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return 'Invalid date';
+
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    }).formatToParts(date);
+
+    const day = parts.find(p => p.type === 'day')?.value;
+    const month = parts.find(p => p.type === 'month')?.value;
+    const year = parts.find(p => p.type === 'year')?.value;
+
+    return `${day} ${month}, ${year}`;
+  };
 
 
   if (isLoading) return <CustomLoading />
@@ -40,6 +60,18 @@ const DonationTransaction = () => {
               {
                 title: "Contact number",
                 dataIndex: "phone_number",
+              },
+              {
+                title: "Created Date",
+                dataIndex: "created_at",
+                key: 'created_at',
+                render: (text) => formatDate(text),
+              },
+              {
+                title: "Updated Date",
+                dataIndex: "updated_at",
+                key: 'updated_at',
+                render: (text) => formatDate(text),
               },
               {
                 title: "Action",

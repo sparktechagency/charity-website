@@ -12,6 +12,7 @@ import {
 } from "../../../../features/modal/modalSlice";
 import { useGetDashboardContibutorsApiQuery, useSingleGetDashboardContibutorsApiQuery, useSingleGetDashboardContibutorsAuctionApiQuery } from "../../../../redux/dashboardFeatures/getDashboardContibutors";
 import CustomLoading from "../../shared/CustomLoading";
+import { FiSearch } from "react-icons/fi";
 
 const Contributors = () => {
   const [selectId, setSelectId] = useState(null)
@@ -28,7 +29,7 @@ const Contributors = () => {
 
   // const { data, isLoading,refetch } = useGetDashboardContibutorsApiQuery({ page: currentPage, per_page: perPage, search: searchText });
 
-  const { data, isLoading, refetch } = useGetDashboardContibutorsApiQuery({search:searchText, status:selectValue, per_page:perPage, page:currentPage});
+  const { data, isLoading, refetch } = useGetDashboardContibutorsApiQuery({ search: searchText, status: selectValue, per_page: perPage, page: currentPage });
   const { data: singleData } = useSingleGetDashboardContibutorsApiQuery({ id: selectId })
   const { data: singleContAuction } = useSingleGetDashboardContibutorsAuctionApiQuery({ auction_id: singleAuctionId })
 
@@ -47,6 +48,9 @@ const Contributors = () => {
     contibutorActionStatus.push(item.status)
 
   })
+
+  console.log(userData)
+
 
 
   // ============== modal one start =========
@@ -87,12 +91,12 @@ const Contributors = () => {
     {
       title: "Name",
       dataIndex: "name",
-      render: (_, record) => record?.auction?.name,
+      render: (_, record) => record?.user?.name,
     },
     {
       title: "Email",
       dataIndex: "email",
-      render: (_, record) => record?.auction?.email,
+      render: (_, record) => record?.user?.email,
     },
     {
       title: "Contact number",
@@ -133,16 +137,10 @@ const Contributors = () => {
     },
   ]
 
-  const handleSelect = (value) => {
-    stetSelectValue(value)
+  const handleSelect = (e) => {
+    stetSelectValue(e.target.value)
   };
 
-
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
-    // stetSelectValue(e.target.value)
-    setCurrentPage(1); // Reset to the first page whenever the search term changes
-  };
 
   useEffect(() => {
     refetch(); // Refetch the data when searchText, currentPage, or perPage changes
@@ -154,38 +152,36 @@ const Contributors = () => {
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 pb-8">
-          <div className="flex flex-col md:flex-row md:items-center gap-2">
+          <div className="flex flex-col md:flex-row md:items-center gap-8">
             <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
               Manage contributors
             </h2>
             <div>
-             <Select
-                showSearch
-                placeholder="Volunteer"
-                style={{
-                  width: "100%",
-                  height: "30px",
-              
-                }}
-                options={[
-                  { value: "Pending", label: "Pending" },
-                  { value: "Approved", label: "Approved" },
-                  { value: "Suspended", label: "Suspended" },
-                ]}
-                dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)"}}
-                onChange={handleSelect}
-              />
+              <select name="" id=""
+              value={selectValue}
+              onChange={handleSelect}
+              className="w-[120px] p-2 rounded bg-gray-200">
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Suspended">Suspended</option>
+              </select>
             </div>
           </div>
 
           <div>
-            <Input.Search
-              placeholder="Search user name"
-              className="custom-search"
-              value={searchText} // Controlled value for the input
-              onChange={handleSearchChange} // Handle search input change
-              enterButton
-            />
+            <div className="relative w-fit">
+              <input
+                type="search"
+                id="gsearch"
+                name="gsearch"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                placeholder="Search user name"
+                className="bg-[#1B2324] text-[#ffff] border px-4 py-2 pl-10 rounded-md w-[300px]"
+              />
+              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#ffff]" />
+            </div>
+
           </div>
         </div>
 
@@ -212,7 +208,7 @@ const Contributors = () => {
             width={600}
             footer={null}
           >
-            <div>
+            <div >
               <div className="flex gap-3 border-b border-gray-600 pb-4">
                 <div className="">
                   <img
@@ -245,7 +241,7 @@ const Contributors = () => {
               </div>
 
               {/* view section */}
-              <div className=" pb-4 space-y-6">
+              <div style={{ maxHeight: '400px', overflowY: 'auto', }} className=" pb-4 space-y-6">
                 {
                   contibutorActionData?.map((item, index) => {
                     return (
