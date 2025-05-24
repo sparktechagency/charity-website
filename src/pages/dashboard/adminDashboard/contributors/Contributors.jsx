@@ -83,9 +83,6 @@ const Contributors = () => {
   };
   // ============== modal two end  =============
 
-  // {max_bit_online, status, payment_status }
-  // {auction_ title,profile,name,image,email,donate_share,description,contact_number,city,address,}
-  // {user_  email,image,name  }
 
   const columns = [
     {
@@ -244,6 +241,7 @@ const Contributors = () => {
               <div style={{ maxHeight: '400px', overflowY: 'auto', }} className=" pb-4 space-y-6">
                 {
                   contibutorActionData?.map((item, index) => {
+                    console.log(item)
                     return (
                       <div className="" key={index}>
                         <div className="flex justify-between">
@@ -254,12 +252,12 @@ const Contributors = () => {
                             <div className="flex items-center gap-2 text-[#A6ABAC]">
                               <span>Price range: ${item?.start_budget} - ${item?.end_budget}</span>
                               <div className="w-2 h-2 rounded-full bg-gray-700"></div>
-                              <span className="text-red-500">dynamic status asba</span>
+                              <span className="">{item?.status}</span>
                             </div>
                           </div>
                           <div
                             onClick={() => showModalTwo(item.id)}
-                            className="cursor-pointer text-[#1890FF] font-semibold"
+                            className="cursor-pointer text-[#1890FF] font-semibold mr-3"
                           >
                             View
                           </div>
@@ -287,7 +285,7 @@ const Contributors = () => {
           >
             <div>
               <div className="flex justify-between gap-4">
-                <div>
+                <div className="w-[50%]">
                   <h2 className="text-[24px] md:text-[48px] text-[#ffff] ">
                     {singleContibutorAuction?.title}
                   </h2>
@@ -361,11 +359,11 @@ const Contributors = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="w-[50%]">
                   <img
                     src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${userData?.image}`}
                     alt="photo"
-                    className="object-cover "
+                    className="object-cover"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = '/dashboardPhoto/contributors/photo1.png';

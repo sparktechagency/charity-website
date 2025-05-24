@@ -950,6 +950,10 @@ input#dashboard_setting_name {
     color: #ffff !important;
     background: transparent;
 }
+input#dashboard_auction {
+    color: #ffff !important;
+    background: transparent;
+}
 
 
 

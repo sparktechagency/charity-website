@@ -20,7 +20,8 @@ import CustomLoading from "../../shared/CustomLoading";
 import { useForm } from "antd/es/form/Form";
 import toast from "react-hot-toast";
 import { usePDF } from 'react-to-pdf';
-import { useDeleteActionMutation, useGetActionQuery, useSingleGetActionQuery, useUpdateActionMutation } from "../../../../redux/dashboardFeatures/dashboardGetActionApi";
+import { useDeleteActionMutation, useGetActionQuery, useSingleGetActionQuery, useUpdateActionMutation, useUpdateActionTwoMutation } from "../../../../redux/dashboardFeatures/dashboardGetActionApi";
+import { FiSearch } from "react-icons/fi";
 
 
 
@@ -28,11 +29,12 @@ const Auction = () => {
   const [formOne] = useForm();
   const [formFour] = useForm();
   const [selectId, setSelectId] = useState('')
+  const [loading, setLoading] = useState(false);
   const [modalThreeData, setModalThreeData] = useState({})
   const [searchText, setSearchText] = useState("");
-  const [selectValue, stetSelectValue] = useState("Pending");
+  const [selectValue, stetSelectValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(7);
   const [ImageFileListOne, setImageFileListOne] = useState([]);
   const [ImageFileListTwo, setImageFileListTwo] = useState([]);
 
@@ -47,64 +49,60 @@ const Auction = () => {
   const actionModalTwo = useSelector((state) => state.modal.actionModalTwo);
   const actionModalThree = useSelector((state) => state.modal.actionModalThree);
   const actionModalFour = useSelector((state) => state.modal.actionModalFour);
-  const { data, isLoading, refetch } = useGetActionQuery({ search: searchText, status: selectValue, per_page: perPage, page: currentPage });
+  const { data, isLoading, refetch } = useGetActionQuery({
+    search:searchText,
+    status:selectValue,
+    per_page:perPage,
+    page:currentPage,
+  });
   const [deleteAction] = useDeleteActionMutation();
   const [updateAction] = useUpdateActionMutation();
   const { data: singleAction, } = useSingleGetActionQuery({ id: selectId })
-
-
-
-
-
+  const [updateActionTwo] = useUpdateActionTwoMutation()
 
   const allAuctionData = data?.data?.data
-  console.log(singleAction)
+  const updateModalData = singleAction?.data
 
 
-
-  useEffect(() => {
-    if (singleAction?.start_budget) {
-      // First set form values
-      formOne.setFieldsValue({
-        start_budget: Number(singleAction?.start_budget),
-        end_budget: Number(singleAction?.end_budget || 0),
-        duration: Number(singleAction?.duration || 0),
-
-      });
-    }
-  }, [singleAction]);
 
 
   useEffect(() => {
-    if (singleAction && singleAction?.image && singleAction?.profile) {
+    if (updateModalData && updateModalData?.image && updateModalData?.profile) {
 
       const autionImage = {
         uid: '-2',
-        name: 'host_profile.jpg',
+        name: 'auction image',
         status: 'done',
-        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.host_profile}`,
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${updateModalData?.host_profile}`,
       };
 
       const ProfileImage = {
         uid: '-3',
-        name: 'thumbnail.jpg',
+        name: 'profile image',
         status: 'done',
-        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singlePodcast?.thumbnail}`,
+        url: `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${updateModalData?.thumbnail}`,
       };
 
       // First set form values
       formFour.setFieldsValue({
-        name: singleAction.name,
-        title: singleAction.title,
-        guest_title: singleAction.guest_title,
-        image: [autionImage,ProfileImage], // ✅ use it after defining
+        name: updateModalData.name,
+        email: updateModalData.email,
+        title: updateModalData.title,
+        description: updateModalData.description,
+        guest_title: updateModalData.guest_title,
+        city: updateModalData.city,
+        address: updateModalData.address,
+        contact_number: updateModalData.contact_number,
+        donate_share: updateModalData.donate_share,
+        image: [autionImage],
+        image: [autionImage, ProfileImage], // ✅ use it after defining
       });
 
       // Then set image file list
       setImageFileListOne([autionImage]);
       setImageFileListTwo([ProfileImage]);
     }
-  }, [singleAction]);
+  }, [updateModalData]);
 
 
 
@@ -121,16 +119,15 @@ const Auction = () => {
     formData.append("duration", values.duration)
     formData.append("_method", "PUT");
 
-    console.log(formData.forEach(value => {
-      console.log(value)
-    }))
+    // console.log(formData.forEach(value => {
+    //   console.log(value)
+    // }))
 
     try {
       const res = await updateAction({
         updateInfo: formData,
         auction_id: selectId,
       }).unwrap()
-      console.log(res)
 
       if (res?.data) {
         toast.success(res?.message)
@@ -210,14 +207,14 @@ const Auction = () => {
 
   //======== action modal four start =========
   const onFinishFour = async (values) => {
-
+    setLoading(true)
     const formData = new FormData();
     if (ImageFileListOne[0]?.originFileObj) {
-      formData.append("photo", ImageFileListOne[0].originFileObj);
+      formData.append("image", ImageFileListOne[0].originFileObj);
     }
 
     if (ImageFileListTwo[0]?.originFileObj) {
-      formData.append("photo", ImageFileListTwo[0].originFileObj);
+      formData.append("profile", ImageFileListTwo[0].originFileObj);
     }
 
     formData.append("title", values.title)
@@ -235,19 +232,22 @@ const Auction = () => {
     // }))
 
     try {
-      const res = await updateAction({
-        updateInfo: formData,
-        auction_id: selectId
+      const res = await updateActionTwo({
+        updateInfoTwo: formData,
+        id: selectId
       }).unwrap()
+      console.log(res)
       if (res?.data) {
         toast.success(res?.message)
         setImageFileListOne([]);
         setImageFileListTwo([]);
         formFour.resetFields()
-        dispatch(closeTeamModalOpenFour());
+        dispatch(closeActionModalOpenFour());
       }
     } catch (errors) {
       toast.error(errors.message);
+    }finally{
+      setLoading(false)
     }
 
   }
@@ -267,19 +267,14 @@ const Auction = () => {
   //======== action modal four end =========
 
 
-  const handleSelect = (value) => {
-    stetSelectValue(value)
+  const handleSelect = (e) => {
+    stetSelectValue(e.target.value)
   };
 
-
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
-    setCurrentPage(1); // Reset to the first page whenever the search term changes
-  };
 
   useEffect(() => {
     refetch(); // Refetch the data when searchText, currentPage, or perPage changes
-  }, [searchText, selectValue, currentPage, perPage,]);
+  }, [searchText, selectValue, perPage, currentPage, refetch]);
 
 
 
@@ -302,33 +297,28 @@ const Auction = () => {
               Manage auction listing
             </h2>
             <div className="relative z-50">
-              <Select
-                showSearch
-                placeholder="select value"
-                style={{
-                  width: "100%",
-                  height: "30px",
-
-                }}
-                options={[
-                  { value: "Pending", label: "Pending" },
-                  { value: "Declared", label: "Declared" },
-                  { value: "Remove", label: "Remove" },
-                ]}
-                dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)" }}
+              <select name="" id=""
+                value={selectValue}
                 onChange={handleSelect}
-              />
+                className="w-[120px] p-2 rounded bg-gray-200">
+                <option value="Pending">Pending</option>
+                <option value="Declared">Declared</option>
+                <option value="Remove">Remove</option>
+              </select>
             </div>
           </div>
 
-          <div>
-            <Input.Search
+          <div className="relative w-fit">
+            <input
+              type="search"
+              id="gsearch"
+              name="gsearch"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               placeholder="Search title or description"
-              className="custom-search"
-              value={searchText} // Controlled value for the input
-              onChange={handleSearchChange} // Handle search input change
-              enterButton
+              className="bg-[#1B2324] text-[#ffff] border px-4 py-2 pl-10 rounded-md w-[300px]"
             />
+            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#ffff]" />
           </div>
         </div>
 
@@ -352,23 +342,16 @@ const Auction = () => {
                 dataIndex: "description",
               },
               {
-                title: "Contact number",
-                dataIndex: "contact_number",
-              },
-              {
                 title: "Start Budget",
                 dataIndex: "start_budget",
-                // render: (start_budget) => start_budget ?? "N/A"
               },
               {
                 title: "End Eudget",
                 dataIndex: "end_budget",
-                // render: (end_budget) => end_budget ?? "N/A"
               },
               {
                 title: "Duration",
                 dataIndex: "duration",
-                // render: (duration) => duration ?? "N/A"
               },
               {
                 title: "Status",
@@ -481,7 +464,7 @@ const Auction = () => {
                       message: 'Budget must be a positive number',
                     },
                   ]}>
-                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }}
+                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }}
                     />
                   </Form.Item>
                 </div>
@@ -497,7 +480,7 @@ const Auction = () => {
                       message: 'Budget must be a positive number',
                     },
                   ]}>
-                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
                   </Form.Item>
                 </div>
                 {/* duration time */}
@@ -511,7 +494,7 @@ const Auction = () => {
                       message: 'Duration must be at least 1',
                     },
                   ]}>
-                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
                   </Form.Item>
                 </div>
               </Form>
@@ -564,20 +547,19 @@ const Auction = () => {
           open={actionModalThree}
           onOk={actionModalOkThree}
           onCancel={actionModalCancelThree}
-          width={1000}
+          width={800}
           footer={null}
         >
 
           <div>
             <div ref={targetRef} className="flex justify-between gap-4">
-              <div>
-                <span className="text-5xl font-semibold text-red-500"> {modalThreeData.id}</span>
-                <h2 className="text-[24px] md:text-[48px]  ">
-                  The ancient statue <br /> of Sri Lanka
+              <div className="w-[50%]">
+                <h2 className="text-[24px] md:text-[38px]  ">
+                  {modalThreeData?.title}
                 </h2>
                 <div className="flex flex-col ">
                   <p className=" py-2">
-                    Estimated price: <span>$5,900-$20,000</span>
+                    Estimated price: <span>${modalThreeData?.start_budget} - ${modalThreeData?.end_budget}</span>
                   </p>
                   <div className="flex items-center gap-2">
                     <span>
@@ -608,21 +590,24 @@ const Auction = () => {
                         />
                       </svg>
                     </span>
-                    <p className="">07:03: 39sec left</p>
+                    <p className="">{modalThreeData?.duration || 0} sec left</p>
                   </div>
                 </div>
 
                 <div className="flex  items-center gap-2 pt-[24px]">
                   <div>
                     <img
-                      src="/dashboardPhoto/dashboardLoginLogo.png"
-                      alt="photo"
-                      className="object-cover w-[40px]"
+                      src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${modalThreeData?.profile}`}
+                      alt="" className='w-[50px] h-[50px] rounded-full'
+                      onError={(e) => {
+                        e.target.onerror = null; // Prevent infinite loop
+                        e.target.src = '/dashboardPhoto/404.jpg'; // Replace with your default image path
+                      }}
                     />
                   </div>
                   <div>
                     <h3 className="text-[20px]  font-semibold">
-                      Alexander Pope
+                      {modalThreeData?.name}
                     </h3>
                     <h4 className="">Contributor</h4>
                   </div>
@@ -630,25 +615,24 @@ const Auction = () => {
 
                 <div className="bg-[#4b55571e]  p-4 rounded-lg max-w-[433px] mt-4">
                   <p>
-                    I am privileged to donate The Ancient Statue of Sri Lanka to
-                    this auction, supporting Healing and Hope for Women. This
-                    piece reflects the resilience of history, much like the
-                    strength of the women this cause uplifts.
+                    {modalThreeData?.address}
                   </p>
-
-                  <p className="pt-4">
-                    Your bid or donation can make a profound impact. Let us come
-                    together to preserve both heritage and hope.
+                  <p>
+                    {modalThreeData?.description}
                   </p>
                 </div>
 
 
               </div>
 
-              <div>
+              <div className="w-[50%]">
                 <img
-                  src="/dashboardPhoto/contributors/photo1.png"
-                  alt="contributors"
+                  src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${modalThreeData?.image}`}
+                  alt="" className='w-full h-full object-cover'
+                  onError={(e) => {
+                    e.target.onerror = null; // Prevent infinite loop
+                    e.target.src = "/dashboardPhoto/contributors/photo1.png"; // Replace with your default image path
+                  }}
                 />
               </div>
             </div>
@@ -685,7 +669,9 @@ const Auction = () => {
                 className="bg-[#ffffff] py-2 px-4 rounded"
                 onClick={actionModalOkFour}
               >
-                Update
+                {
+                  loading ? "Loading..." : "Update"
+                }
               </button>
 
             </div>
@@ -699,9 +685,9 @@ const Auction = () => {
                   <p className="text-[#FFFFFF]">Name</p>
                   <Form.Item
                     name="name"
-                    rules={[{ required: true, message: "Please enter your name" }]}
                   >
                     <Input
+                      id="dashboard_auction"
                       placeholder="Enter Your Name"
                       style={{ padding: "10px" }}
                     />
@@ -714,11 +700,11 @@ const Auction = () => {
                   <Form.Item
                     name="email"
                     rules={[
-                      { required: true, message: "Please enter your email" },
                       { type: "email", message: "Please enter a valid email" },
                     ]}
                   >
                     <Input
+                      id="dashboard_auction"
                       placeholder="Enter Your Email"
                       style={{ padding: "10px" }}
                     />
@@ -732,9 +718,9 @@ const Auction = () => {
                   <p className="text-[#FFFFFF]">Title</p>
                   <Form.Item
                     name="title"
-                    rules={[{ required: true, message: "Please enter your title" }]}
                   >
                     <Input
+                      id="dashboard_auction"
                       placeholder="Enter Your Title"
                       style={{ padding: "10px" }}
                     />
@@ -746,9 +732,9 @@ const Auction = () => {
                   <p className="text-[#FFFFFF]">Description</p>
                   <Form.Item
                     name="description"
-                    rules={[{ required: true, message: "Please enter your description" }]}
                   >
                     <Input
+                      id="dashboard_auction"
                       placeholder="Enter Your description"
                       style={{ padding: "10px" }}
                     />
@@ -762,9 +748,9 @@ const Auction = () => {
                   <p className="text-[#FFFFFF]">City</p>
                   <Form.Item
                     name="city"
-                    rules={[{ required: true, message: "Please enter your city" }]}
                   >
                     <Input
+                      id="dashboard_auction"
                       placeholder="Enter Your City"
                       style={{ padding: "10px" }}
                     />
@@ -776,9 +762,9 @@ const Auction = () => {
                   <p className="text-[#FFFFFF]">Address</p>
                   <Form.Item
                     name="address"
-                    rules={[{ required: true, message: "Please enter your address" }]}
                   >
                     <Input
+                      id="dashboard_auction"
                       placeholder="Enter Your Address"
                       style={{ padding: "10px" }}
                     />
@@ -790,30 +776,16 @@ const Auction = () => {
                 {/* contact number */}
                 <div className="w-[50%]">
                   <p className="text-[#fff]">Contact number</p>
-                  <Form.Item name="contact_number" rules={[
-                    { required: true, message: 'Please enter the Contact number' },
-                    {
-                      type: 'number',
-                      min: 1,
-                      message: 'Contact number must be at least 1',
-                    },
-                  ]}>
-                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                  <Form.Item name="contact_number" >
+                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
                   </Form.Item>
                 </div>
 
                 {/* donate share */}
                 <div className="w-[50%]">
                   <p className="text-[#fff]">Donate share</p>
-                  <Form.Item name="donate_share" rules={[
-                    { required: true, message: 'Please enter the Donate share' },
-                    {
-                      type: 'number',
-                      min: 1,
-                      message: 'Donate share must be at least 1',
-                    },
-                  ]}>
-                    <InputNumber style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                  <Form.Item name="donate_share" >
+                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
                   </Form.Item>
                 </div>
               </div>
@@ -823,12 +795,6 @@ const Auction = () => {
                 <Form.Item
                   className="md:col-span-2"
                   name="image"
-                  rules={[
-                    {
-                      required: ImageFileListOne.length === 0,
-                      message: "Image required!",
-                    },
-                  ]}
                 >
                   <Upload
 
@@ -837,8 +803,6 @@ const Auction = () => {
                     showUploadList={{ showPreviewIcon: true }}
                     fileList={ImageFileListOne}
                     onChange={({ fileList }) => setImageFileListOne(fileList)}
-                    listType="picture-card"
-                    className="w-full"
                     beforeUpload={() => false}
                   >
                     <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
@@ -856,13 +820,7 @@ const Auction = () => {
               <div className="flex justify-center border border-[#B6B6BA] rounded-md mb-2 pt-5">
                 <Form.Item
                   className="md:col-span-2"
-                  name="image"
-                  rules={[
-                    {
-                      required: ImageFileListTwo.length === 0,
-                      message: "Image required!",
-                    },
-                  ]}
+                  name="profile"
                 >
                   <Upload
 
@@ -871,8 +829,8 @@ const Auction = () => {
                     showUploadList={{ showPreviewIcon: true }}
                     fileList={ImageFileListTwo}
                     onChange={({ fileList }) => setImageFileListTwo(fileList)}
-                    listType="picture-card"
-                    className="w-full"
+                    // listType="picture-card"
+                    // className="w-full"
                     beforeUpload={() => false}
                   >
                     <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
@@ -889,16 +847,12 @@ const Auction = () => {
 
 
 
-
-
-
-
         {/* pagination */}
         <div className="flex justify-end pt-4">
           <Pagination
             current={currentPage}
             pageSize={perPage}
-            total={data?.data.total || 0}
+            total={data?.data?.total || 0}
             onChange={(page, pageSize) => {
               setCurrentPage(page)
               setPerPage(pageSize)
