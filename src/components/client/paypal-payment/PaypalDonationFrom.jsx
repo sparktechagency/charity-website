@@ -33,7 +33,7 @@ const PaypalDonationFrom = () => {
     form.resetFields();
     setSelectedAmount(null);
     setCustomAmount("");
-    navigate("/payment-details")
+    navigate("/payment-details", { state: { donation: payload } });
 
   };
 
@@ -65,21 +65,20 @@ const PaypalDonationFrom = () => {
                   {presetAmounts.map((amount) => (
                     <Button
                       key={amount}
-                      className={`border rounded-lg h-12 ${
-                        selectedAmount === amount
+                      className={`border rounded-lg h-12 ${selectedAmount === amount
                           ? "bg-blue-500 text-white"
                           : "bg-white"
-                      }`}
+                        }`}
                       onClick={() => {
                         setSelectedAmount(amount);
                         setCustomAmount("");
                       }}
                     >
-                      £{amount}
+                      ${amount}
                     </Button>
                   ))}
                   <Input
-                    prefix="£"
+                    prefix="$"
                     style={{ padding: "10px 20px", outline: "none" }}
                     className=" placeholder:text-lg placeholder:text-[#818889] "
                     placeholder="Other"
@@ -177,11 +176,11 @@ const PaypalDonationFrom = () => {
 
         <Form.Item>
           <Button
-          
+
             htmlType="submit"
             className=" h-12 text-white font-bold text-lg bg-[#403730] border-none hover:bg-[#27221D]! "
           >
-            
+
             Submit Donation
           </Button>
         </Form.Item>

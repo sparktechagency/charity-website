@@ -78,54 +78,54 @@ export const router = createBrowserRouter([
         path: "/terms",
         element: <TermPage></TermPage>,
       },
-      
+
     ],
   },
   {
-    path : "/general",
-    element : <AggrementPage></AggrementPage>
+    path: "/general",
+    element: <AggrementPage></AggrementPage>
   },
   {
-    path : "/donate-from/:paymentCard",
-    element : <DonationFormModal/>
+    path: "/donate-from/:paymentCard",
+    element: <DonationFormModal />
   },
   {
-    path : "/paypa-donate-from",
-    element : <PaypalDonationFrom/>
+    path: "/paypa-donate-from",
+    element: <PaypalDonationFrom />
   },
   {
-    path : "/payment-details",
-    element : <PaymentDetails/>
+    path: "/payment-details",
+    element: <PaymentDetails />
   }
   ,
   {
-    path : "/payment-form",
-    element : <UserDetails/>
+    path: "/payment-form",
+    element: <UserDetails />
   },
   {
-    path : "/bit-payment",
-    element : <BitPayment/>
+    path: "/bit-payment",
+    element: <BitPayment />
   },
   {
-    path : "/date",
-    element : <CustomCalendar></CustomCalendar>
+    path: "/date",
+    element: <CustomCalendar></CustomCalendar>
   },
   {
-    path : "/payment-success",
-    element : <PaymentSuccess></PaymentSuccess>
+    path: "/payment-success",
+    element: <PaymentSuccess></PaymentSuccess>
   },
 
   {
-    path : "/audio",
-    element : <AudioFile></AudioFile>
+    path: "/audio",
+    element: <AudioFile></AudioFile>
   },
   {
-    path : "/login",
-    element : <LoginForm/>
+    path: "/login",
+    element: <LoginForm />
   },
   {
-    path : "/register",
-    element : <RegistrationForm/>
+    path: "/register",
+    element: <RegistrationForm />
   },
 
   // admin dashboard routes here

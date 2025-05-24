@@ -83,6 +83,8 @@ const ArtAntiqModal = ({
   const closeAnitqueModal = () => {
     setSupportModal(true);
     setAntiquesModal(false);
+    setDonateFull(false)
+    return form.resetFields()
   };
 
   const showDonateTermModal = () => {

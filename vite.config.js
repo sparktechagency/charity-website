@@ -8,7 +8,7 @@ export default defineConfig({
     outDir: "dist",
   },
   server: {
-    host: "137.59.180.219",
-    port: "3010",
+    host: "0.0.0.0",
+    port: "5175",
   },
 });

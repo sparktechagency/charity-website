@@ -65,10 +65,11 @@ const AuctionDetailsModal = ({
           if (res.data?.success) {
             auctionMsg();
             setAuctionDetailsModal(false);
+            setDonateFull(false)
             return form.resetFields()
           }
         })
-      form.resetFields()
+
         .catch((error) => {
           Swal.fire({
             position: "top-end",
@@ -96,6 +97,7 @@ const AuctionDetailsModal = ({
     setAuctionDetailsModal(false);
     setPersonalDetailsModal(true);
     setUserDetailsModal(false)
+    setDonateFull(false)
     form.resetFields();
   };
 

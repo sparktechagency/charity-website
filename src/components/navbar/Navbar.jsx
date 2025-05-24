@@ -78,11 +78,7 @@ const Navbar = () => {
     setDonateTerm(false);
   };
 
-  // Donate Art, Antique or Collectables modal  terms & conditions. end
 
-  // doner details modal use state
-
-  // doner details modal end
 
   // support modal useState
   const [supportModal, setSupportModal] = useState(false);
@@ -135,6 +131,42 @@ const Navbar = () => {
         ? "hidden"
         : "auto";
   }, [supportModal, paymentModal, antiquesModal, loginModal, profileCard]);
+
+
+
+
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 400) {
+        // Automatically close drawer on large screens
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Optionally trigger once on mount
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <nav
@@ -258,17 +290,14 @@ const Navbar = () => {
                   <Menu>
                     <Menu.Item key="profile">
                       <button
-                        // onClick={goToProfile}
+                        onClick={openProfileCardModal}
                         className="w-full text-left"
                       >
                         Profile
                       </button>
                     </Menu.Item>
                     <Menu.Item key="logout">
-                      <button
-                        onClick={handleLogout}
-                        className="w-full text-left"
-                      >
+                      <button onClick={handleLogout} className="w-full text-left">
                         Logout
                       </button>
                     </Menu.Item>
@@ -276,14 +305,19 @@ const Navbar = () => {
                 }
                 trigger={["hover"]}
               >
-                <div className=" mt-5 items-center gap-1 px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90">
-                  Logged In <DownOutlined />
+                <div className="cursor-pointer bg-white ">
+                  <img
+                    className="w-10 h-10 object-cover bg-white! rounded-full  "
+                    src={`http://137.59.180.219:8000/${profileData?.image || "default-image/defaultImage.jpg"
+                      }`}
+                    alt="Profile"
+                  />
                 </div>
               </Dropdown>
             ) : (
               <button
                 onClick={openLoginModal}
-                className=" mt-5 px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
+                className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
               >
                 Login
               </button>

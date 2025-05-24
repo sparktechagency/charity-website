@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
 const Faq = () => {
   const axiosPublic = useAxiosPublic();
   const [loading,setLoading] = useState(false)
@@ -178,9 +179,9 @@ const Faq = () => {
                   impact.
                 </p>
                 <div className="mt-5 sm:mt-8">
-                  <button className="bg-[#403730] px-6 py-3 text-white text-sm font-bold rounded">
+                  <Link to={"/contact"}><button className="bg-[#403730] px-6 py-3 text-white text-sm font-bold rounded">
                     Hit a mail us
-                  </button>
+                  </button></Link>
                 </div>
               </div>
             </>
