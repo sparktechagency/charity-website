@@ -169,7 +169,8 @@ const PodcastStories = () => {
       });
 
       // Then set image file list
-      setMp3FileList([mp3File]);
+      setUploadedFileList([mp3File]);
+
 
       setImageFileListGuest([guestImage]);
       setImageFileListHost([hostImage]);

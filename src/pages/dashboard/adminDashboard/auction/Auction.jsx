@@ -34,7 +34,7 @@ const Auction = () => {
   const [searchText, setSearchText] = useState("");
   const [selectValue, stetSelectValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(7);
+  const [perPage, setPerPage] = useState(8);
   const [ImageFileListOne, setImageFileListOne] = useState([]);
   const [ImageFileListTwo, setImageFileListTwo] = useState([]);
 
