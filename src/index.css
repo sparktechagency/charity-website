@@ -673,6 +673,12 @@ input#card_number {
 input#phone_number {
   color: black !important;
 }
+input#email{
+  color: black !important;
+}
+input#name{
+  color: black !important;
+}
 
 
 /* ===================== dashboar component style ================= */

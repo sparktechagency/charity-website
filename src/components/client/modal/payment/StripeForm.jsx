@@ -10,20 +10,29 @@ const stripePromise = loadStripe(
   "pk_test_51RRV3sGaj33uXsOfuinFKoDgdWMXKBC2CfDPYmBjjUDP20DZELgzjQnVMjcQG3PUqH13wnxKwFQlcHcu1TIaFhcQ00cZSyR4rv"
 );
 
-const StripeForm = ({ price }) => {
+const StripeForm = () => {
+  const location = useLocation();
+  const userPayload = location.state;
+  const userDetails = {
+    amount: Number(userPayload.amount),
+    donation_type: userPayload.donation_type,
+    email: userPayload.email,
+    frequency: userPayload.frequency,
+    name: userPayload.name,
+    payment_type: userPayload.payment_type,
+    remark: userPayload.remark
+  }
+  console.log(typeof `stripe from payload is ${userDetails.amount}`);
   const navigate = useNavigate();
-  const donationMoney = 20;
-  // const donationMoney = Number(price);
-  console.log(typeof `donationMoney is ${parseFloat(donationMoney)} `)
   const [clientSecret, setClientSecret] = useState("");
-  const payload = clientSecret
+  const [paymentId, setPaymentId] = useState("")
   useEffect(() => {
-    if (!price) {
-      navigate("/donation");
+    if (!userPayload.amount) {
+      navigate("/user-details");
       return;
     }
 
-    const url = `http://137.59.180.219:8000/api/create-payment-intent?amount=${100}&payment_method=pm_card_visa`;
+    const url = `http://137.59.180.219:8000/api/create-payment-intent?amount=${userPayload.amount}&payment_method=pm_card_visa`;
 
     fetch(url, {
       method: "POST",
@@ -33,24 +42,23 @@ const StripeForm = ({ price }) => {
       // No body needed for this API
     })
       .then((res) => {
-        console.log('res is ', res)
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }
         return res.json();
       })
       .then((data) => {
-        console.log("Payment data:", data?.data?.client_secret);
         setClientSecret(data?.data?.client_secret);
+        setPaymentId(data?.data?.id)
       })
       .catch((error) => {
         console.error("Error creating payment intent:", error);
       });
-  }, [price, navigate]);
+  }, [userPayload.amount]);
 
 
 
-
+  console.log(`payment id is ${paymentId}`)
 
 
   const appearance = {
@@ -61,7 +69,7 @@ const StripeForm = ({ price }) => {
     <div className="max-w-[600px] mx-auto py-28 ">
       {clientSecret ? (
         <Elements options={{ clientSecret, appearance }} stripe={stripePromise}>
-          <CheckoutForm clientSecret={clientSecret} />
+          <CheckoutForm paymentId={paymentId} userDetails={userDetails} clientSecret={clientSecret} />
         </Elements>
       ) : (
         <p className="text-center">Loading payment form...</p>

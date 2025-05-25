@@ -113,7 +113,7 @@ const PaypalDonationFrom = () => {
                   <Input
                     style={{ padding: "10px 20px", outline: "none" }}
                     className=" placeholder:text-lg placeholder:text-[#818889] "
-                    prefix="£"
+                    prefix="$"
                     placeholder="Enter recurring amount"
                     value={customAmount}
                     onChange={(e) => {

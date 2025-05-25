@@ -91,7 +91,7 @@ export const router = createBrowserRouter([
     element: <DonationFormModal />
   },
   {
-    path: "/paypa-donate-from",
+    path: "/paypal-donate-from",
     element: <PaypalDonationFrom />
   },
   {
@@ -100,7 +100,7 @@ export const router = createBrowserRouter([
   }
   ,
   {
-    path: "/payment-form",
+    path: "/user-details",
     element: <UserDetails />
   },
   {
@@ -127,6 +127,10 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegistrationForm />
+  },
+  {
+    path : "/stripe-from",
+    element : <StripeForm></StripeForm>
   },
 
   // admin dashboard routes here

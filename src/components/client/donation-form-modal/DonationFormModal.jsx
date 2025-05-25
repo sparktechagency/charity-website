@@ -8,7 +8,7 @@ const { TextArea } = Input;
 const DonationFormModal = () => {
   const { paymentCard } = useParams();
   const [form] = Form.useForm();
-  const [donationType, setDonationType] = useState("oneTime");
+  const [donationType, setDonationType] = useState("one_time_donate");
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState("");
   const [paymentType, setPaymentType] = useState("montly");
@@ -20,7 +20,7 @@ const DonationFormModal = () => {
 
   const handleSubmit = async (values) => {
     const amount = selectedAmount === "custom" ? customAmount : parseFloat(selectedAmount);
-    console.log( typeof `type of amount ${amount} `)
+    console.log( typeof `type of amount £{amount} `)
 
     if (!amount) {
       message.warning("Please select or enter a donation amount.");
@@ -35,8 +35,9 @@ const DonationFormModal = () => {
       frequency: paymentType,
     };
 
+
     setData(payload);
-    navigate("/payment-form", { state: payload });
+    navigate("/user-details", { state: payload });
 
   }
 
@@ -52,7 +53,7 @@ const DonationFormModal = () => {
       <Form layout="vertical" form={form} onFinish={handleSubmit}>
         {/* Donation Type */}
         <Tabs
-          defaultActiveKey="oneTime"
+          defaultActiveKey="one_time_donate"
           onChange={(key) => {
             setDonationType(key);
             setSelectedAmount(null);
@@ -60,7 +61,7 @@ const DonationFormModal = () => {
           }}
           items={[
             {
-              key: "oneTime",
+              key: "one_time_donate",
               label: (
                 <span className=" text-[#263234] text-lg font-semibold ">
                   One-Time Donation
@@ -71,7 +72,7 @@ const DonationFormModal = () => {
                   {presetAmounts.map((amount) => (
                     <Button
                       key={amount}
-                      className={`border rounded-lg h-12 ${selectedAmount === amount
+                      className={`border rounded-lg h-12 {selectedAmount === amount
                         ? "bg-blue-500 text-white"
                         : "bg-white"
                         }`}
@@ -80,11 +81,11 @@ const DonationFormModal = () => {
                         setCustomAmount("");
                       }}
                     >
-                      ${amount}
+                      £{amount}
                     </Button>
                   ))}
                   <Input
-                    prefix="$"
+                    prefix="£"
                     style={{ padding: "10px 20px", outline: "none" }}
                     className=" placeholder:text-lg placeholder:text-[#818889] "
                     placeholder="Other"
@@ -119,7 +120,7 @@ const DonationFormModal = () => {
                   <Input
                     style={{ padding: "10px 20px", outline: "none" }}
                     className=" placeholder:text-lg placeholder:text-[#818889] "
-                    prefix="$"
+                    prefix="£"
                     placeholder="Enter recurring amount"
                     value={customAmount}
                     onChange={(e) => {
