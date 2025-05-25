@@ -3,7 +3,8 @@ import logo from "../../assets/image/logo.svg";
 import { Link } from "react-router-dom";
 import useAxiosPublic from "../../pages/hooks/useAxiosPublic";
 import toast, { Toaster } from "react-hot-toast";
-
+import { FaFacebookF, FaInstagramSquare, FaLinkedin, FaTiktok, FaYoutube } from "react-icons/fa";
+import { IoLogoTwitter } from "react-icons/io";
 const Footer = () => {
   const axiosPublic = useAxiosPublic();
   const [loading, setLoading] = useState(false);
@@ -70,7 +71,29 @@ const Footer = () => {
               <p className="text-[#4B5557] my-2">86-90 Paul Street, London, EC2A 4NE</p>
               <p className="text-[#4B5557] my-2">Registered Company No.: 16173113</p>
               <p className="text-[#4B5557] my-2">Email: NoReply@virtuehope.com</p>
+              <div className=" flex items-center gap-x-3 mt-3 " >
+                {/* youtube  */}
+                <span>
+                  <Link to={"https://www.youtube.com/@VirtueHope"}><FaYoutube size={20} /></Link>
+                </span>
+                <span>
+                  <Link to={"https://www.instagram.com/virtue.hope/"}><FaInstagramSquare size={20} /></Link>
+                </span>
+                <span>
+                  <Link to={"https://www.tiktok.com/@virtuehopecic_"}><FaTiktok size={20} /></Link>
+                </span>
+                <span>
+                  <Link to={"https://www.facebook.com/profile.php?id=61575166415077"}><FaFacebookF size={20} /></Link>
+                </span>
+                <span>
+                  <Link to={"https://www.linkedin.com/in/virtue-hope-cic-078531360/"}><FaLinkedin size={20} /></Link>
+                </span>
+                <span>
+                  <Link to={"https://x.com/VirtueHopeCIC"}><IoLogoTwitter size={20} /></Link>
+                </span>
+              </div>
             </div>
+
 
             {/* Explore Section */}
             <div className="w-full lg:w-auto">

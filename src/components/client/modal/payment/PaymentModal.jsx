@@ -51,7 +51,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
 
 
   const handlePaypalPayment = ()=>{
-      navigate("/paypa-donate-from")
+      navigate("/paypal-donate-from")
   }
 
   return (

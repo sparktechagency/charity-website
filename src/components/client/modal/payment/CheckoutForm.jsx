@@ -7,8 +7,12 @@ import {
 } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
+import { message as antMessage } from 'antd';
+import axios from "axios";
 
-const CheckoutForm = ({ clientSecret }) => {
+const CheckoutForm = ({ clientSecret, userDetails, paymentId }) => {
+  const axiosPublic = useAxiosPublic();
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
@@ -16,6 +20,31 @@ const CheckoutForm = ({ clientSecret }) => {
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [cardErrors, setCardErrors] = useState({ number: "", expiry: "", cvc: "" });
+
+
+  const [loading, setLoading] = useState(false)
+  console.log(` checkout page clientSecret is ${clientSecret} `)
+
+  const handlePaypalPayment = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        `http://137.59.180.219:8000/api/create-paypal-payment-intent?amount=${userDetails.amount}&currency=USD`
+      );
+
+      const approvalLink = res?.data?.approve_link;
+
+      if (approvalLink) {
+        window.location.href = approvalLink;
+      } else {
+        console.error("PayPal approval link not found in response.");
+      }
+    } catch (error) {
+      console.error("Error creating PayPal payment intent:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,19 +63,47 @@ const CheckoutForm = ({ clientSecret }) => {
       return;
     }
 
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardNumber,
-      },
-    });
+    try {
+      // Step 1: Confirm Stripe Payment
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
 
-    if (error) {
-      setMessage(error.message ?? "An unexpected error occurred.");
-    } else if (paymentIntent?.status === "succeeded") {
-      navigate("/payment-success");
+        payment_method: {
+          card: cardNumber,
+        },
+      });
+
+      console.log(`error is J${JSON.stringify(error)}`)
+
+      if (error) {
+        setMessage(error.message ?? "An unexpected error occurred.");
+        return;
+      }
+
+      if (paymentIntent?.status === "succeeded") {
+        // Step 2: Call your backend only after payment success
+        const res = await axiosPublic.post(`/donate-money`, {
+          transaction_id: paymentId,
+          payment_type: userDetails.payment_type,
+          donation_type: userDetails?.donation_type,
+          frequency: userDetails?.frequency,
+          name: userDetails?.name,
+          email: userDetails?.email,
+          remark: userDetails?.remark,
+          amount: userDetails?.amount,
+          phone_number: userDetails?.phone_number,
+          payment_gatway: "stripe",
+        });
+
+        console.log("Donation recorded:", res);
+        navigate("/");
+        return antMessage.success("Donation successful.");
+      }
+    } catch (err) {
+      console.error("Error during checkout:", err);
+      setMessage("Something went wrong while processing your payment.");
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const handleElementChange = (field) => (event) => {
@@ -70,6 +127,8 @@ const CheckoutForm = ({ clientSecret }) => {
       },
     },
   };
+
+  console.log(`checkout page paymentid is ${paymentId}`)
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -109,11 +168,19 @@ const CheckoutForm = ({ clientSecret }) => {
           disabled={isLoading || !stripe || !elements}
           className="w-full sm:w-[200px] bg-[#403730] hover:bg-[#27221D] py-3 text-white font-bold rounded-md"
         >
-          {isLoading ? "Processing..." : "Donate Now"}
+          {isLoading ? "Processing..." : "Payment Now"}
         </button>
+
 
         {message && <div className="text-red-500 text-center mt-2">{message}</div>}
       </form>
+      <button
+        disabled={loading}
+        onClick={handlePaypalPayment}
+        className="w-full sm:w-[200px] bg-[#403730] hover:bg-[#27221D] py-3 text-white font-bold rounded-md my-5 ml-7"
+      >
+        {loading ? "Processing..." : "Paypal payment"}
+      </button>
     </div>
   );
 };
