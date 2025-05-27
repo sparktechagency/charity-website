@@ -50,10 +50,10 @@ const Auction = () => {
   const actionModalThree = useSelector((state) => state.modal.actionModalThree);
   const actionModalFour = useSelector((state) => state.modal.actionModalFour);
   const { data, isLoading, refetch } = useGetActionQuery({
-    search:searchText,
-    status:selectValue,
-    per_page:perPage,
-    page:currentPage,
+    search: searchText,
+    status: selectValue,
+    per_page: perPage,
+    page: currentPage,
   });
   const [deleteAction] = useDeleteActionMutation();
   const [updateAction] = useUpdateActionMutation();
@@ -246,7 +246,7 @@ const Auction = () => {
       }
     } catch (errors) {
       toast.error(errors.message);
-    }finally{
+    } finally {
       setLoading(false)
     }
 
@@ -284,6 +284,26 @@ const Auction = () => {
         ? "hidden"
         : "auto";
   }, [actionModalOne, actionModalTwo, actionModalThree, actionModalFour]);
+
+  // date formate function
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Invalid date';
+
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return 'Invalid date';
+
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    }).formatToParts(date);
+
+    const day = parts.find(p => p.type === 'day')?.value;
+    const month = parts.find(p => p.type === 'month')?.value;
+    const year = parts.find(p => p.type === 'year')?.value;
+
+    return `${day} ${month}, ${year}`;
+  };
 
 
   if (isLoading) return <CustomLoading />
@@ -332,6 +352,12 @@ const Auction = () => {
               {
                 title: "Name",
                 dataIndex: "name",
+                render: (_, record) => (
+                  <div className="flex items-center gap-2">
+                    <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${record?.profile}`} alt="" className="w-[40px] h-[40px] rounded-full" />
+                    <p>{record.name}</p>
+                  </div>
+                ),
               },
               {
                 title: "Title",
@@ -340,6 +366,9 @@ const Auction = () => {
               {
                 title: "Description",
                 dataIndex: "description",
+                render: (text) => {
+                  return text?.length > 20 ? text?.slice(0, 25) + "..." : text;
+                },
               },
               {
                 title: "Start Budget",
@@ -590,7 +619,7 @@ const Auction = () => {
                         />
                       </svg>
                     </span>
-                    <p className="">{modalThreeData?.duration || 0} sec left</p>
+                    <p className="">{modalThreeData?.duration || 0} days</p>
                   </div>
                 </div>
 
@@ -600,8 +629,8 @@ const Auction = () => {
                       src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${modalThreeData?.profile}`}
                       alt="" className='w-[50px] h-[50px] rounded-full'
                       onError={(e) => {
-                        e.target.onerror = null; // Prevent infinite loop
-                        e.target.src = '/dashboardPhoto/404.jpg'; // Replace with your default image path
+                        e.target.onerror = null; 
+                        e.target.src = '/dashboardPhoto/404.jpg'; 
                       }}
                     />
                   </div>
@@ -609,14 +638,19 @@ const Auction = () => {
                     <h3 className="text-[20px]  font-semibold">
                       {modalThreeData?.name}
                     </h3>
-                    <h4 className="">Contributor</h4>
+                    <h4 className="">{modalThreeData?.email}</h4>
                   </div>
                 </div>
 
+                <div className="space-y-2 py-6">
+                  <p><span className="font-semibold">Contact Number</span> : {modalThreeData.contact_number}</p>
+                  <p><span className="font-semibold">City</span> : {modalThreeData.city}</p>
+                  <p><span className="font-semibold">Address</span> : {modalThreeData.address}</p>
+                  <p><span className="font-semibold">Created Date</span> : {formatDate(modalThreeData.created_at)}</p>
+                  <p><span className="font-semibold">Update Date</span> : {formatDate(modalThreeData.updated_at)}</p>
+                </div>
                 <div className="bg-[#4b55571e]  p-4 rounded-lg max-w-[433px] mt-4">
-                  <p>
-                    {modalThreeData?.address}
-                  </p>
+
                   <p>
                     {modalThreeData?.description}
                   </p>

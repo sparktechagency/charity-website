@@ -20,7 +20,7 @@ const AdminDashboard = () => {
   const allNotifacitionData = data?.data
   const profileData = profile?.data
 
-
+console.log(allNotifacitionData)
 
 
 
@@ -431,13 +431,13 @@ const AdminDashboard = () => {
             <img src="/dashboardPhoto/dashboardLogo.png" alt="website logo" />
             <h2>Virtue Hope</h2>
           </div>
-          <div className="md:flex items-center justify-between gap-2 hidden">
+          <div className="md:flex items-center justify-between gap-6 hidden">
 
             {/* notification count compontnt */}
             <div onClick={handleNotification} className="relative cursor-pointer">
               <svg
-                width="34"
-                height="34"
+                width="50"
+                height="50"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -447,7 +447,7 @@ const AdminDashboard = () => {
                   fill="white"
                 />
               </svg>
-              <p className="absolute -top-2 
+              <p className="absolute left-6 top-0 
                bg-red-500 w-6 h-6 rounded-full flex justify-center items-center text-xs">
                 {allNotifacitionData?.length}
               </p>

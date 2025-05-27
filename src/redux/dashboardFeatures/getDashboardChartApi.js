@@ -3,8 +3,8 @@ import { baseApi } from "../api/baseApi";
 const getDashboardChartApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getChart: builder.query({
-            query: ()=> ({
-                url: `/dashboard`,
+            query: (state)=> ({
+                url: `/dashboard?state=${state}`,
                 method:"GET",
             }),
             providesTags:["chart"],

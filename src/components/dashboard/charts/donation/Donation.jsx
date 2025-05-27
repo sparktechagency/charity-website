@@ -22,20 +22,30 @@ const formatYAxis = (value) => {
 }
 
 export default function Donation() {
-  // const [selectedYear, setSelectedYear] = useState("2025");
+  const [selectedYear, setSelectedYear] = useState("2025");
 
-  // const handleChange = (e) => {
-  //   setSelectedYear(e.target.value);
-  // };
+  const handleChange = (e) => {
+    setSelectedYear(e.target.value);
+  };
 
 
+let year = "";
+
+if (selectedYear === "2025") {
+  year = "thisYear"
+
+}else if(selectedYear === "2024"){
+  year = "lastYear"
+}
 
   // ========================= chart data dynamic start ================
-  const { data,isLoading } = useGetChartQuery();
-  const chartData = data?.data?.thisYear?.map(item => ({
+  const { data,isLoading } = useGetChartQuery(year);
+
+  const chartData = data?.data?.[year]?.map(item => ({
     month: item.month,
-    value: Number(item.data), // convert string/number to number (safe)
+    value: Number(item.data), 
   }));
+
   // ========================= chart data dynamic end ================
 
 
@@ -71,13 +81,13 @@ if(isLoading) return <CustomLoading />
     >
       {/* select years */}
       <div className=" pb-8">
-        {/* <select
+        <select
           value={selectedYear}
           onChange={handleChange}
           name="" id="" className="w-[80px] bg-transparent border border-[#ccc] text-[#ccc] rounded-md cursor-pointer px-2 py-1">
           <option value="2025">2025</option>
           <option value="2024">2024</option>
-        </select> */}
+        </select>
       </div>
 
       <div style={{ height: "500px", width: "100%" }}>

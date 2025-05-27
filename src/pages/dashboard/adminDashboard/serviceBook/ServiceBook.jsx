@@ -115,6 +115,10 @@ const ServiceBook = () => {
                 dataIndex: "telephone_number",
               },
               {
+                title: "Service Time",
+                dataIndex: "book_time",
+              },
+              {
                 title: "Created Date",
                 dataIndex: "created_at",
                 key: 'created_at',

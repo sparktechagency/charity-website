@@ -74,6 +74,10 @@ const DonationTransaction = () => {
                 render: (text) => formatDate(text),
               },
               {
+                title: "Amount",
+                dataIndex: "amount",
+              },
+              {
                 title: "Action",
                 key: "view",
                 render: (_, record) => (

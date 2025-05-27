@@ -49,7 +49,7 @@ const Contributors = () => {
 
   })
 
-  console.log(userData)
+  console.log(singleData)
 
 
 
@@ -88,7 +88,14 @@ const Contributors = () => {
     {
       title: "Name",
       dataIndex: "name",
-      render: (_, record) => record?.user?.name,
+      render: (_, record) => {
+        return (
+          <div className="flex items-center gap-2">
+            <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${record?.user?.image}`} alt="" className="w-[40px] h-[40px] rounded-full" />
+            <p>{record?.user?.name}</p>
+          </div>
+        )
+      }
     },
     {
       title: "Email",
@@ -109,6 +116,10 @@ const Contributors = () => {
       title: "Donate",
       dataIndex: "donate_share",
       render: (_, record) => record?.auction?.donate_share,
+    },
+    {
+      title: "Max Bit",
+      dataIndex: "max_bit_online",
     },
     {
       title: "Payment status",
@@ -144,6 +155,15 @@ const Contributors = () => {
   }, [searchText, selectValue, currentPage, perPage, refetch]);
 
 
+  useEffect(() => {
+    document.body.style.overflow =
+      modalOne || modalTwo || modalThree
+        ? "hidden"
+        : "auto";
+  }, [modalOne, modalTwo, modalThree ]);
+
+
+
   if (isLoading) return <CustomLoading />
   return (
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
@@ -155,9 +175,9 @@ const Contributors = () => {
             </h2>
             <div>
               <select name="" id=""
-              value={selectValue}
-              onChange={handleSelect}
-              className="w-[120px] p-2 rounded bg-gray-200">
+                value={selectValue}
+                onChange={handleSelect}
+                className="w-[120px] p-2 rounded bg-gray-200">
                 <option value="Pending">Pending</option>
                 <option value="Approved">Approved</option>
                 <option value="Suspended">Suspended</option>
@@ -328,7 +348,7 @@ const Contributors = () => {
                   <div className="flex  items-center gap-2 pt-[24px]">
                     <div>
                       <img
-                        src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${userData?.profile}`}
+                        src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleContibutorAuction?.image}`}
                         alt="photo"
                         className="object-cover w-[40px] h-[40px] rounded-full"
                         onError={(e) => {
@@ -345,6 +365,17 @@ const Contributors = () => {
                     </div>
                   </div>
 
+                  <div className="space-y-2 py-6 text-[#fff]">
+                    <p><span className="font-semibold">Contact Number</span> : {singleContibutorAuction?.contact_number}</p>
+
+                    <p><span className="font-semibold">City</span> : {singleContibutorAuction?.city}</p>
+
+                    <p><span className="font-semibold">Address</span> : {singleContibutorAuction?.address}</p>
+
+
+                    {/* <p><span className="font-semibold">Update Date</span> : {formatDate(singleContibutorAuction.updated_at)}</p> */}
+                  </div>
+
                   <div className="bg-[#4B5557] text-[#ffffff] p-4 rounded-lg max-w-[433px] mt-4">
                     <p>
                       {singleContibutorAuction?.description}
@@ -354,7 +385,7 @@ const Contributors = () => {
                   <div className="pt-4">
                     <h1 className="text-[30px] font-bold text-[#FFFFFF] flex items-center gap-2">
                       $ {singleContibutorAuction?.donate_share}
-                      <span className="text-[16px] font-normal">(12 bid)</span>
+
                     </h1>
                   </div>
                 </div>

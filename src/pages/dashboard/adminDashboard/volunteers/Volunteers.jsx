@@ -35,7 +35,6 @@ const Volunteers = () => {
 
 
 
-
   // date formate function
   const formatDate = (dateString) => {
     if (!dateString) return 'Invalid date';
@@ -141,8 +140,6 @@ const Volunteers = () => {
   ]
 
 
-  console.log(singleVolunterData)
-
   const handleSelect = (e) => {
     stetSelectValue(e.target.value)
   };
@@ -161,7 +158,7 @@ const Volunteers = () => {
 
   useEffect(() => {
     document.body.style.overflow =
-     volunteerModalOne || volunterModalTwo
+      volunteerModalOne || volunterModalTwo
         ? "hidden"
         : "auto";
   }, [volunteerModalOne, volunterModalTwo]);
@@ -173,7 +170,7 @@ const Volunteers = () => {
       <div>
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 pb-8">
           <div className="flex flex-col md:flex-row md:items-center gap-8">
-            <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
+            <h2 className="font-semibold font-roboto text-[30px] text-[#ffff]">
               Manage volunteer
             </h2>
             <div className="relative z-50">
@@ -241,7 +238,7 @@ const Volunteers = () => {
               </div>
             }
           >
-            <p className="text-[20px] text-[#E9EBEB] py-6">
+            <p className="text-[20px]  py-6">
               Are you sure want to suspend this user?
             </p>
             <p className="text-[#A6ABAC] text-[16px]">
@@ -252,7 +249,7 @@ const Volunteers = () => {
 
           {/* modal two */}
           <Modal
-            className="custom-ai-modal"
+            className="custom-auction-modal custom-view-modal"
             centered
             open={volunterModalTwo}
             onOk={volunterModalOkTwo}
@@ -273,15 +270,15 @@ const Volunteers = () => {
             <div ref={targetRef}>
               <div className="flex  items-center gap-3 border-b pb-4 border-gray-700">
                 <div>
-                  <h1 className="text-[14px] font-semibold text-[#ffffff]">
+                  <h1 className="text-[14px] font-semibold ">
                     {singleVolunterData?.name}
                   </h1>
-                  <p className="text-[#D9D9D9]">{singleVolunterData?.email}</p>
+                  <p className="">{singleVolunterData?.email}</p>
                 </div>
               </div>
 
               <div className="pt-4">
-                <h1 className="text-[20px] text-[#ffffff] font-semibold">
+                <h1 className="text-[20px]  font-semibold">
                   Personal details
                 </h1>
 
@@ -289,42 +286,43 @@ const Volunteers = () => {
                 <div className="">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 ">
                     <div className="space-y-2">
-                      <p className="text-sm text-[#E9EBEB]">Contact number</p>
-                      <p className="text-sm text-[#E9EBEB]">Location</p>
-                      <p className="text-sm text-[#E9EBEB]">Joined</p>
-                      <p className="text-sm text-[#E9EBEB]">Donated</p>
-                      <p className="text-sm text-[#E9EBEB]">Reason</p>
+                      <p className="text-sm ">Contact number</p>
+                      <p className="text-sm ">Location</p>
+                      <p className="text-sm ">Joined</p>
+                      <p className="text-sm ">Donated</p>
+                      <p className="text-sm ">Reason</p>
 
                     </div>
-                    <div className="flex  md:text-end">
+                    <div className="flex justify-end md:text-end">
                       <div className="space-y-2">
-                        <p className="text-sm text-[#E9EBEB]">{singleVolunterData?.contact_number}</p>
-                        <p className="text-sm text-[#E9EBEB]">
+                        <p className="text-sm ">{singleVolunterData?.contact_number}</p>
+                        <p className="text-sm ">
                           {singleVolunterData?.location}
                         </p>
-                        <p className="text-sm text-[#E9EBEB]">{formatDate(singleVolunterData?.created_at)}</p>
-                        <p className="text-sm text-[#E9EBEB]">{singleVolunterData?.donated}</p>
+                        <p className="text-sm ">{formatDate(singleVolunterData?.created_at)}</p>
+                        <p className="text-sm ">{singleVolunterData?.donated}</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <p className="text-[#fff]">{singleVolunterData?.reason}</p>
+                <p className="">{singleVolunterData?.reason}</p>
                 {
                   singleVolunterData?.upload_cv && (
-                    <a
-                      href={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData.upload_cv}`}
-                      download
-                      className="text-blue-500 underline"
-                    >
-                      View CV
-                    </a>
+                    <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData.upload_cv}`} alt="" className="py-8 object-contain  w-full max-h-[300px]"/>
                   )
                 }
 
+                <div className="flex justify-end pt-4">
+                  <button
+                    onClick={() => toPDF()}
+                    className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg"
+                  >Download Pdf</button>
+                </div>
               </div>
             </div>
           </Modal>
         </div>
+
 
         {/* pagination */}
         <div className="flex justify-end pt-4">
