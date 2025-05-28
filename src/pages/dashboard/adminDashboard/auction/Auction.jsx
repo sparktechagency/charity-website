@@ -688,14 +688,17 @@ const Auction = () => {
                 />
               </div>
             </div>
-            <div className="pt-8">
-              <a
-                href={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${modalThreeData?.image}`}
-                download="CV"
-                className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg"
-              >Download Pdf</a>
+            {
+              modalThreeData?.image && <div className="pt-8">
+                <a
+                  href={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${modalThreeData?.image}`}
+                  download="CV"
+                  className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg"
+                >Download Pdf</a>
 
-            </div>
+              </div>
+            }
+
           </div>
         </Modal>
 
