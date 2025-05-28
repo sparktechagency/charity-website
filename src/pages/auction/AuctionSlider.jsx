@@ -149,17 +149,88 @@ const AuctionSlider = () => {
     setOpenLoginModal(false)
   };
 
+  const handleLogin = async (values) => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("email", values.email);
+      formData.append("password", values.password);
 
-// forget password modal start
-const [forgetEmailModal,setForgetEmailModal] = useState(false);
+      const res = await axiosPublic.post(`/login`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-const openForgetEmailModal = ()=>{
-  setForgetEmailModal(true)
-}
+      if (res.data.success) {
+        message.success(res.data?.message);
+        localStorage.setItem("token", res.data.data.token);
+        localStorage.setItem(`authId`, res.data.data.user.id);
+        window.location.href = "/"
+        form.resetFields();
+        return setOpenLoginModal(false);
+      }
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+    } catch (error) {
+      message.error(
+        `${error.response?.data?.message || "Something went wrong!"}`
+      );
+    } finally {
+      form.resetFields()
+      setLoading(false);
+    }
+  };
+
+
+  // forget password modal start
+
+  const [forgetEmailModal, setForgetEmailModal] = useState(false);
+
+  const [userEmail, setUserEmail] = useState(null);
+
+  const openForgetEmailModal = () => {
+    setForgetEmailModal(true)
+    setOpenLoginModal(false)
+  }
+
+  const closeForgetEmailModal = () => {
+    setForgetEmailModal(false)
+    setOpenLoginModal(false)
+  }
+
+
+  const forgetPasswordEmailSubmit = async (values) => {
+    try {
+      setLoading(true);
+      let res = await axiosPublic.post(`/forgot-password`, {
+        email: values.email,
+      });
+
+      if (res.data.success) {
+        toast.success(res.data?.message);
+        setForgetEmailModal(false);
+        // setForgetEmailModal(true);
+        setUserEmail(values.email)
+        form.resetFields();
+        return;
+      } else {
+        toast.error(error.response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+
+      setLoading(false);
+      form.resetFields();
+      return;
+    }
+  };
 
 
 
-// forget password modal end 
+  // forget password modal end 
 
 
 
@@ -199,6 +270,8 @@ const openForgetEmailModal = ()=>{
         bit_online: bidPrice,
       }, config);
 
+      console.log(`res is ${JSON.stringify(res)}`)
+
 
       if (res.data.success) {
         toast.success("Bid submitted successfully!");
@@ -207,6 +280,7 @@ const openForgetEmailModal = ()=>{
         toast.error(res.data.message || "Failed to submit bid");
       }
     } catch (error) {
+      console.log(error)
       setOpenLoginModal(true);
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
@@ -245,6 +319,8 @@ const openForgetEmailModal = ()=>{
     setCustomBids(newCustomBids);
 
     setShowBids((prevState) => prevState.map(() => false));
+
+    console.log(selectedBids[index])
 
     handleBidSubmit(index, selectedBids[index]); // 👈 Call API with selected custom bid
   };
@@ -764,6 +840,7 @@ const openForgetEmailModal = ()=>{
             closable={true}
             onCancel={closeLoginModal}
             centered
+            maskClosable={false}
           // width="400px"
           // style={{ padding: "15px", top: 0 }}
           >
@@ -771,8 +848,7 @@ const openForgetEmailModal = ()=>{
             <Form
               name="login"
               layout="vertical"
-              // onFinish={onFinish}
-              maskClosable={false}
+              onFinish={handleLogin}
               keyboard={false}
             >
               <Form.Item
@@ -805,13 +881,12 @@ const openForgetEmailModal = ()=>{
               </Form.Item>
 
               <div className="flex justify-end mb-4">
-                <Link
-                  // onClick={openForgetPasswordModal}
-                  to=""
-                  className="text-blue-600 hover:underline text-sm font-semibold"
+                <span
+                  onClick={openForgetEmailModal}
+                  className="text-blue-600 cursor-pointer  hover:underline text-sm font-semibold"
                 >
                   Forgot Password?
-                </Link>
+                </span>
               </div>
 
               <Form.Item>
@@ -1051,6 +1126,103 @@ const openForgetEmailModal = ()=>{
           </Modal>
         )
       }
+
+
+      {/* forget password modal start  */}
+
+      <Modal
+        open={forgetEmailModal}
+        footer={null}
+        closable={true}
+        onCancel={closeForgetEmailModal}
+        maskClosable={false}
+        centered
+      >
+        <Form form={form} onFinish={forgetPasswordEmailSubmit} layout="vertical">
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Please input your email!" },
+              { type: "email", message: "Please enter a valid email!" },
+            ]}
+          >
+            <Input
+              prefix={<MailOutlined />}
+              placeholder="Enter your email"
+              className="py-2"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              loading={loading}
+              type="primary"
+              htmlType="submit"
+              className="lg:w-full bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
+            >
+              Verify email
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      {/* forget password modal end  */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </>
   );
 };
