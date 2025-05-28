@@ -22,6 +22,7 @@ const AuctionDetailsModal = ({
   const [form] = Form.useForm(); // Using Ant Design's Form hook
 
   const [donateFull, setDonateFull] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const handleFileChange = (info) => {
     setFileList(info.fileList);
@@ -32,7 +33,7 @@ const AuctionDetailsModal = ({
   }
   const axiosPublic = useAxiosPublic();
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async(values) => {
     const payload = {
       title: values.title,
       description: values.description,
@@ -54,31 +55,31 @@ const AuctionDetailsModal = ({
       formData.append("city", personalData.city);
       formData.append("address", personalData.address);
       formData.append("profile", personalData.profile);
-
-      axiosPublic
-        .post(`/auction`, formData, {
+      try {
+        setLoading(true)
+        const res = await axiosPublic.post(`/auction`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        })
-        .then((res) => {
-          if (res.data?.success) {
-            auctionMsg();
-            setAuctionDetailsModal(false);
-            setDonateFull(false)
-            return form.resetFields()
-          }
-        })
-
-        .catch((error) => {
-          Swal.fire({
-            position: "top-end",
-            icon: "error",
-            title: `${error.response?.data?.message || "Upload failed!"}`,
-            showConfirmButton: true,
-            timer: 2000,
-          });
         });
+
+        if (res.data?.success) {
+          auctionMsg();
+          setAuctionDetailsModal(false);
+          setDonateFull(false);
+          form.resetFields();
+        }
+      } catch (error) {
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: `${error.response?.data?.message || "Upload failed!"}`,
+          showConfirmButton: true,
+          timer: 2000,
+        });
+      } finally {
+        setLoading(false)
+      }
     } else {
       // ✅ Partial donation → go to payment modal, API call later
       setAuctionDetailsModal(false);
@@ -326,7 +327,7 @@ const AuctionDetailsModal = ({
             <Button onClick={cancelAuctionDetailsModal} className="  navBtn1  ">
               Back
             </Button>
-            <Button disabled={!verified} className="navBtn2" htmlType="submit">
+            <Button loading={loading} disabled={!verified} className="navBtn2" htmlType="submit">
               Proceed next step
             </Button>
           </div>

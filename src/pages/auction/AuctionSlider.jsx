@@ -3,11 +3,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useEffect, useState } from "react";
-import { Button, Checkbox, Form, Input, Modal } from "antd";
+import { Button, Checkbox, Form, Input, InputNumber, message, Modal, Upload } from "antd";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
+import { LockOutlined, MailOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import { imgUrl } from './../../helper/imgUrl';
 
 const AuctionSlider = () => {
   const [form] = Form.useForm();
@@ -39,6 +42,88 @@ const AuctionSlider = () => {
     // Clean up on unmount
     return () => clearInterval(interval);
   }, []);
+
+
+  // registration modal
+
+  const [openRegistrationModal, setOpenRegistrationModal] = useState(false);
+
+  const openUserRegModal = () => {
+    setOpenLoginModal(false);
+    setOpenRegistrationModal(true)
+  };
+
+  const closeRegModal = () => {
+    setOpenRegistrationModal(false)
+  };
+
+  const [fileList, setFileList] = useState(null);
+  const handleFileChange = (info) => {
+    setFileList(info.fileList);
+  };
+
+
+
+  const handleSubmitReg = async (values) => {
+    const formData = new FormData();
+    formData.append("full_name", values.full_name);
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    formData.append("password_confirmation", values.password_confirmation);
+    if (fileList[0]?.originFileObj) {
+      formData.append("image", fileList[0].originFileObj);
+    }
+
+    try {
+      setLoading(true);
+      const res = await axiosPublic.post(`/register`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+
+      if (res?.data?.success == true) {
+        message.success(res.data.message);
+        setOpenRegistrationModal(false)
+        setRegOtpVerify(true);
+        return form.resetFields();
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.response?.data?.message || "Registration failed!");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const normFile = (e) => {
+    console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+
+  // registration otp verify 
+
+  const [regOtpVerify, setRegOtpVerify] = useState(false);
+
+  const closeRegOtpModal = () => {
+    setRegOtpVerify(false)
+  }
+
+
+
+  // login modal 
+
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+
+  const closeLoginModal = async () => {
+    setOpenLoginModal(false)
+  };
+
+
+
 
   // States for each slide's bid selection and bid visibility
   const [selectedBids, setSelectedBids] = useState(
@@ -79,6 +164,7 @@ const AuctionSlider = () => {
         toast.error(res.data.message || "Failed to submit bid");
       }
     } catch (error) {
+      setOpenLoginModal(true);
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -137,15 +223,23 @@ const AuctionSlider = () => {
 
   const [timeLeft, setTimeLeft] = useState([]);
 
-  // Function to calculate time left based on the updated_at timestamp
-  const calculateTimeLeft = (updated_at) => {
+  // Util: Format updated_at as "DD HH:MM:SS"
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const hour = date.getHours().toString().padStart(2, '0');
+    const minute = date.getMinutes().toString().padStart(2, '0');
+    const second = date.getSeconds().toString().padStart(2, '0');
+    return `${day} ${hour}:${minute}:${second}`;
+  };
+
+  // Util: Calculate time left until 7 days after updated_at
+  const calculateTimeLeft = (updated_at, duration) => {
     const now = new Date();
-    const endTime = new Date(updated_at).getTime() + 7 * 24 * 60 * 60 * 1000; // 7 days after the upload
+    const endTime = new Date(updated_at).getTime() + duration * 24 * 60 * 60 * 1000;
     const difference = endTime - now.getTime();
 
-    if (difference <= 0) {
-      return "Auction ended";
-    }
+    if (difference <= 0) return "Auction ended";
 
     const days = Math.floor(difference / (1000 * 3600 * 24));
     const hours = Math.floor((difference % (1000 * 3600 * 24)) / (1000 * 3600));
@@ -155,16 +249,23 @@ const AuctionSlider = () => {
     return `${days}d ${hours}h ${minutes}m ${seconds}s left`;
   };
 
-  // Set interval to update countdown every second
   useEffect(() => {
+    // Initial render
+    setTimeLeft(
+      sliderData.map(slide => calculateTimeLeft(slide.updated_at, slide.duration))
+    );
+
     const interval = setInterval(() => {
       setTimeLeft(
-        sliderData.map((slide) => calculateTimeLeft(slide.updated_at))
+        sliderData.map(slide => calculateTimeLeft(slide.updated_at, slide.duration))
       );
-    }, 1000); // Update every second
+    }, 1000);
 
-    return () => clearInterval(interval); // Clean up on unmount
-  }, [sliderData]); // Re-run effect if sliderData changes
+    return () => clearInterval(interval);
+  }, [sliderData]);
+
+
+
 
   // date time calculate end
 
@@ -200,21 +301,22 @@ const AuctionSlider = () => {
     );
   }
 
+
   return (
     <>
-      <div className=" hidden lg:flex ">
+      <div className=" hidden lg:flex  ">
         <Slider {...settings} className="w-full">
           {sliderData.map((slide, index) => (
             <div key={slide.id}>
               <div className="bg-[#ecebea] ml-5 hidden lg:flex rounded-2xl">
                 <div className="lg:w-[1036px] w-full">
-                  <div className="bg-white shadow rounded-2xl flex lg:flex-row flex-col lg:justify-between px-6 py-6 gap-6">
+                  <div className="bg-white shadow rounded-2xl flex lg:flex-row flex-col lg:justify-between px-6 py-4 gap-6">
                     {/* LEFT SECTION */}
                     <div className="lg:w-[433px]">
                       <div className="  h-44 ">
                         <h1 className="font-semibold lg:text-5xl text-2xl lg:leading-12 text-black lg:pb-4">
                           {
-                            "Capturing the first light of day in a serene landscape"
+                            slide.title
                           }
                         </h1>
                       </div>
@@ -262,13 +364,17 @@ const AuctionSlider = () => {
                           <p className="text-[#263234] lg:text-xl font-semibold">
                             {timeLeft[index] || "time"}
                           </p>
+                          {/* <p>Created at: {formatDate(slide.updated_at)}</p> */}
+                          {/* <p>Time left: {timeLeft[index]}</p> */}
                         </div>
                       </div>
+
+
 
                       {/* Contributor */}
                       <div className="flex items-center lg:gap-3 gap-1.5 lg:mt-6 mt-2.5">
                         <img
-                          src={`http://137.59.180.219:8000/${slide?.profile}  `}
+                          src={`${imgUrl}/${slide?.profile}  `}
                           className="w-12 h-12 rounded-full"
                           alt=""
                         />
@@ -277,19 +383,19 @@ const AuctionSlider = () => {
                             {slide?.name}
                           </h1>
                           <p className="text-[#4B5557] text-xs">
-                            {"Contributor"}
+                            {slide?.email}
                           </p>
                         </div>
                       </div>
 
                       {/* Quote */}
-                      <div className="bg-[#e9ebeb] mt-6 lg:p-6 p-2.5 rounded-lg max-w-2xl mx-auto shadow-md  h-56 ">
-                        <p className="text-lg leading-relaxed">
-                          {slide?.quote ||
+                      <div className="bg-[#e9ebeb] mt-6 lg:p-6 p-2.5 rounded-lg max-w-2xl mx-auto shadow-md  custom-scrollbar h-64 overflow-y-scroll   ">
+                        <p className="text-lg leading-relaxed pb-14 ">
+                          {slide?.description ||
                             "I am honored to donate Whispers of Dawn to this auction in support of Healing and Hope for Women. This initiative empowers women facing adversity, providing them with the resources to rebuild their lives. We can create a masterpiece of change."}
                         </p>
                         <div className="lg:ml-20 -mt-9">
-                          <Quote className="text-gray-600 w-6 h-6" />
+                          {/* <Quote className="text-gray-600 w-6 h-6" /> */}
                         </div>
                       </div>
 
@@ -384,8 +490,8 @@ const AuctionSlider = () => {
                     {/* RIGHT IMAGE SECTION */}
                     <div className="relative">
                       <img
-                        src={`http://137.59.180.219:8000/${slide?.image}  `}
-                        className="lg:w-[532px] w-[100%] block mx-auto rounded-2xl lg:h-[630px] mb-6"
+                        src={`${imgUrl}/${slide?.image} `}
+                        className="lg:w-[532px] w-[100%] block mx-auto rounded-2xl lg:h-[690px] mb-6"
                         alt=""
                       />
                       <div className="absolute top-0 ml-3 mt-4 px-2 py-1 text-sm text-[#263234] bg-white rounded">
@@ -419,7 +525,6 @@ const AuctionSlider = () => {
                       <p className="lg:mt-4 text-[#263234] ">
                         Estimated price :
                         <span className="text-[#263234] font-bold">
-                          {" "}
                           {slide.budget} £
                         </span>
                       </p>
@@ -460,13 +565,15 @@ const AuctionSlider = () => {
                           <p className="text-[#263234] lg:text-xl font-semibold">
                             {timeLeft[index] || "time"}
                           </p>
+                          {/* <p>Created at: {formatDate(slide.updated_at)}</p> */}
+                          {/* <p>Time left: {timeLeft[index]}</p> */}
                         </div>
                       </div>
 
                       {/* Contributor */}
                       <div className="flex items-center lg:gap-3 gap-1.5 lg:mt-6 mt-2.5">
                         <img
-                          src={`http://137.59.180.219:8000/${slide?.profile}  `}
+                          src={`${imgUrl}/${slide?.profile}  `}
                           className="w-12 h-12 rounded-full"
                           alt=""
                         />
@@ -475,15 +582,15 @@ const AuctionSlider = () => {
                             {slide?.name}
                           </h1>
                           <p className="text-[#4B5557] text-xs">
-                            {"Contributor"}
+                            {slide.email}
                           </p>
                         </div>
                       </div>
 
                       {/* Quote */}
                       <div className="bg-[#e9ebeb] mt-6 lg:p-6 p-2.5 rounded-lg  mx-auto shadow-md">
-                        <p className="text-lg leading-relaxed">
-                          {slide?.quote ||
+                        <p className="text-lg text-justify leading-relaxed">
+                          {slide?.description ||
                             "I am honored to donate Whispers of Dawn to this auction in support of Healing and Hope for Women. This initiative empowers women facing adversity, providing them with the resources to rebuild their lives. We can create a masterpiece of change."}
                         </p>
                         {/* <div className="lg:ml-20 -mt-9">
@@ -599,7 +706,308 @@ const AuctionSlider = () => {
             </div>
           ))}
         </div>
+
+
       </div>
+
+
+      {/* login modal  */}
+
+      {
+        openLoginModal && (
+          <Modal
+            open={openLoginModal}
+            footer={null}
+            closable={true}
+            onCancel={closeLoginModal}
+            centered
+          // width="400px"
+          // style={{ padding: "15px", top: 0 }}
+          >
+
+            <Form
+              name="login"
+              layout="vertical"
+              // onFinish={onFinish}
+              maskClosable={false}
+              keyboard={false}
+            >
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                  { required: true, message: "Please input your email!" },
+                  { type: "email", message: "Please enter a valid email!" },
+                ]}
+              >
+                <Input
+                  prefix={<MailOutlined />}
+                  placeholder="Enter your email"
+                  className="py-2"
+                />
+              </Form.Item>
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  { required: true, message: "Please input your password!" },
+                  { min: 6, message: "Password must be minimum 6 characters." },
+                ]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined />}
+                  placeholder="Enter your password"
+                  className="py-2"
+                />
+              </Form.Item>
+
+              <div className="flex justify-end mb-4">
+                <Link
+                  // onClick={openForgetPasswordModal}
+                  to=""
+                  className="text-blue-600 hover:underline text-sm font-semibold"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
+
+              <Form.Item>
+                <Button
+                  loading={loading}
+                  disabled={loading}
+                  type="primary"
+                  htmlType="submit"
+                  className="lg:w-full  bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
+                >
+                  Log in
+                </Button>
+              </Form.Item>
+            </Form>
+
+            <div className="text-center ">
+              <span className="text-gray-600">Don't have an account? </span>
+              <Link
+                onClick={openUserRegModal}
+                to=""
+                className="text-blue-600 hover:underline font-semibold"
+              >
+                Register
+              </Link>
+            </div>
+
+          </Modal>
+        )
+      }
+
+      {/* registration modal  */}
+
+      {
+        openRegistrationModal && (
+          <Modal
+            open={openRegistrationModal}
+            footer={null}
+            closable={true}
+            onCancel={closeRegModal}
+            centered
+          // width="400px"
+          // style={{ padding: "15px", top: 0 }}
+          >
+            <div className="">
+              {/* <Card className="lg:p-6"> */}
+              <h2 className="text-2xl font-bold text-center mb-2 lg:mb-6">Register</h2>
+              <Form
+                name="register"
+                layout="vertical"
+                onFinish={handleSubmitReg}
+                autoComplete="off"
+                form={form}
+              >
+                {/* Name */}
+                <Form.Item
+                  label="Name"
+                  name="full_name"
+                  rules={[{ required: true, message: "Please input your name!" }]}
+                >
+                  <Input
+                    prefix={<UserOutlined />}
+                    placeholder="Enter your name"
+                    className="py-2"
+                  />
+                </Form.Item>
+
+                {/* Email */}
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    { required: true, message: "Please input your email!" },
+                    { type: "email", message: "Please enter a valid email!" },
+                  ]}
+                >
+                  <Input
+                    prefix={<MailOutlined />}
+                    placeholder="Enter your email"
+                    className="py-2"
+                  />
+                </Form.Item>
+
+                {/* Password */}
+                <Form.Item
+                  label="Password"
+                  name="password"
+                  rules={[
+                    { required: true, message: "Please input your password!" },
+                    { min: 6, message: "Password must be minimum 6 characters." },
+                  ]}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined />}
+                    placeholder="Enter your password"
+                    className="py-2"
+                  />
+                </Form.Item>
+
+                {/* Password Confirmation */}
+                <Form.Item
+                  label="Confirm Password"
+                  name="password_confirmation"
+                  dependencies={["password"]}
+                  rules={[
+                    { required: true, message: "Please confirm your password!" },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue("password") === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(new Error("Passwords do not match!"));
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined />}
+                    placeholder="Confirm your password"
+                    className="py-2"
+                  />
+                </Form.Item>
+
+                {/* Photo Upload */}
+                <Form.Item
+                  label="Photo ID"
+                  name="image"
+                  valuePropName="fileList"
+                  getValueFromEvent={normFile}
+                  rules={[{ required: true, message: "Please upload your photo!" }]}
+                >
+                  <Upload.Dragger
+                    beforeUpload={() => false}
+                    fileList={fileList}
+                    name="image"
+                    listType="picture"
+                    maxCount={1}
+                    onChange={handleFileChange}
+                  >
+                    <UploadOutlined /> Click to Upload Your Photo
+                  </Upload.Dragger>
+                </Form.Item>
+
+                {/* Submit Button */}
+                <Form.Item>
+                  <Button
+                    loading={loading}
+                    disabled={loading}
+                    type="primary"
+                    htmlType="submit"
+                    className="lg:w-full bg-btnColor h-11 text-[14px] font-bold border-none py-2 my-3 rounded-lg"
+                  >
+                    Register
+                  </Button>
+                </Form.Item>
+              </Form>
+
+              <div className="text-center mt-4">
+                <span className="text-gray-600">Already have an account? </span>
+                <Link
+                  onClick={openLoginModal}
+                  to=""
+                  className="text-green-600 hover:underline font-semibold"
+                >
+                  Login
+                </Link>
+              </div>
+
+
+
+            </div>
+
+          </Modal>
+        )
+      }
+
+      {/* registration otp verify modal */}
+
+      {
+        regOtpVerify && (
+          <Modal
+            open={regOtpVerify}
+            footer={null}
+            closable={true}
+            onCancel={closeRegOtpModal}
+            centered
+          // width="400px"
+          // style={{ padding: "15px", top: 0 }}
+          >
+
+            <div className="text-center py-4">
+              <h2 className="text-2xl font-bold mb-2">Verify OTP</h2>
+              <p className="mb-6 text-sm">
+                Enter the 6-digit code sent to your email.
+              </p>
+
+              <Form
+                form={form}
+                // onFinish={handleSubmitOtp}
+                layout="vertical"
+                className="flex flex-col items-center"
+                style={{ backgroundColor: "white", color: "black" }}
+              >
+                <Form.Item
+                  label="OTP"
+                  name="otp"
+                  rules={[
+                    { required: true, message: "Please input your OTP!" },
+                    {
+                      validator: (_, value) =>
+                        value && value.toString().length === 6
+                          ? Promise.resolve()
+                          : Promise.reject("OTP must be 6 digits"),
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    placeholder="Enter your OTP"
+                    className="w-full py-1"
+                    controls={false}
+                    maxLength={6} // visually prevent typing more than 6 digits
+                  />
+                </Form.Item>
+
+                <Button
+                  loading={loading}
+                  disabled={loading}
+                  htmlType="submit"
+                  type="primary"
+                  block
+                  className="h-11 lg:w-full !w-20 rounded-lg block mx-auto font-semibold bg-btnColor border-none"
+                >
+                  Verify
+                </Button>
+              </Form>
+            </div>
+
+          </Modal>
+        )
+      }
     </>
   );
 };
