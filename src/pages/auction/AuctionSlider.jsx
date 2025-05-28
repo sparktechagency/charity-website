@@ -44,7 +44,7 @@ const AuctionSlider = () => {
   }, []);
 
 
-  // registration modal
+  // registration modal start 
 
   const [openRegistrationModal, setOpenRegistrationModal] = useState(false);
 
@@ -104,7 +104,9 @@ const AuctionSlider = () => {
     return e?.fileList;
   };
 
-  // registration otp verify 
+  // registration modal end
+
+  // registration otp verify start
 
   const [regOtpVerify, setRegOtpVerify] = useState(false);
 
@@ -112,6 +114,31 @@ const AuctionSlider = () => {
     setRegOtpVerify(false)
   }
 
+  const handleSubmitOtp = async (values) => {
+    try {
+      setLoading(true);
+
+      const res = await axiosPublic.post(`/otp-verify`, { otp: values.otp });
+
+      if (res.data.success) {
+        form.resetFields()
+        localStorage.setItem(`token`, res.data.data?.token);
+        window.location.href = "/"
+        message.success(res.data.message);
+        return setRegOtpVerify(false);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+      return;
+    } finally {
+      form.resetFields();
+      setLoading(false);
+      setRegOtpVerify(false)
+      return
+    }
+  };
+
+  // registration otp verify end
 
 
   // login modal 
@@ -121,6 +148,22 @@ const AuctionSlider = () => {
   const closeLoginModal = async () => {
     setOpenLoginModal(false)
   };
+
+
+// forget password modal start
+const [forgetEmailModal,setForgetEmailModal] = useState(false);
+
+const openForgetEmailModal = ()=>{
+  setForgetEmailModal(true)
+}
+
+
+
+// forget password modal end 
+
+
+
+
 
 
 
@@ -966,7 +1009,7 @@ const AuctionSlider = () => {
 
               <Form
                 form={form}
-                // onFinish={handleSubmitOtp}
+                onFinish={handleSubmitOtp}
                 layout="vertical"
                 className="flex flex-col items-center"
                 style={{ backgroundColor: "white", color: "black" }}
