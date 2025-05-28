@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useGetNotificationApiQuery } from "../../../redux/dashboardFeatures/dashboardNotificationApi";
 import CustomLoading from "../shared/CustomLoading";
 import { useGetDashboardAdminProfileApiQuery } from "../../../redux/dashboardFeatures/dashboardAdminProfileApi";
+import { CircleGauge } from "lucide-react";
 const { Header, Sider, Content } = Layout;
 
 const AdminDashboard = () => {
@@ -20,7 +21,12 @@ const AdminDashboard = () => {
   const allNotifacitionData = data?.data
   const profileData = profile?.data
 
-console.log(allNotifacitionData)
+
+const unreadNotifications = allNotifacitionData?.filter(item => item.read_at === null);
+
+
+
+
 
 
 
@@ -449,7 +455,7 @@ console.log(allNotifacitionData)
               </svg>
               <p className="absolute left-6 top-0 
                bg-red-500 w-6 h-6 rounded-full flex justify-center items-center text-xs">
-                {allNotifacitionData?.length}
+                {unreadNotifications?.length}
               </p>
             </div>
              <div onClick={handleProfile} className="cursor-pointer">

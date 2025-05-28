@@ -113,11 +113,6 @@ const Contributors = () => {
       render: (_, record) => record?.auction?.city,
     },
     {
-      title: "Donate",
-      dataIndex: "donate_share",
-      render: (_, record) => record?.auction?.donate_share,
-    },
-    {
       title: "Max Bit",
       dataIndex: "max_bit_online",
     },

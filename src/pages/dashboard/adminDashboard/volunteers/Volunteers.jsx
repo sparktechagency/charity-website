@@ -1,5 +1,5 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Input, Modal, Pagination, Select, Space, Table } from "antd";
+import { Input, Modal, Pagination, Radio, Select, Space, Table } from "antd";
 import { EyeIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,18 +9,22 @@ import {
   volunterModalOpenOne,
   volunterModalOpenTwo,
 } from "../../../../features/modal/modalSlice";
-import { useGetAllVolunterDataQuery } from "../../../../redux/dashboardFeatures/getVolunteersApi";
+import { useGetAllVolunterDataQuery, useUpdateVolunterDataMutation } from "../../../../redux/dashboardFeatures/getVolunteersApi";
 import CustomLoading from "../../shared/CustomLoading";
 import { FiSearch } from "react-icons/fi";
 import { usePDF } from 'react-to-pdf';
+import toast from "react-hot-toast";
 
 const Volunteers = () => {
   const [searchText, setSearchText] = useState("");
   const [selectValue, stetSelectValue] = useState("Pending");
+  const [selectStatus, stetSelectStatus] = useState("Pending");
   const [selectId, setSelectId] = useState('')
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' }); // pdf file download for
+  const [loading, setLoading] = useState(false)
+  const [volunterModalThree, setVolunterModalThree] = useState(false)
+  const { targetRef } = usePDF({ filename: 'page.pdf' }); // pdf file download for
 
   const dispatch = useDispatch();
   const volunteerModalOne = useSelector(
@@ -29,6 +33,7 @@ const Volunteers = () => {
   const volunterModalTwo = useSelector((state) => state.modal.volunterModalTwo);
 
   const { data, isLoading, refetch } = useGetAllVolunterDataQuery({ page: currentPage, per_page: perPage, search: searchText, status: selectValue });
+  const [updateVolunterData] = useUpdateVolunterDataMutation()
 
   const allVolunterData = data?.data?.data
   const singleVolunterData = allVolunterData?.find(item => item?.id === selectId)
@@ -83,6 +88,47 @@ const Volunteers = () => {
   };
   // ====== vounter modal two end ===========
 
+
+  // ====== vounter modal two start ===========
+  const showVolunterModalOkThree = (record) => {
+    setSelectId(record?.id)
+    stetSelectStatus(record?.status)
+    setVolunterModalThree(true)
+  };
+
+
+  const volunterModalOkThree = async () => {
+
+
+    try {
+      const res = await updateVolunterData({
+        status: selectStatus,
+        volunteer_id: selectId,
+      }).unwrap()
+      console.log(res)
+      if (res?.success === true) {
+        toast.success(res?.message)
+        setVolunterModalThree(false)
+
+      }
+    } catch (errors) {
+      if (errors) {
+        toast.error(errors?.data?.message)
+      }
+    }
+  };
+
+
+
+
+
+
+
+  const volunterModalCancelThree = () => {
+    setVolunterModalThree(false)
+  };
+  // ====== vounter modal two end ===========
+
   const columns = [
     {
       title: "Name",
@@ -96,12 +142,7 @@ const Volunteers = () => {
       title: "Contact number",
       dataIndex: "contact_number",
     },
-    {
-      title: 'updated Date',
-      dataIndex: 'updated_at',
-      key: 'updated_at',
-      render: (text) => formatDate(text),
-    },
+
     {
       title: "Donated",
       dataIndex: "donated",
@@ -109,6 +150,12 @@ const Volunteers = () => {
     {
       title: "Status",
       dataIndex: "status",
+    },
+    {
+      title: 'Create Date',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (text) => formatDate(text),
     },
     {
       title: "Action",
@@ -120,6 +167,14 @@ const Volunteers = () => {
             className="cursor-pointer text-[#DA453F]"
           >
             {record.action}
+          </p>
+          <p
+            onClick={() => showVolunterModalOkThree(record)}
+            className="cursor-pointer"
+          >
+            <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 22V18H20V22H0ZM4 14H5.4L13.2 6.225L11.775 4.8L4 12.6V14ZM2 16V11.75L13.2 0.575C13.3833 0.391667 13.5958 0.25 13.8375 0.15C14.0792 0.05 14.3333 0 14.6 0C14.8667 0 15.125 0.05 15.375 0.15C15.625 0.25 15.85 0.4 16.05 0.6L17.425 2C17.625 2.18333 17.7708 2.4 17.8625 2.65C17.9542 2.9 18 3.15833 18 3.425C18 3.675 17.9542 3.92083 17.8625 4.1625C17.7708 4.40417 17.625 4.625 17.425 4.825L6.25 16H2Z" fill="#A6ABAC" />
+            </svg>
           </p>
           <p
             onClick={() => showVolunterModalTwo(record?.id)}
@@ -145,23 +200,23 @@ const Volunteers = () => {
   };
 
 
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
-    // stetSelectValue(e.target.value)
-    setCurrentPage(1); // Reset to the first page whenever the search term changes
-  };
+  const onChange = (e) => {
+    stetSelectStatus(e.target.value)
+  }
+
+
 
   useEffect(() => {
     refetch(); // Refetch the data when searchText, currentPage, or perPage changes
-  }, [searchText, selectValue, currentPage, perPage, refetch]);
+  }, [searchText, selectValue, selectStatus, currentPage, perPage, refetch]);
 
 
   useEffect(() => {
     document.body.style.overflow =
-      volunteerModalOne || volunterModalTwo
+      volunteerModalOne || volunterModalTwo || volunterModalOkThree
         ? "hidden"
         : "auto";
-  }, [volunteerModalOne, volunterModalTwo]);
+  }, [volunteerModalOne, volunterModalTwo, volunterModalOkThree]);
 
   if (isLoading) return <CustomLoading />
 
@@ -256,18 +311,8 @@ const Volunteers = () => {
             onCancel={volunterModalCancelTwo}
             width={500}
             footer={null}
-          // footer={
-          //   <div className="font-roboto flex justify-end">
-          //     <button
-          //       className="bg-[#ffffff] py-2 px-4 rounded"
-          //       onClick={() => toPDF()}
-          //     >
-          //       PDF Download
-          //     </button>
-          //   </div>
-          // }
           >
-            <div ref={targetRef}>
+            <div>
               <div className="flex  items-center gap-3 border-b pb-4 border-gray-700">
                 <div>
                   <h1 className="text-[14px] font-semibold ">
@@ -308,20 +353,77 @@ const Volunteers = () => {
                 <p className="">{singleVolunterData?.reason}</p>
                 {
                   singleVolunterData?.upload_cv && (
-                    <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData.upload_cv}`} alt="" className="py-8 object-contain  w-full max-h-[300px]"/>
+                    <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData.upload_cv}`} alt="" className="py-8 object-contain  w-full max-h-[300px]" />
                   )
                 }
 
                 <div className="flex justify-end pt-4">
-                  <button
-                    onClick={() => toPDF()}
+                  <a
+                    href={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData?.upload_cv}`}
+                    download="CV"
                     className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg"
-                  >Download Pdf</button>
+                  >Download Pdf</a>
                 </div>
               </div>
             </div>
           </Modal>
         </div>
+
+
+        <Modal
+          className="custom-ai-modal"
+          centered
+          open={volunterModalThree}
+          onOk={volunterModalOkThree}
+          onCancel={volunterModalCancelThree}
+          width={500}
+          footer={
+            <div className="font-roboto flex justify-end md:px-7 pt-[24px]">
+              <button
+                className="hover:bg-[#A6ABAC] px-6 rounded"
+                onClick={volunterModalCancelThree}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-[#ffffff] py-2 ml-4 px-6 rounded"
+                onClick={volunterModalOkThree}
+              >
+                {loading ? 'Loading...' : "Save"}
+              </button>
+            </div>
+          }
+        >
+          <p className="text-[20px] text-[#E9EBEB] py-6">
+            Changes Status
+          </p>
+
+          <div className="flex justify-center items-center border border-gray-600 rounded-lg py-4">
+            <Radio.Group
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 8,
+              }}
+              onChange={onChange}
+              value={selectStatus}
+              options={[
+                {
+                  value: 'Pending',
+                  label: <span style={{ color: '#ffff', fontSize: '24px', fontWeight: "600" }}>Pending</span>,
+                },
+                {
+                  value: 'Approved',
+                  label: <span style={{ color: '#ffff', fontSize: '24px', fontWeight: "600" }}>Approved</span>,
+                },
+                {
+                  value: 'Suspended',
+                  label: <span style={{ color: '#ffff', fontSize: '24px', fontWeight: "600" }}>Suspended</span>,
+                },
+              ]}
+            />
+          </div>
+        </Modal>
 
 
         {/* pagination */}

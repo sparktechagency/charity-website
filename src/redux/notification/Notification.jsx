@@ -30,9 +30,14 @@ const Notification = () => {
         }
     }
 
-    const handleSingleRed = async (id) => {
+    const handleSingleRed = async (item) => {
+
+        if (item?.read_at !== null) {
+            return toast.error("This notification has already been marked as read.");
+        }
+
         try {
-            const res = await redNotificationApi({ id: id }).unwrap()
+            const res = await redNotificationApi({ id: item?.id }).unwrap()
             console.log(res)
             if (res.success === true) {
                 toast.success(res.message)
@@ -85,15 +90,21 @@ const Notification = () => {
                 <button onClick={handleReadAll} className="bg-gray-400 text-black px-8 py-2 rounded-lg hover:bg-gray-200 hover:border-none text-xl font-roboto">Read all</button>
             </div>
             {
-                allNotifacitionData.map((item, index) => {
+                allNotifacitionData?.map((item, index) => {
                     return (
                         <div
                             key={index}
-                             onClick={() => handleSingleRed(item?.id)}
-                            className={`cursor-pointer rounded-lg mb-4 p-4 ${item?.read_at === null ? 'bg-[#1b232423]' : 'bg-[#1B2324] text-[#ffff] border-none'
+                            onClick={() => handleSingleRed(item)}
+                            className={`cursor-pointer rounded-lg mb-4 p-4 ${item?.read_at === null ? 'bg-[#1b232423] ' : 'bg-[#1B2324] text-[#ffff] border-none '
                                 }`}
                         >
                             <div>
+                                <div>
+                                    {
+                                        item?.name === null ? <P>{item?.name}</P> : "User"
+                                    }
+                                    <p>{item?.name}</p>
+                                </div>
                                 <div className="flex items-center gap-4">
                                     <p className="text-lg">{item?.data.message}</p>
                                     <div className="flex items-center gap-4">
@@ -107,7 +118,7 @@ const Notification = () => {
                                 </div>
                                 {item?.read_at === null ? ''
                                     :
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-4 ">
                                         <p>
                                             Read Time and Date
                                         </p>
@@ -116,22 +127,6 @@ const Notification = () => {
                                     </div>
                                 }
 
-
-
-
-                                {/* 4th div: button */}
-                                {/* {
-                                    item?.read_at === null ?
-                                        <div className="col-span-2 text-right">
-                                            <button
-                                               
-                                                className="bg-[#1B2324] text-white px-4 py-2 rounded hover:bg-[#1b232494]">
-                                                Read
-                                            </button>
-                                        </div>
-                                        :
-                                        ''
-                                } */}
                             </div>
 
                         </div>

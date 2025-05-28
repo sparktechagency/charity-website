@@ -354,7 +354,15 @@ const Auction = () => {
                 dataIndex: "name",
                 render: (_, record) => (
                   <div className="flex items-center gap-2">
-                    <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${record?.profile}`} alt="" className="w-[40px] h-[40px] rounded-full" />
+                    {record?.profile ? (
+                      <img
+                        src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${record.profile}`}
+                        alt=""
+                        className="w-[40px] h-[40px] rounded-full"
+                      />
+                    ) : (
+                      <img src="/dashboardPhoto/404.jpg" alt="" className="w-[40px] h-[40px] rounded-full" />
+                    )}
                     <p>{record.name}</p>
                   </div>
                 ),
@@ -381,6 +389,11 @@ const Auction = () => {
               {
                 title: "Duration",
                 dataIndex: "duration",
+                render: (text) => text ?? "N/A",
+              },
+              {
+                title: "Donate Share",
+                dataIndex: "donate_share",
               },
               {
                 title: "Status",
@@ -584,8 +597,12 @@ const Auction = () => {
             <div ref={targetRef} className="flex justify-between gap-4">
               <div className="w-[50%]">
                 <h2 className="text-[24px] md:text-[38px]  ">
-                  {modalThreeData?.title}
+                  {/* {modalThreeData?.title} */}
+                  {modalThreeData?.title
+                    ? modalThreeData.title.charAt(0).toUpperCase() + modalThreeData.title.slice(1)
+                    : ''}
                 </h2>
+
                 <div className="flex flex-col ">
                   <p className=" py-2">
                     Estimated price: <span>${modalThreeData?.start_budget} - ${modalThreeData?.end_budget}</span>
@@ -629,8 +646,8 @@ const Auction = () => {
                       src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${modalThreeData?.profile}`}
                       alt="" className='w-[50px] h-[50px] rounded-full'
                       onError={(e) => {
-                        e.target.onerror = null; 
-                        e.target.src = '/dashboardPhoto/404.jpg'; 
+                        e.target.onerror = null;
+                        e.target.src = '/dashboardPhoto/404.jpg';
                       }}
                     />
                   </div>
@@ -645,9 +662,10 @@ const Auction = () => {
                 <div className="space-y-2 py-6">
                   <p><span className="font-semibold">Contact Number</span> : {modalThreeData.contact_number}</p>
                   <p><span className="font-semibold">City</span> : {modalThreeData.city}</p>
+                  <p><span className="font-semibold">Donate Share</span> : {modalThreeData.donate_share}</p>
+                  <p><span className="font-semibold">Status</span> : {modalThreeData.status}</p>
                   <p><span className="font-semibold">Address</span> : {modalThreeData.address}</p>
                   <p><span className="font-semibold">Created Date</span> : {formatDate(modalThreeData.created_at)}</p>
-                  <p><span className="font-semibold">Update Date</span> : {formatDate(modalThreeData.updated_at)}</p>
                 </div>
                 <div className="bg-[#4b55571e]  p-4 rounded-lg max-w-[433px] mt-4">
 
@@ -670,10 +688,13 @@ const Auction = () => {
                 />
               </div>
             </div>
-            <div className="pt-4">
-              <button onClick={() => toPDF()} className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">
-                Download as PDF
-              </button>
+            <div className="pt-8">
+              <a
+                href={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${modalThreeData?.image}`}
+                download="CV"
+                className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg"
+              >Download Pdf</a>
+
             </div>
           </div>
         </Modal>

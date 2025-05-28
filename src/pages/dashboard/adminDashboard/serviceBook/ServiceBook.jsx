@@ -85,6 +85,7 @@ const ServiceBook = () => {
     setSelectValue(e.target.value)
   }
 
+  console.log(selectId, selectValue)
 
   if (isLoading) return <CustomLoading />
 

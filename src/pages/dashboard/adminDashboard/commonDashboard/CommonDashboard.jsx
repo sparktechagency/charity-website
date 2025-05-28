@@ -8,8 +8,7 @@ const CommonDashboard = () => {
   const { data } = useGetChartQuery();
 
   const dashboardData = data?.data
-  const thisYearData = data?.data
-  const lastYearData = data?.data
+
 
 
 
