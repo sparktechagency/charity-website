@@ -39,6 +39,7 @@ import AudioFile from "../components/client/audio/AudioFile";
 import LoginForm from "../components/client/login/LoginFrom";
 import RegistrationForm from "../components/client/RegistrationForm/RegistrationForm";
 import Notification from "../redux/notification/Notification";
+import AudioPlayer from "../components/audio-player/AudioPlayer";
 import ServiceBook from "../pages/dashboard/adminDashboard/serviceBook/ServiceBook";
 
 
@@ -117,10 +118,6 @@ export const router = createBrowserRouter([
   },
 
   {
-    path: "/audio",
-    element: <AudioFile></AudioFile>
-  },
-  {
     path: "/login",
     element: <LoginForm />
   },
@@ -191,6 +188,10 @@ export const router = createBrowserRouter([
         element: <Notification />,
       },
     ],
+  },
+  {
+    path : "/audio",
+    element : <AudioPlayer></AudioPlayer>
   },
 
   //=================== Dashboard Authentication ================

@@ -184,7 +184,6 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
   };
 
   const [userEmail, setUserEmail] = useState(null);
-  console.log("user email is", userEmail)
 
   const submitForgetPasswordFrom = async (values) => {
     try {
