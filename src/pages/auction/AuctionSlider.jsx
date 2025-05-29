@@ -338,6 +338,7 @@ const AuctionSlider = () => {
       setLoading(true);
       const auctionId = sliderData[index]?.id;
 
+
       if (!auctionId) {
         toast.error("Auction ID not found!");
         return;
@@ -523,7 +524,7 @@ const AuctionSlider = () => {
                         Estimated price :
                         <span className="text-[#263234] font-bold">
                           {" "}
-                          {slide.budget}$
+                          {slide.budget}£
                         </span>
                       </p>
 
@@ -604,7 +605,7 @@ const AuctionSlider = () => {
                         <div>
                           <button className=" flex items-center gap-3  ">
                             <p className=" text-[#263234] font-bold text-3xl ">
-                              ${slide.max_bit_online}
+                              £{slide.max_bit_online}
                             </p>{" "}
                             <span className=" text-xl text-[#4B5557] ">
                               ({slide.total_bits}bids){" "}
@@ -616,7 +617,7 @@ const AuctionSlider = () => {
                         <div className="relative flex flex-col items-end w-full">
                           <div className="flex">
                             <button className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-2 py-2.5 hover:bg-[#2c241f] transition w-fit">
-                              $ {selectedBids[index]
+                              £ {selectedBids[index]
                                 ? selectedBids[index]
                                 : slide.price}{" "}
                               {/* Show selected bid or price */}
@@ -657,7 +658,7 @@ const AuctionSlider = () => {
                                       }
                                       className="bg-white border flex flex-row border-gray-300 text-sm px-4 py-2 hover:scale-105 rounded-lg hover:bg-gray-100 transition"
                                     >
-                                      {price}
+                                      £{price}
                                     </button>
                                   ))}
 
@@ -804,8 +805,8 @@ const AuctionSlider = () => {
                         <div>
                           <button className=" flex items-center gap-3    ">
                             <p className=" text-[#263234] font-bold text-3xl ">
-                              ${slide.max_bit_online}
-                            </p>{" "}
+                              £{slide.max_bit_online}
+                            </p>
                             <span className=" text-xl text-[#4B5557] ">
                               {" "}
                               ({slide.total_bits}bids){" "}
@@ -817,9 +818,9 @@ const AuctionSlider = () => {
                         <div className="relative flex flex-col w-full">
                           <div className="flex">
                             <button className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-2 py-2.5 hover:bg-[#2c241f] transition w-fit">
-                              $ {selectedBids[index]
+                              £ {selectedBids[index]
                                 ? selectedBids[index]
-                                : slide.price}{" "}
+                                : slide.price}
                               {/* Show selected bid or price */}
                             </button>
                             <button
@@ -858,7 +859,7 @@ const AuctionSlider = () => {
                                       }
                                       className="bg-white border flex flex-row border-gray-300 text-sm px-4 py-2 hover:scale-105 rounded-lg hover:bg-gray-100 transition"
                                     >
-                                      {price}
+                                      £ {price}
                                     </button>
                                   ))}
 

@@ -479,6 +479,10 @@ const HomeSlider = () => {
         return;
       }
 
+      if(!token){
+        return setOpenLoginModal(true);
+      }
+
       const res = await axiosPublic.post(`/bit-contributor?auction_id=${auctionId}`, {
         bit_online: bidPrice,
       }, config);
@@ -493,9 +497,7 @@ const HomeSlider = () => {
       } else {
         toast.error(res.data.message || "Failed to submit bid");
       }
-    } catch (error) {
-      console.log(error)
-      setOpenLoginModal(true);
+    } catch (error) {      
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -661,7 +663,7 @@ const HomeSlider = () => {
                               Estimated price :
                               <span className="text-[#263234] font-bold">
                                 {" "}
-                                {slide.budget}$
+                                {slide.budget}£
                               </span>
                             </p>
 
@@ -742,7 +744,7 @@ const HomeSlider = () => {
                               <div>
                                 <button className=" flex items-center gap-3  ">
                                   <p className=" text-[#263234] font-bold text-3xl ">
-                                    ${slide.max_bit_online}
+                                    £{slide.max_bit_online}
                                   </p>{" "}
                                   <span className=" text-xl text-[#4B5557] ">
                                     {" "}
@@ -755,7 +757,7 @@ const HomeSlider = () => {
                               <div className="relative flex flex-col items-end w-full">
                                 <div className="flex">
                                   <button className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-2 py-2.5 hover:bg-[#2c241f] transition w-fit">
-                                    $ {selectedBids[index]
+                                    £ {selectedBids[index]
                                       ? selectedBids[index]
                                       : slide.price}{" "}
                                     {/* Show selected bid or price */}
@@ -796,7 +798,7 @@ const HomeSlider = () => {
                                             }
                                             className="bg-white border flex flex-row border-gray-300 text-sm px-4 py-2 hover:scale-105 rounded-lg hover:bg-gray-100 transition"
                                           >
-                                            {price}
+                                            £{price}
                                           </button>
                                         ))}
 
@@ -900,7 +902,7 @@ const HomeSlider = () => {
                         <p className="lg:mt-4 text-[#263234] ">
                           Estimated price :
                           <span className="text-[#263234] font-bold">
-                            {slide.budget} £
+                            {slide.budget}£
                           </span>
                         </p>
 
@@ -979,7 +981,7 @@ const HomeSlider = () => {
                           <div>
                             <button className=" flex items-center gap-3    ">
                               <p className=" text-[#263234] font-bold text-3xl ">
-                                ${slide.max_bit_online}
+                                £{slide.max_bit_online}
                               </p>{" "}
                               <span className=" text-xl text-[#4B5557] ">
                                 {" "}
@@ -992,7 +994,7 @@ const HomeSlider = () => {
                           <div className="relative flex flex-col w-full">
                             <div className="flex">
                               <button className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-2 py-2.5 hover:bg-[#2c241f] transition w-fit">
-                                $ {selectedBids[index]
+                                £ {selectedBids[index]
                                   ? selectedBids[index]
                                   : slide.price}{" "}
                                 {/* Show selected bid or price */}
@@ -1033,7 +1035,7 @@ const HomeSlider = () => {
                                         }
                                         className="bg-white border flex flex-row border-gray-300 text-sm px-4 py-2 hover:scale-105 rounded-lg hover:bg-gray-100 transition"
                                       >
-                                        {price}
+                                        £ {price}
                                       </button>
                                     ))}
 
@@ -1648,33 +1650,7 @@ const HomeSlider = () => {
           </Form.Item>
         </Form>
       </Modal>
-
-
-
-
-
       {/* forget password modal end  */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </div>
   );
 };
