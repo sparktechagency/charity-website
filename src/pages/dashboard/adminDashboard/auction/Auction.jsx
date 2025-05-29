@@ -528,7 +528,7 @@ const Auction = () => {
                   </Form.Item>
                 </div>
 
-                {/* minimum budget */}
+                {/* minimum budgets */}
                 <div>
                   <p className="text-[#fff]">Minimum budget</p>
                   <Form.Item name="end_budget" rules={[
