@@ -18,6 +18,7 @@ const AuctionSlider = () => {
   const [loading, setLoading] = useState(false);
   const axiosPublic = useAxiosPublic();
   const authId = localStorage.getItem(`authId`);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,13 +35,7 @@ const AuctionSlider = () => {
     // Initial fetch
     fetchData();
 
-    // Poll every 5 seconds
-    const interval = setInterval(() => {
-      fetchData();
-    }, 1000); // 
 
-    // Clean up on unmount
-    return () => clearInterval(interval);
   }, []);
 
 
@@ -211,9 +206,9 @@ const AuctionSlider = () => {
       if (res.data.success) {
         toast.success(res.data?.message);
         setForgetEmailModal(false);
-        // setForgetEmailModal(true);
         setUserEmail(values.email)
         form.resetFields();
+        setForgetOtpVerify(true)
         return;
       } else {
         toast.error(error.response.data.message);
@@ -225,6 +220,84 @@ const AuctionSlider = () => {
       setLoading(false);
       form.resetFields();
       return;
+    }
+  };
+
+
+
+  // otp verify 
+
+
+  const [fogetOtpVerify, setForgetOtpVerify] = useState(false);
+
+  const closeForgetOptVerifyModal = () => {
+    setForgetOtpVerify(false)
+  }
+  const [otp, setOtp] = useState("")
+  const handleSubmitForgetOtpVerify = async (e) => {
+    e.preventDefault()
+    setLoading(true);
+    try {
+      setLoading(true)
+      const res = await axiosPublic.post(`/otp-verify`, { otp: otp })
+      if (res) {
+        localStorage.setItem("forgetToken", res.data?.data?.token)
+        message.success(res.data?.message)
+        setForgetOtpVerify(false);
+        setNewPassword(true)
+        return;
+
+      }
+      // You can use 'data' here if needed
+    } catch (error) {
+      alert(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
+  // set new password 
+
+  const [newPassword, setNewPassword] = useState(false);
+
+  const closeSetNewPasswordModal = () => {
+    setNewPassword(false);
+  };
+
+  const setToken = localStorage.getItem("forgetToken");
+  const setTokenConfig = {
+    headers: {
+      Authorization: `Bearer ${setToken} `
+    }
+  }
+
+  const submitNewPasswordModal = async (values) => {
+    try {
+      setLoading(true);
+      let res = await axiosPublic.post(
+        `/create-new-password`,
+        {
+          email: values.email,
+          new_password: values.new_password,
+          new_password_confirmation: values.new_password_confirmation,
+        },
+        setTokenConfig
+      );
+
+      if (res) {
+        message.success(`${res.data.message}`);
+        setNewPassword(false);
+        form.resetFields()
+      }
+
+
+    } catch (error) {
+      console.log(error)
+      message.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -257,7 +330,11 @@ const AuctionSlider = () => {
     },
   };
   const handleBidSubmit = async (index, bidPrice) => {
+
     try {
+      if (!token) {
+        return setOpenLoginModal(true); // Require login
+      }
       setLoading(true);
       const auctionId = sliderData[index]?.id;
 
@@ -270,18 +347,19 @@ const AuctionSlider = () => {
         bit_online: bidPrice,
       }, config);
 
-      console.log(`res is ${JSON.stringify(res)}`)
 
 
       if (res.data.success) {
         toast.success("Bid submitted successfully!");
         // You can refresh data here if needed
+        const res = await axiosPublic.get("/get-bit-auction");
+        setSliderData(res.data.data)
       } else {
         toast.error(res.data.message || "Failed to submit bid");
       }
     } catch (error) {
       console.log(error)
-      setOpenLoginModal(true);
+
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -300,13 +378,15 @@ const AuctionSlider = () => {
     setShowBids(newShowBids);
   };
 
+  const [value, setValue] = useState("")
+
   const handleBidSelect = (index, price) => {
+    console.log(index, price)
     const newSelectedBids = [...selectedBids];
     newSelectedBids[index] = price;
     setSelectedBids(newSelectedBids);
     setShowBids((prevState) => prevState.map(() => false));
 
-    handleBidSubmit(index, price); // 👈 Call API
   };
 
   const handleCustomBidSet = (index) => {
@@ -527,7 +607,6 @@ const AuctionSlider = () => {
                               ${slide.max_bit_online}
                             </p>{" "}
                             <span className=" text-xl text-[#4B5557] ">
-                              {" "}
                               ({slide.total_bits}bids){" "}
                             </span>
                           </button>
@@ -543,10 +622,12 @@ const AuctionSlider = () => {
                               {/* Show selected bid or price */}
                             </button>
                             <button
-                              onClick={() => handleBidToggle(index)} // Toggle only this slide
+                              onClick={() => handleBidSubmit(index, selectedBids[index] || slide.price)}
                               className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-4 py-2.5 hover:bg-[#2c241f] transition w-fit"
                             >
                               Bid online
+                            </button>
+                            <button className=" flex items-center bg-[#403730] text-white " onClick={() => handleBidToggle(index)}  >
                               <Gavel className="w-4 h-4" />
                               {showBids[index] ? (
                                 <ChevronUp className="w-4 h-4" />
@@ -735,20 +816,19 @@ const AuctionSlider = () => {
                         {/* Bid Button and Dropdown */}
                         <div className="relative flex flex-col w-full">
                           <div className="flex">
-                            <button
-                              onClick={() => handleModalOpen(index)} // Pass the entire slide object to the modal
-                              className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-4 py-2.5 hover:bg-[#2c241f] transition w-fit"
-                            >
-                              {selectedBids[index]
+                            <button className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-2 py-2.5 hover:bg-[#2c241f] transition w-fit">
+                              $ {selectedBids[index]
                                 ? selectedBids[index]
                                 : slide.price}{" "}
                               {/* Show selected bid or price */}
                             </button>
                             <button
-                              onClick={() => handleBidToggle(index)} // Toggle only this slide
+                              onClick={() => handleBidSubmit(index, selectedBids[index] || slide.price)}
                               className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-4 py-2.5 hover:bg-[#2c241f] transition w-fit"
                             >
                               Bid online
+                            </button>
+                            <button className=" flex items-center bg-[#403730] text-white " onClick={() => handleBidToggle(index)}  >
                               <Gavel className="w-4 h-4" />
                               {showBids[index] ? (
                                 <ChevronUp className="w-4 h-4" />
@@ -1169,50 +1249,137 @@ const AuctionSlider = () => {
 
 
 
+      {/* forget otp verify  */}
 
 
+      <Modal
+        open={fogetOtpVerify}
+        footer={null}
+        onCancel={closeForgetOptVerifyModal}
+        centered
+        maskClosable={false}
+        // width="400px"
+        style={{ padding: "15px", top: 0 }}
+      >
+        <div style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
+          <form onSubmit={handleSubmitForgetOtpVerify} style={{ color: "black" }}>
+            <label htmlFor="otp" style={{ display: "block", marginBottom: 8 }}>
+              OTP
+            </label>
+            <input
+              id="otp"
+              name="otp"
+              type="number"
+              placeholder="Enter your OTP"
+              maxLength={6}
+              value={otp}
+              className=" hover:outline-0 focus:outline-none "
+              onChange={(e) => setOtp(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "8px",
+                border: error ? "1px solid red" : "1px solid #ccc",
+                borderRadius: 4,
+                marginBottom: error ? 4 : 16,
+                color: "black",
+                fontSize: 16,
+              }}
+            />
+            {error && (
+              <div style={{ color: "red", marginBottom: 16, fontSize: 14 }}>
+                {error}
+              </div>
+            )}
+            <button
+              type="submit"
+              disabled={loading}
+              className=" bg-btnColor w-full py-2 text-white rounded-md font-semibold text-lg "
+            >
+              {loading ? "Verifying..." : "Verify Otp"}
+            </button>
+          </form>
+        </div>
+      </Modal>
 
 
+      {/* set new password modal  */}
 
+      <Modal
+        open={newPassword}
+        footer={null}
+        closable={true}
+        onCancel={closeSetNewPasswordModal}
+        centered
+        maskClosable={false}
+      >
+        <Form
+          name="new_password_set"
+          layout="vertical"
+          onFinish={submitNewPasswordModal}
+          autoComplete="off"
+          initialValues={{ email: userEmail }}
+
+        >
+          <Form.Item label="Email" name="email">
+            <Input
+              disabled
+              prefix={<MailOutlined />}
+              placeholder="Enter your email"
+              className="py-2"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="new_password"
+            rules={[
+              { required: true, message: "Please input your password!" },
+              { min: 6, message: "Password must be minimum 6 characters." },
+            ]}
+            hasFeedback
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Enter your password"
+              className="py-2"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Confirm Password"
+            name="new_password_confirmation"
+            dependencies={["new_password"]}
+            hasFeedback
+            rules={[
+              { required: true, message: "Please confirm your password!" },
+
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Confirm your password"
+              className="py-2"
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              loading={loading}
+              type="primary"
+              htmlType="submit"
+              className="lg:w-full bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
+            >
+              Set new password
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
 
 
 
 
 
       {/* forget password modal end  */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

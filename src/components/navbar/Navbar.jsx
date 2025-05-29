@@ -10,6 +10,7 @@ import SupportModal from "../client/modal/support-modal/SupportModal";
 import LoginForm from "../client/login/LoginFrom";
 import useAxiosPublic from "../../pages/hooks/useAxiosPublic";
 import ProfileCard from "../client/profile-card/ProfileCard";
+import { imgUrl } from "../../helper/imgUrl";
 
 const Navbar = () => {
   // api and token related function start
@@ -43,7 +44,9 @@ const Navbar = () => {
       }
     };
     fetchData();
-  }, [profileData]);
+  }, []);
+
+  console.log(profileData)
 
   // profile card modal 
 
@@ -308,7 +311,7 @@ const Navbar = () => {
                 <div className="cursor-pointer bg-white ">
                   <img
                     className="w-10 h-10 object-cover bg-white! rounded-full  "
-                    src={`http://137.59.180.219:8000/${profileData?.image || "default-image/defaultImage.jpg"
+                    src={`${imgUrl}/${profileData?.image || "default-image/defaultImage.jpg"
                       }`}
                     alt="Profile"
                   />
