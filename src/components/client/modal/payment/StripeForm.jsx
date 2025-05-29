@@ -7,7 +7,7 @@ import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
 
 // Your Stripe publishable key
 const stripePromise = loadStripe(
-  "pk_test_51RRV3sGaj33uXsOfuinFKoDgdWMXKBC2CfDPYmBjjUDP20DZELgzjQnVMjcQG3PUqH13wnxKwFQlcHcu1TIaFhcQ00cZSyR4rv"
+  "pk_test_51RLzuUIhiULC1yH1gy4jvSMN6O2fD12JG5XTSgOkBp23Y8RU9ulC04BeQbQPV74II3tFKL80MNv8T7cdZcsw8zCx00amoqzOkX"
 );
 
 const StripeForm = () => {
