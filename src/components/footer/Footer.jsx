@@ -74,22 +74,22 @@ const Footer = () => {
               <div className=" flex items-center gap-x-3 mt-3 " >
                 {/* youtube  */}
                 <span>
-                  <Link to={"https://www.youtube.com/@VirtueHope"}><FaYoutube size={20} /></Link>
+                  <Link to={"https://www.youtube.com/@VirtueHope"}><FaYoutube   className="text-black"  size={20} /></Link>
                 </span>
                 <span>
-                  <Link to={"https://www.instagram.com/virtue.hope/"}><FaInstagramSquare size={20} /></Link>
+                  <Link to={"https://www.instagram.com/virtue.hope/"}><FaInstagramSquare  className="text-black"  size={20} /></Link>
                 </span>
                 <span>
-                  <Link to={"https://www.tiktok.com/@virtuehopecic_"}><FaTiktok size={20} /></Link>
+                  <Link to={"https://www.tiktok.com/@virtuehopecic_"}><FaTiktok size={20}  className="text-black"  /></Link>
                 </span>
                 <span>
-                  <Link to={"https://www.facebook.com/profile.php?id=61575166415077"}><FaFacebookF size={20} /></Link>
+                  <Link to={"https://www.facebook.com/profile.php?id=61575166415077"}><FaFacebookF  className="text-black"  size={20} /></Link>
                 </span>
                 <span>
-                  <Link to={"https://www.linkedin.com/in/virtue-hope-cic-078531360/"}><FaLinkedin size={20} /></Link>
+                  <Link to={"https://www.linkedin.com/in/virtue-hope-cic-078531360/"}><FaLinkedin  className="text-black"  size={20} /></Link>
                 </span>
                 <span>
-                  <Link to={"https://x.com/VirtueHopeCIC"}><IoLogoTwitter size={20} /></Link>
+                  <Link to={"https://x.com/VirtueHopeCIC"}><IoLogoTwitter  className="text-black"  size={20} /></Link>
                 </span>
               </div>
             </div>
@@ -120,7 +120,8 @@ const Footer = () => {
             </div>
 
             {/* Newsletter */}
-            <div className="w-full lg:w-auto text-center mt-3 lg:text-left">
+            <div className="w-full lg:w-auto
+            ml-6 text-center mt-3 lg:text-left">
               <h2 className="text-[#263234] font-semibold text-sm">Stay Up to Date</h2>
               <div className="flex flex-col lg:flex-row items-center gap-3 mt-4">
                 <input
