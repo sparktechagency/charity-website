@@ -150,6 +150,8 @@ const MyTeam = () => {
     formOne.submit();
   };
   const teamModalCancelOne = () => {
+    setImageFileList([]);
+    formOne.resetFields()
     dispatch(closeTeamModalOpenOne());
 
   };
@@ -209,9 +211,9 @@ const MyTeam = () => {
       }
     } catch (errors) {
       if (errors) {
-       if(errors){
-        toast.error(errors?.data?.message)
-       }
+        if (errors) {
+          toast.error(errors?.data?.message)
+        }
       }
     } finally {
       setLoading(false)
@@ -229,6 +231,8 @@ const MyTeam = () => {
     formThree.submit()
   };
   const teamModalCancelThree = () => {
+    setImageFileList([]);
+    formOne.resetFields()
     dispatch(closeTeamModalOpenThree());
   };
   // ========= team modal three end ===============
@@ -501,6 +505,7 @@ const MyTeam = () => {
                             <p className="text-[#FFFFFF] ">Name</p>
                             <Form.Item name="name">
                               <Input
+                                id="dashboard_team_create"
                                 placeholder="Enter Your Name"
                                 style={{ padding: "10px" }}
                               />
@@ -510,6 +515,7 @@ const MyTeam = () => {
                             <p className="text-[#FFFFFF] ">Designation</p>
                             <Form.Item name="designation">
                               <Input
+                                id="dashboard_team_create"
                                 placeholder="Enter Your designation"
                                 style={{ padding: "10px" }}
                               />
@@ -520,6 +526,7 @@ const MyTeam = () => {
                             <p className="text-[#FFFFFF] ">Works experience</p>
                             <Form.Item name="work_experience">
                               <Input
+                                id="dashboard_team_create"
                                 placeholder="Enter Your work experience"
                                 style={{ padding: "10px" }}
                               />
@@ -560,6 +567,7 @@ const MyTeam = () => {
                             <div>
                               <Form.Item name="linkedIn_link">
                                 <Input
+                                  id="dashboard_team_create"
                                   ref={inputRef}
                                   placeholder="paste linkedIn link"
                                   prefix={
@@ -595,6 +603,7 @@ const MyTeam = () => {
                             <div>
                               <Form.Item name="twitter_link">
                                 <Input
+                                  id="dashboard_team_create"
                                   ref={inputRef}
                                   placeholder="paste twitter link"
                                   prefix={
@@ -630,6 +639,7 @@ const MyTeam = () => {
                             <div>
                               <Form.Item name="instagram_link">
                                 <Input
+                                  id="dashboard_team_create"
                                   ref={inputRef}
                                   placeholder="paste instagram link"
                                   prefix={
@@ -731,7 +741,7 @@ const MyTeam = () => {
                           <p className="text-[#FFFFFF] ">Name</p>
                           <Form.Item name="name">
                             <Input
-                              id="name"
+                              id="dashboard_team_create"
                               placeholder="Enter Your Name"
                               style={{ padding: "10px" }}
                             />
@@ -741,6 +751,7 @@ const MyTeam = () => {
                           <p className="text-[#FFFFFF] ">Designation</p>
                           <Form.Item name="designation">
                             <Input
+                              id="dashboard_team_create"
                               placeholder="Enter Your designation"
                               style={{ padding: "10px" }}
                             />
@@ -751,6 +762,7 @@ const MyTeam = () => {
                           <p className="text-[#FFFFFF] ">Works experience</p>
                           <Form.Item name="work_experience">
                             <Input
+                              id="dashboard_team_create"
                               placeholder="Enter Your work experience"
                               style={{ padding: "10px" }}
                             />
@@ -790,6 +802,7 @@ const MyTeam = () => {
                           <div>
                             <Form.Item name="linkedIn_link">
                               <Input
+                                id="dashboard_team_create"
                                 ref={inputRef}
                                 placeholder="paste linkedIn link"
                                 prefix={
@@ -825,6 +838,7 @@ const MyTeam = () => {
                           <div>
                             <Form.Item name="twitter_link">
                               <Input
+                                id="dashboard_team_create"
                                 ref={inputRef}
                                 placeholder="paste twitter link"
                                 prefix={
@@ -860,6 +874,7 @@ const MyTeam = () => {
                           <div>
                             <Form.Item name="instagram_link">
                               <Input
+                                id="dashboard_team_create"
                                 ref={inputRef}
                                 placeholder="paste instagram link"
                                 prefix={
@@ -1001,6 +1016,7 @@ const MyTeam = () => {
                     <p className="text-[#FFFFFF] ">Name</p>
                     <Form.Item name="name">
                       <Input
+                        id="dashboard_team_create"
                         placeholder="Enter Your Name"
                         style={{ padding: "10px" }}
                       />
@@ -1010,6 +1026,7 @@ const MyTeam = () => {
                     <p className="text-[#FFFFFF] ">Designation</p>
                     <Form.Item name="designation">
                       <Input
+                        id="dashboard_team_create"
                         placeholder="Enter Your designation"
                         style={{ padding: "10px" }}
                       />
@@ -1020,6 +1037,7 @@ const MyTeam = () => {
                     <p className="text-[#FFFFFF] ">Works experience</p>
                     <Form.Item name="work_experience">
                       <Input
+                        id="dashboard_team_create"
                         placeholder="Enter Your work experience"
                         style={{ padding: "10px" }}
                       />
@@ -1060,6 +1078,7 @@ const MyTeam = () => {
                     <div>
                       <Form.Item name="linkedIn_link">
                         <Input
+                          id="dashboard_team_create"
                           ref={inputRef}
                           placeholder="paste linkedIn link"
                           prefix={
@@ -1095,6 +1114,7 @@ const MyTeam = () => {
                     <div>
                       <Form.Item name="twitter_link">
                         <Input
+                          id="dashboard_team_create"
                           ref={inputRef}
                           placeholder="paste twitter link"
                           prefix={
@@ -1130,6 +1150,7 @@ const MyTeam = () => {
                     <div>
                       <Form.Item name="instagram_link">
                         <Input
+                          id="dashboard_team_create"
                           ref={inputRef}
                           placeholder="paste instagram link"
                           prefix={

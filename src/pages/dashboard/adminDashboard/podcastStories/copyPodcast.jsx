@@ -67,7 +67,6 @@ const PodcastStories = () => {
 
 
 
-  // upload mp3 file function
   const handleUpload = async ({ file }) => {
     setIsUploading(true);
     try {
@@ -102,7 +101,7 @@ const PodcastStories = () => {
 
 
 
-//  default value show modal three
+
   useEffect(() => {
     if (singlePodcastData?.photo) {
       const imageObj = {
@@ -169,19 +168,13 @@ const PodcastStories = () => {
       });
 
       // Then set image file list
-      setUploadedFileList([mp3File]);
-
+      setMp3FileList([mp3File]);
 
       setImageFileListGuest([guestImage]);
       setImageFileListHost([hostImage]);
       setImageFileListThumbail([thumbnailImage]);
     }
   }, [singlePodcast]);
-
-
-
-
-
 
   const formatDate = (isoDate) => {
     const date = new Date(isoDate);
@@ -381,7 +374,10 @@ const PodcastStories = () => {
 
     const formData = new FormData();
     const fileObj = values?.mp3File?.originFileObj;
-
+    // if (!fileObj) {
+    //   message.error("No file selected!");
+    //   return;
+    // }
 
 
     //======= image file upload =======
@@ -422,7 +418,6 @@ const PodcastStories = () => {
         setImageFileListHost([]);
         setImageFileListGuest([]);
         setImageFileListThumbail([]);
-        
         formFive.resetFields()
         dispatch(closePodcastModalOpenFive());
       }
@@ -1276,11 +1271,10 @@ const PodcastStories = () => {
         <div className="">
 
           <Form form={formFive} onFinish={onFinishFive} style={{ padding: "10px 10px", }}>
-           {/* podcast title */}
+            {/* podcast title */}
             <div>
               <p className="text-[#FFFFFF] ">Podcast title</p>
-              <Form.Item name="podcast_title"
-              >
+              <Form.Item name="podcast_title">
                 <Input
                   id="dashboard_podcast"
                   placeholder="Enter title"
@@ -1294,8 +1288,7 @@ const PodcastStories = () => {
               {/* Host title */}
               <div className="w-full">
                 <p className="text-[#FFFFFF] ">Host title</p>
-                <Form.Item name="host_title"
-                >
+                <Form.Item name="host_title">
                   <Input
                     id="dashboard_podcast"
                     placeholder="Enter title"
@@ -1308,9 +1301,7 @@ const PodcastStories = () => {
               {/* Gust title */}
               <div className="w-full">
                 <p className="text-[#FFFFFF] ">Guest title</p>
-                <Form.Item name="guest_title" 
-
-                >
+                <Form.Item name="guest_title">
                   <Input
                     id="dashboard_podcast"
                     placeholder="Enter title"
@@ -1325,7 +1316,13 @@ const PodcastStories = () => {
               <div className="w-[50%] flex justify-center items-center border-2 border-dashed border-[#B6B6BA] rounded-md py-2">
                 <Form.Item
                   className="md:col-span-2"
-                  name="host_profile"
+                  name="image"
+                  rules={[
+                    {
+                      required: ImageFileListHost.length === 0,
+                      message: "Image required!",
+                    },
+                  ]}
                 >
                   <Upload
 
@@ -1334,6 +1331,8 @@ const PodcastStories = () => {
                     showUploadList={{ showPreviewIcon: true }}
                     fileList={ImageFileListHost}
                     onChange={({ fileList }) => setImageFileListHost(fileList)}
+                    // listType="picture-card"
+                    // className="w-full"
                     beforeUpload={() => false}
                   >
                     <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
@@ -1348,7 +1347,13 @@ const PodcastStories = () => {
               <div className="w-[50%] flex justify-center items-center border-2 border-dashed border-[#B6B6BA] rounded-md py-2">
                 <Form.Item
                   className="md:col-span-2"
-                  name="guest_profile"
+                  name="image"
+                  rules={[
+                    {
+                      required: ImageFileListGuest.length === 0,
+                      message: "Image required!",
+                    },
+                  ]}
                 >
                   <Upload
 
@@ -1357,6 +1362,8 @@ const PodcastStories = () => {
                     showUploadList={{ showPreviewIcon: true }}
                     fileList={ImageFileListGuest}
                     onChange={({ fileList }) => setImageFileListGuest(fileList)}
+                    // listType="picture-card"
+                    // className="w-full"
                     beforeUpload={() => false}
                   >
                     <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
@@ -1375,11 +1382,15 @@ const PodcastStories = () => {
                 name="mp3File"
                 valuePropName="file"
                 getValueFromEvent={(e) => e && e.fileList[0]}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please upload an MP3 file!',
+                  },
+                ]}
               >
                 <Dragger
-                  beforeUpload={() => false} // disable auto upload
-                  fileList={uploadedFileList} // only show after success
-                  onChange={handleUpload}
+                  beforeUpload={() => false}
                   accept=".mp3"
                   maxCount={1}
                   style={{
@@ -1389,35 +1400,32 @@ const PodcastStories = () => {
                     padding: '0px 20px',
                   }}
                 >
-                  {isUploading ? (
-                    <div className="flex justify-center mt-2 text-white">
-                      <span className="animate-pulse">Uploading...</span>
-                    </div>)
-                    :
-                    <div>
-                      <p className="">
-                        <InboxOutlined style={{ color: '#fff', fontSize: '32px' }} />
-                      </p>
-                      <p style={{ color: '#fff', fontSize: '16px', fontWeight: 500 }}>
-                        Upload podcast of drag & drop here.
-                      </p>
-                      <p style={{ color: '#aaa', marginTop: '0px' }}>
-                        Supported format MP3<br />
-                        Max file size: 1 GB.
-                      </p>
-                    </div>
-                  }
-
+                  <p className="">
+                    <InboxOutlined style={{ color: '#fff', fontSize: '32px' }} />
+                  </p>
+                  <p style={{ color: '#fff', fontSize: '16px', fontWeight: 500 }}>
+                    Upload podcast of drag & drop here.
+                  </p>
+                  <p style={{ color: '#aaa', marginTop: '0px' }}>
+                    Supported format MP3<br />
+                    Max file size: 1 GB.
+                  </p>
                 </Dragger>
               </Form.Item>
             </div>
 
             <div className="flex justify-between gap-4 pt-2">
-              {/* thumbail image upload */}
+              {/* guest image upload */}
               <div className="w-[50%] h-[110px] flex justify-center items-center border-2 border-dashed border-[#B6B6BA] rounded-md py-2">
                 <Form.Item
                   className="md:col-span-2"
-                  name="thumbnail"
+                  name="image"
+                  rules={[
+                    {
+                      required: ImageFileListThumbail.length === 0,
+                      message: "Image required!",
+                    },
+                  ]}
                 >
                   <Upload
 
@@ -1426,6 +1434,8 @@ const PodcastStories = () => {
                     showUploadList={{ showPreviewIcon: true }}
                     fileList={ImageFileListThumbail}
                     onChange={({ fileList }) => setImageFileListThumbail(fileList)}
+                    // listType="picture-card"
+                    // className="w-full"
                     beforeUpload={() => false}
                   >
                     <div style={{ cursor: "pointer" }} className="flex flex-col items-center">
@@ -1437,9 +1447,8 @@ const PodcastStories = () => {
               </div>
 
 
-              <div className="w-[50%]  h-[110px]">
-                <Form.Item name="description" 
-                >
+              <div className="w-[50%] h-[110px]">
+                <Form.Item name="description">
                   <TextArea
                     placeholder="Write a description..." style={{ backgroundColor: "transparent", padding: "10px", border: "1px solid gray", color: "#fff", height: "110px", resize: "none" }}
                     className="custom-textarea"

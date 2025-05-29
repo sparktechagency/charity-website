@@ -79,6 +79,7 @@ const DashboardOtp = () => {
               ]}
             >
               <Input
+              id="dashboard_otp"
                 type="text" // ✅ Use "text" instead of "number" to avoid auto-correction issues
                 maxLength={6} // ✅ Limits OTP to 6 digits
                 placeholder="Enter your OTP"

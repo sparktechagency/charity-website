@@ -12,7 +12,7 @@ import {
 import { useGetChartQuery } from "../../../../redux/dashboardFeatures/getDashboardChartApi"
 import CustomLoading from "../../../../pages/dashboard/shared/CustomLoading"
 
-
+import { Radio } from "antd";
 
 
 
@@ -22,20 +22,27 @@ const formatYAxis = (value) => {
 }
 
 export default function Donation() {
-  // const [selectedYear, setSelectedYear] = useState("2025");
+  const [selectedYear, setSelectedYear] = useState("thisYear");
 
-  // const handleChange = (e) => {
-  //   setSelectedYear(e.target.value);
-  // };
+  const handleChange = (e) => {
+    setSelectedYear(e.target.value);
+  };
 
-
+  let year = "";
+  if (selectedYear === "thisYear") {
+    year = "thisYear";
+  } else if (selectedYear === "lastYear") {
+    year = "lastYear";
+  }
 
   // ========================= chart data dynamic start ================
-  const { data,isLoading } = useGetChartQuery();
-  const chartData = data?.data?.thisYear?.map(item => ({
+  const { data, isLoading } = useGetChartQuery(year);
+
+  const chartData = data?.data?.[year]?.map(item => ({
     month: item.month,
-    value: Number(item.data), // convert string/number to number (safe)
+    value: Number(item.data),
   }));
+
   // ========================= chart data dynamic end ================
 
 
@@ -58,7 +65,7 @@ export default function Donation() {
 
 
 
-if(isLoading) return <CustomLoading />
+  if (isLoading) return <CustomLoading />
 
   return (
     <div
@@ -70,14 +77,15 @@ if(isLoading) return <CustomLoading />
       }}
     >
       {/* select years */}
-      <div className=" pb-8">
-        {/* <select
-          value={selectedYear}
+      <div className="flex justify-end pb-8">
+        <Radio.Group
           onChange={handleChange}
-          name="" id="" className="w-[80px] bg-transparent border border-[#ccc] text-[#ccc] rounded-md cursor-pointer px-2 py-1">
-          <option value="2025">2025</option>
-          <option value="2024">2024</option>
-        </select> */}
+          value={selectedYear}
+          options={[
+            { value: "thisYear", label: 'This Year' },
+            { value: "lastYear", label: 'Last Year' },
+          ]}
+        />
       </div>
 
       <div style={{ height: "500px", width: "100%" }}>

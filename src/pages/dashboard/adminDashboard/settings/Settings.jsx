@@ -468,6 +468,7 @@ const Settings = () => {
                 <p className="text-[#FFFFFF] ">Full Name</p>
                 <Form.Item name="full_name">
                   <Input
+                  id="dashboard_setting_name"
                     placeholder="Enter Your Name"
                     style={{ padding: "10px" }}
                   />

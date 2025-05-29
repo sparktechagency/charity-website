@@ -12,7 +12,8 @@ const getVoluntersApi = baseApi.injectEndpoints({
         updateVolunterData: builder.mutation({
             query: ({status,volunteer_id}) => ({
                 url: `/volunteer-status?status=${status}&volunteer_id=${volunteer_id}`,
-                method: "POST",
+                method: "PATCH",
+                
             }),
             invalidatesTags: ["allVolunters"],
         })

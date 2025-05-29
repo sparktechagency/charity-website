@@ -12,6 +12,7 @@ import {
 } from "../../../../features/modal/modalSlice";
 import { useGetDashboardContibutorsApiQuery, useSingleGetDashboardContibutorsApiQuery, useSingleGetDashboardContibutorsAuctionApiQuery } from "../../../../redux/dashboardFeatures/getDashboardContibutors";
 import CustomLoading from "../../shared/CustomLoading";
+import { FiSearch } from "react-icons/fi";
 
 const Contributors = () => {
   const [selectId, setSelectId] = useState(null)
@@ -28,7 +29,7 @@ const Contributors = () => {
 
   // const { data, isLoading,refetch } = useGetDashboardContibutorsApiQuery({ page: currentPage, per_page: perPage, search: searchText });
 
-  const { data, isLoading, refetch } = useGetDashboardContibutorsApiQuery({search:searchText, status:selectValue, per_page:perPage, page:currentPage});
+  const { data, isLoading, refetch } = useGetDashboardContibutorsApiQuery({ search: searchText, status: selectValue, per_page: perPage, page: currentPage });
   const { data: singleData } = useSingleGetDashboardContibutorsApiQuery({ id: selectId })
   const { data: singleContAuction } = useSingleGetDashboardContibutorsAuctionApiQuery({ auction_id: singleAuctionId })
 
@@ -47,6 +48,9 @@ const Contributors = () => {
     contibutorActionStatus.push(item.status)
 
   })
+
+  console.log(singleData)
+
 
 
   // ============== modal one start =========
@@ -79,20 +83,24 @@ const Contributors = () => {
   };
   // ============== modal two end  =============
 
-  // {max_bit_online, status, payment_status }
-  // {auction_ title,profile,name,image,email,donate_share,description,contact_number,city,address,}
-  // {user_  email,image,name  }
 
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
-      render: (_, record) => record?.auction?.name,
+      render: (_, record) => {
+        return (
+          <div className="flex items-center gap-2">
+            <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${record?.user?.image}`} alt="" className="w-[40px] h-[40px] rounded-full" />
+            <p>{record?.user?.name}</p>
+          </div>
+        )
+      }
     },
     {
       title: "Email",
       dataIndex: "email",
-      render: (_, record) => record?.auction?.email,
+      render: (_, record) => record?.user?.email,
     },
     {
       title: "Contact number",
@@ -105,9 +113,8 @@ const Contributors = () => {
       render: (_, record) => record?.auction?.city,
     },
     {
-      title: "Donate",
-      dataIndex: "donate_share",
-      render: (_, record) => record?.auction?.donate_share,
+      title: "Max Bit",
+      dataIndex: "max_bit_online",
     },
     {
       title: "Payment status",
@@ -133,20 +140,23 @@ const Contributors = () => {
     },
   ]
 
-  const handleSelect = (value) => {
-    stetSelectValue(value)
+  const handleSelect = (e) => {
+    stetSelectValue(e.target.value)
   };
 
-
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
-    // stetSelectValue(e.target.value)
-    setCurrentPage(1); // Reset to the first page whenever the search term changes
-  };
 
   useEffect(() => {
     refetch(); // Refetch the data when searchText, currentPage, or perPage changes
   }, [searchText, selectValue, currentPage, perPage, refetch]);
+
+
+  useEffect(() => {
+    document.body.style.overflow =
+      modalOne || modalTwo || modalThree
+        ? "hidden"
+        : "auto";
+  }, [modalOne, modalTwo, modalThree ]);
+
 
 
   if (isLoading) return <CustomLoading />
@@ -154,38 +164,36 @@ const Contributors = () => {
     <div className="bg-[#1B2324] p-[20px] rounded-lg">
       <div>
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-3 pb-8">
-          <div className="flex flex-col md:flex-row md:items-center gap-2">
+          <div className="flex flex-col md:flex-row md:items-center gap-8">
             <h2 className="font-semibold font-roboto text-[30px] text-[#ffffff]">
               Manage contributors
             </h2>
             <div>
-             <Select
-                showSearch
-                placeholder="Volunteer"
-                style={{
-                  width: "100%",
-                  height: "30px",
-              
-                }}
-                options={[
-                  { value: "Pending", label: "Pending" },
-                  { value: "Approved", label: "Approved" },
-                  { value: "Suspended", label: "Suspended" },
-                ]}
-                dropdownStyle={{ background: "rgba(255, 255, 255, 0.24)"}}
+              <select name="" id=""
+                value={selectValue}
                 onChange={handleSelect}
-              />
+                className="w-[120px] p-2 rounded bg-gray-200">
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Suspended">Suspended</option>
+              </select>
             </div>
           </div>
 
           <div>
-            <Input.Search
-              placeholder="Search user name"
-              className="custom-search"
-              value={searchText} // Controlled value for the input
-              onChange={handleSearchChange} // Handle search input change
-              enterButton
-            />
+            <div className="relative w-fit">
+              <input
+                type="search"
+                id="gsearch"
+                name="gsearch"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                placeholder="Search user name"
+                className="bg-[#1B2324] text-[#ffff] border px-4 py-2 pl-10 rounded-md w-[300px]"
+              />
+              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#ffff]" />
+            </div>
+
           </div>
         </div>
 
@@ -212,7 +220,7 @@ const Contributors = () => {
             width={600}
             footer={null}
           >
-            <div>
+            <div >
               <div className="flex gap-3 border-b border-gray-600 pb-4">
                 <div className="">
                   <img
@@ -245,9 +253,10 @@ const Contributors = () => {
               </div>
 
               {/* view section */}
-              <div className=" pb-4 space-y-6">
+              <div style={{ maxHeight: '400px', overflowY: 'auto', }} className=" pb-4 space-y-6">
                 {
                   contibutorActionData?.map((item, index) => {
+                    console.log(item)
                     return (
                       <div className="" key={index}>
                         <div className="flex justify-between">
@@ -258,12 +267,12 @@ const Contributors = () => {
                             <div className="flex items-center gap-2 text-[#A6ABAC]">
                               <span>Price range: ${item?.start_budget} - ${item?.end_budget}</span>
                               <div className="w-2 h-2 rounded-full bg-gray-700"></div>
-                              <span className="text-red-500">dynamic status asba</span>
+                              <span className="">{item?.status}</span>
                             </div>
                           </div>
                           <div
                             onClick={() => showModalTwo(item.id)}
-                            className="cursor-pointer text-[#1890FF] font-semibold"
+                            className="cursor-pointer text-[#1890FF] font-semibold mr-3"
                           >
                             View
                           </div>
@@ -291,7 +300,7 @@ const Contributors = () => {
           >
             <div>
               <div className="flex justify-between gap-4">
-                <div>
+                <div className="w-[50%]">
                   <h2 className="text-[24px] md:text-[48px] text-[#ffff] ">
                     {singleContibutorAuction?.title}
                   </h2>
@@ -334,7 +343,7 @@ const Contributors = () => {
                   <div className="flex  items-center gap-2 pt-[24px]">
                     <div>
                       <img
-                        src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${userData?.profile}`}
+                        src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleContibutorAuction?.image}`}
                         alt="photo"
                         className="object-cover w-[40px] h-[40px] rounded-full"
                         onError={(e) => {
@@ -351,6 +360,17 @@ const Contributors = () => {
                     </div>
                   </div>
 
+                  <div className="space-y-2 py-6 text-[#fff]">
+                    <p><span className="font-semibold">Contact Number</span> : {singleContibutorAuction?.contact_number}</p>
+
+                    <p><span className="font-semibold">City</span> : {singleContibutorAuction?.city}</p>
+
+                    <p><span className="font-semibold">Address</span> : {singleContibutorAuction?.address}</p>
+
+
+                    {/* <p><span className="font-semibold">Update Date</span> : {formatDate(singleContibutorAuction.updated_at)}</p> */}
+                  </div>
+
                   <div className="bg-[#4B5557] text-[#ffffff] p-4 rounded-lg max-w-[433px] mt-4">
                     <p>
                       {singleContibutorAuction?.description}
@@ -360,16 +380,16 @@ const Contributors = () => {
                   <div className="pt-4">
                     <h1 className="text-[30px] font-bold text-[#FFFFFF] flex items-center gap-2">
                       $ {singleContibutorAuction?.donate_share}
-                      <span className="text-[16px] font-normal">(12 bid)</span>
+
                     </h1>
                   </div>
                 </div>
 
-                <div>
+                <div className="w-[50%]">
                   <img
                     src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${userData?.image}`}
                     alt="photo"
-                    className="object-cover "
+                    className="object-cover"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = '/dashboardPhoto/contributors/photo1.png';

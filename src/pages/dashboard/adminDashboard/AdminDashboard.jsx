@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useGetNotificationApiQuery } from "../../../redux/dashboardFeatures/dashboardNotificationApi";
 import CustomLoading from "../shared/CustomLoading";
 import { useGetDashboardAdminProfileApiQuery } from "../../../redux/dashboardFeatures/dashboardAdminProfileApi";
+import { CircleGauge } from "lucide-react";
 const { Header, Sider, Content } = Layout;
 
 const AdminDashboard = () => {
@@ -19,6 +20,11 @@ const AdminDashboard = () => {
 
   const allNotifacitionData = data?.data
   const profileData = profile?.data
+
+
+const unreadNotifications = allNotifacitionData?.filter(item => item.read_at === null);
+
+
 
 
 
@@ -200,6 +206,11 @@ const AdminDashboard = () => {
         </svg>
       ),
       label: "Transaction",
+    },
+    {
+      key: "/admin/dashboard/service-book",
+      icon: <img src="/serviceBook.png" alt="" className="w-[18px]"/>,
+      label: "Service Book",
     },
     {
       key: "/admin/dashboard/podcast-stories",
@@ -426,13 +437,13 @@ const AdminDashboard = () => {
             <img src="/dashboardPhoto/dashboardLogo.png" alt="website logo" />
             <h2>Virtue Hope</h2>
           </div>
-          <div className="md:flex items-center justify-between gap-2 hidden">
+          <div className="md:flex items-center justify-between gap-6 hidden">
 
             {/* notification count compontnt */}
             <div onClick={handleNotification} className="relative cursor-pointer">
               <svg
-                width="34"
-                height="34"
+                width="50"
+                height="50"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -442,9 +453,9 @@ const AdminDashboard = () => {
                   fill="white"
                 />
               </svg>
-              <p className="absolute -top-2 
+              <p className="absolute left-6 top-0 
                bg-red-500 w-6 h-6 rounded-full flex justify-center items-center text-xs">
-                {allNotifacitionData?.length}
+                {unreadNotifications?.length}
               </p>
             </div>
              <div onClick={handleProfile} className="cursor-pointer">
