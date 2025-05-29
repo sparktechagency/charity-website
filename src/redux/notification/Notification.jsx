@@ -13,7 +13,12 @@ const Notification = () => {
 
     const allNotifacitionData = data?.data
 
-
+    // ✅ Sort notifications: read first
+    const sortedNotifications = allNotifacitionData?.slice().sort((a, b) => {
+        if (a.read_at && !b.read_at) return -1;
+        if (!a.read_at && b.read_at) return 1;
+        return 0;
+    });
 
 
     const handleReadAll = async () => {
@@ -90,12 +95,12 @@ const Notification = () => {
                 <button onClick={handleReadAll} className="bg-gray-400 text-black px-8 py-2 rounded-lg hover:bg-gray-200 hover:border-none text-xl font-roboto">Read all</button>
             </div>
             {
-                allNotifacitionData?.map((item, index) => {
+                sortedNotifications?.map((item, index) => {
                     return (
                         <div
                             key={index}
                             onClick={() => handleSingleRed(item)}
-                            className={`cursor-pointer rounded-lg mb-4 p-4 ${item?.read_at === null ? 'bg-[#1b232423] ' : 'bg-[#1B2324] text-[#ffff] border-none '
+                            className={`cursor-pointer rounded-lg mb-4 p-4 ${item?.read_at === null ? 'bg-[#1B2324]' : ' bg-[#1b232423] text-[#ffff] border-none '
                                 }`}
                         >
                             <div>
