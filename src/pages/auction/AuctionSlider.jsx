@@ -332,9 +332,9 @@ const AuctionSlider = () => {
   const handleBidSubmit = async (index, bidPrice) => {
 
     try {
-      // if (!token) {
-      //   return setOpenLoginModal(true); // Require login
-      // }
+      if (!token) {
+        return setOpenLoginModal(true); // Require login
+      }
       setLoading(true);
       const auctionId = sliderData[index]?.id;
 
@@ -472,31 +472,11 @@ const AuctionSlider = () => {
   if (sliderData.length === 0) {
     return (
       <div>
-        <motion.div
-          className="flex h-[50vh] w-full items-center justify-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <motion.div
-            className="flex flex-col items-center text-center gap-4"
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{
-              repeat: Infinity,
-              repeatType: "reverse",
-              duration: 1.5,
-            }}
-          >
-            <Loader2 className="animate-spin text-[#403730] w-10 h-10" />
-            <h1 className="text-2xl font-semibold text-[#403730]">
-              Loading Auction data...
-            </h1>
-            <p className="text-gray-500 text-sm max-w-xs">
-              Please wait while we fetch the data
-            </p>
-          </motion.div>
-        </motion.div>
+        <div className="flex items-center justify-center w-full">
+          <h1 className="w-full text-center text-[#403730] text-lg font-semibold py-2">
+            Data not found
+          </h1>
+        </div>
       </div>
     );
   }
