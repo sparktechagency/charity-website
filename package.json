@@ -43,7 +43,7 @@
     "react-to-pdf": "^2.0.0",
     "recharts": "^2.15.3",
     "slick-carousel": "^1.8.1",
-    "sweetalert2": "^11.21.1",
+    "sweetalert2": "^11.22.0",
     "swiper": "^11.2.5",
     "vercel": "^41.4.1",
     "wavesurfer.js": "^7.9.4"

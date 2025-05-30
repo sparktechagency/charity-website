@@ -41,6 +41,7 @@ import RegistrationForm from "../components/client/RegistrationForm/Registration
 import Notification from "../redux/notification/Notification";
 import AudioPlayer from "../components/audio-player/AudioPlayer";
 import ServiceBook from "../pages/dashboard/adminDashboard/serviceBook/ServiceBook";
+import PaymentList from "../components/client/payment-list/PaymentList";
 
 
 export const router = createBrowserRouter([
@@ -126,8 +127,8 @@ export const router = createBrowserRouter([
     element: <RegistrationForm />
   },
   {
-    path : "/stripe-from",
-    element : <StripeForm></StripeForm>
+    path: "/stripe-from",
+    element: <StripeForm></StripeForm>
   },
 
   // admin dashboard routes here
@@ -190,8 +191,8 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path : "/audio",
-    element : <AudioPlayer></AudioPlayer>
+    path: "/audio",
+    element: <AudioPlayer></AudioPlayer>
   },
 
   //=================== Dashboard Authentication ================
@@ -212,4 +213,8 @@ export const router = createBrowserRouter([
     path: "/admin/dashboard/create-new-password",
     element: <DashboardCreateNewPassword />,
   },
+  {
+    path: "/payment-list",
+    element: <PaymentList></PaymentList>
+  }
 ]);

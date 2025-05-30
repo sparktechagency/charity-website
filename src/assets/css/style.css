@@ -1,0 +1,13 @@
+input#name {
+  color: black !important ;
+  /* background-color: red; */
+  background-color: white;
+}
+
+
+input#email {
+  color: black !important ;
+}
+svg {
+    color: black;
+}

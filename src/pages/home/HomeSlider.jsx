@@ -479,9 +479,9 @@ const HomeSlider = () => {
         return;
       }
 
-      if(!token){
-        return setOpenLoginModal(true);
-      }
+      // if(!token){
+      //   return setOpenLoginModal(true);
+      // }
 
       const res = await axiosPublic.post(`/bit-contributor?auction_id=${auctionId}`, {
         bit_online: bidPrice,
