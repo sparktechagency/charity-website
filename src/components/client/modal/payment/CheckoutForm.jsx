@@ -1,15 +1,14 @@
 import {
   useStripe,
   useElements,
-  CardNumberElement,
-  CardExpiryElement,
-  CardCvcElement,
+  PaymentElement,
 } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
-import { message as antMessage } from 'antd';
+import { message } from "antd";
 import axios from "axios";
+import Swal from 'sweetalert2'; 
 
 const CheckoutForm = ({ clientSecret, userDetails, paymentId }) => {
   const axiosPublic = useAxiosPublic();
@@ -17,150 +16,89 @@ const CheckoutForm = ({ clientSecret, userDetails, paymentId }) => {
   const elements = useElements();
   const navigate = useNavigate();
 
-  const [message, setMessage] = useState(null);
+  const [formMessage, setFormMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [cardErrors, setCardErrors] = useState({ number: "", expiry: "", cvc: "" });
+  const [loading, setLoading] = useState(false);
 
 
-  const [loading, setLoading] = useState(false)
-  console.log(` checkout page clientSecret is ${clientSecret} `)
-
-  const handlePaypalPayment = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.post(
-        `http://137.59.180.219:8000/api/create-paypal-payment-intent?amount=${userDetails.amount}&currency=USD`
-      );
-
-      const approvalLink = res?.data?.approve_link;
-
-      if (approvalLink) {
-        window.location.href = approvalLink;
-      } else {
-        console.error("PayPal approval link not found in response.");
-      }
-    } catch (error) {
-      console.error("Error creating PayPal payment intent:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!stripe || !elements) return;
-
-    setIsLoading(true);
-    setMessage(null);
-
-    const cardNumber = elements.getElement(CardNumberElement);
-    const cardExpiry = elements.getElement(CardExpiryElement);
-    const cardCvc = elements.getElement(CardCvcElement);
-
-    if (!cardNumber || !cardExpiry || !cardCvc) {
-      setMessage("Please fill in all card details.");
-      setIsLoading(false);
+    if (!stripe || !elements) {
+      setFormMessage("Stripe not loaded yet.");
       return;
     }
 
-    try {
-      // Step 1: Confirm Stripe Payment
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+    setIsLoading(true);
+    setFormMessage(null);
 
-        payment_method: {
-          card: cardNumber,
+    try {
+      const { error, paymentIntent } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: window.location.href, // Optional: redirect on success
         },
+        redirect: "if_required",
       });
 
-      console.log(`error is J${JSON.stringify(error)}`)
+      const paymentTypeLocal = paymentIntent?.payment_method_types?.[0]; // ✅ Use local variable
 
       if (error) {
-        setMessage(error.message ?? "An unexpected error occurred.");
+        setFormMessage(error.message ?? "An unexpected error occurred.");
         return;
       }
 
       if (paymentIntent?.status === "succeeded") {
-        // Step 2: Call your backend only after payment success
-        const res = await axiosPublic.post(`/donate-money`, {
-          transaction_id: paymentId,
-          payment_type: userDetails.payment_type,
-          donation_type: userDetails?.donation_type,
-          frequency: userDetails?.frequency,
-          name: userDetails?.name,
-          email: userDetails?.email,
-          remark: userDetails?.remark,
-          amount: userDetails?.amount,
-          phone_number: userDetails?.phone_number,
-          payment_gatway: "stripe",
-        });
+        try {
+          const res = await axiosPublic.post(`/donate-money`, {
+            transaction_id: paymentId,
+            payment_type: paymentTypeLocal,
+            donation_type: userDetails?.donation_type,
+            frequency: userDetails?.frequency,
+            name: userDetails?.name,
+            email: userDetails?.email,
+            remark: userDetails?.remark,
+            amount: userDetails?.amount,
+            phone_number: userDetails?.phone_number,
+            payment_gatway: "stripe",
+          });
 
-        console.log("Donation recorded:", res);
-        navigate("/");
-        return antMessage.success("Donation successful.");
+          console.log("Donation recorded:", res);
+          navigate("/");
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Pyament successfull",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          return;
+        } catch (error) {
+          console.error("Error saving donation:", error);
+          message.error("Payment succeeded, but failed to save donation record.");
+        }
       }
     } catch (err) {
       console.error("Error during checkout:", err);
-      setMessage("Something went wrong while processing your payment.");
+      setFormMessage("Something went wrong while processing your payment.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleElementChange = (field) => (event) => {
-    setCardErrors((prev) => ({
-      ...prev,
-      [field]: event.error ? event.error.message : "",
-    }));
-  };
-
-  const stripeStyleOptions = {
-    style: {
-      base: {
-        fontSize: "16px",
-        color: "#32325d",
-        "::placeholder": {
-          color: "#a0aec0",
-        },
-      },
-      invalid: {
-        color: "#fa755a",
-      },
-    },
-  };
-
-  console.log(`checkout page paymentid is ${paymentId}`)
-
   return (
     <div className="max-w-4xl mx-auto">
-      <form onSubmit={handleSubmit} className="w-full border p-6 rounded-md shadow-md bg-white flex flex-col gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full border p-6 rounded-md shadow-md bg-white flex flex-col gap-4"
+      >
         <div>
-          <label className="text-sm font-medium text-gray-700">Card Number</label>
-          <CardNumberElement
-            className="p-2 border rounded"
-            options={stripeStyleOptions}
-            onChange={handleElementChange("number")}
-          />
-          {cardErrors.number && <p className="text-red-500 text-sm mt-1">{cardErrors.number}</p>}
-        </div>
-
-        <div>
-          <label className="text-sm font-medium text-gray-700">Expiry Date</label>
-          <CardExpiryElement
-            className="p-2 border rounded"
-            options={stripeStyleOptions}
-            onChange={handleElementChange("expiry")}
-          />
-          {cardErrors.expiry && <p className="text-red-500 text-sm mt-1">{cardErrors.expiry}</p>}
-        </div>
-
-        <div>
-          <label className="text-sm font-medium text-gray-700">CVC</label>
-          <CardCvcElement
-            className="p-2 border rounded"
-            options={stripeStyleOptions}
-            onChange={handleElementChange("cvc")}
-          />
-          {cardErrors.cvc && <p className="text-red-500 text-sm mt-1">{cardErrors.cvc}</p>}
+          <label className="text-sm font-medium text-gray-700">
+            Card Details
+          </label>
+          <div className="p-2 border rounded">
+            <PaymentElement />
+          </div>
         </div>
 
         <button
@@ -171,16 +109,12 @@ const CheckoutForm = ({ clientSecret, userDetails, paymentId }) => {
           {isLoading ? "Processing..." : "Payment Now"}
         </button>
 
-
-        {message && <div className="text-red-500 text-center mt-2">{message}</div>}
+        {formMessage && (
+          <div className="text-red-500 text-center mt-2">{formMessage}</div>
+        )}
       </form>
-      <button
-        disabled={loading}
-        onClick={handlePaypalPayment}
-        className="w-full sm:w-[200px] bg-[#403730] hover:bg-[#27221D] py-3 text-white font-bold rounded-md my-5 ml-7"
-      >
-        {loading ? "Processing..." : "Paypal payment"}
-      </button>
+
+
     </div>
   );
 };

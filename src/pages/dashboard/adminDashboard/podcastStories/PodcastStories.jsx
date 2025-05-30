@@ -859,7 +859,7 @@ const PodcastStories = () => {
           <div className="">
             <h3 className="text-lg font-semibold py-2">Episodes</h3>
             <div className="space-y-3">
-              {allPodcastData.map((podcast, index) => (
+              {allPodcastData?.map((podcast, index) => (
                 <div
                   key={index}
                   onClick={() => setSelectedPodcast(podcast)}

@@ -10,7 +10,8 @@ import SupportModal from "../client/modal/support-modal/SupportModal";
 import LoginForm from "../client/login/LoginFrom";
 import useAxiosPublic from "../../pages/hooks/useAxiosPublic";
 import ProfileCard from "../client/profile-card/ProfileCard";
-
+import { imgUrl } from "../../helper/imgUrl";
+import { MdOutlineMenu } from "react-icons/md";
 const Navbar = () => {
   // api and token related function start
   const [profileData, setProfileData] = useState({});
@@ -43,7 +44,9 @@ const Navbar = () => {
       }
     };
     fetchData();
-  }, [profileData]);
+  }, []);
+
+  console.log(profileData)
 
   // profile card modal 
 
@@ -156,6 +159,12 @@ const Navbar = () => {
   }, []);
 
 
+  const closeUserDetailsModal = () => {
+    console.log(`modal close`)
+    setPaymentModal(false)
+  }
+
+
 
 
 
@@ -244,6 +253,17 @@ const Navbar = () => {
           )}
         </div>
 
+        <div className=" mr-5 " >
+          {
+            isLoggedIn && <>
+
+              <h1> {profileData?.full_name} </h1>
+
+
+            </>
+          }
+        </div>
+
         <button
           onClick={openSupportModal}
           className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
@@ -252,13 +272,16 @@ const Navbar = () => {
         </button>
 
         {/* Mobile Menu Button */}
-        <button onClick={toggleDrawer} className="lg:hidden">
-          <MenuOutlined className="text-2xl text-[#263234]" />
+        <button onClick={toggleDrawer} className="lg:hidden  ">
+          <MdOutlineMenu className="text-2xl text-black " />
         </button>
 
         {/* Ant Design Drawer */}
 
         <Drawer
+          style={{
+            backgroundColor: "white"
+          }}
           placement="right"
           onClose={toggleDrawer}
           open={open}
@@ -271,7 +294,7 @@ const Navbar = () => {
                 <NavLink
                   to={`/${item.path}`}
                   className={({ isActive }) =>
-                    `text-sm block py-3 px-4 transition-all ${isActive ? "font-bold bg-[#e6dede]" : "text-[#263234]"
+                    `text-sm block py-3 px-4 transition-all ${isActive ? "font-bold bg-[#e6dede] text-white " : "text-black"
                     }`
                   }
                   onClick={toggleDrawer}
@@ -305,10 +328,10 @@ const Navbar = () => {
                 }
                 trigger={["hover"]}
               >
-                <div className="cursor-pointer bg-white ">
+                <div className="cursor-pointer border-green-900  ">
                   <img
-                    className="w-10 h-10 object-cover bg-white! rounded-full  "
-                    src={`http://137.59.180.219:8000/${profileData?.image || "default-image/defaultImage.jpg"
+                    className="w-10 h-10 object-cover border border-green-900  rounded-full  "
+                    src={`${imgUrl}/${profileData?.image || "default-image/defaultImage.jpg"
                       }`}
                     alt="Profile"
                   />
@@ -317,12 +340,22 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={openLoginModal}
-                className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
+                className="block lg:hidden px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
               >
                 Login
               </button>
             )}
+            {
+              isLoggedIn && <>
+
+                <h1> {profileData?.full_name} </h1>
+
+
+              </>
+            }
           </div>
+
+
 
           <button
             onClick={openSupportModal}
@@ -362,16 +395,19 @@ const Navbar = () => {
 
       <Modal
         open={paymentModal}
+        onCancel={closeUserDetailsModal}
         footer={null}
-        closable={false}
+        closable={true}
+        maskClosable={false}
         centered
-        width="400px"
-        style={{ padding: "15px", top: 0 }}
+        width="50%"
       >
-        <PaymentModal
-          setPaymentModal={setPaymentModal}
-          setSupportModal={setSupportModal}
-        />
+        <div style={{ padding: "15px" }}>
+          <PaymentModal
+            setPaymentModal={setPaymentModal}
+            setSupportModal={setSupportModal}
+          />
+        </div>
       </Modal>
 
       {/* Payment Modal end */}

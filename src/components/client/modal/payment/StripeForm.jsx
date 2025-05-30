@@ -7,20 +7,21 @@ import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
 
 // Your Stripe publishable key
 const stripePromise = loadStripe(
-  "pk_test_51RRV3sGaj33uXsOfuinFKoDgdWMXKBC2CfDPYmBjjUDP20DZELgzjQnVMjcQG3PUqH13wnxKwFQlcHcu1TIaFhcQ00cZSyR4rv"
+  "pk_test_51RLzuUIhiULC1yH1gy4jvSMN6O2fD12JG5XTSgOkBp23Y8RU9ulC04BeQbQPV74II3tFKL80MNv8T7cdZcsw8zCx00amoqzOkX"
 );
 
 const StripeForm = () => {
   const location = useLocation();
   const userPayload = location.state;
+  console.log(`user payload is ${userPayload}`)
   const userDetails = {
     amount: Number(userPayload.amount),
     donation_type: userPayload.donation_type,
     email: userPayload.email,
     frequency: userPayload.frequency,
     name: userPayload.name,
-    payment_type: userPayload.payment_type,
-    remark: userPayload.remark
+    remark: userPayload.remark,
+    phone_number: userPayload.phone_number
   }
   console.log(typeof `stripe from payload is ${userDetails.amount}`);
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const StripeForm = () => {
 
     const url = `http://137.59.180.219:8000/api/create-payment-intent?amount=${userPayload.amount}&payment_method=pm_card_visa`;
 
+
     fetch(url, {
       method: "POST",
       headers: {
@@ -42,12 +44,14 @@ const StripeForm = () => {
       // No body needed for this API
     })
       .then((res) => {
+
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }
         return res.json();
       })
       .then((data) => {
+        console.log(`stripe data is ${data?.data}`)
         setClientSecret(data?.data?.client_secret);
         setPaymentId(data?.data?.id)
       })
