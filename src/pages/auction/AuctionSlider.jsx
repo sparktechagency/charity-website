@@ -332,9 +332,9 @@ const AuctionSlider = () => {
   const handleBidSubmit = async (index, bidPrice) => {
 
     try {
-      if (!token) {
-        return setOpenLoginModal(true); // Require login
-      }
+      // if (!token) {
+      //   return setOpenLoginModal(true); // Require login
+      // }
       setLoading(true);
       const auctionId = sliderData[index]?.id;
 
@@ -403,7 +403,7 @@ const AuctionSlider = () => {
 
     console.log(selectedBids[index])
 
-    handleBidSubmit(index, selectedBids[index]); // 👈 Call API with selected custom bid
+    // handleBidSubmit(index, selectedBids[index]); // 👈 Call API with selected custom bid
   };
 
   // 2nd modal end
@@ -810,11 +810,11 @@ const AuctionSlider = () => {
                               Bid online
                             </button>
                             <button className=" flex items-center bg-[#403730] text-white " onClick={() => handleBidToggle(index)}  >
-                              <Gavel className="w-4 h-4" />
+                              <Gavel className="w-4 h-4 text-white " />
                               {showBids[index] ? (
-                                <ChevronUp className="w-4 h-4" />
+                                <ChevronUp className="w-4 h-4 text-white fill-white" />
                               ) : (
-                                <ChevronDown className="w-4 h-4" />
+                                <ChevronDown className="w-4 h-4 text-white  " />
                               )}
                             </button>
                           </div>
