@@ -212,57 +212,54 @@ const Navbar = () => {
 
         {/* Login Button (Desktop Only) */}
 
-        <div className="hidden lg:flex bg-white items-center">
+        <div className="hidden lg:flex items-center space-x-4 relative  ">
           {isLoggedIn ? (
-            <Dropdown
-              overlay={
-                <Menu>
-                  <Menu.Item key="profile">
-                    <button
-                      onClick={openProfileCardModal}
-                      className="w-full text-left"
-                    >
-                      Profile
-                    </button>
-                  </Menu.Item>
-                  <Menu.Item key="logout">
-                    <button onClick={handleLogout} className="w-full text-left">
-                      Logout
-                    </button>
-                  </Menu.Item>
-                </Menu>
-              }
-              trigger={["hover"]}
-            >
-              <div className="cursor-pointer bg-white ">
-                <img
-                  className="w-10 h-10 object-cover bg-white! rounded-full  "
-                  src={`http://137.59.180.219:8000/${profileData?.image || "default-image/defaultImage.jpg"
-                    }`}
-                  alt="Profile"
-                />
-              </div>
-            </Dropdown>
+            <>
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item key="profile">
+                      <button
+                        onClick={openProfileCardModal}
+                        className="w-full text-left"
+                      >
+                        Profile
+                      </button>
+                    </Menu.Item>
+                    <Menu.Item key="logout">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left"
+                      >
+                        Logout
+                      </button>
+                    </Menu.Item>
+                  </Menu>
+                }
+                trigger={["hover"]}
+              >
+                <div className="cursor-pointer">
+                  <img
+                    className="w-10 h-10 object-cover rounded-full"
+                    src={`http://137.59.180.219:8000/${profileData?.image || "default-image/defaultImage.jpg"
+                      }`}
+                    alt="Profile"
+                  />
+                </div>
+              </Dropdown>
+
+              <h1 className="text-sm font-semibold">{profileData?.full_name}</h1>
+            </>
           ) : (
             <button
               onClick={openLoginModal}
-              className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
+              className="px-4 py-2.5 text-sm font-medium rounded-md bg-[#403730] text-white hover:opacity-90"
             >
               Login
             </button>
           )}
         </div>
 
-        <div className=" mr-5 " >
-          {
-            isLoggedIn && <>
-
-              <h1> {profileData?.full_name} </h1>
-
-
-            </>
-          }
-        </div>
 
         <button
           onClick={openSupportModal}
