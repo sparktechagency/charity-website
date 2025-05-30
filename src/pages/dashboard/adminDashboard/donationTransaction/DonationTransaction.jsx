@@ -102,6 +102,10 @@ const DonationTransaction = () => {
                 dataIndex: "currency",
               },
               {
+                title: "Payment Gatway",
+                dataIndex: "payment_gatway",
+              },
+              {
                 title: "Payment status",
                 dataIndex: "payment_status",
                 render: (_, record) => (
@@ -112,7 +116,7 @@ const DonationTransaction = () => {
                   </Space>
                 ),
               },
-               {
+              {
                 title: "Created Date",
                 dataIndex: "created_at",
                 key: 'created_at',
@@ -164,6 +168,11 @@ const DonationTransaction = () => {
               <div className="border border-gray-600 rounded-md p-4 flex justify-between text-wrap">
                 <p>Payment Type</p>
                 <p>{viewDetails.payment_type}</p>
+              </div>
+
+              <div className="border border-gray-600 rounded-md p-4 flex justify-between text-wrap">
+                <p>Payment Gatway</p>
+                <p>{viewDetails.payment_gatway}</p>
               </div>
 
               <div className="border border-gray-600 rounded-md p-4 flex justify-between text-wrap">

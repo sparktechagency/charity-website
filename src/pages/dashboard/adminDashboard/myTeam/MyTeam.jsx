@@ -345,10 +345,10 @@ const MyTeam = () => {
         <div>
 
           {
-            allMyTeams.length > 0 ? (
+            allMyTeams?.length > 0 ? (
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 max-w-6xl mx-auto">
-                  {allMyTeams.map((item, index) => {
+                  {allMyTeams?.map((item, index) => {
                     return (
                       <div key={index} className="max-w-[308px] ">
                         <img

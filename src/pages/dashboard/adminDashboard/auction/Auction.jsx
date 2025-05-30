@@ -22,6 +22,8 @@ import toast from "react-hot-toast";
 import { usePDF } from 'react-to-pdf';
 import { useDeleteActionMutation, useGetActionQuery, useSingleGetActionQuery, useUpdateActionMutation, useUpdateActionTwoMutation } from "../../../../redux/dashboardFeatures/dashboardGetActionApi";
 import { FiSearch } from "react-icons/fi";
+import { useReactToPrint } from "react-to-print";
+import { useRef } from "react";
 
 
 
@@ -38,7 +40,8 @@ const Auction = () => {
   const [ImageFileListOne, setImageFileListOne] = useState([]);
   const [ImageFileListTwo, setImageFileListTwo] = useState([]);
 
-  const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' }); // pdf file download for
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
 
 
 
@@ -389,7 +392,7 @@ const Auction = () => {
               {
                 title: "Duration",
                 dataIndex: "duration",
-                render: (text) => text ?? "N/A",
+                render: (text) => (text ? `${text} day` : "N/A"),
               },
               {
                 title: "Donate Share",
@@ -507,11 +510,25 @@ const Auction = () => {
                     },
                   ]}>
                     <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }}
+                      onKeyDown={(e) => {
+                        const allowedKeys = [
+                          'Backspace',
+                          'ArrowLeft',
+                          'ArrowRight',
+                          'Delete',
+                          'Tab',
+                        ];
+                        const isNumberKey = /^[0-9]$/.test(e.key);
+
+                        if (!isNumberKey && !allowedKeys.includes(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </Form.Item>
                 </div>
 
-                {/* minimum budget */}
+                {/* minimum budgets */}
                 <div>
                   <p className="text-[#fff]">Minimum budget</p>
                   <Form.Item name="end_budget" rules={[
@@ -522,7 +539,22 @@ const Auction = () => {
                       message: 'Budget must be a positive number',
                     },
                   ]}>
-                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }}
+                      onKeyDown={(e) => {
+                        const allowedKeys = [
+                          'Backspace',
+                          'ArrowLeft',
+                          'ArrowRight',
+                          'Delete',
+                          'Tab',
+                        ];
+                        const isNumberKey = /^[0-9]$/.test(e.key);
+
+                        if (!isNumberKey && !allowedKeys.includes(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
                   </Form.Item>
                 </div>
                 {/* duration time */}
@@ -536,7 +568,22 @@ const Auction = () => {
                       message: 'Duration must be at least 1',
                     },
                   ]}>
-                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} 
+                       onKeyDown={(e) => {
+                        const allowedKeys = [
+                          'Backspace',
+                          'ArrowLeft',
+                          'ArrowRight',
+                          'Delete',
+                          'Tab',
+                        ];
+                        const isNumberKey = /^[0-9]$/.test(e.key);
+
+                        if (!isNumberKey && !allowedKeys.includes(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
                   </Form.Item>
                 </div>
               </Form>
@@ -594,7 +641,7 @@ const Auction = () => {
         >
 
           <div>
-            <div ref={targetRef} className="flex justify-between gap-4">
+            <div ref={contentRef} className=" flex justify-between gap-4">
               <div className="w-[50%]">
                 <h2 className="text-[24px] md:text-[38px]  ">
                   {/* {modalThreeData?.title} */}
@@ -688,16 +735,11 @@ const Auction = () => {
                 />
               </div>
             </div>
-            {
-              modalThreeData?.image && <div className="pt-8">
-                <a
-                  href={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${modalThreeData?.image}`}
-                  download="CV"
-                  className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg"
-                >Download Pdf</a>
-
-              </div>
-            }
+            <button
+              onClick={reactToPrintFn}
+              className="bg-[#ffff] text-[#403730] mt-4 py-2 px-6 rounded-lg">
+              PDF
+            </button>
 
           </div>
         </Modal>
@@ -835,7 +877,22 @@ const Auction = () => {
                 <div className="w-[50%]">
                   <p className="text-[#fff]">Contact number</p>
                   <Form.Item name="contact_number" >
-                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }}
+                      onKeyDown={(e) => {
+                        const allowedKeys = [
+                          'Backspace',
+                          'ArrowLeft',
+                          'ArrowRight',
+                          'Delete',
+                          'Tab',
+                        ];
+                        const isNumberKey = /^[0-9]$/.test(e.key);
+
+                        if (!isNumberKey && !allowedKeys.includes(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
                   </Form.Item>
                 </div>
 
@@ -843,7 +900,14 @@ const Auction = () => {
                 <div className="w-[50%]">
                   <p className="text-[#fff]">Donate share</p>
                   <Form.Item name="donate_share" >
-                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} />
+                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }}
+                      onKeyPress={(event) => {
+                        const charCode = event.charCode;
+                        if (charCode < 48 || charCode > 57) {
+                          event.preventDefault();
+                        }
+                      }}
+                    />
                   </Form.Item>
                 </div>
               </div>

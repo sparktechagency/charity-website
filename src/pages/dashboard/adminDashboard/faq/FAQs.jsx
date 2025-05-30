@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useDeleteDashboardFaqApiMutation, useGetDashboardFaqApiQuery, usePostDashboardFaqApiMutation, useUpdateDashboardFaqApiMutation } from "../../../../redux/dashboardFeatures/DashboardFaqApi";
 import { useState } from "react";
 import CustomLoading from "../../shared/CustomLoading";
+import Swal from "sweetalert2";
 
 
 
@@ -58,14 +59,27 @@ const FAQs = () => {
 
   // delete request
   const handleDelete = async (faqId) => {
-    try {
-      const res = await deleteFaq(faqId).unwrap();
-      if (res?.success === true) {
-        toast.success(res.message);
-        refetch() // refresh list after delete
+
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Deleted this Faq",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await deleteFaq(faqId).unwrap();
+        if (res?.success === true) {
+          toast.success(res.message);
+          refetch() // refresh list after delete
+        }
+      } catch (errors) {
+        toast.error(errors.message);
       }
-    } catch (errors) {
-      toast.error(errors.message);
     }
   };
 
