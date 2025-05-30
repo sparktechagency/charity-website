@@ -832,7 +832,7 @@ const HomeSlider = () => {
                           <div className="relative">
                             <img
                               src={`${imgUrl}/${slide?.image} `}
-                              className="lg:w-[500px] w-[100%] block mx-auto rounded-2xl lg:h-[690px] mb-6"
+                              className="lg:w-[530px] w-[100%] block mx-auto rounded-2xl lg:h-[690px] mb-6"
                               alt=""
                             />
                             <div className="absolute top-0 ml-3 mt-4 px-2 py-1 text-sm text-[#263234] bg-white rounded">

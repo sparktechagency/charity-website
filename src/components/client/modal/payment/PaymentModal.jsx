@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Radio, Form, Tabs, Input, Divider } from "antd";
+import { Button, Radio, Form, Tabs, Input, Divider, InputNumber } from "antd";
 import { FaCcMastercard } from "react-icons/fa";
 import StripeForm from "./StripeForm";
 import { useNavigate, useParams } from "react-router-dom";
@@ -73,9 +73,9 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
                       <Button
                         key={amount}
                         className={`border rounded-lg h-12 ${selectedAmount === amount
-                        ? "  text-white bg-blue-600 "
-                        : "bg-white"
-                        }`}
+                          ? "  text-white bg-blue-600 "
+                          : "bg-white"
+                          }`}
                         onClick={() => {
                           setSelectedAmount(amount);
                           setCustomAmount("");
@@ -84,15 +84,20 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
                         £{amount}
                       </Button>
                     ))}
-                    <Input
+                    <InputNumber
                       prefix="£"
-                      style={{ padding: "10px 20px", outline: "none" }}
-                      className=" placeholder:text-lg placeholder:text-[#818889] "
+                      style={{ padding: "10px 20px", outline: "none", width: "100%" }}
+                      className="placeholder:text-lg placeholder:text-[#818889]"
                       placeholder="Other"
-                      value={selectedAmount === "custom" ? customAmount : ""}
-                      onChange={(e) => {
+                      value={selectedAmount === "custom" ? customAmount : null}
+                      onChange={(value) => {
                         setSelectedAmount("custom");
-                        setCustomAmount(e.target.value);
+                        setCustomAmount(value);
+                      }}
+                      onKeyPress={(e) => {
+                        if (!/[0-9]/.test(e.key)) {
+                          e.preventDefault();
+                        }
                       }}
                     />
                   </div>
