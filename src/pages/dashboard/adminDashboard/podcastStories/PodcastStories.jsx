@@ -229,6 +229,9 @@ const PodcastStories = () => {
     }
   };
 
+  const handleUploadTwo = ({ fileList }) => {
+    setMp3FileList(fileList);
+  };
 
 
   //  default value show modal three
@@ -258,7 +261,6 @@ const PodcastStories = () => {
 
   // default value show modal for Five
   useEffect(() => {
-
     if (singlePodcast) {
       const guestImage = {
         uid: '-1',
@@ -307,7 +309,6 @@ const PodcastStories = () => {
       setMp3FileList([audioFile])
     }
   }, [singlePodcast]);
-
 
 
 
@@ -419,8 +420,8 @@ const PodcastStories = () => {
   const onFinishFive = async (values) => {
     setLoading(true);
 
+
     const formData = new FormData();
-    const fileObj = values?.mp3File?.originFileObj;
 
 
     //======= image file upload =======
@@ -435,13 +436,27 @@ const PodcastStories = () => {
       formData.append("thumbnail", ImageFileListThumbail[0].originFileObj);
     }
 
+    // === MP3 file upload (existing or new) ===
+    const newMp3File = values?.mp3File?.[0]?.originFileObj;
+    const existingMp3File = mp3FileList?.[0];
+
+    if (newMp3File) {
+      // new mp3 file uploaded
+      formData.append("mp3", newMp3File);
+    } else if (existingMp3File && existingMp3File?.url) {
+      // existing mp3 file, send the existing file path
+      const relativePath = existingMp3File.url.replace(
+        `${import.meta.env.VITE_API_IMAGE_BASE_URL}/`,
+        ""
+      );
+      formData.append("mp3", relativePath);
+    }
 
 
     formData.append("podcast_title", values.podcast_title)
     formData.append("host_title", values.host_title)
     formData.append("guest_title", values.guest_title)
     formData.append("description", values.description)
-    formData.append('mp3', mp3FileList[0]?.originFileObj || fileObj);
     formData.append("_method", "PUT");
 
 
@@ -1120,14 +1135,18 @@ const PodcastStories = () => {
             <div className="pt-6">
               <Form.Item
                 name="mp3File"
-                valuePropName="file"
-                getValueFromEvent={(e) => e && e.fileList[0]}
+                valuePropName="fileList"
+                getValueFromEvent={(e) => {
+                  // Ensure it returns fileList array
+                  if (Array.isArray(e)) return e;
+                  return e && e.fileList;
+                }}
 
               >
                 <Dragger
-                  beforeUpload={() => false}
+                  beforeUpload={() => false} // Prevents auto-upload
                   fileList={mp3FileList}
-                  onChange={handleUpload}
+                  onChange={handleUploadTwo}
                   accept=".mp3"
                   maxCount={1}
                   style={{

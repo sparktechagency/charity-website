@@ -49,7 +49,7 @@ const Contributors = () => {
 
   })
 
-  console.log(singleData)
+
 
 
 
@@ -224,7 +224,7 @@ const Contributors = () => {
               <div className="flex gap-3 border-b border-gray-600 pb-4">
                 <div className="">
                   <img
-                    src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${userData?.image}`}
+                    src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleData?.data?.auction?.image}`}
                     alt="login logo"
                     className="w-[40px] h-[40px] object-cover rounded-full"
                     onError={(e) => {
@@ -235,9 +235,9 @@ const Contributors = () => {
                 </div>
                 <div className="">
                   <h1 className="text-[24px] font-bold text-[#ffffff]">
-                    {userData?.name}
+                    {singleData?.data?.auction?.name}
                   </h1>
-                  <p className="text-[#D9D9D9]">{userData?.email}</p>
+                  <p className="text-[#D9D9D9]">{singleData?.data?.auction?.email}</p>
                 </div>
               </div>
 
@@ -256,13 +256,12 @@ const Contributors = () => {
               <div style={{ maxHeight: '400px', overflowY: 'auto', }} className=" pb-4 space-y-6">
                 {
                   contibutorActionData?.map((item, index) => {
-                    console.log(item)
                     return (
                       <div className="" key={index}>
                         <div className="flex justify-between">
                           <div>
                             <h2 className="text-[#ffffff]">
-                              Hearts & Bids Charity Auction for a Cause
+                              {item.title}
                             </h2>
                             <div className="flex items-center gap-2 text-[#A6ABAC]">
                               <span>Price range: ${item?.start_budget} - ${item?.end_budget}</span>
@@ -387,7 +386,7 @@ const Contributors = () => {
 
                 <div className="w-[50%]">
                   <img
-                    src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${userData?.image}`}
+                    src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleContibutorAuction?.profile}`}
                     alt="photo"
                     className="object-cover"
                     onError={(e) => {
