@@ -362,21 +362,6 @@ const Settings = () => {
 
 
 
-              <div>
-                <p className="font-roboto font-bold text-[#E9EBEB] text-[16px]">
-                  Email
-                </p>
-                <Form.Item
-                  name="email">
-                  <Input readOnly style={{
-                    border: "1px solid #B6B6BA",
-                    padding: "10px",
-                    backgroundColor: "transparent",
-                    color: "#ffffff",
-
-                  }} />
-                </Form.Item>
-              </div>
 
               <div>
                 <p className="font-roboto font-bold text-[#E9EBEB] text-[16px]">

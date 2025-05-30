@@ -16,6 +16,13 @@ const Footer = () => {
       return;
     }
 
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address!");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("email", email);
 
@@ -71,26 +78,26 @@ const Footer = () => {
               <p className="text-[#4B5557] my-2">86-90 Paul Street, London, EC2A 4NE</p>
               <p className="text-[#4B5557] my-2">Registered Company No.: 16173113</p>
               <p className="text-[#4B5557] my-2">Email: NoReply@virtuehope.com</p>
-              <div className=" flex items-center gap-x-3 mt-3 " >
-                {/* youtube  */}
-                <span>
-                  <Link to={"https://www.youtube.com/@VirtueHope"}><FaYoutube   className="text-black"  size={20} /></Link>
-                </span>
-                <span>
-                  <Link to={"https://www.instagram.com/virtue.hope/"}><FaInstagramSquare  className="text-black"  size={20} /></Link>
-                </span>
-                <span>
-                  <Link to={"https://www.tiktok.com/@virtuehopecic_"}><FaTiktok size={20}  className="text-black"  /></Link>
-                </span>
-                <span>
-                  <Link to={"https://www.facebook.com/profile.php?id=61575166415077"}><FaFacebookF  className="text-black"  size={20} /></Link>
-                </span>
-                <span>
-                  <Link to={"https://www.linkedin.com/in/virtue-hope-cic-078531360/"}><FaLinkedin  className="text-black"  size={20} /></Link>
-                </span>
-                <span>
-                  <Link to={"https://x.com/VirtueHopeCIC"}><IoLogoTwitter  className="text-black"  size={20} /></Link>
-                </span>
+
+              <div className="flex items-center gap-x-3 mt-3 justify-center lg:justify-start">
+                <Link to="https://www.youtube.com/@VirtueHope" aria-label="YouTube">
+                  <FaYoutube className="text-black hover:text-red-600 transition-colors" size={20} />
+                </Link>
+                <Link to="https://www.instagram.com/virtue.hope/" aria-label="Instagram">
+                  <FaInstagramSquare className="text-black hover:text-pink-500 transition-colors" size={20} />
+                </Link>
+                <Link to="https://www.tiktok.com/@virtuehopecic_" aria-label="TikTok">
+                  <FaTiktok className="text-black hover:text-gray-800 transition-colors" size={20} />
+                </Link>
+                <Link to="https://www.facebook.com/profile.php?id=61575166415077" aria-label="Facebook">
+                  <FaFacebookF className="text-black hover:text-blue-600 transition-colors" size={20} />
+                </Link>
+                <Link to="https://www.linkedin.com/in/virtue-hope-cic-078531360/" aria-label="LinkedIn">
+                  <FaLinkedin className="text-black hover:text-blue-700 transition-colors" size={20} />
+                </Link>
+                <Link to="https://x.com/VirtueHopeCIC" aria-label="Twitter/X">
+                  <IoLogoTwitter className="text-black hover:text-gray-600 transition-colors" size={20} />
+                </Link>
               </div>
             </div>
 
@@ -122,7 +129,7 @@ const Footer = () => {
             {/* Newsletter */}
             <div className="w-full lg:w-auto
             ml-6 text-center mt-3 lg:text-left">
-              <h2 className="text-[#263234] font-semibold text-sm">Stay Up to Date</h2>
+              {/* <h2 className="text-[#263234] font-semibold text-sm">Stay Up to Date</h2> */}
               <div className="flex flex-col lg:flex-row items-center gap-3 mt-4">
                 <input
                   type="email"

@@ -1,12 +1,13 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { usePostLoginMutation } from "../../../../redux/dashboardFeatures/postLoginApi";
 import toast from "react-hot-toast";
 
 const AdminDashboardLogin = () => {
+  const [errorMessage, setErrorMessage] = useState("")
   const [postLogin, { isLoading, isError, isSuccess }] = usePostLoginMutation();
   const [form] = useForm();
   const navigate = useNavigate();
@@ -27,9 +28,20 @@ const AdminDashboardLogin = () => {
         navigate("/admin/dashboard");
       }
     } catch (errors) {
-      toast.error(errors.data?.message);
+      setErrorMessage(errors.data?.message);
     }
   };
+
+
+  // Clear error message after 10 seconds
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage(null);
+      }, 1000); // 10000 ms = 10 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage]);
 
   return (
     <div className="flex justify-center items-center h-screen bg-[#171F20] px-2 md:px-0">
@@ -99,6 +111,7 @@ const AdminDashboardLogin = () => {
                 }}
               />
             </Form.Item>
+            <p className="text-red-500 font-semibold">{errorMessage}</p>
           </div>
 
           <div className=" pb-2 pr-1">
@@ -109,20 +122,6 @@ const AdminDashboardLogin = () => {
 
           {/* Submit Button */}
           <Form.Item>
-            {/* <Button
-              htmlType="submit"
-              className="w-full hover:!bg-[#ffffff6e] hover:!text-[#ffffff] transition-all duration-300"
-              style={{
-                backgroundColor: "#ffffff",
-                fontFamily: "Roboto",
-                fontWeight: "bold",
-                fontSize: "16px",
-                padding: "24px ",
-                marginLeft: "0px",
-              }}
-            >
-              Log in
-            </Button> */}
             <button type="submit" className="w-full rounded-md bg-[#ffff] hover:bg-[#ffffff6e] " style={{
               fontFamily: "Roboto",
               fontWeight: "bold",
