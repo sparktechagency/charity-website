@@ -54,10 +54,10 @@ const Faq = () => {
                           setOpenIndex(openIndex === index ? null : index)
                         }
                       >
-                        <p className="px-2 text-[#263234] text-lg sm:text-xl font-semibold mt-4 sm:mt-6">
-                          {item?.question}
+                        <p className="px-2 text-[#263234] text-lg sm:text-xl font-semibold -mt-3! sm:mt-6">
+                          {item?.question} 
                         </p>
-                        <span className="cursor-pointer">
+                        <span className="cursor-pointer mt-3 ">
                           {openIndex === index ? (
                             <svg
                               width="24"
