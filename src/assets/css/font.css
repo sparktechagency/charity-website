@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'Kind Sans';
+  src: url('/fonts/kind-sans/KindSans-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Kind Sans';
+  src: url('/fonts/kind-sans/KindSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Kind Sans';
+  src: url('/fonts/kind-sans/KindSans-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Kind Sans';
+  src: url('/fonts/kind-sans/KindSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}

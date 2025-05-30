@@ -2,6 +2,7 @@ import { Modal, Card, Avatar, Button } from "antd";
 import { EditOutlined, LogoutOutlined } from "@ant-design/icons";
 import UpdateProfile from "./UpdateProfile";
 import { useEffect, useState } from "react";
+import { imgUrl } from "../../../helper/imgUrl";
 
 const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
   // update profile modal
@@ -32,9 +33,8 @@ const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
         <div className="flex flex-col items-center -mt-12">
           <Avatar
             size={80}
-            src={`http://137.59.180.219:8000/${
-              profileData?.image || "default-image/defaultImage.jpg"
-            }`}
+            src={`${imgUrl}/${profileData?.image || "default-image/defaultImage.jpg"
+              }`}
             className="border-4 border-white shadow-md"
           />
 
@@ -45,16 +45,16 @@ const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
             {profileData?.email || "johndoe@example.com"}
           </p>
 
-          <div className="flex gap-4 mt-6">
+          <div className="flex lg:flex-row flex-col gap-4 mt-6">
             <Button
-              icon={<EditOutlined />}
+              icon={ <span className=" text-white " ><EditOutlined /></span> }
               onClick={openUpdateProfileModal}
               className="bg-btnColor border-none text-white  rounded-lg font-semibold"
             >
               Edit
             </Button>
             <Button
-              icon={<LogoutOutlined />}
+              icon={<span className=" text-white " ><LogoutOutlined /></span>}
               onClick={handleLogout}
               danger
               className="rounded-lg font-semibold border-none "
@@ -72,7 +72,7 @@ const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
         centered
         maskClosable={false}
       >
-        <UpdateProfile updateProfileModal = {updateProfileModal} setUpdateProfileModal = {setUpdateProfileModal} />
+        <UpdateProfile updateProfileModal={updateProfileModal} setUpdateProfileModal={setUpdateProfileModal} />
       </Modal>
     </>
   );

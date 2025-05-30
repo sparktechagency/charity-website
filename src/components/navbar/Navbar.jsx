@@ -190,7 +190,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden z-50 lg:flex">
+        <nav style={{ fontFamily: 'Kind Sans', fontWeight: 400 }} className="hidden z-50 lg:flex">
           <ul className="flex items-center gap-x-6 mt-1.5">
             {menuItems.map((item) => (
               <li key={item.path}>
@@ -212,59 +212,56 @@ const Navbar = () => {
 
         {/* Login Button (Desktop Only) */}
 
-        <div className="hidden lg:flex bg-white items-center">
+        <div className="relative lg:block hidden ">
           {isLoggedIn ? (
-            <Dropdown
-              overlay={
-                <Menu>
-                  <Menu.Item key="profile">
-                    <button
-                      onClick={openProfileCardModal}
-                      className="w-full text-left"
-                    >
-                      Profile
-                    </button>
-                  </Menu.Item>
-                  <Menu.Item key="logout">
-                    <button onClick={handleLogout} className="w-full text-left">
-                      Logout
-                    </button>
-                  </Menu.Item>
-                </Menu>
-              }
-              trigger={["hover"]}
-            >
-              <div className="cursor-pointer bg-white ">
-                <img
-                  className="w-10 h-10 object-cover bg-white! rounded-full  "
-                  src={`http://137.59.180.219:8000/${profileData?.image || "default-image/defaultImage.jpg"
-                    }`}
-                  alt="Profile"
-                />
-              </div>
-            </Dropdown>
+            <div className="flex flex-row gap-x-2 items-center">
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item key="profile">
+                      <button
+                        onClick={openProfileCardModal}
+                        className="w-full text-left"
+                      >
+                        Profile
+                      </button>
+                    </Menu.Item>
+                    <Menu.Item key="logout">
+                      <button onClick={handleLogout} className="w-full text-left">
+                        Logout
+                      </button>
+                    </Menu.Item>
+                  </Menu>
+                }
+                trigger={["hover"]}
+              >
+                <div className="cursor-pointer border-green-900">
+                  <img
+                    className="w-10 h-10 object-cover border border-green-900 rounded-full"
+                    src={`${imgUrl}/${profileData?.image || "default-image/defaultImage.jpg"}`}
+                    alt="Profile"
+                  />
+                </div>
+              </Dropdown>
+
+              <h1 className="text-sm font-medium font-kindsans text-black">{profileData?.full_name}</h1>
+            </div>
           ) : (
             <button
-              onClick={openLoginModal}
-              className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
+              onClick={() => {
+                closeDrawer(); // optional
+                openLoginModal();
+              }}
+              className="block lg:hidden px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
             >
               Login
             </button>
           )}
         </div>
 
-        <div className=" mr-5 " >
-          {
-            isLoggedIn && <>
-
-              <h1> {profileData?.full_name} </h1>
-
-
-            </>
-          }
-        </div>
 
         <button
+          style={{ fontFamily: 'Kind Sans' }}
           onClick={openSupportModal}
           className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
         >
@@ -306,8 +303,9 @@ const Navbar = () => {
           </ul>
 
           {/* Login Button in Drawer (Closes Drawer & Opens Modal) */}
-          <div className="">
-            {isLoggedIn ? (
+          <div className="relative lg:hidden block mt-4 ">
+          {isLoggedIn ? (
+            <div className="flex flex-row gap-x-2 items-center">
               <Dropdown
                 overlay={
                   <Menu>
@@ -328,32 +326,29 @@ const Navbar = () => {
                 }
                 trigger={["hover"]}
               >
-                <div className="cursor-pointer border-green-900  ">
+                <div className="cursor-pointer border-green-900">
                   <img
-                    className="w-10 h-10 object-cover border border-green-900  rounded-full  "
-                    src={`${imgUrl}/${profileData?.image || "default-image/defaultImage.jpg"
-                      }`}
+                    className="w-10 h-10 object-cover border border-green-900 rounded-full"
+                    src={`${imgUrl}/${profileData?.image || "default-image/defaultImage.jpg"}`}
                     alt="Profile"
                   />
                 </div>
               </Dropdown>
-            ) : (
-              <button
-                onClick={openLoginModal}
-                className="block lg:hidden px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
-              >
-                Login
-              </button>
-            )}
-            {
-              isLoggedIn && <>
 
-                <h1> {profileData?.full_name} </h1>
-
-
-              </>
-            }
-          </div>
+              <h1 className="text-sm font-medium font-kindsans text-black">{profileData?.full_name}</h1>
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                closeDrawer(); // optional
+                openLoginModal();
+              }}
+              className="block lg:hidden px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
+            >
+              Login
+            </button>
+          )}
+        </div>
 
 
 
