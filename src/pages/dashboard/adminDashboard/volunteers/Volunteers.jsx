@@ -14,6 +14,10 @@ import CustomLoading from "../../shared/CustomLoading";
 import { FiSearch } from "react-icons/fi";
 import { usePDF } from 'react-to-pdf';
 import toast from "react-hot-toast";
+import { useReactToPrint } from "react-to-print";
+import { useRef } from "react";
+
+
 
 const Volunteers = () => {
   const [searchText, setSearchText] = useState("");
@@ -24,7 +28,8 @@ const Volunteers = () => {
   const [perPage, setPerPage] = useState(8);
   const [loading, setLoading] = useState(false)
   const [volunterModalThree, setVolunterModalThree] = useState(false)
-  const { targetRef } = usePDF({ filename: 'page.pdf' }); // pdf file download for
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
 
   const dispatch = useDispatch();
   const volunteerModalOne = useSelector(
@@ -313,7 +318,7 @@ const Volunteers = () => {
             footer={null}
           >
             <div>
-              <div className="flex  items-center gap-3 border-b pb-4 border-gray-700">
+              <div ref={contentRef} className="flex  items-center gap-3 border-b pb-4 border-gray-700">
                 <div>
                   <h1 className="text-[14px] font-semibold ">
                     {singleVolunterData?.name}
@@ -356,17 +361,11 @@ const Volunteers = () => {
                     <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData.upload_cv}`} alt="" className="py-8 object-contain  w-full max-h-[300px]" />
                   )
                 }
-
-                {
-                  singleVolunterData?.upload_cv !== null && <div className="flex justify-end pt-4">
-                    <a
-                      href={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData?.upload_cv}`}
-                      download="CV"
-                      className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg"
-                    >Download Pdf</a>
-                  </div>
-                }
-
+                <button
+                  onClick={reactToPrintFn}
+                  className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">
+                  Pdf
+                </button>
 
               </div>
             </div>

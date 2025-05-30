@@ -442,8 +442,8 @@ const unreadNotifications = allNotifacitionData?.filter(item => item.read_at ===
             {/* notification count compontnt */}
             <div onClick={handleNotification} className="relative cursor-pointer">
               <svg
-                width="50"
-                height="50"
+                width="40"
+                height="40"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -467,7 +467,7 @@ const unreadNotifications = allNotifacitionData?.filter(item => item.read_at ===
               />
             </div>
             <div>
-              <h2>{profileData?.full_name}</h2>
+              <h2 className="font-bold">{profileData?.full_name}</h2>
             </div>
            </div>
           </div>
