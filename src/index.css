@@ -8,7 +8,6 @@
 
 
 
-body {}
 
 span.ant-menu-title-content {
   color: #403730;
@@ -601,9 +600,7 @@ span.ant-menu-title-content {
     margin-bottom: 10px !important;
   }
 
-  .navBtn2 {
-    /* background-color: rebeccapurple !important ; */
-  }
+
 }
 
 
@@ -641,15 +638,16 @@ span.ant-menu-title-content {
   background: red;
 } */
 
-input#name {
+
+
+.ant-input-outlined{
   color: black !important;
 }
-
-;
-
-input#email {
-  color: black !important;
+.ant-form-item{
+  color: black !important ;
 }
+
+
 
 input#contact_number {
   color: black !important;
@@ -659,9 +657,9 @@ input.ant-input.css-dev-only-do-not-override-1d4w9r2.ant-input-outlined {
   color: black !important;
 }
 
-input#email {
+/* input#email {
   color: black !important;
-}
+} */
 
 input#item_name {
   color: black !important;
@@ -704,9 +702,9 @@ input#phone_number {
   color: black !important;
 }
 
-input#email {
+/* input#email {
   color: black !important;
-}
+} */
 
 input#name {
   color: black !important;
@@ -736,6 +734,10 @@ input#name {
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #4ade80 ;
+}
+
+#donorName{
+  color: black;
 }
 
 
@@ -1093,3 +1095,7 @@ span.ant-radio-label {
   font-size: 20px;
   font-weight: 600;
 }
+
+
+
+

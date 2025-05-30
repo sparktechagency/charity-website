@@ -332,9 +332,9 @@ const AuctionSlider = () => {
   const handleBidSubmit = async (index, bidPrice) => {
 
     try {
-      if (!token) {
-        return setOpenLoginModal(true); // Require login
-      }
+      // if (!token) {
+      //   return setOpenLoginModal(true); // Require login
+      // }
       setLoading(true);
       const auctionId = sliderData[index]?.id;
 

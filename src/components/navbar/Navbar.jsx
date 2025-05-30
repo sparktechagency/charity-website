@@ -159,6 +159,12 @@ const Navbar = () => {
   }, []);
 
 
+  const closeUserDetailsModal = () => {
+    console.log(`modal close`)
+    setPaymentModal(false)
+  }
+
+
 
 
 
@@ -389,16 +395,19 @@ const Navbar = () => {
 
       <Modal
         open={paymentModal}
+        onCancel={closeUserDetailsModal}
         footer={null}
-        closable={false}
+        closable={true}
+        maskClosable={false}
         centered
-        width="400px"
-        style={{ padding: "15px", top: 0 }}
+        width="50%"
       >
-        <PaymentModal
-          setPaymentModal={setPaymentModal}
-          setSupportModal={setSupportModal}
-        />
+        <div style={{ padding: "15px" }}>
+          <PaymentModal
+            setPaymentModal={setPaymentModal}
+            setSupportModal={setSupportModal}
+          />
+        </div>
       </Modal>
 
       {/* Payment Modal end */}
