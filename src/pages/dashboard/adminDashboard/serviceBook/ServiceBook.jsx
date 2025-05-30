@@ -17,7 +17,7 @@ const ServiceBook = () => {
 
   const serviceModalOne = useSelector((state) => state.modal.serviceModalOne);
   const dispatch = useDispatch();
-  const { data, isLoading, refetch } = useGetdashboardServiceBookApiQuery();
+  const { data, isLoading, refetch } = useGetdashboardServiceBookApiQuery({per_page:perPage,page:currentPage});
   const [updatedashboardServiceBookApi] = useUpdatedashboardServiceBookApiMutation()
 
   const serviceBookData = data?.data?.data
@@ -85,7 +85,9 @@ const ServiceBook = () => {
     setSelectValue(e.target.value)
   }
 
-  console.log(selectId, selectValue)
+  useEffect(() => {
+    refetch(); // Refetch the data when searchText, currentPage, or perPage changes
+  }, [ currentPage, perPage, refetch]);
 
   if (isLoading) return <CustomLoading />
 
@@ -216,7 +218,7 @@ const ServiceBook = () => {
         </Modal>
 
         {/* pagination */}
-        {/* <div className="flex justify-end pt-4">
+        <div className="flex justify-end pt-4">
           <Pagination
             current={currentPage}
             pageSize={perPage}
@@ -226,7 +228,7 @@ const ServiceBook = () => {
               setPerPage(pageSize)
             }}
           />
-        </div> */}
+        </div>
       </div>
     </div>
   );

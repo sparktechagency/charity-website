@@ -12,9 +12,7 @@ import {
 import { useGetAllVolunterDataQuery, useUpdateVolunterDataMutation } from "../../../../redux/dashboardFeatures/getVolunteersApi";
 import CustomLoading from "../../shared/CustomLoading";
 import { FiSearch } from "react-icons/fi";
-import { usePDF } from 'react-to-pdf';
 import toast from "react-hot-toast";
-import { useReactToPrint } from "react-to-print";
 import { useRef } from "react";
 
 
@@ -28,8 +26,7 @@ const Volunteers = () => {
   const [perPage, setPerPage] = useState(8);
   const [loading, setLoading] = useState(false)
   const [volunterModalThree, setVolunterModalThree] = useState(false)
-  const contentRef = useRef(null);
-  const reactToPrintFn = useReactToPrint({ contentRef });
+
 
   const dispatch = useDispatch();
   const volunteerModalOne = useSelector(
@@ -42,6 +39,7 @@ const Volunteers = () => {
 
   const allVolunterData = data?.data?.data
   const singleVolunterData = allVolunterData?.find(item => item?.id === selectId)
+
 
 
 
@@ -317,8 +315,8 @@ const Volunteers = () => {
             width={500}
             footer={null}
           >
-            <div>
-              <div ref={contentRef} className="flex  items-center gap-3 border-b pb-4 border-gray-700">
+            <div >
+              <div className="flex  items-center gap-3 border-b pb-4 border-gray-700">
                 <div>
                   <h1 className="text-[14px] font-semibold ">
                     {singleVolunterData?.name}
@@ -332,7 +330,7 @@ const Volunteers = () => {
                   Personal details
                 </h1>
 
-                {/* Personal Information */}
+
                 <div className="">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 ">
                     <div className="space-y-2">
@@ -362,7 +360,7 @@ const Volunteers = () => {
                   )
                 }
                 <button
-                  onClick={reactToPrintFn}
+          
                   className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">
                   Pdf
                 </button>
@@ -370,6 +368,8 @@ const Volunteers = () => {
               </div>
             </div>
           </Modal>
+
+
         </div>
 
 

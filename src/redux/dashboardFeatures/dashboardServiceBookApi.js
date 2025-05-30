@@ -4,7 +4,10 @@ import { baseApi } from "../api/baseApi";
 const dashboardServiceBookApi = baseApi.injectEndpoints({
     endpoints:(builder)=>({
         getdashboardServiceBookApi:builder.query({
-            query:()=>`/get-book`,
+            query:({per_page,page})=>({
+                url:`/get-book?per_page=${per_page}&page=${page}`,
+                method:"GET"
+            }),
             providesTags:["service-book"],
         }),
         updatedashboardServiceBookApi:builder.mutation({

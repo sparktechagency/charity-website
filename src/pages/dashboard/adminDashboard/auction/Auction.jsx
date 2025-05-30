@@ -19,11 +19,9 @@ import CustomLoading from "../../shared/CustomLoading";
 
 import { useForm } from "antd/es/form/Form";
 import toast from "react-hot-toast";
-import { usePDF } from 'react-to-pdf';
 import { useDeleteActionMutation, useGetActionQuery, useSingleGetActionQuery, useUpdateActionMutation, useUpdateActionTwoMutation } from "../../../../redux/dashboardFeatures/dashboardGetActionApi";
 import { FiSearch } from "react-icons/fi";
-import { useReactToPrint } from "react-to-print";
-import { useRef } from "react";
+import TextArea from "antd/es/input/TextArea";
 
 
 
@@ -40,8 +38,6 @@ const Auction = () => {
   const [ImageFileListOne, setImageFileListOne] = useState([]);
   const [ImageFileListTwo, setImageFileListTwo] = useState([]);
 
-  const contentRef = useRef(null);
-  const reactToPrintFn = useReactToPrint({ contentRef });
 
 
 
@@ -91,6 +87,7 @@ const Auction = () => {
         name: updateModalData.name,
         email: updateModalData.email,
         title: updateModalData.title,
+        duration: updateModalData.duration,
         description: updateModalData.description,
         guest_title: updateModalData.guest_title,
         city: updateModalData.city,
@@ -222,6 +219,7 @@ const Auction = () => {
 
     formData.append("title", values.title)
     formData.append("description", values.description)
+    formData.append("duration", values.duration)
     formData.append("donate_share", values.donate_share)
     formData.append("name", values.name)
     formData.append("email", values.email)
@@ -568,8 +566,8 @@ const Auction = () => {
                       message: 'Duration must be at least 1',
                     },
                   ]}>
-                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} 
-                       onKeyDown={(e) => {
+                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }}
+                      onKeyDown={(e) => {
                         const allowedKeys = [
                           'Backspace',
                           'ArrowLeft',
@@ -641,7 +639,7 @@ const Auction = () => {
         >
 
           <div>
-            <div ref={contentRef} className=" flex justify-between gap-4">
+            <div className=" flex justify-between gap-4">
               <div className="w-[50%]">
                 <h2 className="text-[24px] md:text-[38px]  ">
                   {/* {modalThreeData?.title} */}
@@ -736,7 +734,6 @@ const Auction = () => {
               </div>
             </div>
             <button
-              onClick={reactToPrintFn}
               className="bg-[#ffff] text-[#403730] mt-4 py-2 px-6 rounded-lg">
               PDF
             </button>
@@ -827,15 +824,16 @@ const Auction = () => {
                   </Form.Item>
                 </div>
 
-                {/* description */}
+
+                {/* duration */}
                 <div className="w-[50%]">
-                  <p className="text-[#FFFFFF]">Description</p>
+                  <p className="text-[#FFFFFF]">Duration</p>
                   <Form.Item
-                    name="description"
+                    name="duration"
                   >
                     <Input
                       id="dashboard_auction"
-                      placeholder="Enter Your description"
+                      placeholder="Enter Your Duration"
                       style={{ padding: "10px" }}
                     />
                   </Form.Item>
@@ -907,6 +905,21 @@ const Auction = () => {
                           event.preventDefault();
                         }
                       }}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+
+
+              <div>
+                {/* description */}
+                <div className="w-full">
+                  <p className="text-[#FFFFFF]">Description</p>
+                  <Form.Item name="description"
+                  >
+                    <TextArea
+                      placeholder="Write a description..." style={{ backgroundColor: "transparent", padding: "10px", border: "1px solid gray", color: "#fff", height: "110px", resize: "none" }}
+                      className="custom-textarea"
                     />
                   </Form.Item>
                 </div>
