@@ -65,7 +65,7 @@ const Footer = () => {
   return (
     <>
       <div className="bg-[#ECEBEA] px-5 pt-8 lg:pt-16 lg:pb-12 pb-6 z-50">
-        <div className="max-w-[1074px] mx-auto">
+        <div className="max-w-[1104px] mx-auto">
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-0 justify-between items-center lg:items-start">
             {/* Logo Section */}
             <div className="text-center mt-4 lg:text-left">
@@ -136,12 +136,12 @@ const Footer = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email address"
-                  className="border border-gray-300 bg-[#f4f5f7] px-3 py-2 shadow-md text-sm focus:outline-none"
+                  className="border border-gray-300 bg-[#f4f5f7] px-3 py-2 shadow-md w-[250px] text-sm focus:outline-none"
                 />
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="px-6 py-2 min-w-[120px] rounded text-sm font-bold text-white bg-[#403730] flex items-center justify-center"
+                  className="px-6 py-2  rounded text-sm font-bold text-white bg-[#403730] flex items-center justify-center"
                 >
                   {loading ? (
                     <span className="flex items-center gap-2">
