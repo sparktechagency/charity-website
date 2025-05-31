@@ -168,7 +168,7 @@ export const LuxerySection = () => {
   }, [isModalOpen]);
 
   return (
-    <div className="bg-[#ecebea] lg:mt-16 py-4 p-2 lg:p-0">
+    <div className="bg-[#ecebea] lg:mt-16 py-4 lg:px-0 px-4 p-2 lg:p-0">
       <div className="max-w-[1480px] mx-auto">
         {/* First Row with Images and Text */}
         <div className="flex flex-col lg:flex-row py-4 items-center lg:justify-between gap-5">
@@ -237,9 +237,9 @@ export const LuxerySection = () => {
               towards recovery and discover the strength within you through our
               supportive wellness approach.
             </p>
-            <div className="lg:mt-12 mt-5 ">
+            <div className="lg:mt-12 mt-5 lg:mr-0 mr-[60%] ">
               <Button onClick={showModal} className=" luxeryBtn ">
-                Start your Journey <ArrowRightOutlined />{" "}
+                Start your Journey <ArrowRightOutlined className="text-white" />{" "}
               </Button>
             </div>
           </div>

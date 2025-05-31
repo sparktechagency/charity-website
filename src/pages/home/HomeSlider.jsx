@@ -871,7 +871,7 @@ const HomeSlider = () => {
 
       {/* small device  */}
 
-      <div className=" 2xl:hidden block px-3 ">
+      <div className=" 2xl:hidden block px-4 ">
         {/* 1st slide  */}
         <div>
           <div>
