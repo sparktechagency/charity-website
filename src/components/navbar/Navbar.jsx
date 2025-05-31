@@ -122,6 +122,7 @@ const Navbar = () => {
   const [loginModal, setLoginModal] = useState(false);
 
   const openLoginModal = () => {
+    console.log(`modal open`)
     setLoginModal(true);
   };
   const closeLoginModal = () => {
@@ -250,7 +251,7 @@ const Navbar = () => {
           ) : (
             <button
               onClick={() => {
-                closeDrawer?.(); // safe call
+                // closeDrawer?.(); // safe call
                 openLoginModal();
               }}
               className="px-4 py-2.5 text-sm font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
