@@ -34,9 +34,27 @@ const bookedSlots = [
   { date: "2025-04-20", timeId: 3 },
 ];
 
+const generateTimeSlots = (startHour, endHour) => {
+  const slots = [];
+  let id = 1;
+
+  for (let hour = startHour; hour <= endHour; hour++) {
+    const isPM = hour >= 12;
+    const displayHour = hour % 12 === 0 ? 12 : hour % 12;
+    const period = isPM ? "PM" : "AM";
+    slots.push({ id: id++, slot: `${displayHour}:00 ${period}` });
+  }
+
+  return slots;
+};
+
+const timeIs = generateTimeSlots(10, 19); // 10 AM to 7 PM
+
+console.log(timeIs)
+
 export const LuxerySection = () => {
   const axiosPublic = useAxiosPublic();
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   // booking related function
 
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -55,8 +73,9 @@ export const LuxerySection = () => {
   };
 
   const handleTimeClick = (time) => {
-    if (!isTimeBooked(time.id)) {
-      setSelectedTime(time.id);
+    console.log(time)
+    if (!isTimeBooked(time)) {
+      setSelectedTime(time);
     }
   };
 
@@ -86,6 +105,7 @@ export const LuxerySection = () => {
 
   // Form submit handler
   const handleBooking = async (values) => {
+    console.log(values)
     try {
       const payload = {
         telephone_number: values.number,
@@ -331,27 +351,26 @@ export const LuxerySection = () => {
 
           <Form.Item>
             <div className="">
-              {timeSlots.every((time) => isTimeBooked(time.id)) ? (
+              {timeSlots.every((time) => isTimeBooked(time.slot)) ? (
                 <p className="text-[#263234] text-lg font-medium ">
                   No available slots for this date
                 </p>
               ) : (
                 <ul className="mt-2 flex flex-wrap gap-3">
                   {timeSlots.map((time) => {
-                    const booked = isTimeBooked(time.id);
-                    const selected = selectedTime === time.id;
+                    const booked = isTimeBooked(time.slot);
+                    const selected = selectedTime === time.slot;
 
                     return (
                       <li
                         key={time.id}
-                        onClick={() => handleTimeClick(time)}
-                        className={`cursor-pointer px-4 py-2 rounded-full border text-sm font-medium transition-all ${
-                          booked
-                            ? " text-gray-400 cursor-not-allowed"
-                            : selected
+                        onClick={() => handleTimeClick(time.slot)}
+                        className={`cursor-pointer px-4 py-2 rounded-full border text-sm font-medium transition-all ${booked
+                          ? " text-gray-400 cursor-not-allowed"
+                          : selected
                             ? "bg-[#403730] cursor-not-allowed hover:bg-[#2D2722] text-white"
                             : "bg-white  hover:bg-[#f0f0f0] text-[#403730] border-[#A6ABAC]"
-                        }`}
+                          }`}
                       >
                         {time.slot}
                       </li>
@@ -394,7 +413,7 @@ export const LuxerySection = () => {
             <Button onClick={cancelBookingModal} className="serviceBtn2">
               Cancel
             </Button>
-            <Button disabled = {loading} loading = {loading} className="serviceBtn3" htmlType="submit">
+            <Button disabled={loading} loading={loading} className="serviceBtn3" htmlType="submit">
               Proceed next step
             </Button>
           </div>
