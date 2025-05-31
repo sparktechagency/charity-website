@@ -227,10 +227,6 @@ const Contributors = () => {
                     src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleData?.data?.auction?.image}`}
                     alt="login logo"
                     className="w-[40px] h-[40px] object-cover rounded-full"
-                    onError={(e) => {
-                      e.target.onerror = null; // prevent infinite loop
-                      e.target.src = '/dashboardPhoto/dashboardLoginLogo.png';
-                    }}
                   />
                 </div>
                 <div className="">
@@ -345,10 +341,6 @@ const Contributors = () => {
                         src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleContibutorAuction?.image}`}
                         alt="photo"
                         className="object-cover w-[40px] h-[40px] rounded-full"
-                        onError={(e) => {
-                          e.target.onerror = null; // prevent infinite loop
-                          e.target.src = '/dashboardPhoto/404.jpg';
-                        }}
                       />
                     </div>
                     <div>
@@ -389,10 +381,6 @@ const Contributors = () => {
                     src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleContibutorAuction?.profile}`}
                     alt="photo"
                     className="object-cover"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/dashboardPhoto/contributors/photo1.png';
-                    }}
                   />
                 </div>
               </div>

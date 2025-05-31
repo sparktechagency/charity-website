@@ -443,13 +443,9 @@ const PodcastStories = () => {
     if (newMp3File) {
       // new mp3 file uploaded
       formData.append("mp3", newMp3File);
-    } else if (existingMp3File && existingMp3File?.url) {
-      // existing mp3 file, send the existing file path
-      const relativePath = existingMp3File.url.replace(
-        `${import.meta.env.VITE_API_IMAGE_BASE_URL}/`,
-        ""
-      );
-      formData.append("mp3", relativePath);
+    } else {
+    
+      formData.append("mp3", existingMp3File?.url);
     }
 
 
@@ -498,12 +494,6 @@ const PodcastStories = () => {
 
   const podcastModalCancelFive = () => {
     dispatch(closePodcastModalOpenFive());
-
-    setImageFileListHost([]);
-    setImageFileListGuest([]);
-    setImageFileListThumbail([]);
-    setUploadedFileList([]);
-    formFive.resetFields()
   };
   // ======= podcast modal five end ===========
 
