@@ -2,7 +2,7 @@ import React from "react";
 
 const SupportSection = () => {
   return (
-    <div className="bg-[#ecebea] p-2 ">
+    <div className="bg-[#ecebea] lg:px-0 px-4 ">
       <div className="max-w-[1480px] lg:p-0  mx-auto bg-[#FFFFFF] rounded-2xl ">
         <div className="flex lg:flex-row flex-col justify-between p-4 lg:px-16">
           <div className="lg:py-28 max-w-[675px]">

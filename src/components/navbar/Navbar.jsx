@@ -184,7 +184,7 @@ const Navbar = () => {
       className={`fixed w-full z-[100] transition-all duration-300 ${isScrolled ? "bg-[#F9F9F9] shadow" : "bg-transparent"
         }`}
     >
-      <div className="max-w-7xl  mx-auto py-3 flex items-center justify-between px-4 md:px-3">
+      <div className="max-w-[1480px]  px-4 lg:px-0  mx-auto py-3 flex items-center justify-between ">
         {/* Logo */}
         <Link className="flex items-center gap-4" to="/">
           <img src={logo} alt="Virtue Hope Logo" className="h-10" />
@@ -308,7 +308,7 @@ const Navbar = () => {
           </ul>
 
           {/* Login Button in Drawer (Closes Drawer & Opens Modal) */}
-          <div className="relative block lg:hidden">
+          <div className="relative block mt-3 lg:hidden">
             {isLoggedIn ? (
               <div className="flex items-center">
                 <Dropdown
