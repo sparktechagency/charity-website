@@ -19,6 +19,8 @@ const timeSlots = [
   { id: 5, slot: "4:00 PM" },
 ];
 
+
+
 const bookedSlots = [
   { date: "2025-04-13", timeId: 1 },
   { date: "2025-04-14", timeId: 2 },
@@ -54,7 +56,23 @@ console.log(timeIs)
 
 export const LuxerySection = () => {
   const axiosPublic = useAxiosPublic();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+
+  const [bookingData, setBookingData] = useState([]);
+  useEffect(() => {
+    const fatchData = async () => {
+      try {
+        const res = await axiosPublic.get(`/get-available-booking-time`);
+        setBookingData(res?.data?.data)
+        console.log(res?.data?.data)
+      } catch (error) {
+        console.log(error)
+      } finally {
+
+      }
+    }
+    fatchData();
+  }, [])
   // booking related function
 
   const [selectedDate, setSelectedDate] = useState(new Date());
