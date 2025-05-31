@@ -3,6 +3,7 @@ import { UserOutlined, UploadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
 import { imgUrl } from "../../../helper/imgUrl";
+import toast from "react-hot-toast";
 
 export default function UserForm({ updateProfileModal, setUpdateProfileModal }) {
   const axiosPublic = useAxiosPublic();
@@ -18,33 +19,35 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
     },
   };
 
+  const [user, setUserData] = useState("")
+
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axiosPublic.get("/profile", config);
-        const user = response.data?.data;
-
-        form.setFieldsValue({
-          full_name: user.full_name,
-        });
-
-        if (user.image) {
-          setFileList([
-            {
-              uid: "-1",
-              name: "profile.jpg",
-              status: "done",
-              url: `${imgUrl}/${user.image}`,
-            },
-          ]);
-        }
-      } catch (err) {
-        console.error("Failed to load user info", err);
-      }
-    };
-
     fetchUserData();
   }, [form]);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await axiosPublic.get("/profile", config);
+      let user = response.data?.data;
+
+      form.setFieldsValue({
+        full_name: user.full_name,
+      });
+
+      if (user.image) {
+        setFileList([
+          {
+            uid: "-1",
+            name: "profile.jpg",
+            status: "done",
+            url: `${imgUrl}/${user.image}`,
+          },
+        ]);
+      }
+    } catch (err) {
+      console.error("Failed to load user info", err);
+    }
+  };
 
   const handleUploadChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -67,18 +70,20 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
         },
       });
 
-      message.success("User information submitted successfully!");
+      toast.success("User information submitted successfully!");
+
+      // Re-fetch updated data
+      await fetchUserData();
+
       form.resetFields();
       setFileList([]);
       setUpdateProfileModal(false);
     } catch (error) {
-      console.error("Error submitting form:", error);
       message.error("Something went wrong! Please try again.");
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     document.body.style.overflow = updateProfileModal ? "hidden" : "auto";
   }, [updateProfileModal]);
@@ -121,7 +126,7 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
           >
             <Button
               icon={<UploadOutlined />}
-              className="flex lg:flex items-center justify-start bg-btnColor  text-white font-semibold px-4 py-2 lg:w-full rounded-lg"
+              className="flex lg:flex items-center justify-start bg-btnColor  text-white font-semibold px-4 py-2  rounded-lg"
             >
               Upload Image
             </Button>
