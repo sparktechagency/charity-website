@@ -742,7 +742,7 @@ const HomeSlider = () => {
                             <div className="flex my-12 flex-row justify-between gap-6">
                               {/* Price Button */}
                               <div>
-                                <button className=" flex items-center gap-3  ">
+                                <button className=" flex items-center  ">
                                   <p className=" text-[#263234] font-bold text-3xl ">
                                     £{slide.max_bit_online}
                                   </p>{" "}
@@ -832,7 +832,7 @@ const HomeSlider = () => {
                           <div className="relative">
                             <img
                               src={`${imgUrl}/${slide?.image} `}
-                              className="lg:w-[532px] w-[100%] block mx-auto rounded-2xl lg:h-[690px] mb-6"
+                              className="lg:w-[500px] w-[100%] block mx-auto rounded-2xl lg:h-[690px] mb-6"
                               alt=""
                             />
                             <div className="absolute top-0 ml-3 mt-4 px-2 py-1 text-sm text-[#263234] bg-white rounded">
