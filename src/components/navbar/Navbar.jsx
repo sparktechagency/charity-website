@@ -162,6 +162,7 @@ const Navbar = () => {
 
   const closeUserDetailsModal = () => {
     console.log(`modal close`)
+    form.resetFields()
     setPaymentModal(false)
   }
 
