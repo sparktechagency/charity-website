@@ -80,24 +80,24 @@ const Footer = () => {
               <p className="text-[#4B5557] my-2">Email: NoReply@virtuehope.com</p>
 
               <div className="flex items-center gap-x-3 mt-3 justify-center lg:justify-start">
-                <Link to="https://www.youtube.com/@VirtueHope" aria-label="YouTube">
+                <a href="https://www.youtube.com/@VirtueHope" target="blank" aria-label="YouTube">
                   <FaYoutube className="text-black hover:text-red-600 transition-colors" size={20} />
-                </Link>
-                <Link to="https://www.instagram.com/virtue.hope/" aria-label="Instagram">
+                </a>
+                <a target="blanck" href="https://www.instagram.com/virtue.hope/" aria-label="Instagram">
                   <FaInstagramSquare className="text-black hover:text-pink-500 transition-colors" size={20} />
-                </Link>
-                <Link to="https://www.tiktok.com/@virtuehopecic_" aria-label="TikTok">
+                </a>
+                <a target="blank" href="https://www.tiktok.com/@virtuehopecic_" aria-label="TikTok">
                   <FaTiktok className="text-black hover:text-gray-800 transition-colors" size={20} />
-                </Link>
-                <Link to="https://www.facebook.com/profile.php?id=61575166415077" aria-label="Facebook">
+                </a>
+                <a target="blank" href="https://www.facebook.com/profile.php?id=61575166415077" aria-label="Facebook">
                   <FaFacebookF className="text-black hover:text-blue-600 transition-colors" size={20} />
-                </Link>
-                <Link to="https://www.linkedin.com/in/virtue-hope-cic-078531360/" aria-label="LinkedIn">
+                </a>
+                <a target="blank"  href="https://www.linkedin.com/in/virtue-hope-cic-078531360/" aria-label="LinkedIn">
                   <FaLinkedin className="text-black hover:text-blue-700 transition-colors" size={20} />
-                </Link>
-                <Link to="https://x.com/VirtueHopeCIC" aria-label="Twitter/X">
+                </a>
+                <a target = "_blank" href="https://x.com/VirtueHopeCIC" aria-label="Twitter/X">
                   <IoLogoTwitter className="text-black hover:text-gray-600 transition-colors" size={20} />
-                </Link>
+                </a>
               </div>
             </div>
 
