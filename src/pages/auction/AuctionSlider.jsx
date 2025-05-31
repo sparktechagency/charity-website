@@ -11,6 +11,8 @@ import toast from "react-hot-toast";
 import { LockOutlined, MailOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { imgUrl } from './../../helper/imgUrl';
+import { bidOnlineMsg } from "../../helper/auctionBidMsg";
+import Swal from "sweetalert2";
 
 const AuctionSlider = () => {
   const [form] = Form.useForm();
@@ -330,38 +332,52 @@ const AuctionSlider = () => {
     },
   };
   const handleBidSubmit = async (index, bidPrice) => {
-
     try {
-      // if (!token) {
-      //   return setOpenLoginModal(true); // Require login
-      // }
       setLoading(true);
       const auctionId = sliderData[index]?.id;
-
 
       if (!auctionId) {
         toast.error("Auction ID not found!");
         return;
       }
 
-      const res = await axiosPublic.post(`/bit-contributor?auction_id=${auctionId}`, {
-        bit_online: bidPrice,
-      }, config);
+      // if(!token){
+      //   return setOpenLoginModal(true);
+      // }
+
+      const msg = await bidOnlineMsg();
+
+      if (msg.isConfirmed) {
+        const res = await axiosPublic.post(`/bit-contributor?auction_id=${auctionId}`, {
+          bit_online: bidPrice,
+        }, config);
 
 
 
-      if (res.data.success) {
-        toast.success("Bid submitted successfully!");
-        // You can refresh data here if needed
-        const res = await axiosPublic.get("/get-bit-auction");
-        setSliderData(res.data.data)
-      } else {
-        toast.error(res.data.message || "Failed to submit bid");
+        if (res.data.success) {
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Bid submit sucessfully",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          const res = await axiosPublic.get("/get-bit-auction");
+          setSliderData(res.data.data);
+        } else {
+          toast.error(res.data.message || "Failed to submit bid");
+        }
       }
-    } catch (error) {
-      console.log(error)
 
-      toast.error(error.response?.data?.message || "Something went wrong");
+
+    } catch (error) {
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: error.response.data.message,
+        showConfirmButton: false,
+        timer: 1500
+      });
     } finally {
       setLoading(false);
     }

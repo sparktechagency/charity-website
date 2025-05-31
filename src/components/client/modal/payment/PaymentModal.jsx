@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Radio, Form, Tabs, Input, Divider, InputNumber } from "antd";
-import { FaCcMastercard } from "react-icons/fa";
-import StripeForm from "./StripeForm";
 import { useNavigate, useParams } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import "../../../../assets/css/style.css"
 const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
-  const { paymentCard } = useParams();
   const [form] = Form.useForm();
   const [donationType, setDonationType] = useState("one_time_donate");
   const [selectedAmount, setSelectedAmount] = useState(null);
@@ -20,25 +17,18 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
 
   const handleSubmit = async (values) => {
     const amount = selectedAmount === "custom" ? customAmount : parseFloat(selectedAmount);
-    console.log(typeof `type of amount £{amount} `)
-
     if (!amount) {
       message.warning("Please select or enter a donation amount.");
       return;
     }
-
     const payload = {
       ...values,
       donation_type: donationType,
       amount: Number(amount),
       frequency: paymentType,
     };
-
-    console.log(`User details modal payload is ${JSON.stringify(payload)}`)
-
     setData(payload);
     navigate("/user-details", { state: payload });
-
   }
 
   return (
@@ -118,7 +108,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
                       defaultValue="monthly"
                       name="frequency"
                     >
-                      <Radio.Button value="monthly">Montly</Radio.Button>
+                      <Radio.Button value="monthly">Monthly</Radio.Button>
                       <Radio.Button value="quarterly">Yearly </Radio.Button>
                       <Radio.Button value="annually">Annually</Radio.Button>
                     </Radio.Group>

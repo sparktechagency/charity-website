@@ -5,7 +5,6 @@ import { ChevronDown, ChevronUp, Gavel, Quote } from "lucide-react";
 import { useRef } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,13 +13,15 @@ import AuctionDetailsModal from "../../components/client/auctionModal/AuctionDet
 import PersonalDetailModal from "../../components/client/auctionModal/PersonalDetailModal";
 import CardNumberModal from "../../components/client/auctionModal/CardNumberModal";
 import UserDetailsModal from "../../components/client/auctionModal/UserDetailsModal";
-import AuctionSlider from "../auction/AuctionSlider";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { imgUrl } from "../../helper/imgUrl";
 import { LockOutlined, MailOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
 import { AnimatePresence } from 'framer-motion';
 import { motion } from 'framer-motion';
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
+import { auctionMsg } from "../../helper/auctionMsg";
+import { bidOnlineMsg } from "../../helper/auctionBidMsg";
 const HomeSlider = () => {
   const [donateTerm, setDonateTerm] = useState(false);
   const [userDetailsModal, setUserDetailsModal] = useState(false);
@@ -483,22 +484,40 @@ const HomeSlider = () => {
       //   return setOpenLoginModal(true);
       // }
 
-      const res = await axiosPublic.post(`/bit-contributor?auction_id=${auctionId}`, {
-        bit_online: bidPrice,
-      }, config);
+      const msg = await bidOnlineMsg();
 
-      console.log(`res is ${JSON.stringify(res)}`)
+      if (msg.isConfirmed) {
+        const res = await axiosPublic.post(`/bit-contributor?auction_id=${auctionId}`, {
+          bit_online: bidPrice,
+        }, config);
 
 
-      if (res.data.success) {
-        toast.success("Bid submitted successfully!");
-        const res = await axiosPublic.get("/get-bit-auction");
-        setSliderData(res.data.data);
-      } else {
-        toast.error(res.data.message || "Failed to submit bid");
+
+
+        if (res.data.success) {
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Bid submit sucessfully",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          const res = await axiosPublic.get("/get-bit-auction");
+          setSliderData(res.data.data);
+        } else {
+          toast.error(res.data.message || "Failed to submit bid");
+        }
       }
-    } catch (error) {      
-      toast.error(error.response?.data?.message || "Something went wrong");
+
+
+    } catch (error) {
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: error.response.data.message,
+        showConfirmButton: false,
+        timer: 1500
+      });
     } finally {
       setLoading(false);
     }
@@ -756,7 +775,7 @@ const HomeSlider = () => {
                               {/* Bid Button and Dropdown */}
                               <div className="relative flex flex-col items-end w-full">
                                 <div className="flex">
-                                  <button className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-2 py-2.5 hover:bg-[#2c241f] transition w-fit">
+                                  <button className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-2 py-2.5 transition w-fit">
                                     £ {selectedBids[index]
                                       ? selectedBids[index]
                                       : slide.price}{" "}

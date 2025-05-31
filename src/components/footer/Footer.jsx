@@ -77,7 +77,7 @@ const Footer = () => {
               <h1 className="text-[#4B5557] my-2 font-bold text-xl">Virtue Hope C.I.C</h1>
               <p className="text-[#4B5557] my-2">86-90 Paul Street, London, EC2A 4NE</p>
               <p className="text-[#4B5557] my-2">Registered Company No.: 16173113</p>
-              <p className="text-[#4B5557] my-2">Email: NoReply@virtuehope.com</p>
+              <p className="text-[#4B5557] my-2">Email: give@virtuehope.com</p>
 
               <div className="flex items-center gap-x-3 mt-3 justify-center lg:justify-start">
                 <a href="https://www.youtube.com/@VirtueHope" target="blank" aria-label="YouTube">
@@ -92,10 +92,10 @@ const Footer = () => {
                 <a target="blank" href="https://www.facebook.com/profile.php?id=61575166415077" aria-label="Facebook">
                   <FaFacebookF className="text-black hover:text-blue-600 transition-colors" size={20} />
                 </a>
-                <a target="blank"  href="https://www.linkedin.com/in/virtue-hope-cic-078531360/" aria-label="LinkedIn">
+                <a target="blank" href="https://www.linkedin.com/in/virtue-hope-cic-078531360/" aria-label="LinkedIn">
                   <FaLinkedin className="text-black hover:text-blue-700 transition-colors" size={20} />
                 </a>
-                <a target = "_blank" href="https://x.com/VirtueHopeCIC" aria-label="Twitter/X">
+                <a target="_blank" href="https://x.com/VirtueHopeCIC" aria-label="Twitter/X">
                   <IoLogoTwitter className="text-black hover:text-gray-600 transition-colors" size={20} />
                 </a>
               </div>

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const LoginForm = ({ setLoginModal, loginModal }) => {
   const axiosPublic = useAxiosPublic();
@@ -13,10 +14,12 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
   const [success, setSuccess] = useState(false);
   const formData = new FormData();
   // login modal 
+
   const onFinish = async (values) => {
     try {
       setLoading(true);
-      const formData = new FormData(); // 👈 Create FormData first!
+
+      const formData = new FormData();
       formData.append("email", values.email);
       formData.append("password", values.password);
 
@@ -27,28 +30,39 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
       });
 
       if (res.data.success) {
-        message.success(`User login successfully`);
-        localStorage.setItem("token", res.data.data.token);
-        localStorage.setItem(`authId`, res.data.data.user.id);
-        window.location.href = "/"
-        form.resetFields(); // 👈 No need to "return" this, just call it
-        return setLoginModal(false);
-      }
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Login successful!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
 
-      setSuccess(true);
-      setTimeout(() => {
-        setSuccess(false);
-      }, 3000);
+        localStorage.setItem("token", res.data.data.token);
+        localStorage.setItem("authId", res.data.data.user.id);
+        setLoginModal(false);
+        form.resetFields(); // ✅ only reset if success
+        window.location.href = "/";
+      } else {
+        // Optional: API returned success: false
+        Swal.fire({
+          position: "top-center",
+          icon: "error",
+          title: res.data.message || "Login failed!",
+          showConfirmButton: true,
+        });
+      }
     } catch (error) {
-      message.error(
-        `${error.response?.data?.message || "Something went wrong!"}`
-      );
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: error.response?.data?.message || "Something went wrong!",
+        showConfirmButton: true,
+      });
     } finally {
-      form.resetFields()
       setLoading(false);
     }
   };
-
   useEffect(() => {
     if (!loginModal) {
       form.resetFields();
@@ -122,15 +136,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
     setIsOtpVerifyModal(false);
   };
 
-  const validateOtp = (value) => {
-    if (!value) {
-      return "Please input your OTP!";
-    }
-    if (!/^\d{4,6}$/.test(value)) {
-      return "OTP must be 4-6 digit number";
-    }
-    return "";
-  };
+
   const [otp, setOtp] = useState("");
 
   const [error, setError] = useState("");
@@ -141,18 +147,17 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
     e.preventDefault()
     setLoading(true);
     try {
-      // Replace this URL with your actual OTP verification endpoint
-      // const response = await fetch("https://your-api.com/verify-otp", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ otp }),
-      // });
+
       const res = await axiosPublic.post(`/otp-verify`, { otp: otp })
       if (res) {
         localStorage.setItem("forgetToken", res.data?.data?.token)
-        message.success(res.data?.message)
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: error.response?.data?.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
         // Assuming success means:
         setNewPasswordModal(true);
         setIsOtpVerifyModal(false);
@@ -164,7 +169,13 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
 
       // You can use 'data' here if needed
     } catch (error) {
-      alert(error.response.data.message);
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: error.response?.data?.message,
+        showConfirmButton: false,
+        timer: 1500
+      });
     } finally {
       setLoading(false);
     }
