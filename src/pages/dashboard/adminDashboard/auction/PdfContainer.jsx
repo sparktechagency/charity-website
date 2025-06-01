@@ -20,7 +20,7 @@ const PdfContainer = ({ data }) => {
         const reader = new FileReader();
 
         reader.onloadend = () => {
-          setImageBase64(reader.result); // Base64 string
+          setImageBase64(reader.result); 
         };
 
         reader.onerror = () => {
