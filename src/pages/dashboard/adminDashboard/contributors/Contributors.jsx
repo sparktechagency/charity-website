@@ -155,7 +155,7 @@ const Contributors = () => {
       modalOne || modalTwo || modalThree
         ? "hidden"
         : "auto";
-  }, [modalOne, modalTwo, modalThree ]);
+  }, [modalOne, modalTwo, modalThree]);
 
 
 
@@ -351,38 +351,32 @@ const Contributors = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-2 py-6 text-[#fff]">
+                  <div className="space-y-2 pt-6 text-[#fff]">
                     <p><span className="font-semibold">Contact Number</span> : {singleContibutorAuction?.contact_number}</p>
 
                     <p><span className="font-semibold">City</span> : {singleContibutorAuction?.city}</p>
 
                     <p><span className="font-semibold">Address</span> : {singleContibutorAuction?.address}</p>
-
-
-                    {/* <p><span className="font-semibold">Update Date</span> : {formatDate(singleContibutorAuction.updated_at)}</p> */}
-                  </div>
-
-                  <div className="bg-[#4B5557] text-[#ffffff] p-4 rounded-lg max-w-[433px] mt-4">
-                    <p>
-                      {singleContibutorAuction?.description}
-                    </p>
-                  </div>
-
-                  <div className="pt-4">
                     <h1 className="text-[30px] font-bold text-[#FFFFFF] flex items-center gap-2">
                       $ {singleContibutorAuction?.donate_share}
 
                     </h1>
                   </div>
+
                 </div>
 
                 <div className="w-[50%]">
                   <img
                     src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleContibutorAuction?.profile}`}
                     alt="photo"
-                    className="object-cover"
+                    className="w-full h-[400px] rounded-lg object-cover"
                   />
                 </div>
+              </div>
+              <div className="bg-[#4B5557] text-[#ffffff] p-4 rounded-lg  mt-4">
+                <p>
+                  {singleContibutorAuction?.description}
+                </p>
               </div>
             </div>
           </Modal>

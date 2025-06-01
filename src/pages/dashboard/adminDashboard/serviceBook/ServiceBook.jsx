@@ -17,7 +17,7 @@ const ServiceBook = () => {
 
   const serviceModalOne = useSelector((state) => state.modal.serviceModalOne);
   const dispatch = useDispatch();
-  const { data, isLoading, refetch } = useGetdashboardServiceBookApiQuery({per_page:perPage,page:currentPage});
+  const { data, isLoading, refetch } = useGetdashboardServiceBookApiQuery({ per_page: perPage, page: currentPage });
   const [updatedashboardServiceBookApi] = useUpdatedashboardServiceBookApiMutation()
 
   const serviceBookData = data?.data?.data
@@ -87,7 +87,15 @@ const ServiceBook = () => {
 
   useEffect(() => {
     refetch(); // Refetch the data when searchText, currentPage, or perPage changes
-  }, [ currentPage, perPage, refetch]);
+  }, [currentPage, perPage, refetch]);
+
+
+  useEffect(() => {
+    document.body.style.overflow =
+      serviceModalOne
+        ? "hidden"
+        : "auto";
+  }, [serviceModalOne]);
 
   if (isLoading) return <CustomLoading />
 

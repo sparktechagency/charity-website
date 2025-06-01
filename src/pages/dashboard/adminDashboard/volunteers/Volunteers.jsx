@@ -356,13 +356,13 @@ const Volunteers = () => {
                 <p className="">{singleVolunterData?.reason}</p>
                 {
                   singleVolunterData?.upload_cv && (
-                    <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData.upload_cv}`} alt="" className="py-8 object-contain  w-full max-h-[300px]" />
+                    <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData.upload_cv}`} alt="" className="py-8 object-contain  " />
                   )
                 }
                 <button
-          
+
                   className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">
-                  Pdf
+                  Download PDF
                 </button>
 
               </div>

@@ -22,9 +22,6 @@ import toast from "react-hot-toast";
 import { useDeleteActionMutation, useGetActionQuery, useSingleGetActionQuery, useUpdateActionMutation, useUpdateActionTwoMutation } from "../../../../redux/dashboardFeatures/dashboardGetActionApi";
 import { FiSearch } from "react-icons/fi";
 import TextArea from "antd/es/input/TextArea";
-import { PDFDownloadLink, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import MyDocument from "./MyDocument";
-import PdfContainer from "./PdfContainer";
 
 
 
@@ -308,7 +305,6 @@ const Auction = () => {
 
     return `${day} ${month}, ${year}`;
   };
-
 
 
   if (isLoading) return <CustomLoading />
@@ -631,10 +627,6 @@ const Auction = () => {
           </div>
         </Modal>
 
-
-
-
-
         {/* modal three */}
         <Modal
           className="custom-auction-modal custom-view-modal"
@@ -698,6 +690,10 @@ const Auction = () => {
                     <img
                       src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${modalThreeData?.profile}`}
                       alt="" className='w-[50px] h-[50px] rounded-full'
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/dashboardPhoto/404.jpg';
+                      }}
                     />
                   </div>
                   <div>
@@ -730,16 +726,18 @@ const Auction = () => {
                 <img
                   src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${modalThreeData?.image}`}
                   alt="" className='w-full h-full object-cover'
+                  onError={(e) => {
+                    e.target.onerror = null; // Prevent infinite loop
+                    e.target.src = "/dashboardPhoto/contributors/photo1.png"; // Replace with your default image path
+                  }}
                 />
               </div>
             </div>
-            <PDFDownloadLink
-              document={<PdfContainer data={modalThreeData} />}
-              fileName="request-summary.pdf"
-              className="bg-[#ffff] text-[#403730] mt-4 py-2 px-6 rounded-lg inline-block"
-            >
-              {({ loading }) => loading ? 'Generating PDF...' : 'Download PDF'}
-            </PDFDownloadLink>
+            <button
+              className="bg-[#ffff] text-[#403730] mt-4 py-2 px-6 rounded-lg">
+              Download Pdf
+            </button>
+
           </div>
         </Modal>
 
