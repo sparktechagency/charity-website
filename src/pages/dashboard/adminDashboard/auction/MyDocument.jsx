@@ -2,9 +2,8 @@ import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/render
 
 const MyDocument = ({ data, imageBase64, imageError }) => {
 
-    // console.log('data----->', data)
-    // console.log('imageBase64----->', imageBase64)
-    // console.log('imageError----->', imageError)
+    console.log('imageBase64----->', imageBase64)
+    console.log('imageError----->', imageError)
 
     const styles = StyleSheet.create({
         page: {
