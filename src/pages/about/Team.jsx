@@ -17,7 +17,6 @@ const Team = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        console.log(`Team data fetched`);
       }
     };
     fetchTeam();

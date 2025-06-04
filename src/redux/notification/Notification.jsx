@@ -24,7 +24,6 @@ const Notification = () => {
     const handleReadAll = async () => {
         try {
             const res = await redAllNotificationApi().unwrap()
-            console.log(res)
             if (res.status === true) {
                 toast.success(res.message)
             }
@@ -43,7 +42,6 @@ const Notification = () => {
 
         try {
             const res = await redNotificationApi({ id: item?.id }).unwrap()
-            console.log(res)
             if (res.success === true) {
                 toast.success(res.message)
             }

@@ -35,7 +35,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
 
     <div>
 
-      <div className="max-w-2xl  mx-auto p-6 bg-white rounded-2xl ">
+      <div className="lg:max-w-2xl w-full  mx-auto p-6 bg-white rounded-2xl ">
         <h2 className="text-2xl text-[#263234] font-semibold text-center mb-6">
           Enter Donation Details
         </h2>
@@ -53,7 +53,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
               {
                 key: "one_time_donate",
                 label: (
-                  <span className=" text-[#263234] text-lg font-semibold ">
+                  <span className=" text-[#263234] lg:text-lg text-sm font-semibold ">
                     One-Time Donation
                   </span>
                 ),
@@ -96,7 +96,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
               {
                 key: "recurring",
                 label: (
-                  <span className=" text-[#263234] text-lg font-semibold ">
+                  <span className=" text-[#263234] text-sm lg:text-lg font-semibold ">
                     Recurring Donation
                   </span>
                 ),

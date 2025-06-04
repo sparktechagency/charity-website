@@ -20,18 +20,7 @@ const UserDetailsModal = ({ personalData, auctionData,setUserDetailsModal,setPay
   const image = auctionData.image;
   const description = auctionData.description;
   const donate_share = auctionData.donate_share;
-  console.log(
-    name,
-    email,
-    contact_number,
-    city,
-    address,
-    profile,
-    title,
-    image,
-    description,
-    donate_share
-  );
+
 
   const axiosPublic = useAxiosPublic();
   const openPaymentModal = ()=>{

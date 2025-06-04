@@ -22,7 +22,6 @@ const DashboardCreateNewPassword = () => {
 
     try {
       const res = await createNewPassword(updatePassword).unwrap();
-      console.log(res);
 
       if (res.data) {
         toast.success(res?.message);

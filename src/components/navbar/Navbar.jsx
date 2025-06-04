@@ -46,7 +46,6 @@ const Navbar = () => {
     fetchData();
   }, []);
 
-  console.log(profileData)
 
   // profile card modal 
 
@@ -122,7 +121,6 @@ const Navbar = () => {
   const [loginModal, setLoginModal] = useState(false);
 
   const openLoginModal = () => {
-    console.log(`modal open`)
     setLoginModal(true);
   };
   const closeLoginModal = () => {
@@ -161,7 +159,6 @@ const Navbar = () => {
 
 
   const closeUserDetailsModal = () => {
-    console.log(`modal close`)
     form.resetFields()
     setPaymentModal(false)
   }
@@ -402,7 +399,7 @@ const Navbar = () => {
         closable={true}
         maskClosable={false}
         centered
-        width="50%"
+        // width="50%"
       >
         <div style={{ padding: "15px" }}>
           <PaymentModal

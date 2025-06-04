@@ -4,7 +4,6 @@ import { Modal, Input, Button, Checkbox, Upload, Radio } from "antd";
 const DonerDetailsModal = ({setDonerDetailsModal,setModalOpen}) => {
   const [form] =Form.useForm()
   const handleSubmit = (values)=>{
-    console.log(values);
     form.resetFields()
     setDonerDetailsModal(false)
     setModalOpen(true)

@@ -120,10 +120,7 @@ const MyTeam = () => {
     formData.append("linkedIn_link", values.linkedIn_link)
     formData.append("instagram_link", values.instagram_link)
 
-    console.log(formData.forEach(value => {
-      console.log(value)
-    }))
-
+   
     try {
       const res = await postDashboardMyTeamApi(formData).unwrap()
 
@@ -193,9 +190,7 @@ const MyTeam = () => {
     formData.append("instagram_link", values.instagram_link)
     formData.append("_method", "PUT");
 
-    // console.log(formData.forEach(value => {
-    //   console.log(value)
-    // }))
+    
 
     try {
       const res = await updateDashboardMyTeamApi({

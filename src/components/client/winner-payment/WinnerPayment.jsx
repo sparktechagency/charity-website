@@ -13,7 +13,6 @@ const WinnerPayment = () => {
         navigate("/stripe-from", { state: payload })
     }
     const handlePaypalPayment = async () => {
-        console.log(`paypal payment connected`)
         try {
             setLoading(true);
             const res = await axios.post(

@@ -221,7 +221,6 @@ const HomeSlider = () => {
     }
   };
   const normFile = (e) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -349,7 +348,6 @@ const HomeSlider = () => {
         toast.error(error.response.data.message);
       }
     } catch (error) {
-      console.log(error)
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
 
@@ -386,7 +384,6 @@ const HomeSlider = () => {
       }
       // You can use 'data' here if needed
     } catch (error) {
-      console.log(error)
       message.error(error.response.data.message);
     } finally {
       setLoading(false);
@@ -431,7 +428,6 @@ const HomeSlider = () => {
 
 
     } catch (error) {
-      console.log(error)
       message.error(error.response.data.message);
     } finally {
       setLoading(false);
@@ -555,7 +551,6 @@ const HomeSlider = () => {
 
     setShowBids((prevState) => prevState.map(() => false));
 
-    console.log(selectedBids[index])
 
     handleBidSubmit(index, selectedBids[index]); // 👈 Call API with selected custom bid
   };

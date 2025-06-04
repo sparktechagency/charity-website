@@ -67,7 +67,6 @@ const ServiceBook = () => {
         dispatch(closeserviceModalOpenOne());
       }
     } catch (errors) {
-      console.log(errors)
     } finally {
       setLoading(false)
     }
@@ -85,7 +84,6 @@ const ServiceBook = () => {
     setSelectValue(e.target.value)
   }
 
-  console.log(selectId, selectValue)
 
   if (isLoading) return <CustomLoading />
 
