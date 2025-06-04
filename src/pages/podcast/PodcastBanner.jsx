@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { CiPause1 } from "react-icons/ci";
 import useAxiosPublic from "../hooks/useAxiosPublic";
-import { imgUrl } from "../../helper/imgUrl";
+import { imgUrl } from './../../helper/imgUrl';
 const audios = [
   {
     podcast_title: "Tech Talks",
@@ -72,13 +72,15 @@ const audios = [
 const PodcastBanner = () => {
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
-  const axiosPublic = useAxiosPublic()
+  const axiosPublic = useAxiosPublic();
   const [loading, setLoading] = useState(false);
   const [audios, setAudios] = useState([]);
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
+
+  // ✅ Set your actual base URL for Cloudinary or wherever your mp3s are stored
 
   useEffect(() => {
     const fetchData = async () => {
@@ -97,20 +99,27 @@ const PodcastBanner = () => {
     fetchData();
   }, [axiosPublic]);
 
-  function formatDate(dateString) {
+  const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "long",
       year: "numeric",
     });
-  }
-
-
+  };
 
   useEffect(() => {
     if (!waveformRef.current || !audios[currentTrack]?.mp3) return;
 
     const url = `${imgUrl}/${audios[currentTrack].mp3}`;
+
+    // Optional: validate URL
+    try {
+      new URL(url);
+    } catch {
+      console.error("Invalid audio URL:", url);
+      return;
+    }
+
     waveformRef.current.innerHTML = "";
 
     if (wavesurfer.current) {
@@ -126,19 +135,9 @@ const PodcastBanner = () => {
       barWidth: 2,
       responsive: true,
       normalize: true,
-      xhr: {
-        cache: 'default',
-        mode: 'cors',
-        method: 'GET',
-        credentials: 'same-origin',
-        headers: [
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-        ],
-      },
     });
 
     wavesurfer.current.load(url).catch((err) => {
-      console.log(`url is ${url}`)
       console.error("Failed to load audio:", err);
     });
 
@@ -166,7 +165,7 @@ const PodcastBanner = () => {
     return () => {
       wavesurfer.current?.destroy();
     };
-  }, [currentTrack, audios, imgUrl, isPlaying]);
+  }, [currentTrack, audios, isPlaying]);
 
   const togglePlay = () => {
     if (!wavesurfer.current) return;
@@ -181,12 +180,12 @@ const PodcastBanner = () => {
 
   const handlePrev = () => {
     setCurrentTrack((prev) => (prev - 1 + audios.length) % audios.length);
-    setIsPlaying(true); // autoplay previous
+    setIsPlaying(true);
   };
 
   const handleNext = () => {
     setCurrentTrack((prev) => (prev + 1) % audios.length);
-    setIsPlaying(true); // autoplay next
+    setIsPlaying(true);
   };
 
   const formatTime = (seconds) => {
@@ -196,7 +195,6 @@ const PodcastBanner = () => {
   };
 
   const timeLeft = totalDuration - currentTime;
-
   return (
     <div className="pt-20">
       <div className="relative bg-[url('/podcastBg.png')] bg-cover bg-center">
@@ -342,7 +340,7 @@ const PodcastBanner = () => {
           <p className="text-sm text-gray-300 mb-1">
             {audios[currentTrack]?.podcast_title}
           </p>
-          
+
           {/* host title */}
           <p className="text-sm text-blue-400">
             {audios[currentTrack]?.host_title}

@@ -6,8 +6,10 @@ import PodcastStory from "./PodcastStory";
 import HomeSlider from "./HomeSlider";
 import Banner from "./Banner";
 const HomePage = () => {
+  window.scrollTo(0,0)
   return (
     <div>
+      
       <Banner></Banner>
       <div className=" bg-[#ecebea]   ">
         <MissionVission></MissionVission>

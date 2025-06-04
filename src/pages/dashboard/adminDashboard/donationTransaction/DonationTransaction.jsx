@@ -55,7 +55,6 @@ const DonationTransaction = () => {
 
   // ============== modal one end ===========
 
-  console.log(viewDetails)
 
 
 

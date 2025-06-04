@@ -5,14 +5,12 @@ const AggrementPage = () => {
   const [verified, isVerified] = useState(false);
 
   function onChange(value) {
-    console.log("Captcha value:", value);
     isVerified(true);
     form.resetFields();
   }
   const [donateAll, setDonateAll] = useState(false);
 
   const onFinish = (values) => {
-    console.log("Form values:", values);
   };
   return (
     <div className="   ">

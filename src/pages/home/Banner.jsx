@@ -3,10 +3,10 @@ import { Button } from "antd";
 
 const Banner = () => {
   return (
-    <div className="lg:pt-20 pt-10 max-w-7xl mx-auto px-4">
+    <div className="lg:pt-20 pt-10 max-w-[1480px] mx-auto px-4 lg:px-0 ">
       <div className="flex flex-col mx-auto w-full  lg:flex-row justify-between items-center lg:items-start">
         {/* left side */}
-        <div className="mt-10 lg:mt-20 px-4 text-center lg:text-left max-w-xl">
+        <div className="mt-10 lg:mt-20  text-center lg:text-left max-w-xl">
           <div className="text-[32px] sm:text-[48px] lg:text-[70px] font-bold leading-tight text-[#263234] mb-6">
             <p>Empowering</p>
             <p>women through</p>

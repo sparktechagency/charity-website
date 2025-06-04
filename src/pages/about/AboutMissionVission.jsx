@@ -66,7 +66,7 @@ const AboutMissionVission = () => {
   }, [supportModal, paymentModal, antiquesModal, isVolunterModal]);
 
   return (
-    <div className="  p-4 bg-[#ecebea]  ">
+    <div className="  lg:px-0 px-4 bg-[#ecebea]  ">
       <div className=" max-w-[1480px] mx-auto ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Left Side - Image */}
@@ -81,10 +81,10 @@ const AboutMissionVission = () => {
 
           {/* Right Side - Text */}
           <div className="bg-white shadow lg:pt-[127px] lg:px-[64px] p-4 rounded-2xl">
-            <h3 className="lg:text-3xl text-xl font-thin text-[#403730]">
+            <h3 className="lg:text-3xl text-sm font-thin text-[#403730]">
               Our mission & vision
             </h3>
-            <h1 className="font-bold text-[#403730] text-3xl lg:text-[60px] leading-[60px] lg:mt-2">
+            <h1 className="font-bold text-[#403730] text-2xl lg:text-[60px] lg:leading-[60px] lg:mt-2">
               Healing Support for Women Survivors of Abuse and Trauma
             </h1>
             <p className="text-[#263234] pt-2 lg:pt-6 lg:pb-12 pb-6 leading-6 ">
@@ -93,7 +93,7 @@ const AboutMissionVission = () => {
             </p>
 
             {/* Buttons */}
-            <div className="mt-6 flex flex-col sm:flex-row gap-4">
+            <div className="lg:mt-6 flex flex-col sm:flex-row gap-4">
               <button
                 onClick={openSupportModal}
                 className="bg-[#403730] cursor-pointer text-white py-3 px-6 rounded-md font-medium hover:bg-[#2E2A26]"
@@ -102,7 +102,7 @@ const AboutMissionVission = () => {
               </button>
               <button
                 onClick={openVolunterModal}
-                className="bg-[#F6F6F7] cursor-pointer text-gray-800 py-3 ml-4 px-6 rounded-md font-bold"
+                className="bg-[#F6F6F7] cursor-pointer text-gray-800 py-3 ml-4 px-6 rounded-md lg:font-bold"
               >
                 Join our enthusiastic team
               </button>

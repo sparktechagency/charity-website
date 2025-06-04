@@ -11,6 +11,8 @@ import toast from "react-hot-toast";
 import { LockOutlined, MailOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { imgUrl } from './../../helper/imgUrl';
+import { bidOnlineMsg } from "../../helper/auctionBidMsg";
+import Swal from "sweetalert2";
 
 const AuctionSlider = () => {
   const [form] = Form.useForm();
@@ -85,14 +87,12 @@ const AuctionSlider = () => {
         return form.resetFields();
       }
     } catch (error) {
-      console.error(error);
       toast.error(error?.response?.data?.message || "Registration failed!");
     } finally {
       setLoading(false);
     }
   };
   const normFile = (e) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -294,7 +294,6 @@ const AuctionSlider = () => {
 
 
     } catch (error) {
-      console.log(error)
       message.error(error.response.data.message);
     } finally {
       setLoading(false);
@@ -330,38 +329,52 @@ const AuctionSlider = () => {
     },
   };
   const handleBidSubmit = async (index, bidPrice) => {
-
     try {
-      // if (!token) {
-      //   return setOpenLoginModal(true); // Require login
-      // }
       setLoading(true);
       const auctionId = sliderData[index]?.id;
-
 
       if (!auctionId) {
         toast.error("Auction ID not found!");
         return;
       }
 
-      const res = await axiosPublic.post(`/bit-contributor?auction_id=${auctionId}`, {
-        bit_online: bidPrice,
-      }, config);
+      // if(!token){
+      //   return setOpenLoginModal(true);
+      // }
+
+      const msg = await bidOnlineMsg();
+
+      if (msg.isConfirmed) {
+        const res = await axiosPublic.post(`/bit-contributor?auction_id=${auctionId}`, {
+          bit_online: bidPrice,
+        }, config);
 
 
 
-      if (res.data.success) {
-        toast.success("Bid submitted successfully!");
-        // You can refresh data here if needed
-        const res = await axiosPublic.get("/get-bit-auction");
-        setSliderData(res.data.data)
-      } else {
-        toast.error(res.data.message || "Failed to submit bid");
+        if (res.data.success) {
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Bid submit sucessfully",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          const res = await axiosPublic.get("/get-bit-auction");
+          setSliderData(res.data.data);
+        } else {
+          toast.error(res.data.message || "Failed to submit bid");
+        }
       }
-    } catch (error) {
-      console.log(error)
 
-      toast.error(error.response?.data?.message || "Something went wrong");
+
+    } catch (error) {
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: error.response.data.message,
+        showConfirmButton: false,
+        timer: 1500
+      });
     } finally {
       setLoading(false);
     }
@@ -382,7 +395,6 @@ const AuctionSlider = () => {
   const [value, setValue] = useState("")
 
   const handleBidSelect = (index, price) => {
-    console.log(index, price)
     const newSelectedBids = [...selectedBids];
     newSelectedBids[index] = price;
     setSelectedBids(newSelectedBids);
@@ -401,9 +413,8 @@ const AuctionSlider = () => {
 
     setShowBids((prevState) => prevState.map(() => false));
 
-    console.log(selectedBids[index])
 
-    handleBidSubmit(index, selectedBids[index]); // 👈 Call API with selected custom bid
+    // handleBidSubmit(index, selectedBids[index]); // 👈 Call API with selected custom bid
   };
 
   // 2nd modal end
@@ -472,31 +483,11 @@ const AuctionSlider = () => {
   if (sliderData.length === 0) {
     return (
       <div>
-        <motion.div
-          className="flex h-[50vh] w-full items-center justify-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <motion.div
-            className="flex flex-col items-center text-center gap-4"
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{
-              repeat: Infinity,
-              repeatType: "reverse",
-              duration: 1.5,
-            }}
-          >
-            <Loader2 className="animate-spin text-[#403730] w-10 h-10" />
-            <h1 className="text-2xl font-semibold text-[#403730]">
-              Loading Auction data...
-            </h1>
-            <p className="text-gray-500 text-sm max-w-xs">
-              Please wait while we fetch the data
-            </p>
-          </motion.div>
-        </motion.div>
+        <div className="flex items-center justify-center w-full">
+          <h1 className="w-full text-center text-[#403730] text-lg font-semibold py-2">
+            Data not found
+          </h1>
+        </div>
       </div>
     );
   }
@@ -830,11 +821,11 @@ const AuctionSlider = () => {
                               Bid online
                             </button>
                             <button className=" flex items-center bg-[#403730] text-white " onClick={() => handleBidToggle(index)}  >
-                              <Gavel className="w-4 h-4" />
+                              <Gavel className="w-4 h-4 text-white " />
                               {showBids[index] ? (
-                                <ChevronUp className="w-4 h-4" />
+                                <ChevronUp className="w-4 h-4 text-white fill-white" />
                               ) : (
-                                <ChevronDown className="w-4 h-4" />
+                                <ChevronDown className="w-4 h-4 text-white  " />
                               )}
                             </button>
                           </div>

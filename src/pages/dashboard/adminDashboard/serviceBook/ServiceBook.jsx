@@ -67,7 +67,6 @@ const ServiceBook = () => {
         dispatch(closeserviceModalOpenOne());
       }
     } catch (errors) {
-      console.log(errors)
     } finally {
       setLoading(false)
     }
@@ -85,17 +84,6 @@ const ServiceBook = () => {
     setSelectValue(e.target.value)
   }
 
-  useEffect(() => {
-    refetch(); // Refetch the data when searchText, currentPage, or perPage changes
-  }, [currentPage, perPage, refetch]);
-
-
-  useEffect(() => {
-    document.body.style.overflow =
-      serviceModalOne
-        ? "hidden"
-        : "auto";
-  }, [serviceModalOne]);
 
   if (isLoading) return <CustomLoading />
 

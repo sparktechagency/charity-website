@@ -19,6 +19,8 @@ const timeSlots = [
   { id: 5, slot: "4:00 PM" },
 ];
 
+
+
 const bookedSlots = [
   { date: "2025-04-13", timeId: 1 },
   { date: "2025-04-14", timeId: 2 },
@@ -34,9 +36,40 @@ const bookedSlots = [
   { date: "2025-04-20", timeId: 3 },
 ];
 
+const generateTimeSlots = (startHour, endHour) => {
+  const slots = [];
+  let id = 1;
+
+  for (let hour = startHour; hour <= endHour; hour++) {
+    const isPM = hour >= 12;
+    const displayHour = hour % 12 === 0 ? 12 : hour % 12;
+    const period = isPM ? "PM" : "AM";
+    slots.push({ id: id++, slot: `${displayHour}:00 ${period}` });
+  }
+
+  return slots;
+};
+
+const timeIs = generateTimeSlots(10, 19); // 10 AM to 7 PM
+
+
 export const LuxerySection = () => {
   const axiosPublic = useAxiosPublic();
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+
+  const [bookingData, setBookingData] = useState([]);
+  useEffect(() => {
+    const fatchData = async () => {
+      try {
+        const res = await axiosPublic.get(`/get-available-booking-time`);
+        setBookingData(res?.data?.data)
+      } catch (error) {
+      } finally {
+
+      }
+    }
+    fatchData();
+  }, [])
   // booking related function
 
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -55,8 +88,8 @@ export const LuxerySection = () => {
   };
 
   const handleTimeClick = (time) => {
-    if (!isTimeBooked(time.id)) {
-      setSelectedTime(time.id);
+    if (!isTimeBooked(time)) {
+      setSelectedTime(time);
     }
   };
 
@@ -130,7 +163,7 @@ export const LuxerySection = () => {
   }, [isModalOpen]);
 
   return (
-    <div className="bg-[#ecebea] lg:mt-16 py-4 p-2 lg:p-0">
+    <div className="bg-[#ecebea] lg:mt-16 py-4 lg:px-0 px-4 p-2 lg:p-0">
       <div className="max-w-[1480px] mx-auto">
         {/* First Row with Images and Text */}
         <div className="flex flex-col lg:flex-row py-4 items-center lg:justify-between gap-5">
@@ -199,9 +232,9 @@ export const LuxerySection = () => {
               towards recovery and discover the strength within you through our
               supportive wellness approach.
             </p>
-            <div className="lg:mt-12 mt-5 ">
+            <div className="lg:mt-12 mt-5 lg:mr-0 mr-[60%] ">
               <Button onClick={showModal} className=" luxeryBtn ">
-                Start your Journey <ArrowRightOutlined />{" "}
+                Start your Journey <ArrowRightOutlined className="text-white" />{" "}
               </Button>
             </div>
           </div>
@@ -331,27 +364,26 @@ export const LuxerySection = () => {
 
           <Form.Item>
             <div className="">
-              {timeSlots.every((time) => isTimeBooked(time.id)) ? (
+              {timeSlots.every((time) => isTimeBooked(time.slot)) ? (
                 <p className="text-[#263234] text-lg font-medium ">
                   No available slots for this date
                 </p>
               ) : (
                 <ul className="mt-2 flex flex-wrap gap-3">
                   {timeSlots.map((time) => {
-                    const booked = isTimeBooked(time.id);
-                    const selected = selectedTime === time.id;
+                    const booked = isTimeBooked(time.slot);
+                    const selected = selectedTime === time.slot;
 
                     return (
                       <li
                         key={time.id}
-                        onClick={() => handleTimeClick(time)}
-                        className={`cursor-pointer px-4 py-2 rounded-full border text-sm font-medium transition-all ${
-                          booked
-                            ? " text-gray-400 cursor-not-allowed"
-                            : selected
+                        onClick={() => handleTimeClick(time.slot)}
+                        className={`cursor-pointer px-4 py-2 rounded-full border text-sm font-medium transition-all ${booked
+                          ? " text-gray-400 cursor-not-allowed"
+                          : selected
                             ? "bg-[#403730] cursor-not-allowed hover:bg-[#2D2722] text-white"
                             : "bg-white  hover:bg-[#f0f0f0] text-[#403730] border-[#A6ABAC]"
-                        }`}
+                          }`}
                       >
                         {time.slot}
                       </li>
@@ -394,7 +426,7 @@ export const LuxerySection = () => {
             <Button onClick={cancelBookingModal} className="serviceBtn2">
               Cancel
             </Button>
-            <Button disabled = {loading} loading = {loading} className="serviceBtn3" htmlType="submit">
+            <Button disabled={loading} loading={loading} className="serviceBtn3" htmlType="submit">
               Proceed next step
             </Button>
           </div>

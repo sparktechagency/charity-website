@@ -52,7 +52,6 @@ const Contributors = () => {
 
 
 
-
   // ============== modal one start =========
   const showModalOne = (id) => {
     setSelectId(id)

@@ -19,7 +19,6 @@ const DonationPayment = () => {
         setPaymentMethod(e.target.value)
     };
 
-    console.log(`selected card is ${paymentMethod}`)
 
 
 

@@ -32,7 +32,7 @@ const Settings = () => {
   const [singleImageupdateDashboardAdminProfileApi] = useSingleImageupdateDashboardAdminProfileApiMutation()
 
   const profileData = data?.data
-  // console.log(profileData)
+
 
   const [imageUrl, setImageUrl] = useState("");
   useEffect(() => {
@@ -93,13 +93,10 @@ const Settings = () => {
     formData.append("new_password_confirmation", values.new_password_confirmation)
     formData.append("email", values.email)
 
-    // console.log(formData.forEach(value => {
-    //   console.log(value)
-    // }))
+    
 
     try {
       const res = await postDashboardAdminProfileApi(formData).unwrap()
-      console.log(res)
       if (res?.data) {
         toast.success(res?.message)
         formOne.resetFields()
@@ -142,9 +139,7 @@ const Settings = () => {
     formData.append("full_name", values.full_name)
     formData.append("_method", "PUT");
 
-    // console.log(formData.forEach(value => {
-    //   console.log(value)
-    // }))
+    
 
 
 

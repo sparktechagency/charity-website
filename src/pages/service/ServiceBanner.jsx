@@ -3,7 +3,7 @@ const ServiceBanner = () => {
 
 
   return (
-    <div className="  mb-2  " >
+    <div className=" lg:px-0 px-4  mb-2  " >
       <div className="  " >
       <p className="lg:pt-20 pt-20 text-[#403730]  font-semibold text-center  ">
         Our services

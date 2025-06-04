@@ -93,7 +93,7 @@ span.ant-menu-title-content {
 
 /* Scrollbar Track */
 .custom-scrollbar::-webkit-scrollbar-track {
-  background-color: #1f2937;
+  background-color: white;
   /* Track color */
   border-left: 20px solid transparent;
   /* Creates space on the left */

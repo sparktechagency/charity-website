@@ -20,7 +20,6 @@ const DonationFormModal = () => {
 
   const handleSubmit = async (values) => {
     const amount = selectedAmount === "custom" ? customAmount : parseFloat(selectedAmount);
-    console.log( typeof `type of amount £{amount} `)
 
     if (!amount) {
       message.warning("Please select or enter a donation amount.");

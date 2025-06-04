@@ -28,7 +28,6 @@ const PaypalDonationFrom = () => {
       paymentType,
     };
 
-    console.log("Donation submitted:", payload);
     message.success("Donation details submitted!");
     form.resetFields();
     setSelectedAmount(null);
