@@ -49,7 +49,6 @@ const Contributors = () => {
 
   })
 
-  console.log(singleData)
 
 
 
@@ -256,7 +255,6 @@ const Contributors = () => {
               <div style={{ maxHeight: '400px', overflowY: 'auto', }} className=" pb-4 space-y-6">
                 {
                   contibutorActionData?.map((item, index) => {
-                    console.log(item)
                     return (
                       <div className="" key={index}>
                         <div className="flex justify-between">

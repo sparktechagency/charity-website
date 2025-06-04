@@ -43,6 +43,7 @@ import AudioPlayer from "../components/audio-player/AudioPlayer";
 import ServiceBook from "../pages/dashboard/adminDashboard/serviceBook/ServiceBook";
 import PaymentList from "../components/client/payment-list/PaymentList";
 import WinnerPaymentPage from "../pages/winner-payment-page/WinnerPaymentPage";
+import CookiePolicyPage from "../pages/cookie/CookiePolicyPage";
 
 
 export const router = createBrowserRouter([
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
         path: "/terms",
         element: <TermPage></TermPage>,
       },
+      {
+        path : "/cookie",
+        element : <CookiePolicyPage></CookiePolicyPage>
+      }
 
     ],
   },

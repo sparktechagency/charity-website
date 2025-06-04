@@ -20,7 +20,6 @@ const DashboardOtp = () => {
     try {
       const res = await postOtp({ otp: value.otp }).unwrap();
       const token = res.data?.token;
-      console.log(res);
       if (res.data) {
         toast.success(res?.message);
         localStorage.setItem("admin_token", token);
@@ -39,7 +38,6 @@ const DashboardOtp = () => {
   const handleResentOtp = async () => {
     try {
       const res = await postForgetPassword({ email: searchEmail }).unwrap();
-      console.log(res);
       if (res.data) {
         toast.success(res?.message);
       }

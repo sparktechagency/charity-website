@@ -50,7 +50,6 @@ export default function PodcastCarousel() {
       try {
         setLoading(true);
         const res = await axiosPublic.get(`/get-podcast`);
-        console.log("response is ", res.data?.data?.data)
         if (res.status === 200) {
           settesTimonials(res.data?.data?.data)
         }

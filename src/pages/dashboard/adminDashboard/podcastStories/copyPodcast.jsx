@@ -117,7 +117,6 @@ export default function PodcastPlayer() {
 
       if (playPromise !== undefined) {
         playPromise.catch(error => {
-          console.log("Autoplay prevented:", error);
           setIsPlaying(false);
         });
       }

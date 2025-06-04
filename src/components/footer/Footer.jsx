@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import useAxiosPublic from "../../pages/hooks/useAxiosPublic";
 import toast, { Toaster } from "react-hot-toast";
 import { FaFacebookF, FaInstagramSquare, FaLinkedin, FaTiktok, FaYoutube } from "react-icons/fa";
-import { IoLogoTwitter } from "react-icons/io";
+import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
   const axiosPublic = useAxiosPublic();
   const [loading, setLoading] = useState(false);
@@ -96,7 +96,7 @@ const Footer = () => {
                   <FaLinkedin className="text-black hover:text-blue-700 transition-colors" size={20} />
                 </a>
                 <a target="_blank" href="https://x.com/VirtueHopeCIC" aria-label="Twitter/X">
-                  <IoLogoTwitter className="text-black hover:text-gray-600 transition-colors" size={20} />
+                  <FaXTwitter className="text-black hover:text-gray-600 transition-colors" size={20} />
                 </a>
               </div>
             </div>
@@ -187,7 +187,7 @@ const Footer = () => {
                 <Link disabled to="#">Privacy</Link>
               </li>
               <li>
-                <Link disabled to="">Cookies</Link>
+                <Link  to="/cookie">Cookies</Link>
               </li>
             </ul>
           </div>

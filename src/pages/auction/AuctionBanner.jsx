@@ -27,7 +27,6 @@ const AuctionBanner = () => {
 
   const donateFull = Form.useWatch("donateFull", form);
 
-  console.log("form auction detail page", !donateFull);
 
   // 2nd modal end
 

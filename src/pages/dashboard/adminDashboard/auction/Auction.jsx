@@ -122,9 +122,7 @@ const Auction = () => {
     formData.append("duration", values.duration)
     formData.append("_method", "PUT");
 
-    // console.log(formData.forEach(value => {
-    //   console.log(value)
-    // }))
+    
 
     try {
       const res = await updateAction({
@@ -230,16 +228,13 @@ const Auction = () => {
     formData.append("address", values.address)
     formData.append("_method", "PUT");
 
-    // console.log(formData.forEach(value => {
-    //   console.log(value)
-    // }))
+    
 
     try {
       const res = await updateActionTwo({
         updateInfoTwo: formData,
         id: selectId
       }).unwrap()
-      console.log(res)
       if (res?.data) {
         toast.success(res?.message)
         setImageFileListOne([]);

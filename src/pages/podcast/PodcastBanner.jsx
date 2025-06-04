@@ -138,7 +138,6 @@ const PodcastBanner = () => {
     });
 
     wavesurfer.current.load(url).catch((err) => {
-      console.log(`url is ${url}`);
       console.error("Failed to load audio:", err);
     });
 

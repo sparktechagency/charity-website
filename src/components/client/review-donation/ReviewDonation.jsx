@@ -12,10 +12,8 @@ const ReviewDonation = () => {
   };
 
   const onEdit = () => {
-    console.log(`go to to edit page`);
   };
   const onConfirm = () => {
-    console.log(`Proceed to payment`);
   };
 
   return (

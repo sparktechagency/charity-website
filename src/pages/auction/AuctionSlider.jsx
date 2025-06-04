@@ -87,14 +87,12 @@ const AuctionSlider = () => {
         return form.resetFields();
       }
     } catch (error) {
-      console.error(error);
       toast.error(error?.response?.data?.message || "Registration failed!");
     } finally {
       setLoading(false);
     }
   };
   const normFile = (e) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -296,7 +294,6 @@ const AuctionSlider = () => {
 
 
     } catch (error) {
-      console.log(error)
       message.error(error.response.data.message);
     } finally {
       setLoading(false);
@@ -398,7 +395,6 @@ const AuctionSlider = () => {
   const [value, setValue] = useState("")
 
   const handleBidSelect = (index, price) => {
-    console.log(index, price)
     const newSelectedBids = [...selectedBids];
     newSelectedBids[index] = price;
     setSelectedBids(newSelectedBids);
@@ -417,7 +413,6 @@ const AuctionSlider = () => {
 
     setShowBids((prevState) => prevState.map(() => false));
 
-    console.log(selectedBids[index])
 
     // handleBidSubmit(index, selectedBids[index]); // 👈 Call API with selected custom bid
   };

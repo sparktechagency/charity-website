@@ -52,7 +52,6 @@ const generateTimeSlots = (startHour, endHour) => {
 
 const timeIs = generateTimeSlots(10, 19); // 10 AM to 7 PM
 
-console.log(timeIs)
 
 export const LuxerySection = () => {
   const axiosPublic = useAxiosPublic();
@@ -64,9 +63,7 @@ export const LuxerySection = () => {
       try {
         const res = await axiosPublic.get(`/get-available-booking-time`);
         setBookingData(res?.data?.data)
-        console.log(res?.data?.data)
       } catch (error) {
-        console.log(error)
       } finally {
 
       }
@@ -91,7 +88,6 @@ export const LuxerySection = () => {
   };
 
   const handleTimeClick = (time) => {
-    console.log(time)
     if (!isTimeBooked(time)) {
       setSelectedTime(time);
     }
@@ -123,7 +119,6 @@ export const LuxerySection = () => {
 
   // Form submit handler
   const handleBooking = async (values) => {
-    console.log(values)
     try {
       const payload = {
         telephone_number: values.number,

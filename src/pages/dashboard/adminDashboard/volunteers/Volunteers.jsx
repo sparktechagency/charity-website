@@ -110,7 +110,6 @@ const Volunteers = () => {
         status: selectStatus,
         volunteer_id: selectId,
       }).unwrap()
-      console.log(res)
       if (res?.success === true) {
         toast.success(res?.message)
         setVolunterModalThree(false)

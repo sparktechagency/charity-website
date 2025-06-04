@@ -59,7 +59,6 @@ export const MissionVission = () => {
   }, [supportModal, paymentModal, antiquesModal, isVolunterModal]);
 
     const closeUserDetailsModal = () => {
-    console.log(`modal close`)
     setPaymentModal(false)
   }
 
