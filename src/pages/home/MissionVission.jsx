@@ -139,7 +139,7 @@ export const MissionVission = () => {
           onCancel={closeUserDetailsModal}
           centered
           // width="400px"
-          width={"50%"}
+          // width={"50%"}
           style={{ padding: "15px", top: 0 }}
         >
           <PaymentModal
