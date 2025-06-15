@@ -22,6 +22,10 @@ import toast from "react-hot-toast";
 import { useDeleteActionMutation, useGetActionQuery, useSingleGetActionQuery, useUpdateActionMutation, useUpdateActionTwoMutation } from "../../../../redux/dashboardFeatures/dashboardGetActionApi";
 import { FiSearch } from "react-icons/fi";
 import TextArea from "antd/es/input/TextArea";
+import AuctionDocument from "./AuctionDocument";
+import { PDFDownloadLink } from '@react-pdf/renderer';
+
+
 
 
 
@@ -38,7 +42,8 @@ const Auction = () => {
   const [ImageFileListOne, setImageFileListOne] = useState([]);
   const [ImageFileListTwo, setImageFileListTwo] = useState([]);
 
-
+  const [imageBase64, setImageBase64] = useState(null);
+  const [imageError, setImageError] = useState(false);
 
 
 
@@ -300,6 +305,43 @@ const Auction = () => {
 
     return `${day} ${month}, ${year}`;
   };
+
+
+  const convertImageToBase64 = (url) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL("image/png"));
+      };
+      img.onerror = () => reject("Image load error");
+      img.src = url;
+    });
+  };
+
+
+
+
+  useEffect(() => {
+    if (modalThreeData?.image) {
+      const imageUrl = `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${modalThreeData?.image}`;
+      convertImageToBase64(imageUrl)
+        .then(setImageBase64)
+        .catch(() => setImageError(true));
+    }
+  }, [modalThreeData]);
+
+
+
+
+
+
+
 
 
   if (isLoading) return <CustomLoading />
@@ -728,10 +770,26 @@ const Auction = () => {
                 />
               </div>
             </div>
-            <button
-              className="bg-[#ffff] text-[#403730] mt-4 py-2 px-6 rounded-lg">
-              PDF
-            </button>
+            <div className="mt-4">
+              <PDFDownloadLink
+                document={
+                  <AuctionDocument
+                    data={modalThreeData}
+                    imageBase64={imageBase64}
+                    imageError={imageError}
+                  />
+                }
+                fileName={`auction_${modalThreeData?.name || 'data'}.pdf`}
+              >
+                {({ loading }) =>
+                  loading ? (
+                    <button className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">Generating PDF...</button>
+                  ) : (
+                    <button className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">Download PDF</button>
+                  )
+                }
+              </PDFDownloadLink>
+            </div>
 
           </div>
         </Modal>

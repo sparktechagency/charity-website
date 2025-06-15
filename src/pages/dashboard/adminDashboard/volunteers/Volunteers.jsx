@@ -13,7 +13,9 @@ import { useGetAllVolunterDataQuery, useUpdateVolunterDataMutation } from "../..
 import CustomLoading from "../../shared/CustomLoading";
 import { FiSearch } from "react-icons/fi";
 import toast from "react-hot-toast";
-import { useRef } from "react";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import VolunteerDocument from "./VolunteerDocument";
+
 
 
 
@@ -26,6 +28,8 @@ const Volunteers = () => {
   const [perPage, setPerPage] = useState(8);
   const [loading, setLoading] = useState(false)
   const [volunterModalThree, setVolunterModalThree] = useState(false)
+  const [imageBase64, setImageBase64] = useState(null);
+  const [imageError, setImageError] = useState(false);
 
 
   const dispatch = useDispatch();
@@ -40,7 +44,7 @@ const Volunteers = () => {
   const allVolunterData = data?.data?.data
   const singleVolunterData = allVolunterData?.find(item => item?.id === selectId)
 
-
+  console.log(singleVolunterData)
 
 
   // date formate function
@@ -213,6 +217,46 @@ const Volunteers = () => {
   }, [searchText, selectValue, selectStatus, currentPage, perPage, refetch]);
 
 
+
+  // pdf image convert
+  const convertImageToBase64 = (url) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL("image/png"));
+      };
+      img.onerror = () => reject("Image load error");
+      img.src = url;
+    });
+  };
+
+
+
+
+  useEffect(() => {
+    if (singleVolunterData?.image) {
+      const imageUrl = `${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData?.upload_cv}`;
+      convertImageToBase64(imageUrl)
+        .then(setImageBase64)
+        .catch(() => setImageError(true));
+    }
+  }, [singleVolunterData]);
+
+
+
+
+
+
+
+
+
+
   useEffect(() => {
     document.body.style.overflow =
       volunteerModalOne || volunterModalTwo || volunterModalOkThree
@@ -358,11 +402,26 @@ const Volunteers = () => {
                     <img src={`${import.meta.env.VITE_API_IMAGE_BASE_URL}/${singleVolunterData.upload_cv}`} alt="" className="py-8 object-contain  w-full max-h-[300px]" />
                   )
                 }
-                <button
-          
-                  className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">
-                  Pdf
-                </button>
+                <div className="">
+                  <PDFDownloadLink
+                    document={
+                      <VolunteerDocument
+                        data={singleVolunterData}
+                        imageBase64={imageBase64}
+                        imageError={imageError}
+                      />
+                    }
+                    fileName={`auction_${singleVolunterData?.name || 'data'}.pdf`}
+                  >
+                    {({ loading }) =>
+                      loading ? (
+                        <button className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">Generating PDF...</button>
+                      ) : (
+                        <button className="bg-[#ffff] text-[#403730] py-2 px-6 rounded-lg">Download PDF</button>
+                      )
+                    }
+                  </PDFDownloadLink>
+                </div>
 
               </div>
             </div>

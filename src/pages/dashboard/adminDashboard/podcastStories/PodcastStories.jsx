@@ -102,8 +102,6 @@ const PodcastStories = () => {
         const formatted = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} sec`;
 
         durations[index] = formatted;
-
-        // সব গুলা লোড হলে set করো
         if (durations.filter(Boolean).length === allPodcastData.length) {
           setDurationTime(durations);
         }
@@ -258,9 +256,12 @@ const PodcastStories = () => {
   }, [singlePodcastData]);
 
 
+
+
   // default value show modal for Five
   useEffect(() => {
     if (singlePodcast) {
+      console.log(singlePodcast)
       const guestImage = {
         uid: '-1',
         name: 'guest_profile.jpg',
@@ -370,7 +371,7 @@ const PodcastStories = () => {
     formData.append("description", values.description)
     formData.append('mp3', fileObj);
 
-   
+
 
     try {
       const res = await postDashboardPodcastApi(formData).unwrap()
@@ -434,20 +435,11 @@ const PodcastStories = () => {
 
     // === MP3 file upload (existing or new) ===
     const newMp3File = values?.mp3File?.[0]?.originFileObj;
-    const existingMp3File = mp3FileList?.[0];
 
     if (newMp3File) {
       // new mp3 file uploaded
       formData.append("mp3", newMp3File);
-    } else if (existingMp3File && existingMp3File?.url) {
-      // existing mp3 file, send the existing file path
-      const relativePath = existingMp3File.url.replace(
-        `${import.meta.env.VITE_API_IMAGE_BASE_URL}/`,
-        ""
-      );
-      formData.append("mp3", relativePath);
     }
-
 
     formData.append("podcast_title", values.podcast_title)
     formData.append("host_title", values.host_title)
@@ -558,7 +550,7 @@ const PodcastStories = () => {
           </button>
         </div>
         <div>
-          <div className="relative w-fit my-8">
+          <div className="relative w-fit my-8 z-20">
             <input
               type="search"
               id="gsearch"
