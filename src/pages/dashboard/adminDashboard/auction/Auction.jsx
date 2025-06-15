@@ -97,7 +97,7 @@ const Auction = () => {
         address: updateModalData.address,
         contact_number: updateModalData.contact_number,
         donate_share: updateModalData.donate_share,
-        image: [autionImage],
+
         image: [autionImage, ProfileImage], // ✅ use it after defining
       });
 
@@ -122,7 +122,7 @@ const Auction = () => {
     formData.append("duration", values.duration)
     formData.append("_method", "PUT");
 
-    
+
 
     try {
       const res = await updateAction({
@@ -228,7 +228,7 @@ const Auction = () => {
     formData.append("address", values.address)
     formData.append("_method", "PUT");
 
-    
+
 
     try {
       const res = await updateActionTwo({
@@ -563,8 +563,8 @@ const Auction = () => {
                       message: 'Duration must be at least 1',
                     },
                   ]}>
-                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }} 
-                       onKeyDown={(e) => {
+                    <InputNumber id="dashboard_auction" style={{ width: "100%", height: "40px", backgroundColor: "transparent", WebkitTextFillColor: "#fff", }}
+                      onKeyDown={(e) => {
                         const allowedKeys = [
                           'Backspace',
                           'ArrowLeft',
