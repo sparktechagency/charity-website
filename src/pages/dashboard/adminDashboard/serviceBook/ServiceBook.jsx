@@ -67,7 +67,6 @@ const ServiceBook = () => {
         dispatch(closeserviceModalOpenOne());
       }
     } catch (errors) {
-      console.log(errors)
     } finally {
       setLoading(false)
     }

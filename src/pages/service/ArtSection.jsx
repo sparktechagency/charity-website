@@ -14,13 +14,14 @@ const ArtSection = () => {
               <span className="lg:text-7xl">auction</span>
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex ">
               <motion.img
                 src="./art-2.png"
                 alt=""
                 initial={{ y: 100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, ease: "easeOut" }}
+                className="mt-5"
               />
             </div>
 

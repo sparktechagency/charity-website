@@ -12,7 +12,6 @@ const DashboardForgetPassword = () => {
   const onFinish = async (value) => {
     try {
       const res = await postForgetPassword({ email: value?.email }).unwrap();
-      console.log(res);
       if (res.data) {
         toast.success(res?.message);
         form.resetFields();

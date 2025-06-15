@@ -46,7 +46,6 @@ const Navbar = () => {
     fetchData();
   }, []);
 
-  console.log(profileData)
 
   // profile card modal 
 
@@ -160,7 +159,7 @@ const Navbar = () => {
 
 
   const closeUserDetailsModal = () => {
-    console.log(`modal close`)
+    form.resetFields()
     setPaymentModal(false)
   }
 
@@ -182,7 +181,7 @@ const Navbar = () => {
       className={`fixed w-full z-[100] transition-all duration-300 ${isScrolled ? "bg-[#F9F9F9] shadow" : "bg-transparent"
         }`}
     >
-      <div className="max-w-7xl  mx-auto py-3 flex items-center justify-between px-4 md:px-3">
+      <div className="max-w-[1480px]  px-4 lg:px-0  mx-auto py-3 flex items-center justify-between ">
         {/* Logo */}
         <Link className="flex items-center gap-4" to="/">
           <img src={logo} alt="Virtue Hope Logo" className="h-10" />
@@ -190,7 +189,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden z-50 lg:flex">
+        <nav style={{ fontFamily: 'Kind Sans', fontWeight: 400 }} className="hidden z-50 lg:flex">
           <ul className="flex items-center gap-x-6 mt-1.5">
             {menuItems.map((item) => (
               <li key={item.path}>
@@ -199,7 +198,7 @@ const Navbar = () => {
                   className={({ isActive }) =>
                     `text-sm transition-colors ${isActive
                       ? "font-bold px-6 py-3 bg-[#dee1e6] rounded-3xl"
-                      : "text-[#263234] hover:text-gray-700"
+                      : "text-[#263234] text-lg hover:text-gray-700"
                     }`
                   }
                 >
@@ -212,59 +211,59 @@ const Navbar = () => {
 
         {/* Login Button (Desktop Only) */}
 
-        <div className="hidden lg:flex bg-white items-center">
+        <div className="relative hidden lg:block">
           {isLoggedIn ? (
-            <Dropdown
-              overlay={
-                <Menu>
-                  <Menu.Item key="profile">
-                    <button
-                      onClick={openProfileCardModal}
-                      className="w-full text-left"
-                    >
-                      Profile
-                    </button>
-                  </Menu.Item>
-                  <Menu.Item key="logout">
-                    <button onClick={handleLogout} className="w-full text-left">
-                      Logout
-                    </button>
-                  </Menu.Item>
-                </Menu>
-              }
-              trigger={["hover"]}
-            >
-              <div className="cursor-pointer bg-white ">
-                <img
-                  className="w-10 h-10 object-cover bg-white! rounded-full  "
-                  src={`http://137.59.180.219:8000/${profileData?.image || "default-image/defaultImage.jpg"
-                    }`}
-                  alt="Profile"
-                />
-              </div>
-            </Dropdown>
+            <div className="flex items-center gap-x-3 ">
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item key="profile">
+                      <button
+                        onClick={openProfileCardModal}
+                        className="w-full text-left"
+                      >
+                        Profile
+                      </button>
+                    </Menu.Item>
+                    <Menu.Item key="logout">
+                      <button onClick={handleLogout} className="w-full text-left">
+                        Logout
+                      </button>
+                    </Menu.Item>
+                  </Menu>
+                }
+                trigger={["hover"]}
+              >
+                <div className="cursor-pointer">
+                  <img
+                    className="w-10 h-10 object-cover border border-green-900 rounded-full"
+                    src={`${imgUrl}/${profileData?.image || "default-image/defaultImage.jpg"}`}
+                    alt="Profile"
+                  />
+                </div>
+              </Dropdown>
+              <h1 className="text-sm font-medium font-kindsans text-black ml-1">
+                {profileData?.full_name}
+              </h1>
+            </div>
           ) : (
             <button
-              onClick={openLoginModal}
-              className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
+              onClick={() => {
+                // closeDrawer?.(); // safe call
+                openLoginModal();
+              }}
+              className="px-4 py-2.5 text-sm font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
             >
               Login
             </button>
           )}
         </div>
 
-        <div className=" mr-5 " >
-          {
-            isLoggedIn && <>
-
-              <h1> {profileData?.full_name} </h1>
 
 
-            </>
-          }
-        </div>
 
         <button
+          style={{ fontFamily: 'Kind Sans' }}
           onClick={openSupportModal}
           className="hidden lg:block px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
         >
@@ -306,54 +305,54 @@ const Navbar = () => {
           </ul>
 
           {/* Login Button in Drawer (Closes Drawer & Opens Modal) */}
-          <div className="">
+          <div className="relative block mt-3 lg:hidden">
             {isLoggedIn ? (
-              <Dropdown
-                overlay={
-                  <Menu>
-                    <Menu.Item key="profile">
-                      <button
-                        onClick={openProfileCardModal}
-                        className="w-full text-left"
-                      >
-                        Profile
-                      </button>
-                    </Menu.Item>
-                    <Menu.Item key="logout">
-                      <button onClick={handleLogout} className="w-full text-left">
-                        Logout
-                      </button>
-                    </Menu.Item>
-                  </Menu>
-                }
-                trigger={["hover"]}
-              >
-                <div className="cursor-pointer border-green-900  ">
-                  <img
-                    className="w-10 h-10 object-cover border border-green-900  rounded-full  "
-                    src={`${imgUrl}/${profileData?.image || "default-image/defaultImage.jpg"
-                      }`}
-                    alt="Profile"
-                  />
-                </div>
-              </Dropdown>
+              <div className="flex items-center">
+                <Dropdown
+                  overlay={
+                    <Menu>
+                      <Menu.Item key="profile">
+                        <button
+                          onClick={openProfileCardModal}
+                          className="w-full text-left"
+                        >
+                          Profile
+                        </button>
+                      </Menu.Item>
+                      <Menu.Item key="logout">
+                        <button onClick={handleLogout} className="w-full text-left">
+                          Logout
+                        </button>
+                      </Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["hover"]}
+                >
+                  <div className="cursor-pointer">
+                    <img
+                      className="w-10 h-10 object-cover border border-green-900 rounded-full"
+                      src={`${imgUrl}/${profileData?.image || "default-image/defaultImage.jpg"}`}
+                      alt="Profile"
+                    />
+                  </div>
+                </Dropdown>
+                <h1 className="text-sm font-medium font-kindsans text-black ml-1">
+                  {profileData?.full_name}
+                </h1>
+              </div>
             ) : (
               <button
-                onClick={openLoginModal}
-                className="block lg:hidden px-4 py-2.5 text-sm cursor-pointer font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
+                onClick={() => {
+                  closeDrawer?.(); // safe call
+                  openLoginModal();
+                }}
+                className="px-4 py-2.5 text-sm font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
               >
                 Login
               </button>
             )}
-            {
-              isLoggedIn && <>
-
-                <h1> {profileData?.full_name} </h1>
-
-
-              </>
-            }
           </div>
+
 
 
 
@@ -400,7 +399,7 @@ const Navbar = () => {
         closable={true}
         maskClosable={false}
         centered
-        width="50%"
+        // width="50%"
       >
         <div style={{ padding: "15px" }}>
           <PaymentModal

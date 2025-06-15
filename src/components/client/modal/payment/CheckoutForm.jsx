@@ -63,7 +63,6 @@ const CheckoutForm = ({ clientSecret, userDetails, paymentId }) => {
             payment_gatway: "stripe",
           });
 
-          console.log("Donation recorded:", res);
           navigate("/");
           Swal.fire({
             position: "top-center",

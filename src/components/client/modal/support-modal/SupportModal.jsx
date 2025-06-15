@@ -12,7 +12,6 @@ const SupportModal = ({
   const openPaymentModal = () => {
     setPaymentModal(true);
     setSupportModal(false);
-    console.log(`open payment modal`);
   };
 
   //  open Donate Art, Antique or Collectables
@@ -33,7 +32,7 @@ const SupportModal = ({
                 value="support"
                 className="flex items-center pl-2 py-3.5! h-[54px] px-2! justify-between w-full  border border-[#A6ABAC] rounded-lg cursor-pointer"
               >
-                <span className="text-[#263234] font-medium">Donate Money</span>
+                <span className="text-[#263234] font-medium lg:text-xl text-sm ">Donate Money</span>
               </Radio>
 
               {/* Divider */}
@@ -47,7 +46,7 @@ const SupportModal = ({
                 value="antique"
                 className="flex items-center pl-2 py-3.5! h-[54px] px-2! justify-between w-full  border border-[#A6ABAC] rounded-lg cursor-pointer"
               >
-                <span className="text-[#263234] font-medium">
+                <span className="text-[#263234] lg:text-xl text-sm font-medium">
                   Donate Art, Antique or Collectables
                 </span>
               </Radio>

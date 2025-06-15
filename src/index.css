@@ -8,7 +8,7 @@
 
 
 
-body {}
+
 
 span.ant-menu-title-content {
   color: #403730;
@@ -93,7 +93,7 @@ span.ant-menu-title-content {
 
 /* Scrollbar Track */
 .custom-scrollbar::-webkit-scrollbar-track {
-  background-color: #1f2937;
+  background-color: white;
   /* Track color */
   border-left: 20px solid transparent;
   /* Creates space on the left */
@@ -601,10 +601,9 @@ span.ant-menu-title-content {
     margin-bottom: 10px !important;
   }
 
-  .navBtn2 {
-    /* background-color: rebeccapurple !important ; */
-  }
+  
 }
+
 
 
 
@@ -645,7 +644,6 @@ input#name {
   color: black !important;
 }
 
-;
 
 input#email {
   color: black !important;
@@ -921,59 +919,6 @@ button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.an
 }
 
 
-
-
-
-/* 
-1. button hover effect remove
-
-*/
-
-
-/*================ ant modal custom style start ============= */
-/* .ant-modal-content {
-  padding: 0px !important;
-
-}
-
-.ant-modal-close-icon {
-  color: white;
-  border: 1px solid white;
-  border-radius: 50%;
-  padding: 10px;
-}
-
-.ant-modal-body {
-  background-color: #1B2324!important;
-  margin-top: -8px !important;
-}
-
-.ant-modal-body {
-  border-radius: 0 0 6px 6px !important;
-}
-
-.ant-form-item-required {
-  font-family: "Roboto", sans-serif !important;
-  font-weight: 400 !important;
-  font-size: 18px !important;
-  content: "" !important;
-}
-
-.ant-tag-close-icon {
-  color: black !important;
-  padding-left: 20px;
-  font-size: 18px !important;
-}
-
-.ant-card-body {
-  padding: 0px;
-  border-radius: 10px !important;
-} */
-/*================ ant modal custom style end ============= */
-
-
-/* input field place holder custom color */
-/* Target the real input element inside the Ant Design wrapper */
 input#forget_password_email {
   color: #ffff !important;
   background: transparent;

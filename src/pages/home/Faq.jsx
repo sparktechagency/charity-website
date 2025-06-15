@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 const Faq = () => {
   const axiosPublic = useAxiosPublic();
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([]);
   const [openIndex, setOpenIndex] = useState(0);
   useEffect(() => {
@@ -32,31 +32,11 @@ const Faq = () => {
         <div className="max-w-[1174px] mx-auto flex flex-col lg:flex-row gap-8 justify-between">
           {data.length === 0 ? (
             <>
-              <motion.div
-                className="flex h-[50vh] w-full items-center justify-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-              >
-                <motion.div
-                  className="flex flex-col items-center text-center gap-4"
-                  initial={{ scale: 0.9 }}
-                  animate={{ scale: 1 }}
-                  transition={{
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    duration: 1.5,
-                  }}
-                >
-                  <Loader2 className="animate-spin text-[#403730] w-10 h-10" />
-                  <h1 className="text-2xl font-semibold text-[#403730]">
-                    Loading FAQs...
-                  </h1>
-                  <p className="text-gray-500 text-sm max-w-xs">
-                    Please wait while we fetch the data
-                  </p>
-                </motion.div>
-              </motion.div>
+              <div className="flex items-center justify-center w-full">
+                <h1 className="w-full text-center text-[#403730] text-lg font-semibold py-2">
+                  Data not found
+                </h1>
+              </div>
             </>
           ) : (
             <>
@@ -74,10 +54,10 @@ const Faq = () => {
                           setOpenIndex(openIndex === index ? null : index)
                         }
                       >
-                        <p className="px-2 text-[#263234] text-lg sm:text-xl font-semibold mt-4 sm:mt-6">
-                          {item?.question}
+                        <p className="px-2 text-[#263234] text-lg sm:text-xl font-semibold -mt-3! sm:mt-6">
+                          {item?.question} 
                         </p>
-                        <span className="cursor-pointer">
+                        <span className="cursor-pointer mt-3 ">
                           {openIndex === index ? (
                             <svg
                               width="24"

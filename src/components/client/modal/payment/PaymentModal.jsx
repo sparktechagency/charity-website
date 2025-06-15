@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, Radio, Form, Tabs, Input, Divider } from "antd";
-import { FaCcMastercard } from "react-icons/fa";
-import StripeForm from "./StripeForm";
+import { Button, Radio, Form, Tabs, Input, Divider, InputNumber } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import "../../../../assets/css/style.css"
 const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
-  const { paymentCard } = useParams();
   const [form] = Form.useForm();
   const [donationType, setDonationType] = useState("one_time_donate");
   const [selectedAmount, setSelectedAmount] = useState(null);
@@ -20,32 +17,25 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
 
   const handleSubmit = async (values) => {
     const amount = selectedAmount === "custom" ? customAmount : parseFloat(selectedAmount);
-    console.log(typeof `type of amount £{amount} `)
-
     if (!amount) {
       message.warning("Please select or enter a donation amount.");
       return;
     }
-
     const payload = {
       ...values,
       donation_type: donationType,
       amount: Number(amount),
       frequency: paymentType,
     };
-
-    console.log(`User details modal payload is ${JSON.stringify(payload)}`)
-
     setData(payload);
     navigate("/user-details", { state: payload });
-
   }
 
   return (
 
     <div>
 
-      <div className="max-w-2xl  mx-auto p-6 bg-white rounded-2xl ">
+      <div className="lg:max-w-2xl w-full  mx-auto p-6 bg-white rounded-2xl ">
         <h2 className="text-2xl text-[#263234] font-semibold text-center mb-6">
           Enter Donation Details
         </h2>
@@ -63,7 +53,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
               {
                 key: "one_time_donate",
                 label: (
-                  <span className=" text-[#263234] text-lg font-semibold ">
+                  <span className=" text-[#263234] lg:text-lg text-sm font-semibold ">
                     One-Time Donation
                   </span>
                 ),
@@ -73,9 +63,9 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
                       <Button
                         key={amount}
                         className={`border rounded-lg h-12 ${selectedAmount === amount
-                        ? "  text-white bg-blue-600 "
-                        : "bg-white"
-                        }`}
+                          ? "  text-white bg-blue-600 "
+                          : "bg-white"
+                          }`}
                         onClick={() => {
                           setSelectedAmount(amount);
                           setCustomAmount("");
@@ -84,15 +74,20 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
                         £{amount}
                       </Button>
                     ))}
-                    <Input
+                    <InputNumber
                       prefix="£"
-                      style={{ padding: "10px 20px", outline: "none" }}
-                      className=" placeholder:text-lg placeholder:text-[#818889] "
+                      style={{ padding: "10px 20px", outline: "none", width: "100%" }}
+                      className="placeholder:text-lg placeholder:text-[#818889]"
                       placeholder="Other"
-                      value={selectedAmount === "custom" ? customAmount : ""}
-                      onChange={(e) => {
+                      value={selectedAmount === "custom" ? customAmount : null}
+                      onChange={(value) => {
                         setSelectedAmount("custom");
-                        setCustomAmount(e.target.value);
+                        setCustomAmount(value);
+                      }}
+                      onKeyPress={(e) => {
+                        if (!/[0-9]/.test(e.key)) {
+                          e.preventDefault();
+                        }
                       }}
                     />
                   </div>
@@ -101,7 +96,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
               {
                 key: "recurring",
                 label: (
-                  <span className=" text-[#263234] text-lg font-semibold ">
+                  <span className=" text-[#263234] text-sm lg:text-lg font-semibold ">
                     Recurring Donation
                   </span>
                 ),
@@ -113,7 +108,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
                       defaultValue="monthly"
                       name="frequency"
                     >
-                      <Radio.Button value="monthly">Montly</Radio.Button>
+                      <Radio.Button value="monthly">Monthly</Radio.Button>
                       <Radio.Button value="quarterly">Yearly </Radio.Button>
                       <Radio.Button value="annually">Annually</Radio.Button>
                     </Radio.Group>

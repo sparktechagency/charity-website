@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import useAxiosPublic from "../../pages/hooks/useAxiosPublic";
 import toast, { Toaster } from "react-hot-toast";
 import { FaFacebookF, FaInstagramSquare, FaLinkedin, FaTiktok, FaYoutube } from "react-icons/fa";
-import { IoLogoTwitter } from "react-icons/io";
+import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
   const axiosPublic = useAxiosPublic();
   const [loading, setLoading] = useState(false);
@@ -13,6 +13,13 @@ const Footer = () => {
   const handleSubmit = async () => {
     if (!email) {
       toast.error("Please enter your email!");
+      return;
+    }
+
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address!");
       return;
     }
 
@@ -58,7 +65,7 @@ const Footer = () => {
   return (
     <>
       <div className="bg-[#ECEBEA] px-5 pt-8 lg:pt-16 lg:pb-12 pb-6 z-50">
-        <div className="max-w-[1074px] mx-auto">
+        <div className="max-w-[1104px] mx-auto">
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-0 justify-between items-center lg:items-start">
             {/* Logo Section */}
             <div className="text-center mt-4 lg:text-left">
@@ -70,27 +77,27 @@ const Footer = () => {
               <h1 className="text-[#4B5557] my-2 font-bold text-xl">Virtue Hope C.I.C</h1>
               <p className="text-[#4B5557] my-2">86-90 Paul Street, London, EC2A 4NE</p>
               <p className="text-[#4B5557] my-2">Registered Company No.: 16173113</p>
-              <p className="text-[#4B5557] my-2">Email: NoReply@virtuehope.com</p>
-              <div className=" flex items-center gap-x-3 mt-3 " >
-                {/* youtube  */}
-                <span>
-                  <Link to={"https://www.youtube.com/@VirtueHope"}><FaYoutube   className="text-black"  size={20} /></Link>
-                </span>
-                <span>
-                  <Link to={"https://www.instagram.com/virtue.hope/"}><FaInstagramSquare  className="text-black"  size={20} /></Link>
-                </span>
-                <span>
-                  <Link to={"https://www.tiktok.com/@virtuehopecic_"}><FaTiktok size={20}  className="text-black"  /></Link>
-                </span>
-                <span>
-                  <Link to={"https://www.facebook.com/profile.php?id=61575166415077"}><FaFacebookF  className="text-black"  size={20} /></Link>
-                </span>
-                <span>
-                  <Link to={"https://www.linkedin.com/in/virtue-hope-cic-078531360/"}><FaLinkedin  className="text-black"  size={20} /></Link>
-                </span>
-                <span>
-                  <Link to={"https://x.com/VirtueHopeCIC"}><IoLogoTwitter  className="text-black"  size={20} /></Link>
-                </span>
+              <p className="text-[#4B5557] my-2">Email: give@virtuehope.com</p>
+
+              <div className="flex items-center gap-x-3 mt-3 justify-center lg:justify-start">
+                <a href="https://www.youtube.com/@VirtueHope" target="blank" aria-label="YouTube">
+                  <FaYoutube className="text-black hover:text-red-600 transition-colors" size={20} />
+                </a>
+                <a target="blanck" href="https://www.instagram.com/virtue.hope/" aria-label="Instagram">
+                  <FaInstagramSquare className="text-black hover:text-pink-500 transition-colors" size={20} />
+                </a>
+                <a target="blank" href="https://www.tiktok.com/@virtuehopecic_" aria-label="TikTok">
+                  <FaTiktok className="text-black hover:text-gray-800 transition-colors" size={20} />
+                </a>
+                <a target="blank" href="https://www.facebook.com/profile.php?id=61575166415077" aria-label="Facebook">
+                  <FaFacebookF className="text-black hover:text-blue-600 transition-colors" size={20} />
+                </a>
+                <a target="blank" href="https://www.linkedin.com/in/virtue-hope-cic-078531360/" aria-label="LinkedIn">
+                  <FaLinkedin className="text-black hover:text-blue-700 transition-colors" size={20} />
+                </a>
+                <a target="_blank" href="https://x.com/VirtueHopeCIC" aria-label="Twitter/X">
+                  <FaXTwitter className="text-black hover:text-gray-600 transition-colors" size={20} />
+                </a>
               </div>
             </div>
 
@@ -122,19 +129,19 @@ const Footer = () => {
             {/* Newsletter */}
             <div className="w-full lg:w-auto
             ml-6 text-center mt-3 lg:text-left">
-              <h2 className="text-[#263234] font-semibold text-sm">Stay Up to Date</h2>
+              {/* <h2 className="text-[#263234] font-semibold text-sm">Stay Up to Date</h2> */}
               <div className="flex flex-col lg:flex-row items-center gap-3 mt-4">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email address"
-                  className="border border-gray-300 bg-[#f4f5f7] px-3 py-2 shadow-md text-sm focus:outline-none"
+                  className="border border-gray-300 bg-[#f4f5f7] px-3 py-2 shadow-md w-[250px] text-sm focus:outline-none"
                 />
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="px-6 py-2 min-w-[120px] rounded text-sm font-bold text-white bg-[#403730] flex items-center justify-center"
+                  className="px-6 py-2  rounded text-sm font-bold text-white bg-[#403730] flex items-center justify-center"
                 >
                   {loading ? (
                     <span className="flex items-center gap-2">
@@ -180,7 +187,7 @@ const Footer = () => {
                 <Link disabled to="#">Privacy</Link>
               </li>
               <li>
-                <Link disabled to="">Cookies</Link>
+                <Link  to="/cookie">Cookies</Link>
               </li>
             </ul>
           </div>

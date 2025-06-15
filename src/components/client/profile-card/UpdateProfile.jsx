@@ -3,6 +3,7 @@ import { UserOutlined, UploadOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
 import { imgUrl } from "../../../helper/imgUrl";
+import toast from "react-hot-toast";
 
 export default function UserForm({ updateProfileModal, setUpdateProfileModal }) {
   const axiosPublic = useAxiosPublic();
@@ -18,38 +19,36 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
     },
   };
 
-  // Fetch user info (including image)
+  const [user, setUserData] = useState("")
+
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axiosPublic.get("/profile", config);
-        const user = response.data?.data;
-
-
-        form.setFieldsValue({
-          full_name: user.full_name,
-        });
-
-        // Only set fileList if image exists
-        if (user.image) {
-          setFileList([
-            {
-              uid: "-1",
-              name: "profile.jpg",
-              status: "done",
-              url: `${imgUrl}/${user.image}`, // must be accessible
-            },
-          ]);
-        }
-      } catch (err) {
-        console.error("Failed to load user info", err);
-      }
-    };
-
     fetchUserData();
   }, [form]);
 
-  
+  const fetchUserData = async () => {
+    try {
+      const response = await axiosPublic.get("/profile", config);
+      let user = response.data?.data;
+
+      form.setFieldsValue({
+        full_name: user.full_name,
+      });
+
+      if (user.image) {
+        setFileList([
+          {
+            uid: "-1",
+            name: "profile.jpg",
+            status: "done",
+            url: `${imgUrl}/${user.image}`,
+          },
+        ]);
+      }
+    } catch (err) {
+      console.error("Failed to load user info", err);
+    }
+  };
+
   const handleUploadChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
@@ -71,29 +70,39 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
         },
       });
 
-      message.success("User information submitted successfully!");
+      toast.success("User information submitted successfully!");
+
+      // Re-fetch updated data
+      await fetchUserData();
+
       form.resetFields();
       setFileList([]);
       setUpdateProfileModal(false);
     } catch (error) {
-      console.error("Error submitting form:", error);
       message.error("Something went wrong! Please try again.");
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     document.body.style.overflow = updateProfileModal ? "hidden" : "auto";
   }, [updateProfileModal]);
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-2xl">
-      <h2 className="text-2xl font-bold mb-4 text-center">User Information</h2>
+    <div className="w-full max-w-[90%] sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto p-4 sm:p-6 md:p-8 bg-white rounded-2xl shadow-lg">
+      <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 text-center text-gray-800">
+        User Information
+      </h2>
 
-      <Form form={form} layout="vertical" onFinish={onFinish} autoComplete="off">
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinish}
+        autoComplete="off"
+        className="space-y-4"
+      >
         <Form.Item
-          label="Full Name"
+          label={<span className="text-sm sm:text-base">Full Name</span>}
           name="full_name"
           rules={[{ required: true, message: "Please enter your full name" }]}
         >
@@ -104,7 +113,10 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
           />
         </Form.Item>
 
-        <Form.Item label="Upload Image" name="image">
+        <Form.Item
+          label={<span className="text-sm sm:text-base lg:w-full ">Upload Image</span>}
+          name="image"
+        >
           <Upload.Dragger
             name="image"
             listType="picture"
@@ -114,7 +126,7 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
           >
             <Button
               icon={<UploadOutlined />}
-              className="flex items-center bg-btnColor text-white font-semibold px-4 py-2 rounded-lg"
+              className="flex lg:flex items-center justify-start bg-btnColor  text-white font-semibold px-4 py-2  rounded-lg"
             >
               Upload Image
             </Button>
@@ -124,7 +136,6 @@ export default function UserForm({ updateProfileModal, setUpdateProfileModal }) 
         <Form.Item>
           <Button
             loading={loading}
-            type="primary"
             htmlType="submit"
             className="lg:w-full bg-btnColor border-none h-11 font-semibold text-white rounded-lg"
           >

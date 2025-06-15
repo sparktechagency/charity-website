@@ -58,6 +58,11 @@ export const MissionVission = () => {
         : "auto";
   }, [supportModal, paymentModal, antiquesModal, isVolunterModal]);
 
+    const closeUserDetailsModal = () => {
+    setPaymentModal(false)
+  }
+
+
   return (
     <div>
       <div className="py-5 px-4 max-w-[1512px] mx-auto ">
@@ -130,9 +135,11 @@ export const MissionVission = () => {
         <Modal
           open={paymentModal}
           footer={null}
-          closable={false}
+          closable={true}
+          onCancel={closeUserDetailsModal}
           centered
-          width="400px"
+          // width="400px"
+          // width={"50%"}
           style={{ padding: "15px", top: 0 }}
         >
           <PaymentModal

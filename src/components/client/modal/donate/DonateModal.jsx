@@ -15,7 +15,6 @@ const DonateModal = ({
 
 
   const handleFileChange = (info) => {
-    console.log("File Upload Info:", info.fileList);
   };
 
   const uploadProps = {
@@ -29,8 +28,7 @@ const DonateModal = ({
   // submit modal
 
   const handleSubmit = (values) => {
-    console.log("Form values:", values);
-    console.log(values.email);
+   
     form.resetFields(); // Reset form after submit
     setSecondModalOpen(false);
     showSuccessAlert();
@@ -45,7 +43,6 @@ const DonateModal = ({
     form.resetFields(); // Reset form after
     setModalOpen(true);
     setSecondModalOpen(false);
-    console.log("Ishan")
   };
 
   return (

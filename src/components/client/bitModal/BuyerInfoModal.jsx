@@ -12,8 +12,7 @@ import Checkbox from "antd/es/checkbox/Checkbox";
 const BuyerInfoModal = ({ setBuyerInfoModal, setPaymentModal }) => {
   const [form] = Form.useForm();
   const handleSubmitBuyerInfo = (values) => {
-    console.log("Buyer info submitted: ", values);
-    console.log("Form submitted!");
+
     setPaymentModal(true);
     setBuyerInfoModal(false);
     form.resetFields();
@@ -21,7 +20,6 @@ const BuyerInfoModal = ({ setBuyerInfoModal, setPaymentModal }) => {
 
   const handleCancel = ()=>{
     setBuyerInfoModal(false)
-    console.log(`cancel modal`)
   }
 
   return (

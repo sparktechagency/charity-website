@@ -193,7 +193,6 @@ const PodcastStories = () => {
 
       if (playPromise !== undefined) {
         playPromise.catch(error => {
-          console.log("Autoplay prevented:", error);
           setIsPlaying(false);
         });
       }
@@ -371,13 +370,10 @@ const PodcastStories = () => {
     formData.append("description", values.description)
     formData.append('mp3', fileObj);
 
-    // console.log(formData.forEach(item => {
-    //   console.log(item)
-    // }))
+   
 
     try {
       const res = await postDashboardPodcastApi(formData).unwrap()
-      console.log(res)
       if (res?.data) {
         toast.success(res?.message)
         setImageFileListHost([]);
@@ -460,20 +456,17 @@ const PodcastStories = () => {
     formData.append("_method", "PUT");
 
 
-
     try {
       const res = await updateDashboardPodcastApi({
         updateInfo: formData,
         podcast_id: selectId
       }).unwrap()
-      console.log(res)
       if (res?.data) {
         toast.success(res?.message)
         dispatch(closePodcastModalOpenFive());
       }
     } catch (errors) {
       if (errors) {
-        console.log(errors)
         toast.error(errors?.data?.message);
       }
     }

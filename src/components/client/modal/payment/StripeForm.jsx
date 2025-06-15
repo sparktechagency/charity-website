@@ -13,7 +13,6 @@ const stripePromise = loadStripe(
 const StripeForm = () => {
   const location = useLocation();
   const userPayload = location.state;
-  console.log(`user payload is ${userPayload}`)
   const userDetails = {
     amount: Number(userPayload.amount),
     donation_type: userPayload.donation_type,
@@ -23,7 +22,6 @@ const StripeForm = () => {
     remark: userPayload.remark,
     phone_number: userPayload.phone_number
   }
-  console.log(typeof `stripe from payload is ${userDetails.amount}`);
   const navigate = useNavigate();
   const [clientSecret, setClientSecret] = useState("");
   const [paymentId, setPaymentId] = useState("")
@@ -51,18 +49,15 @@ const StripeForm = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(`stripe data is ${data?.data}`)
         setClientSecret(data?.data?.client_secret);
         setPaymentId(data?.data?.id)
       })
       .catch((error) => {
-        console.error("Error creating payment intent:", error);
       });
   }, [userPayload.amount]);
 
 
 
-  console.log(`payment id is ${paymentId}`)
 
 
   const appearance = {

@@ -6,15 +6,16 @@ export default {
   ],
   theme: {
     extend: {
-      colors:{
-        'primary':'#1B2324', 
+      colors: {
+        'primary': '#1B2324', 
+      },
+      backgroundColor: {
+        "btnColor": "#403730",
       },
       fontFamily: {
-        'roboto': ["Roboto", "serif"],
+        roboto: ["Roboto", "serif"],
+        kindsans: ['"Kind Sans"', 'sans-serif'],
       },
-      backgroundColor : {
-        "btnColor" : "#403730"
-      }
     },
   },
   plugins: [],

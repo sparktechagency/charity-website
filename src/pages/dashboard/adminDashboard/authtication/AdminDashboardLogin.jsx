@@ -21,7 +21,6 @@ const AdminDashboardLogin = () => {
     try {
       const res = await postLogin(loginInfo).unwrap();
       const token = res.data?.token;
-      console.log(res);
       if (res.data?.token) {
         toast.success(res?.message);
         localStorage.setItem("admin_token", token);
