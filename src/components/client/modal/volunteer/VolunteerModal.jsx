@@ -40,7 +40,7 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
       formData.append("upload_cv", file.originFileObj);
     });
 
-    
+
 
     try {
       setLoading(true);
@@ -49,7 +49,8 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      if (res.data.success) {
+      console.log(`response is ${res?.data}`)
+      if (res) {
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -61,6 +62,14 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
         return setIsVolunterModal(false);
       }
     } catch (error) {
+      console.log(error)
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: `${error.response?.data?.message}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
       setError(error?.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -242,7 +251,7 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
           <Button onClick={closeVolunteerModal} className="navBtn1">
             Cancel
           </Button>
-          <Button loading = {loading} htmlType="submit" className="navBtn2">
+          <Button loading={loading} htmlType="submit" className="navBtn2">
             Apply now
           </Button>
         </div>

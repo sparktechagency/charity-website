@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { Modal, Input, Button, Checkbox, Upload, Radio, Form, Select } from "antd";
 import { Link } from "react-router-dom";
-import { showSuccessAlert } from "../../../../helper/showSuccessAlert";
 import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 
-const { Dragger } = Upload;
 
 const ArtAntiqModal = ({
   setAntiquesModal,

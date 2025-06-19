@@ -80,23 +80,28 @@ const Footer = () => {
               <p className="text-[#4B5557] my-2">Email: give@virtuehope.com</p>
 
               <div className="flex items-center gap-x-3 mt-3 justify-center lg:justify-start">
-                <a href="https://www.youtube.com/@VirtueHope" target="blank" aria-label="YouTube">
-                  <FaYoutube className="text-black hover:text-red-600 transition-colors" size={20} />
+                <a href="https://www.youtube.com/@VirtueHope" target="_blank" rel="noopener noreferrer">
+                  <FaYoutube className="text-black bg-[#534B44] rounded-full  w-10 h-10 p-2 hover:text-red-600 transition-colors duration-200" size={24} />
                 </a>
-                <a target="blanck" href="https://www.instagram.com/virtue.hope/" aria-label="Instagram">
-                  <FaInstagramSquare className="text-black hover:text-pink-500 transition-colors" size={20} />
+
+                <a href="https://www.instagram.com/virtue.hope/" target="_blank" rel="noopener noreferrer">
+                  <FaInstagramSquare className="text-black bg-[#534B44] rounded-full  w-10 h-10 p-2 hover:text-pink-500 transition-colors duration-200" size={24} />
                 </a>
-                <a target="blank" href="https://www.tiktok.com/@virtuehopecic_" aria-label="TikTok">
-                  <FaTiktok className="text-black hover:text-gray-800 transition-colors" size={20} />
+
+                <a href="https://www.tiktok.com/@virtuehopecic_" target="_blank" rel="noopener noreferrer">
+                  <FaTiktok className="text-black bg-[#534B44] rounded-full  w-10 h-10 p-2 hover:text-gray-800 transition-colors duration-200" size={24} color="red" />
                 </a>
-                <a target="blank" href="https://www.facebook.com/profile.php?id=61575166415077" aria-label="Facebook">
-                  <FaFacebookF className="text-black hover:text-blue-600 transition-colors" size={20} />
+
+                <a href="https://www.facebook.com/profile.php?id=61575166415077" target="_blank" rel="noopener noreferrer">
+                  <FaFacebookF className="text-black bg-[#534B44] rounded-full  w-10 h-10 p-2 hover:text-blue-600 transition-colors duration-200" size={24} />
                 </a>
-                <a target="blank" href="https://www.linkedin.com/in/virtue-hope-cic-078531360/" aria-label="LinkedIn">
-                  <FaLinkedin className="text-black hover:text-blue-700 transition-colors" size={20} />
+
+                <a href="https://www.linkedin.com/in/virtue-hope-cic-078531360/" target="_blank" rel="noopener noreferrer">
+                  <FaLinkedin className="text-black bg-[#534B44] rounded-full  w-10 h-10 p-2 hover:text-blue-700 transition-colors duration-200" size={24} />
                 </a>
-                <a target="_blank" href="https://x.com/VirtueHopeCIC" aria-label="Twitter/X">
-                  <FaXTwitter className="text-black hover:text-gray-600 transition-colors" size={20} />
+
+                <a href="https://x.com/VirtueHopeCIC" target="_blank" rel="noopener noreferrer">
+                  <FaXTwitter className="text-black bg-[#534B44] rounded-full  w-10 h-10 p-2 hover:text-gray-600 transition-colors duration-200" size={24} />
                 </a>
               </div>
             </div>
@@ -187,7 +192,7 @@ const Footer = () => {
                 <Link disabled to="#">Privacy</Link>
               </li>
               <li>
-                <Link  to="/cookie">Cookies</Link>
+                <Link to="/cookie">Cookies</Link>
               </li>
             </ul>
           </div>
