@@ -14,6 +14,7 @@ const PodcastBanner = () => {
       try {
         setLoading(true);
         const res = await axiosPublic.get("/get-podcast");
+        console.log(res)
         if (res.status === 200) {
           setAudios(res.data?.data?.data || []);
         }
@@ -202,7 +203,9 @@ const PodcastBanner = () => {
                     <h2 className="text-[#E9EBEB] font-semibold text-sm">
                       {audio?.podcast_title}
                     </h2>
-                    <p className="text-[#A6ABAC] text-xs mt-1">{audio.duration}</p>
+                    <p className="text-[#A6ABAC] text-xs mt-1">
+                      {/* {audio?.duration ? formatTime(audio.duration) : "00:00"} */}
+                    </p>
                   </div>
                 </div>
                 <p className="text-[#A6ABAC] text-xs">{formatDate(audio?.created_at)}</p>

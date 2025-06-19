@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form } from "antd";
+import { Modal } from "antd";
 
 import AggrementPage from "../aggrement/AggrementPage";
 import ArtAntiqModal from "../../components/client/modal/art-antique/ArtAntiqModal";
 import VolunteerModal from "../../components/client/modal/volunteer/VolunteerModal";
-import DonateModal from "../../components/client/modal/donate/DonateModal";
 import PaymentModal from "../../components/client/modal/payment/PaymentModal";
-import DonerDetailsModal from "../../components/client/modal/doner-details/DonerDetailsModal";
 import SupportModal from "../../components/client/modal/support-modal/SupportModal";
 import GeneralTermCondictionModal from "../../components/client/GeneralTermCondictionModal/GeneralTermCondictionModal";
 const AboutMissionVission = () => {

@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const TermPage = () => {
   return (
@@ -10,15 +10,7 @@ const TermPage = () => {
         <h1 className="text-center lg:mt-6 mt-2 text-[#263234] lg:leading-16 text-xl lg:text-5xl font-semibold  ">
           Virtue Hope C.I.C. Terms and Conditions
         </h1>
-        {/* <p className="text-center text-[#263234] mt-2 lg:mt-6 text-lg lg:text-xl lg:leading-8 ">
-      Email: give@virtuehope.com
-    </p>
-    <p className="text-center text-[#263234] mt-2 lg:mt-6 text-lg lg:text-xl lg:leading-8 ">
-      Telephone: +123 4567 78958
-    </p>
-    <p className="text-center text-[#263234] mt-1 lg:mt-6 text-lg lg:text-xl lg:leading-8 ">
-      Location: 86-90 Paul Street, London, EC2A 4NE
-    </p> */}
+        
 
         <div>
           <p className=" lg:my-3 my-1 lg:text-2xl text-justify lg:text-start text-[#263234] font-medium ">

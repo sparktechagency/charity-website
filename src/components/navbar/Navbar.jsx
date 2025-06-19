@@ -272,7 +272,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button onClick={toggleDrawer} className="lg:hidden  ">
-          <MdOutlineMenu className="text-2xl text-black " />
+          <MdOutlineMenu className="text-2xl text-black bg-[#534B44] " />
         </button>
 
         {/* Ant Design Drawer */}
@@ -399,7 +399,7 @@ const Navbar = () => {
         closable={true}
         maskClosable={false}
         centered
-        // width="50%"
+      // width="50%"
       >
         <div style={{ padding: "15px" }}>
           <PaymentModal
