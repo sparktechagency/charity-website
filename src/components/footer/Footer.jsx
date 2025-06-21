@@ -3,7 +3,7 @@ import logo from "../../assets/image/logo.svg";
 import { Link } from "react-router-dom";
 import useAxiosPublic from "../../pages/hooks/useAxiosPublic";
 import toast, { Toaster } from "react-hot-toast";
-import { FaFacebookF, FaInstagramSquare, FaLinkedin, FaTiktok, FaYoutube } from "react-icons/fa";
+import { FaCcApplePay, FaCcPaypal, FaCcVisa, FaFacebookF, FaGooglePay, FaInstagramSquare, FaLinkedin, FaTiktok, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
   const axiosPublic = useAxiosPublic();
@@ -174,12 +174,40 @@ const Footer = () => {
               </div>
 
               {/* Socials can stay the same or you can convert those to HeroIcons or any SVG lib */}
-              <div className="flex justify-center lg:justify-start gap-3 mt-10 lg:mt-28">
-                {/* Put your social icons here (SVGs already included in original) */}
-              </div>
+
             </div>
           </div>
         </div>
+
+        <div className="max-w-[1074px] mx-auto mt-16">
+          <div className="max-w-5xl mx-auto flex flex-row justify-center gap-x-6">
+            {/* Apple Pay */}
+            <div>
+              <span>
+                <FaCcApplePay size={50} className="text-black" />
+              </span>
+            </div>
+            {/* Visa */}
+            <div>
+              <span>
+                <FaCcVisa size={50} className="text-blue-600" />
+              </span>
+            </div>
+            {/* Google Pay */}
+            <div>
+              <span>
+                <FaGooglePay size={50} className="text-gray-800" />
+              </span>
+            </div>
+            {/* PayPal */}
+            <div>
+              <span>
+                <FaCcPaypal size={50} className="text-blue-500" />
+              </span>
+            </div>
+          </div>
+        </div>
+
 
         <div className="max-w-[1074px] lg:mt-16 mt-4 mx-auto">
           <div className="flex flex-col items-center lg:flex-row lg:justify-between text-[#4B5557] font-thin">

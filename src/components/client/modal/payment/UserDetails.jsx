@@ -40,7 +40,7 @@ const UserDetails = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row max-w-[1512px] mx-auto " >
+    <div className="flex flex-col lg:flex-row max-w-[1512px] mx-auto border border-red-700  " >
       <div className=" max-w-2xl border mx-auto p-6 bg-white rounded-2xl w-full  shadow-md">
         <h2 className="text-2xl font-semibold text-center mb-6">
           Review Donation
@@ -92,16 +92,16 @@ const UserDetails = () => {
 
         <Divider />
 
-        <div className="flex justify-between gap-4 mt-6">
+        <div className="flex lg:flex-row flex-col items-center lg:justify-between gap-4 mt-6">
           <Button
             onClick={onEdit}
-            className="w-1/2 h-12 border font-bold text-[#403730] border-[#717680] hover:bg-[#403730]"
+            className="w-1/2 h-12 border font-bold text-[#403730] homeBtn border-[#717680] hover:bg-[#403730]"
           >
             Edit
           </Button>
           <Button
             onClick={navigateStripeFrom}
-            className="w-1/2 h-12 border font-bold text-white bg-[#403730]  border-[#717680] "
+            className="w-1/2  homeBtn  h-12 border font-bold text-white bg-[#403730]  border-[#717680] "
           >
             Confirm & Proceed to Payment
           </Button>
