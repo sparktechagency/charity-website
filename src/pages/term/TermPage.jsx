@@ -23,7 +23,7 @@ const TermPage = () => {
           </p>
         </div>
 
-        {/*1 Eligibility **/}
+        {/*1 Eligibility */}
 
         <div>
           <p className=" font-semibold text-xl lg:text-2xl lg:leading-9 mt-2 lg:mt-12 ">
