@@ -21,6 +21,7 @@ const AdminDashboardLogin = () => {
     try {
       const res = await postLogin(loginInfo).unwrap();
       const token = res.data?.token;
+      console.log('login res---------->',res)
       if (res.data?.token) {
         toast.success(res?.message);
         localStorage.setItem("admin_token", token);
@@ -74,7 +75,7 @@ const AdminDashboardLogin = () => {
               ]}
             >
               <Input
-                id="email"
+               
                 placeholder="Enter your email"
                 className="w-full  border p-2 rounded-md "
                 style={{
