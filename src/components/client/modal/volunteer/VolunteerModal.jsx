@@ -4,6 +4,7 @@ import { Modal, Input, Button, Checkbox, Upload, Radio } from "antd";
 import { Link } from "react-router-dom";
 import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import axios from "axios";
 const { Dragger } = Upload;
 
 const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
@@ -44,7 +45,7 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
 
     try {
       setLoading(true);
-      const res = await axiosPublic.post("/create-volunteer", formData, {
+      const res = await axios.post("http://217.154.61.198/api/create-volunteer", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
