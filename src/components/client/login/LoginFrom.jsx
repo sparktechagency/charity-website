@@ -13,6 +13,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const formData = new FormData();
+
   // login modal 
 
   const onFinish = async (values) => {
@@ -185,6 +186,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
 
 
 
+
   const openForgetPasswordModal = () => {
     setForgetPasswordModal(true);
     setLoginModal(false);
@@ -240,7 +242,6 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         layout="vertical"
         onFinish={onFinish}
         maskClosable={false}
-        keyboard={false}
       >
         <Form.Item
           label="Email"
@@ -265,7 +266,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
           ]}
         >
           <Input.Password
-            prefix={<LockOutlined />}
+            prefix={<p className=" text-red-500 " ><LockOutlined className=" text-black " /></p>}
             placeholder="Enter your password"
             className="py-2"
           />
@@ -313,7 +314,9 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         footer={null}
         closable={true}
         onCancel={closeModal}
+        maskClosable={false}
         centered
+        closeIcon={<span className="text-black text-2xl">×</span>}
       // width="400px"
       // style={{ padding: "15px", top: 0 }}
       >
@@ -333,6 +336,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         onCancel={closeForgetPasswordModal}
         maskClosable={false}
         centered
+        closeIcon={<span className="text-black text-2xl">×</span>}
       >
         <Form form={form} onFinish={submitForgetPasswordFrom} layout="vertical">
           <Form.Item
@@ -370,7 +374,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         onCancel={closeOtpVerifyModal}
         centered
         maskClosable={false}
-        // width="400px"
+        closeIcon={<span className="text-black text-2xl">×</span>}
         style={{ padding: "15px", top: 0 }}
       >
         <div style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
@@ -422,6 +426,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         onCancel={closeNewPasswordModal}
         centered
         maskClosable={false}
+        closeIcon={<span className="text-black text-2xl">×</span>}
       >
         <Form
           name="new_password_set"

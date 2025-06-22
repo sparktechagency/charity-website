@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 const AggrementPage = () => {
   const [verified, isVerified] = useState(false);
+  window.scrollTo(0, 0);
 
   function onChange(value) {
     isVerified(true);

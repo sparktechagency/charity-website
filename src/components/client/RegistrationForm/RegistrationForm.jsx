@@ -97,7 +97,7 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
 
       if (res.data.success) {
         form.resetFields()
-        localStorage.setItem(`token`,res.data.data?.token);
+        localStorage.setItem(`token`, res.data.data?.token);
         window.location.href = "/"
         message.success(res.data.message);
         return setOtpModal(false);
@@ -249,6 +249,8 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
         footer={null}
         centered
         closable
+        maskClosable={false}
+        closeIcon={<span className="text-black text-2xl">×</span>}
       >
         <div className="text-center py-4">
           <h2 className="text-2xl font-bold mb-2">Verify OTP</h2>

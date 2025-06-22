@@ -3,6 +3,7 @@ import JoinVoenture from "./JoinVoenture";
 import { SponserSection } from "./SponserSection";
 
 const FundraisingPage = () => {
+  window.scrollTo(0, 0);
   return (
     <div>
       <FundraisingBanner></FundraisingBanner>
