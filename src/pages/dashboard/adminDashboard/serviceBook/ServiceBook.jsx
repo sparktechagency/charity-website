@@ -1,5 +1,5 @@
 
-import { Input, Modal, Pagination, Radio, Select, Space, Table } from "antd";
+import { Form, Input, Modal, Pagination, Radio, Select, Space, Table } from "antd";
 import { useEffect, useState } from "react";
 import CustomLoading from "../../shared/CustomLoading";
 import { useGetdashboardServiceBookApiQuery, useUpdatedashboardServiceBookApiMutation } from "../../../../redux/dashboardFeatures/dashboardServiceBookApi";
@@ -7,8 +7,10 @@ import { EyeOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { closeserviceModalOpenOne, serviceModalOpenOne } from "../../../../features/modal/modalSlice";
 import toast from "react-hot-toast";
+import { useForm } from "antd/es/form/Form";
 
 const ServiceBook = () => {
+  const [formOne] = useForm()
   const [selectId, setSelectId] = useState('')
   const [selectValue, setSelectValue] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -17,7 +19,7 @@ const ServiceBook = () => {
 
   const serviceModalOne = useSelector((state) => state.modal.serviceModalOne);
   const dispatch = useDispatch();
-  const { data, isLoading, refetch } = useGetdashboardServiceBookApiQuery({per_page:perPage,page:currentPage});
+  const { data, isLoading, refetch } = useGetdashboardServiceBookApiQuery({ per_page: perPage, page: currentPage });
   const [updatedashboardServiceBookApi] = useUpdatedashboardServiceBookApiMutation()
 
   const serviceBookData = data?.data?.data
@@ -53,6 +55,9 @@ const ServiceBook = () => {
 
   };
 
+  const onFinishOne = () => {
+    formOne.submit()
+  }
 
 
   const serviceModalOkOne = async () => {
@@ -84,9 +89,19 @@ const ServiceBook = () => {
     setSelectValue(e.target.value)
   }
 
+
+  useEffect(() => {
+    document.body.style.overflow =
+      serviceModalOne
+        ? "hidden"
+        : "auto";
+  }, [serviceModalOne]);
+
+
+
   useEffect(() => {
     refetch(); // Refetch the data when searchText, currentPage, or perPage changes
-  }, [ currentPage, perPage, refetch]);
+  }, [currentPage, perPage, refetch]);
 
   if (isLoading) return <CustomLoading />
 
@@ -185,35 +200,37 @@ const ServiceBook = () => {
             </div>
           }
         >
-          <p className="text-[20px] text-[#E9EBEB] py-6">
-            Changes Status
-          </p>
+          <Form form={formOne} onFinish={onFinishOne}>
+            <p className="text-[20px] text-[#E9EBEB] py-6">
+              Changes Status
+            </p>
 
-          <div className="flex justify-center items-center border border-gray-600 rounded-lg py-4">
-            <Radio.Group
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 8,
-              }}
-              onChange={onChange}
-              value={selectValue}
-              options={[
-                {
-                  value: 'Pending',
-                  label: <span style={{ color: '#ffff', fontSize: '24px', fontWeight: "600" }}>Pending</span>,
-                },
-                {
-                  value: 'Accepted',
-                  label: <span style={{ color: '#ffff', fontSize: '24px', fontWeight: "600" }}>Accepted</span>,
-                },
-                {
-                  value: 'Rejected',
-                  label: <span style={{ color: '#ffff', fontSize: '24px', fontWeight: "600" }}>Rejected</span>,
-                },
-              ]}
-            />
-          </div>
+            <div className="flex justify-center items-center border border-gray-600 rounded-lg py-4">
+              <Radio.Group
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 8,
+                }}
+                onChange={onChange}
+                value={selectValue}
+                options={[
+                  {
+                    value: 'Pending',
+                    label: <span style={{ color: '#ffff', fontSize: '24px', fontWeight: "600" }}>Pending</span>,
+                  },
+                  {
+                    value: 'Accepted',
+                    label: <span style={{ color: '#ffff', fontSize: '24px', fontWeight: "600" }}>Accepted</span>,
+                  },
+                  {
+                    value: 'Rejected',
+                    label: <span style={{ color: '#ffff', fontSize: '24px', fontWeight: "600" }}>Rejected</span>,
+                  },
+                ]}
+              />
+            </div>
+          </Form>
         </Modal>
 
         {/* pagination */}

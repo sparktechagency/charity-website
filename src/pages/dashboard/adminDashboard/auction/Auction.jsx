@@ -307,23 +307,20 @@ const Auction = () => {
   };
 
 
-  const convertImageToBase64 = (url) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = "Anonymous";
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        resolve(canvas.toDataURL("image/png"));
-      };
-      img.onerror = () => reject("Image load error");
-      img.src = url;
-    });
-  };
 
+  const convertImageToBase64 = async (imageUrl) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_IMAGE_BASE_URL}=${encodeURIComponent(imageUrl)}`
+    );
+    const base64 = await response.text();
+    console.log("✅ Base64 Image:", base64);
+    return base64;
+  } catch (error) {
+    console.error("❌ Image fetch failed:", error.message);
+    return null;
+  }
+};
 
 
 

@@ -49,13 +49,17 @@ const AuctionDocument = ({ data, imageBase64, imageError }) => {
 
                 <View style={styles.section}>
                     <Text style={styles.heading}>Image</Text>
-                    {imageError ? (
+                    {/* <Image style={styles.image} src={'/dashboardPhoto/myTeamPhoto/photo1.png'} /> */}
+
+                    
+                    {/* {imageError ? (
                         <Text style={styles.errorText}>Image could not be loaded</Text>
                     ) : imageBase64 ? (
-                        <Image style={styles.image} src={imageBase64} />
+                        <Image style={styles.image} src={'/dashboardPhoto/myTeamPhoto/photo1.png'} />
+
                     ) : (
                         <Text>Loading image...</Text>
-                    )}
+                    )} */}
                 </View>
 
 

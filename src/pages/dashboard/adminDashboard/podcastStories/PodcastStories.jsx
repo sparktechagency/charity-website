@@ -375,6 +375,7 @@ const PodcastStories = () => {
 
     try {
       const res = await postDashboardPodcastApi(formData).unwrap()
+      console.log(res)
       if (res?.data) {
         toast.success(res?.message)
         setImageFileListHost([]);
@@ -387,7 +388,7 @@ const PodcastStories = () => {
     } catch (errors) {
       if (errors) {
         toast.error(errors?.data?.message)
-        console.log(errors?.data?.message)
+        console.log(errors)
       }
     }
     finally {
