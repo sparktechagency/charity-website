@@ -45,7 +45,7 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
 
     try {
       setLoading(true);
-      const res = await axios.post("http://217.154.61.198/api/create-volunteer", formData, {
+      const res = await axiosPublic.post("/create-volunteer", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

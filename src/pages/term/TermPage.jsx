@@ -1,6 +1,7 @@
 
 
 const TermPage = () => {
+  window.scrollTo(0, 0);
   return (
     <div>
       <div className="lg:pt-20 pt-5 max-w-[1216px] mx-auto pb-5 lg:pb-24 lg:px-4">
@@ -10,7 +11,7 @@ const TermPage = () => {
         <h1 className="text-center lg:mt-6 mt-2 text-[#263234] lg:leading-16 text-xl lg:text-5xl font-semibold  ">
           Virtue Hope C.I.C. Terms and Conditions
         </h1>
-        
+
 
         <div>
           <p className=" lg:my-3 my-1 lg:text-2xl text-justify lg:text-start text-[#263234] font-medium ">

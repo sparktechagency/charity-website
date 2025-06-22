@@ -3,7 +3,7 @@ import { Button, Radio, Form, Tabs, Input, Divider, InputNumber } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import "../../../../assets/css/style.css"
-const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
+const PaymentModal = ({ setSupportModal, setPaymentModal, paymentModal }) => {
   const [form] = Form.useForm();
   const [donationType, setDonationType] = useState("one_time_donate");
   const [selectedAmount, setSelectedAmount] = useState(null);
@@ -26,6 +26,7 @@ const PaymentModal = ({ setSupportModal, setPaymentModal }) => {
       donation_type: donationType,
       amount: Number(amount),
       frequency: paymentType,
+     
     };
     setData(payload);
     navigate("/user-details", { state: payload });
