@@ -5,9 +5,9 @@ input#name {
 }
 
 
-input#email {
+/* input#email {
   color: black !important ;
-}
+} */
 svg {
     color: black;
 }

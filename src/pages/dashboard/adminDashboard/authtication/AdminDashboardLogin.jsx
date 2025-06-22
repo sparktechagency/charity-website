@@ -75,14 +75,10 @@ const AdminDashboardLogin = () => {
               ]}
             >
               <Input
-               
+              id="email"
                 placeholder="Enter your email"
                 className="w-full  border p-2 rounded-md "
-                style={{
-                  backgroundColor: "transparent", color: "#ffffff",
-                  caretColor: "white",
-                }}
-
+              style={{color:"red"}}
               />
             </Form.Item>
           </div>
