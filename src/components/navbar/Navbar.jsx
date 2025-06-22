@@ -286,6 +286,7 @@ const Navbar = () => {
           open={open}
           width={260}
           maskClosable
+          closeIcon={<span className="text-black  text-2xl">×</span>}
         >
           <ul className="flex flex-col gap-5">
             {menuItems.map((item) => (
@@ -380,6 +381,7 @@ const Navbar = () => {
         centered
         width="500px"
         style={{ top: "0px" }}
+        closeIcon={<span className="text-black text-2xl">×</span>}
       >
         <SupportModal
           setPaymentModal={setPaymentModal}
@@ -399,6 +401,7 @@ const Navbar = () => {
         closable={true}
         maskClosable={false}
         centered
+        closeIcon={<span className="text-black text-2xl">×</span>}
       // width="50%"
       >
         <div style={{ padding: "15px" }}>
@@ -473,6 +476,8 @@ const Navbar = () => {
         closable={true}
         onCancel={closeLoginModal}
         centered
+        maskClosable={false}
+        closeIcon={<span className="text-black text-2xl">×</span>}
         // width="400px"
         style={{ padding: "15px", top: 0 }}
       >

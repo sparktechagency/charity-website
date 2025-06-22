@@ -5,7 +5,7 @@ import axios from "axios";
 // const backendUrl = `http://137.59.180.219:8000/api`;
 
 // live url live url 
-const backendUrl = `http://217.154.61.198/api`;
+const backendUrl = `https://api.virtuehope.com/api`;
 
 const axiosPublic = axios.create({
   baseURL: backendUrl,

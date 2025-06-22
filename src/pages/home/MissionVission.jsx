@@ -58,7 +58,7 @@ export const MissionVission = () => {
         : "auto";
   }, [supportModal, paymentModal, antiquesModal, isVolunterModal]);
 
-    const closeUserDetailsModal = () => {
+  const closeUserDetailsModal = () => {
     setPaymentModal(false)
   }
 
@@ -120,6 +120,7 @@ export const MissionVission = () => {
           centered
           width="500px"
           style={{ top: "0px" }}
+          closeIcon={<span className="text-black text-2xl">×</span>}
         >
           <SupportModal
             setPaymentModal={setPaymentModal}
@@ -183,7 +184,7 @@ export const MissionVission = () => {
             closable={false}
             style={{ top: 0 }}
           >
-            <VolunteerModal setIsVolunterModal={setIsVolunterModal} setGeneralTerm = {setGeneralTerm} />
+            <VolunteerModal setIsVolunterModal={setIsVolunterModal} setGeneralTerm={setGeneralTerm} />
           </Modal>
         </div>
 

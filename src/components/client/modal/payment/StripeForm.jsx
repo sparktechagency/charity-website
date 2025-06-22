@@ -31,7 +31,7 @@ const StripeForm = () => {
       return;
     }
 
-    const url = `http://137.59.180.219:8000/api/create-payment-intent?amount=${userPayload.amount}&payment_method=pm_card_visa`;
+    const url = `https://api.virtuehope.com/api/create-payment-intent?amount=${userPayload.amount}&payment_method=pm_card_visa`;
 
 
     fetch(url, {
@@ -71,7 +71,7 @@ const StripeForm = () => {
           <CheckoutForm paymentId={paymentId} userDetails={userDetails} clientSecret={clientSecret} />
         </Elements>
       ) : (
-        <p className="text-center">Loading payment form...</p>
+        <p className="text-center h-screen ">Loading payment form...</p>
       )}
     </div>
   );

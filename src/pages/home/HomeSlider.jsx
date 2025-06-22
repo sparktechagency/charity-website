@@ -1442,6 +1442,8 @@ const HomeSlider = () => {
             closable={true}
             onCancel={closeRegOtpModal}
             centered
+            maskClosable={false}
+            closeIcon={<span className="text-black text-2xl">×</span>}
           // width="400px"
           // style={{ padding: "15px", top: 0 }}
           >
