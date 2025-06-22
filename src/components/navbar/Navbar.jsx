@@ -406,6 +406,7 @@ const Navbar = () => {
       >
         <div style={{ padding: "15px" }}>
           <PaymentModal
+            paymentModal={paymentModal}
             setPaymentModal={setPaymentModal}
             setSupportModal={setSupportModal}
           />
@@ -460,6 +461,7 @@ const Navbar = () => {
           style={{ top: 0 }}
           zIndex={1100}
           onCancel={donateModalCanel}
+          closeIcon={<span className="text-black text-2xl">×</span>}
           footer={null} // remove if you want buttons
         >
           <AggrementPage></AggrementPage>

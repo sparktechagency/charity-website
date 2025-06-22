@@ -71,7 +71,9 @@ const StripeForm = () => {
           <CheckoutForm paymentId={paymentId} userDetails={userDetails} clientSecret={clientSecret} />
         </Elements>
       ) : (
-        <p className="text-center h-screen ">Loading payment form...</p>
+        <div className=" flex flex-col justify-center border border-black  " >
+          <p className="text-center  ">Loading payment form...</p>
+        </div>
       )}
     </div>
   );
