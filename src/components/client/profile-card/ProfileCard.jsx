@@ -71,6 +71,7 @@ const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
         onCancel={closeUpdateProfileModal}
         centered
         maskClosable={false}
+        closeIcon={<span className="text-black text-2xl">×</span>}
       >
         <UpdateProfile updateProfileModal={updateProfileModal} setUpdateProfileModal={setUpdateProfileModal} />
       </Modal>

@@ -10,10 +10,10 @@ import toast, { Toaster } from "react-hot-toast";
 import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
 import { useEffect, useState } from "react";
 
-const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
+const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen, form }) => {
   const axiosPublic = useAxiosPublic();
 
-  const [form] = Form.useForm();
+
   // otp verify related function start
 
   const [otp, setOtp] = useState("");
@@ -29,6 +29,7 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
   };
 
   const onClose = () => {
+    form.resetFields();
     setOtpModal(false);
   };
 
@@ -43,6 +44,7 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
   const handleFileChange = (info) => {
     setFileList(info.fileList);
   };
+  const [forms] = Form.useForm();
   const onFinish = async (values) => {
     const formData = new FormData();
     formData.append("full_name", values.full_name);
@@ -89,7 +91,10 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
     setIsOpenModal(false);
   };
 
+  // otp verify 
+
   const handleSubmitOtp = async (values) => {
+    console.log(`values is ${values}`)
     try {
       setLoading(true);
 
@@ -124,6 +129,7 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
       <Form
         name="register"
         layout="vertical"
+        form={form}
         onFinish={onFinish}
         autoComplete="off"
       >
@@ -252,22 +258,22 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
         maskClosable={false}
         closeIcon={<span className="text-black text-2xl">×</span>}
       >
-        <div className="text-center py-4">
+        <div className="text-center py-4 px-2">
           <h2 className="text-2xl font-bold mb-2">Verify OTP</h2>
-          <p className="mb-6 text-sm">
+          <p className="mb-6 text-sm text-gray-600">
             Enter the 6-digit code sent to your email.
           </p>
 
           <Form
-            form={form}
+            form={forms}
             onFinish={handleSubmitOtp}
             layout="vertical"
             className="flex flex-col items-center"
-            style={{ backgroundColor: "white", color: "black" }}
           >
             <Form.Item
               label="OTP"
               name="otp"
+              className="w-full"
               rules={[
                 { required: true, message: "Please input your OTP!" },
                 {
@@ -278,21 +284,21 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen }) => {
                 },
               ]}
             >
-              <InputNumber
+              <Input
                 placeholder="Enter your OTP"
-                className="w-full py-1"
-                controls={false}
-                maxLength={6} // visually prevent typing more than 6 digits
+                maxLength={6}
+                className="h-11 text-center tracking-widest"
+                inputMode="numeric"
               />
             </Form.Item>
 
             <Button
+
               loading={loading}
               disabled={loading}
               htmlType="submit"
               type="primary"
-              block
-              className="h-11 lg:w-full !w-20 rounded-lg block mx-auto font-semibold bg-btnColor border-none"
+              className="h-11 w-full rounded-lg font-semibold bg-btnColor border-none"
             >
               Verify
             </Button>

@@ -7,9 +7,8 @@ import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
-const LoginForm = ({ setLoginModal, loginModal }) => {
+const LoginForm = ({ setLoginModal, loginModal,form }) => {
   const axiosPublic = useAxiosPublic();
-  const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const formData = new FormData();
@@ -80,8 +79,8 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
     setLoginModal(false);
   };
   const closeModal = () => {
-    setIsOpenModal(false);
     form.resetFields()
+    setIsOpenModal(false);
   };
 
   const token = localStorage.getItem(`forgetToken`);
@@ -238,10 +237,12 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
       <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
 
       <Form
+        form={form}
         name="login"
         layout="vertical"
         onFinish={onFinish}
         maskClosable={false}
+    
       >
         <Form.Item
           label="Email"
@@ -316,6 +317,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
         onCancel={closeModal}
         maskClosable={false}
         centered
+
         closeIcon={<span className="text-black text-2xl">×</span>}
       // width="400px"
       // style={{ padding: "15px", top: 0 }}
@@ -324,6 +326,7 @@ const LoginForm = ({ setLoginModal, loginModal }) => {
           setIsOpenModal={setIsOpenModal}
           setLoginModal={setLoginModal}
           isModalOpen={isModalOpen}
+          form={form}
         />
       </Modal>
 
