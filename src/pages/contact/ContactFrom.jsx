@@ -71,7 +71,14 @@ const ContactFrom = () => {
 
 
       if (res.data.success) {
-        donactionMsg()
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `<h1>Donation item under review.</h1>`,
+          text: "Your auction listing is under review. Once done, it will be published & we’ll notify you via email.",
+          showConfirmButton: true,
+          timer: 2500,
+        });
         form.resetFields();
         setFileList([]);
         setDonateFull(false)
@@ -84,21 +91,23 @@ const ContactFrom = () => {
     }
   };
 
-      
 
-      {/* error msg  */}
 
-      {error && (
-        <Alert
-          message="Something went wrong"
-          description={error}
-          type="error"
-          showIcon
-          closable
-          onClose={() => setError(null)}
-          style={{ marginBottom: 16 }}
-        />
-      )}
+  {/* error msg  */ }
+
+  {
+    error && (
+      <Alert
+        message="Something went wrong"
+        description={error}
+        type="error"
+        showIcon
+        closable
+        onClose={() => setError(null)}
+        style={{ marginBottom: 16 }}
+      />
+    )
+  }
 
   return (
     <>

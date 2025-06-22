@@ -58,7 +58,7 @@ const Navbar = () => {
 
   // api and token related function start
 
-  const [form] = Form.useForm();
+
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -119,11 +119,12 @@ const Navbar = () => {
 
   // login madal start
   const [loginModal, setLoginModal] = useState(false);
-
+  const [form] = Form.useForm();
   const openLoginModal = () => {
     setLoginModal(true);
   };
   const closeLoginModal = () => {
+    form.resetFields();
     setLoginModal(false);
   };
 
@@ -483,7 +484,7 @@ const Navbar = () => {
         // width="400px"
         style={{ padding: "15px", top: 0 }}
       >
-        <LoginForm setLoginModal={setLoginModal} loginModal={loginModal} />
+        <LoginForm form = {form} setLoginModal={setLoginModal} loginModal={loginModal} />
       </Modal>
 
       {/* profile card modal  */}

@@ -7,3 +7,313 @@
 @tailwind utilities;
 
 
+
+
+
+
+
+/* ===================== dashboar component style ================= */
+
+li.ant-menu-item-selected {
+
+  background-color: #262724 !important;
+  border-right: 4px solid #908B87 !important;
+  border-radius: 0px !important;
+}
+
+span.ant-menu-title-content {
+
+  /* background-color: #908B87 !important; */
+
+  color: white !important;
+}
+
+
+
+
+/* ========= search input field style start ========= */
+input.ant-input.css-dev-only-do-not-override-1d4w9r2.ant-input-outlined:hover {
+  background-color: transparent !important;
+  border-color: gray !important;
+  /* Keep border color consistent */
+  color: black;
+}
+
+
+
+
+/* Ensure no hover effect on the search button */
+button.ant-btn.css-dev-only-do-not-override-1d4w9r2.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.ant-btn-icon-only.ant-input-search-button:hover {
+  background-color: transparent !important;
+  /* Keep the background transparent */
+  border-color: gray !important;
+  /* Keep border color consistent */
+}
+
+/* Customize the input field */
+input.ant-input.css-dev-only-do-not-override-1d4w9r2.ant-input-outlined {
+  background-color: transparent !important;
+  /* Transparent background */
+  border: 1px solid gray !important;
+  /* Gray border */
+  color: white !important;
+  /* Text color white */
+}
+
+input.ant-input::placeholder {
+  color: rgba(255, 255, 255, 0.24) !important;
+  /* White placeholder text */
+}
+
+/* Customize the search button */
+button.ant-btn.css-dev-only-do-not-override-1d4w9r2.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.ant-btn-icon-only.ant-input-search-button {
+  background-color: transparent !important;
+  /* Transparent background */
+  border: 1px solid gray !important;
+  /* Gray border */
+  color: gray !important;
+  /* Icon color */
+}
+
+/* Remove any background and border from the icon */
+button.ant-btn .anticon {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Ensuring the hover effect is removed from the search icon */
+button.ant-btn.ant-btn-default.ant-btn-color-default.ant-btn-variant-outlined.ant-btn-icon-only.ant-input-search-button:hover .anticon {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+
+
+/* ========= search input field style end ========= */
+
+
+
+/* ========== table compoonent style start =========== */
+.custom-ant-table .ant-table {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Remove background from table header */
+.custom-ant-table .ant-table-thead>tr>th {
+  background-color: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.027) !important;
+  box-shadow: none !important;
+  color: rgba(255, 255, 255, 0.781) !important;
+  font-weight: 700 !important;
+}
+
+/* Remove background from table rows */
+.custom-ant-table .ant-table-tbody>tr>td {
+  background-color: transparent !important;
+  color: #A6ABAC !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.027) !important;
+}
+
+/* Optional: remove row hover effect */
+.custom-ant-table .ant-table-tbody>tr:hover>td {
+  background-color: transparent !important;
+}
+
+@media (max-width: 768px) {
+  .custom-ant-table .ant-table-thead>tr>th {
+    font-size: 12px !important;
+    font-weight: 200 !important;
+  }
+}
+
+/* ========== table compoonent style end =========== */
+
+
+/* ============ contributors filter button style start ======== */
+.ant-select-selector {
+  background-color: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.24) !important;
+  /* Keep visible border */
+  color: #ffffff !important;
+  transition: none !important;
+  /* Disable animation */
+}
+
+.ant-select:hover .ant-select-selector {
+  border-color: #ffffff !important;
+  /* Keep border on hover */
+  box-shadow: none !important;
+  /* Remove hover animation effect */
+}
+
+.ant-select-selection-placeholder {
+  color: rgba(255, 255, 255, 0.24) !important;
+}
+
+/* ============ contributors filter button style end ======== */
+
+
+
+/* ========== modal custom design start ================ */
+/* style.css or a global style file */
+.custom-auction-modal .ant-modal-content {
+  background-color: #c6cecf;
+}
+
+
+.custom-ai-modal .ant-modal-content {
+  background-color: #263234;
+}
+
+
+
+
+.custom-view-modal .ant-modal-close {
+  background-color: #705f5f;
+  /* Change to your desired background */
+  border-radius: 50%;
+  padding: 4px;
+}
+
+.custom-view-modal .ant-modal-close-x {
+  color: white;
+  /* Optional: change icon color */
+  font-size: 16px;
+  /* Optional: resize the icon */
+}
+
+
+/* ========== modal custom design end ================ */
+
+
+/* ========= modal input field custom color add start ========= */
+.custom-input-borderColor:hover,
+.custom-input-borderColor:focus,
+.custom-input-borderColor:focus-within,
+.custom-input-borderColor:active {
+  border-color: #d9d9d9 !important;
+  box-shadow: none !important;
+}
+
+/* ========= modal input field custom color add end ========= */
+
+
+/* not found ant table style */
+.ant-table-wrapper .ant-table-tbody>tr.ant-table-placeholder {
+  background: #1B2324;
+
+}
+
+:where(.css-dev-only-do-not-override-1d4w9r2).ant-empty .ant-empty-description {
+  color: #fff
+}
+
+
+
+/* button hover effect remove============== */
+.no-hover.ant-btn-primary:hover,
+.no-hover.ant-btn-primary:focus {
+  background-color: #1677ff !important;
+  border-color: #1677ff !important;
+  box-shadow: none !important;
+}
+
+
+input#forget_password_email {
+  color: #ffff !important;
+  background: transparent;
+}
+
+input#dashboard_otp {
+  color: #ffff !important;
+  background: transparent;
+}
+
+input#dashboard_new_password {
+  color: #ffff !important;
+  background: transparent;
+}
+
+input#dashboard_new_password {
+  color: #ffff !important;
+  background: transparent;
+}
+
+input#dashboard_password_confirmation {
+  color: #ffff !important;
+  background: transparent;
+}
+
+input#dashboard_team_create {
+  color: #ffff !important;
+  background: transparent;
+}
+
+input#dashboard_podcast {
+  color: #ffff !important;
+  background: transparent;
+}
+
+input#dashboard_setting_name {
+  color: #ffff !important;
+  background: transparent;
+}
+
+input#dashboard_auction {
+  color: #ffff !important;
+  background: transparent;
+}
+
+
+
+
+input#email {
+  color: #fff !important;
+}
+
+input#name {
+  color: #fff !important;
+}
+
+
+.rhap_time {
+  color: #fff !important;
+}
+
+
+
+/* image upload name style */
+span.ant-upload-list-item-name {
+  color: #ffff;
+}
+
+a.ant-upload-list-item-name {
+  color: #ffff;
+}
+
+svg {
+  color: #ffff;
+}
+
+span.mt-2 {
+  color: #ffff;
+}
+
+.custom-textarea::placeholder {
+  color: #99999980;
+  /* your custom placeholder color */
+}
+
+
+
+/* radio button style */
+span.ant-radio-label {
+  color: #fff !important;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
+
+

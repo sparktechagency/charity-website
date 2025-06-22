@@ -138,6 +138,7 @@ export const MissionVission = () => {
           footer={null}
           closable={true}
           onCancel={closeUserDetailsModal}
+          closeIcon={<span className="text-black text-2xl">×</span>}
           centered
           // width="400px"
           // width={"50%"}
