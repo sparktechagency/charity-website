@@ -37,6 +37,10 @@ const AboutMissionVission = () => {
   const [supportModal, setSupportModal] = useState(false);
   // payment modal useState
   const [paymentModal, setPaymentModal] = useState(false);
+  // close payment modal 
+  const closePaymentModal = () => {
+    setPaymentModal(false)
+  }
   /* Donate Art, Antiques or Collectible useState   */
   const [antiquesModal, setAntiquesModal] = useState(false);
 
@@ -122,7 +126,8 @@ const AboutMissionVission = () => {
         closable={true}
         onCancel={closeSupportModal}
         centered
-        width="500px"
+        // width="500px"
+        closeIcon={<span className="text-black text-2xl">×</span>}
         style={{ top: "0px" }}
       >
         <SupportModal
@@ -139,10 +144,12 @@ const AboutMissionVission = () => {
       <Modal
         open={paymentModal}
         footer={null}
-        closable={false}
+        closable={true}
+        onCancel={closePaymentModal}
         centered
-        width="400px"
+        // width="400px"
         style={{ padding: "15px", top: 0 }}
+        closeIcon={<span className="text-black text-2xl">×</span>}
       >
         <PaymentModal
           setPaymentModal={setPaymentModal}
@@ -160,6 +167,7 @@ const AboutMissionVission = () => {
         closable={false}
         centered
         // width="400px"
+
         style={{ padding: "15px", top: 0 }}
       >
         <ArtAntiqModal
@@ -204,7 +212,7 @@ const AboutMissionVission = () => {
           footer={null}
           zIndex={1100}
         >
-          <GeneralTermCondictionModal/>
+          <GeneralTermCondictionModal />
         </Modal>
       </div>
       {/* volunter general term and condiction modal end  */}

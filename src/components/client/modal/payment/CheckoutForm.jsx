@@ -10,7 +10,7 @@ import { message } from "antd";
 import axios from "axios";
 import Swal from 'sweetalert2'; 
 
-const CheckoutForm = ({ clientSecret, userDetails, paymentId }) => {
+const CheckoutForm = ({userDetails, paymentId }) => {
   const axiosPublic = useAxiosPublic();
   const stripe = useStripe();
   const elements = useElements();
@@ -41,7 +41,7 @@ const CheckoutForm = ({ clientSecret, userDetails, paymentId }) => {
         redirect: "if_required",
       });
 
-      const paymentTypeLocal = paymentIntent?.payment_method_types?.[0]; // ✅ Use local variable
+      const paymentTypeLocal = paymentIntent?.payment_method_types?.[0];
 
       if (error) {
         setFormMessage(error.message ?? "An unexpected error occurred.");

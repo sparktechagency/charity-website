@@ -33,7 +33,7 @@ const AuctionDetailsModal = ({
   }
   const axiosPublic = useAxiosPublic();
 
-  const handleSubmit = async(values) => {
+  const handleSubmit = async (values) => {
     const payload = {
       title: values.title,
       description: values.description,
@@ -62,13 +62,44 @@ const AuctionDetailsModal = ({
           },
         });
 
+        console.log(res)
+
         if (res.data?.success) {
-          auctionMsg();
+          Swal.fire({
+            title:
+              "<h2 class='text-left font-semibold text-base lg:text-lg'>Auction Under Review</h2>",
+            position: "top-end",
+            html: `
+      <p class='text-left text-gray-600 text-sm lg:text-base mt-2'>
+        Your auction listing is currently under review. Once the review is completed, it will be published and you will be notified via your email address.
+      </p>
+    `,
+            showConfirmButton: false,
+            footer: `
+      <div class='flex justify-end pt-4'>
+        <button id='custom-done-btn' class='bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition'>
+          Done
+        </button>
+      </div>
+    `,
+            customClass: {
+              popup: "rounded-xl p-4 lg:p-6 shadow-lg",
+            },
+            didOpen: () => {
+              const btn = document.getElementById("custom-done-btn");
+              if (btn) {
+                btn.addEventListener("click", () => {
+                  Swal.close();
+                });
+              }
+            },
+          });
           setAuctionDetailsModal(false);
           setDonateFull(false);
           form.resetFields();
         }
       } catch (error) {
+        console.log(error)
         Swal.fire({
           position: "top-end",
           icon: "error",
