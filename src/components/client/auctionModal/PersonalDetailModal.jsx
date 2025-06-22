@@ -30,7 +30,7 @@ const PersonalDetailModal = ({
   };
 
 
-  const cancelModal = ()=>{
+  const cancelModal = () => {
     setPersonalDetailsModal(false);
     form.resetFields()
   }
@@ -278,18 +278,16 @@ const PersonalDetailModal = ({
           </Upload.Dragger>
         </Form.Item>
 
-        <div className="flex flex-col lg:flex-row md:flex-row lg:justify-end lg:gap-8 ">
-          <Button
-            onClick={cancelModal}
-            className="missionModalBtn1"
-          >
+        <div className="flex flex-col md:flex-row lg:flex-row lg:justify-end items-center md:items-start gap-3 mt-5 mb-2">
+          <Button onClick={cancelModal} className="missionModalBtn1">
             Cancel
           </Button>
-
           <Button htmlType="submit" className="missionModalBtn2">
             Next
           </Button>
         </div>
+
+
       </Form>
     </div>
   );

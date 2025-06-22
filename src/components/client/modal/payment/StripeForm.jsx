@@ -3,12 +3,12 @@ import { Elements } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
 import CheckoutForm from "./CheckoutForm";
 import { useLocation, useNavigate } from "react-router-dom";
-import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
 
 // Your Stripe publishable key
 const stripePromise = loadStripe(
-  "pk_test_51RLzuUIhiULC1yH1gy4jvSMN6O2fD12JG5XTSgOkBp23Y8RU9ulC04BeQbQPV74II3tFKL80MNv8T7cdZcsw8zCx00amoqzOkX"
+  "pk_test_51RLzucIC4wM63k4fYkVbJvppgGxZY61KXU8F0fxBOPYyFmez1J8y26q62vSyIXr5C2t8seOfOBSocn0TvK4UhkgJ00bvXfaKfw"
 );
+
 
 const StripeForm = () => {
   const location = useLocation();
@@ -53,6 +53,7 @@ const StripeForm = () => {
         setPaymentId(data?.data?.id)
       })
       .catch((error) => {
+        console.log(error.response?.message)
       });
   }, [userPayload.amount]);
 
