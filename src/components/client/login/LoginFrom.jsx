@@ -12,6 +12,7 @@ const LoginForm = ({ setLoginModal, loginModal, form }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const formData = new FormData();
+  const [otpFrom] = Form.useForm();
 
   // login modal 
 
@@ -341,7 +342,7 @@ const LoginForm = ({ setLoginModal, loginModal, form }) => {
         centered
         closeIcon={<span className="text-black text-2xl">×</span>}
       >
-        <Form form={form} onFinish={submitForgetPasswordFrom} layout="vertical">
+        <Form form={otpFrom} onFinish={submitForgetPasswordFrom} layout="vertical">
           <Form.Item
             label="Email"
             name="email"

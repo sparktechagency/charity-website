@@ -606,6 +606,19 @@ span.ant-menu-title-content {
   
 }
 
+/* cancel button */
+.cancelBtn {
+  background: transparent;
+  color: black;
+  box-shadow: none;
+  border: none;
+  padding: 21px 30px ;
+  font-weight: bold;
+  
+}
+.cancelBtn:hover{
+  background-color: transparent;
+}
 
 
 

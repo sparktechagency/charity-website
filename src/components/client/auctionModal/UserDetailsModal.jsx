@@ -9,7 +9,7 @@ import { imgUrl } from "../../../helper/imgUrl";
 
 const { Title, Paragraph, Text } = Typography;
 
-const UserDetailsModal = ({ personalData, auctionData,setUserDetailsModal,setPaymentModal,setAuctionDetailsModal }) => {
+const UserDetailsModal = ({ personalData, auctionData, setUserDetailsModal, setPaymentModal, setAuctionDetailsModal }) => {
   const name = personalData.name;
   const email = personalData.email;
   const contact_number = personalData.contact_number;
@@ -23,11 +23,11 @@ const UserDetailsModal = ({ personalData, auctionData,setUserDetailsModal,setPay
 
 
   const axiosPublic = useAxiosPublic();
-  const openPaymentModal = ()=>{
+  const openPaymentModal = () => {
     setUserDetailsModal(false);
     setPaymentModal(true)
   };
-  const closeModal = ()=>{
+  const closeModal = () => {
     setUserDetailsModal(false);
     setAuctionDetailsModal(true)
   }
@@ -79,8 +79,8 @@ const UserDetailsModal = ({ personalData, auctionData,setUserDetailsModal,setPay
           </Row>
         </div>
       </Card>
-      <div className=" flex flex-col md:flex-row md:justify-end justify-center  lg:flex-row  lg:justify-end mt-5 mb-2">
-        <Button onClick={closeModal} className="  navBtn1  ">
+      <div className=" mt-5 lg:flex lg:flex-row lg:items-center lg:justify-end  ">
+        <Button onClick={closeModal} className="  cancelBtn lg:mb-0 mb-4   ">
           Back
         </Button>
         <Button className="navBtn2" onClick={openPaymentModal}>

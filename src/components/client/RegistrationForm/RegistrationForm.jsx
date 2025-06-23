@@ -94,7 +94,6 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen, form }) 
   // otp verify 
 
   const handleSubmitOtp = async (values) => {
-    console.log(`values is ${values}`)
     try {
       setLoading(true);
 

@@ -62,7 +62,7 @@ const AuctionDetailsModal = ({
           },
         });
 
-        console.log(res)
+        
 
         if (res.data?.success) {
           Swal.fire({
@@ -78,7 +78,7 @@ const AuctionDetailsModal = ({
           form.resetFields();
         }
       } catch (error) {
-        console.log(error)
+        
         Swal.fire({
           position: "top-end",
           icon: "error",
@@ -332,8 +332,8 @@ const AuctionDetailsModal = ({
             </Form.Item>
           </div>
           {/* Modal Buttons */}
-          <div className=" flex flex-col items-center md:flex-row md:justify-end   lg:flex-row justify-center lg:gap-x-5  lg:justify-end mt-5 mb-2">
-            <Button onClick={cancelAuctionDetailsModal} className="  navBtn1 border border-black  ">
+          <div className=" lg:flex lg:justify-end lg:gap-x-6 lg:items-center ">
+            <Button onClick={cancelAuctionDetailsModal} className="  cancelBtn mb-4 lg:mb-0  ">
               Back
             </Button>
             <Button loading={loading} disabled={!verified} className="navBtn2" htmlType="submit">

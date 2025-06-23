@@ -114,7 +114,7 @@ const ContactFrom = () => {
 
 
       <div className="relative max-w-full -z-0 lg:pt-[91px] p-3 lg:p-0 bg-[url('/contact-bg-img.png')] bg-cover bg-center">
-        <div className="max-w-[620px] mx-auto rounded -z-0 shadow border-[#a6abac] border px-6">
+        <div className="max-w-[620px] mx-auto rounded -z-0 shadow  px-6">
           <h1 className="mt-6 text-xl lg:text-2xl text-[#263234] font-semibold leading-8">
             Donated item submissions form
           </h1>

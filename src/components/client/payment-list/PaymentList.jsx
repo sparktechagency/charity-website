@@ -2,7 +2,7 @@ import { Card, Descriptions, Divider } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
 import { FaCcVisa, FaCcMastercard, FaCcAmex, FaPaypal, FaApplePay, FaGooglePay } from "react-icons/fa";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
 
 const PaymentList = () => {
@@ -35,9 +35,24 @@ const PaymentList = () => {
     return (
         <div className="bg-[#f6f8fb] min-h-screen py-10 lg:px-4">
             <div className="max-w-7xl mx-auto">
-                <h2 className="text-3xl font-semibold mb-6">Payment</h2>
+                <div className=" flex   items-center " >
+                    {/* <Link
+                        to="/user-details"
+                        className="inline-flex items-center gap-2 rounded-full px-4 py-2 transition"
+                    >
+                        <span>
+                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.707 8.00006H4.12097L8.62097 12.5001L7.20697 13.9141L0.292969 7.00006L7.20697 0.0860634L8.62097 1.50006L4.12097 6.00006L15.707 6.00006V8.00006Z" fill="black" />
+                            </svg>
 
-                <div className="bg-white rounded-xl p-6 shadow-md flex  lg:flex-row flex-col gap-8">
+                        </span>
+                        
+                    </Link> */}
+
+                    <h2 className="text-3xl font-semibold ">Payment</h2>
+                </div>
+
+                <div className="bg-white rounded-xl p-6 shadow-md flex  lg:flex-row flex-col mt-8 gap-8">
                     <div className="flex-1">
                         <h3 className="text-lg font-semibold mb-4">Please select your preferred payment method</h3>
 
@@ -152,16 +167,16 @@ const PaymentList = () => {
                                 contentStyle={{ color: "#263234" }}
                             >
                                 <Descriptions.Item label="Donation Type">
-                                    {payload.donation_type === "one_time_donate" ? "one_time_donate" : "recurring"}
+                                    {payload?.donation_type === "one_time_donate" ? "one_time_donate" : "recurring"}
                                 </Descriptions.Item>
 
                                 <Descriptions.Item label="Frequency">
-                                    {payload.frequency.charAt(0).toUpperCase() +
-                                        payload.frequency.slice(1)}
+                                    {payload?.frequency.charAt(0).toUpperCase() +
+                                        payload?.frequency.slice(1)}
                                 </Descriptions.Item>
 
                                 <Descriptions.Item label="Amount">
-                                    £ {payload.amount}
+                                    £ {payload?.amount}
                                 </Descriptions.Item>
                             </Descriptions>
                         </Card>
@@ -174,16 +189,16 @@ const PaymentList = () => {
                                 labelStyle={{ fontWeight: 600 }}
                                 contentStyle={{ color: "#263234" }}
                             >
-                                <Descriptions.Item label="Name">{payload.name}</Descriptions.Item>
-                                <Descriptions.Item label="Email">{payload.email}</Descriptions.Item>
-                                {payload.phone_number && (
+                                <Descriptions.Item label="Name">{payload?.name}</Descriptions.Item>
+                                <Descriptions.Item label="Email">{payload?.email}</Descriptions.Item>
+                                {payload?.phone_number && (
                                     <Descriptions.Item label="Phone">
-                                        {payload.phone_number}
+                                        {payload?.phone_number}
                                     </Descriptions.Item>
                                 )}
-                                {payload.remark && (
+                                {payload?.remark && (
                                     <Descriptions.Item label="Description">
-                                        {payload.remark}
+                                        {payload?.remark}
                                     </Descriptions.Item>
                                 )}
                             </Descriptions>
