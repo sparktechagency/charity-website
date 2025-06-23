@@ -1113,7 +1113,7 @@ const HomeSlider = () => {
           open={personalDetailsModal}
           closable={false}
           footer={null}
-          width={600}
+          // width={600}
         >
           <PersonalDetailModal
             setPersonalDetailsModal={setPersonalDetailsModal}
