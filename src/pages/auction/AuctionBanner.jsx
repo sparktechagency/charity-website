@@ -122,7 +122,7 @@ const AuctionBanner = () => {
         centered
         open={userDetailsModal}
         closable={false} // Removes close (X) icon
-        width={600}
+        
         footer={null}
       >
         <UserDetailsModal
@@ -166,6 +166,7 @@ const AuctionBanner = () => {
           zIndex={1100}
           onCancel={donateModalCanel}
           footer={null} // remove if you want buttons
+          closeIcon={<span className="text-black text-2xl">×</span>}
         >
           <AggrementPage></AggrementPage>
         </Modal>

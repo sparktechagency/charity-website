@@ -229,7 +229,7 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen, form }) 
             disabled={loading}
             type="primary"
             htmlType="submit"
-            className="lg:w-full bg-btnColor h-11 text-[14px] font-bold border-none py-2 my-3 rounded-lg"
+            className="lg:w-full navBtn2 h-11 text-[14px] font-bold border-none py-2 my-3 rounded-lg"
           >
             Register
           </Button>
@@ -298,7 +298,7 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen, form }) 
               disabled={loading}
               htmlType="submit"
               type="primary"
-              className="h-11 w-full rounded-lg font-semibold bg-btnColor border-none"
+              className="h-11 w-full rounded-lg font-semibold navBtn2 border-none"
             >
               Verify
             </Button>

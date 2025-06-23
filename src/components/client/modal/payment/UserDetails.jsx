@@ -134,17 +134,15 @@ const UserDetails = () => {
         cancelText="Cancel"
         closeIcon={<span className="text-black text-2xl">×</span>}
         okButtonProps={{
-          className: "bg-[#403730] text-white hover:bg-[#2e2723] border-none",
+          className:
+            "!bg-[#403730] !text-white !border-none hover:!bg-[#2e2723] focus:!shadow-none",
         }}
         cancelButtonProps={{
-          className: "bg-[#403730] text-white hover:bg-[#2e2723] border-none",
+          className:
+            "!bg-[#403730] !text-white !border-none hover:!bg-[#2e2723] focus:!shadow-none",
         }}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleFormSubmit}
-        >
+        <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
           <Form.Item
             name="donation_type"
             label="Donation Type"
@@ -194,21 +192,16 @@ const UserDetails = () => {
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="phone_number"
-            label="Phone Number"
-          >
+          <Form.Item name="phone_number" label="Phone Number">
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="remark"
-            label="Description"
-          >
+          <Form.Item name="remark" label="Description">
             <Input.TextArea />
           </Form.Item>
         </Form>
       </Modal>
+
     </div>
   );
 };

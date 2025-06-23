@@ -49,15 +49,14 @@ const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
             <Button
               icon={ <span className=" text-white " ><EditOutlined /></span> }
               onClick={openUpdateProfileModal}
-              className="bg-btnColor border-none text-white  rounded-lg font-semibold"
+              className=" navBtn2 border-none text-white  rounded-lg font-semibold"
             >
               Edit
             </Button>
             <Button
               icon={<span className=" text-white " ><LogoutOutlined /></span>}
               onClick={handleLogout}
-              danger
-              className="rounded-lg font-semibold border-none "
+              className="rounded-lg navBtn2 font-semibold border-none "
             >
               Logout
             </Button>

@@ -211,6 +211,7 @@ const AboutMissionVission = () => {
           onCancel={closeGeneralTermModal}
           footer={null}
           zIndex={1100}
+          closeIcon={<span className="text-black text-2xl">×</span>}
         >
           <GeneralTermCondictionModal />
         </Modal>
@@ -229,6 +230,7 @@ const AboutMissionVission = () => {
           onCancel={donateModalCanel}
           footer={null} // remove if you want buttons
           zIndex={1100} // higher z-index
+          closeIcon={<span className="text-black text-2xl">×</span>}
         >
           {/* DonerDetailsModa */}
           <AggrementPage></AggrementPage>
