@@ -351,7 +351,7 @@ const Footer = () => {
                 <Link to="/terms">Terms</Link>
               </li>
               <li>
-                <Link disabled to="#">Privacy</Link>
+                <Link disabled to="/privacy">Privacy</Link>
               </li>
               <li>
                 <Link to="/cookie">Cookies</Link>

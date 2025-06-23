@@ -202,6 +202,7 @@ export const MissionVission = () => {
           onCancel={closeGeneralTermModal}
           footer={null}
           zIndex={1100}
+          closeIcon={<span className="text-black text-2xl">×</span>}
         >
           <GeneralTermCondictionModal />
         </Modal>
@@ -218,6 +219,7 @@ export const MissionVission = () => {
           onCancel={donateModalCanel}
           footer={null}
           zIndex={1100}
+          closeIcon={<span className="text-black text-2xl">×</span>}
         >
           <AggrementPage></AggrementPage>
         </Modal>

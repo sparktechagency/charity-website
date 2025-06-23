@@ -7,7 +7,7 @@ import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
-const LoginForm = ({ setLoginModal, loginModal,form }) => {
+const LoginForm = ({ setLoginModal, loginModal, form }) => {
   const axiosPublic = useAxiosPublic();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -242,7 +242,7 @@ const LoginForm = ({ setLoginModal, loginModal,form }) => {
         layout="vertical"
         onFinish={onFinish}
         maskClosable={false}
-    
+
       >
         <Form.Item
           label="Email"
@@ -290,7 +290,7 @@ const LoginForm = ({ setLoginModal, loginModal,form }) => {
             disabled={loading}
             type="primary"
             htmlType="submit"
-            className="lg:w-full  bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
+            className="lg:w-full  navBtn2 border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
           >
             Log in
           </Button>
@@ -361,7 +361,7 @@ const LoginForm = ({ setLoginModal, loginModal,form }) => {
               loading={loading}
               type="primary"
               htmlType="submit"
-              className="lg:w-full bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
+              className="lg:w-full navBtn2 border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
             >
               Verify email
             </Button>
@@ -412,7 +412,7 @@ const LoginForm = ({ setLoginModal, loginModal,form }) => {
             <button
               type="submit"
               disabled={loading}
-              className=" bg-btnColor w-full py-2 text-white rounded-md font-semibold text-lg "
+              className="  navBtn2 w-full py-2 text-white rounded-md font-semibold text-lg "
             >
               {loading ? "Verifying..." : "Verify Otp"}
             </button>
@@ -486,7 +486,7 @@ const LoginForm = ({ setLoginModal, loginModal,form }) => {
               loading={loading}
               type="primary"
               htmlType="submit"
-              className="lg:w-full bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
+              className="lg:w-full navBtn2 bg-btnColor border-none h-11 font-bold text-white text-[14px] mt-1 rounded-lg"
             >
               Set new password
             </Button>

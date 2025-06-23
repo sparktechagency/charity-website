@@ -44,7 +44,7 @@ const UserDetailsModal = ({ personalData, auctionData,setUserDetailsModal,setPay
           />
         }
         style={{
-          width: 400,
+          // width: 400,
           margin: "auto",
           borderRadius: "10px",
           overflow: "hidden",
@@ -79,7 +79,7 @@ const UserDetailsModal = ({ personalData, auctionData,setUserDetailsModal,setPay
           </Row>
         </div>
       </Card>
-      <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
+      <div className=" flex flex-col md:flex-row md:justify-end justify-center  lg:flex-row  lg:justify-end mt-5 mb-2">
         <Button onClick={closeModal} className="  navBtn1  ">
           Back
         </Button>

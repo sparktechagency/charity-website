@@ -44,6 +44,7 @@ import ServiceBook from "../pages/dashboard/adminDashboard/serviceBook/ServiceBo
 import PaymentList from "../components/client/payment-list/PaymentList";
 import WinnerPaymentPage from "../pages/winner-payment-page/WinnerPaymentPage";
 import CookiePolicyPage from "../pages/cookie/CookiePolicyPage";
+import PrivacyPage from "../pages/privacy/PrivacyPage";
 
 
 export const router = createBrowserRouter([
@@ -84,8 +85,12 @@ export const router = createBrowserRouter([
         element: <TermPage></TermPage>,
       },
       {
-        path : "/cookie",
-        element : <CookiePolicyPage></CookiePolicyPage>
+        path: "/cookie",
+        element: <CookiePolicyPage></CookiePolicyPage>
+      },
+      {
+        path: "/privacy",
+        element: <PrivacyPage></PrivacyPage>
       }
 
     ],

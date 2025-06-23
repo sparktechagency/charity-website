@@ -1,6 +1,7 @@
 import React from "react";
 
 const PrivacyPolicyPage = () => {
+    window.scrollTo(0, 0);
     return (
         <div className=" py-10 px-4">
             <div className="max-w-[1480px] mx-auto bg-white rounded-lg  p-6 md:p-10">

@@ -251,7 +251,7 @@ const ArtAntiqModal = ({
         <Form.Item
           label={
             <span className="text-sm text-[#263234] font-medium">
-              I want to receive
+              I want to donate
             </span>
           }
           style={{ marginBottom: 0, marginTop: "16px" }}

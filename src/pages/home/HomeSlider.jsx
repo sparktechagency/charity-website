@@ -1113,7 +1113,7 @@ const HomeSlider = () => {
           open={personalDetailsModal}
           closable={false}
           footer={null}
-          // width={600}
+        // width={600}
         >
           <PersonalDetailModal
             setPersonalDetailsModal={setPersonalDetailsModal}
@@ -1196,6 +1196,7 @@ const HomeSlider = () => {
           zIndex={1100}
           onCancel={donateModalCanel}
           footer={null} // remove if you want buttons
+          closeIcon={<span className="text-black text-2xl">×</span>}
         >
           <AggrementPage></AggrementPage>
         </Modal>

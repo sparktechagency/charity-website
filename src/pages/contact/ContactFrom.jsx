@@ -272,7 +272,7 @@ const ContactFrom = () => {
             <Form.Item
               label={
                 <span className="text-sm text-[#263234] font-medium">
-                  I want to receive
+                  I want to donate
                 </span>
               }
               style={{ marginBottom: 0, marginTop: "16px" }}
@@ -357,7 +357,7 @@ const ContactFrom = () => {
             width={"70%"}
             open={openTermsModal}
             style={{ top: 0 }}
-            // onOk={handleOk}
+            closeIcon={<span className="text-black text-2xl">×</span>}
             onCancel={closeModal}
             footer={null} // remove if you want buttons
           >
