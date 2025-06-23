@@ -3,8 +3,8 @@
 const TermPage = () => {
   window.scrollTo(0, 0);
   return (
-    <div>
-      <div className="lg:pt-20 pt-5 max-w-[1216px] mx-auto pb-5 lg:pb-24 lg:px-4">
+    <div className=" lg:px-0 px-4 " >
+      <div className="lg:pt-20 pt-20 max-w-[1216px] mx-auto pb-5 lg:pb-24 lg:px-4">
         <p className="text-center text-[#403730] font-semibold lg:leading-6 ">
           General Terms and Condition
         </p>

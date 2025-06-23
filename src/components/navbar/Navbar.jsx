@@ -363,7 +363,7 @@ const Navbar = () => {
                     setOpen(false);
                     openLoginModal();
                   }}
-                  className="w-full py-2 bg-[#403730] text-white rounded text-sm font-medium hover:opacity-90"
+                  className="w-full py-2 bg-[#403730] text-white rounded text-sm font-medium py-1 hover:opacity-90"
                 >
                   Login
                 </button>

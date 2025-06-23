@@ -422,8 +422,8 @@ export const LuxerySection = () => {
           </Form.Item>
 
           {/* Submit Button */}
-          <div className="flex flex-col items-center gap-3 mt-5 mb-2 md:flex-row md:justify-end">
-            <Button onClick={cancelBookingModal} className="navBtn1">
+          <div className="mt-5 lg:flex-row lg:items-center lg:justify-end  ">
+            <Button onClick={cancelBookingModal} className="cancelBtn mb-4 lg:mb-0">
               Cancel
             </Button>
             <Button disabled={loading} loading={loading} className="navBtn2" htmlType="submit">

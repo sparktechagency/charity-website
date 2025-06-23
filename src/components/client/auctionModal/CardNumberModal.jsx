@@ -224,11 +224,11 @@ const CardNumberModal = ({
           </Form.Item>
 
           {/* Buttons */}
-          <div className="flex flex-col items-center mt-4 md:flex-row md:justify-end md:gap-6 lg:gap-8">
-            <Button onClick={backModal} className="missionModalBtn1 mb-2 md:mb-0">
+          <div className=" lg:flex lg:flex-row lg:items-center lg:justify-end gap-x-6 mt-4 ">
+            <Button onClick={backModal} className="cancelBtn mb-4 lg:mb-0 ">
               Go Back
             </Button>
-            <Button loading={loading} htmlType="submit" className="missionModalBtn2">
+            <Button loading={loading} htmlType="submit" className="navBtn2">
               Complete process
             </Button>
           </div>

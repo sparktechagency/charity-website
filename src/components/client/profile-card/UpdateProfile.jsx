@@ -80,12 +80,7 @@ export default function UpdateProfile({ updateProfileModal, setUpdateProfileModa
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg w-[90%] max-w-md p-6 relative">
-        <button
-          onClick={() => setUpdateProfileModal(false)}
-          className="absolute top-3 right-4 text-xl font-bold text-gray-600 hover:text-black"
-        >
-          ×
-        </button>
+        
 
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Update Profile</h2>
 

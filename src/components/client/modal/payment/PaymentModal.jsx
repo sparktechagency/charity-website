@@ -9,7 +9,7 @@ const PaymentModal = () => {
   const [donationType, setDonationType] = useState("one_time_donate");
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState("");
-  const [paymentType, setPaymentType] = useState("monthly");
+  const [paymentType, setPaymentType] = useState("montly");
   const navigate = useNavigate();
 
   const presetAmounts = [19.5, 24.5, 45.5, 99.5];
@@ -28,6 +28,7 @@ const PaymentModal = () => {
     };
     navigate("/user-details", { state: payload });
   };
+
 
   return (
     <div>
@@ -62,8 +63,8 @@ const PaymentModal = () => {
                           key={amount}
                           type="button"
                           className={`h-12 rounded-lg font-medium border w-full transition-colors ${isSelected
-                              ? "bg-blue-600 text-white border-blue-600"
-                              : "bg-white text-black border-gray-300 hover:bg-gray-100"
+                            ? "bg-blue-600 text-white border-blue-600"
+                            : "bg-white text-black border-gray-300 hover:bg-gray-100"
                             }`}
                           onClick={() => {
                             setSelectedAmount(amount);
@@ -109,8 +110,8 @@ const PaymentModal = () => {
                       defaultValue="monthly"
                       name="frequency"
                     >
-                      <Radio.Button value="monthly">Monthly</Radio.Button>
-                      <Radio.Button value="quarterly">Quarterly</Radio.Button>
+                      <Radio.Button value="montly">Monthly</Radio.Button>
+                      <Radio.Button value="quantely">Quarterly</Radio.Button>
                       <Radio.Button value="annually">Annually</Radio.Button>
                     </Radio.Group>
                     <Input

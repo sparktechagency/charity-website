@@ -311,8 +311,8 @@ const ArtAntiqModal = ({
 
         {/* Modal Buttons */}
 
-        <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
-          <Button onClick={closeAnitqueModal} className="  navBtn1  ">
+        <div className="mt-5 flex flex-col gap-y-4 lg:flex-row lg:items-center lg:justify-end lg:gap-x-6">
+          <Button onClick={closeAnitqueModal} className="cancelBtn">
             Back
           </Button>
           <Button htmlType="submit" className="navBtn2" loading={loading}>

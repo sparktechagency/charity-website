@@ -1,9 +1,8 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
-import CheckoutForm from "./CheckoutForm";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import CheckoutForm from './CheckoutForm';
 // Your Stripe publishable key
 const stripePromise = loadStripe(
   "pk_test_51RLzucIC4wM63k4fYkVbJvppgGxZY61KXU8F0fxBOPYyFmez1J8y26q62vSyIXr5C2t8seOfOBSocn0TvK4UhkgJ00bvXfaKfw"
@@ -14,19 +13,19 @@ const StripeForm = () => {
   const location = useLocation();
   const userPayload = location.state;
   const userDetails = {
-    amount: Number(userPayload.amount),
-    donation_type: userPayload.donation_type,
-    email: userPayload.email,
-    frequency: userPayload.frequency,
-    name: userPayload.name,
-    remark: userPayload.remark,
-    phone_number: userPayload.phone_number
+    amount: Number(userPayload?.amount),
+    donation_type: userPayload?.donation_type,
+    email: userPayload?.email,
+    frequency: userPayload?.frequency,
+    name: userPayload?.name,
+    remark: userPayload?.remark,
+    phone_number: userPayload?.phone_number
   }
   const navigate = useNavigate();
   const [clientSecret, setClientSecret] = useState("");
   const [paymentId, setPaymentId] = useState("")
   useEffect(() => {
-    if (!userPayload.amount) {
+    if (!userPayload?.amount) {
       navigate("/user-details");
       return;
     }
@@ -53,9 +52,9 @@ const StripeForm = () => {
         setPaymentId(data?.data?.id)
       })
       .catch((error) => {
-        console.log(error.response?.message)
+        navigate("/payment-list")
       });
-  }, [userPayload.amount]);
+  }, [userPayload?.amount]);
 
 
 
@@ -69,11 +68,18 @@ const StripeForm = () => {
     <div className="max-w-[600px] mx-auto py-28 ">
       {clientSecret ? (
         <Elements options={{ clientSecret, appearance }} stripe={stripePromise}>
+          {/* <CheckoutForm paymentId={paymentId} userDetails={userDetails} clientSecret={clientSecret} /> */}
           <CheckoutForm paymentId={paymentId} userDetails={userDetails} clientSecret={clientSecret} />
         </Elements>
       ) : (
-        <div className=" flex flex-col justify-center border border-black  " >
-          <p className="text-center  ">Loading payment form...</p>
+        <div className=" h-[50vh]  flex flex-col justify-center b " >
+          <div className="flex flex-col items-center justify-center space-y-4 p-6">
+            {/* Spinner */}
+            <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+
+            {/* Loading Text */}
+            <p className="text-lg font-semibold text-gray-700">Processing Payment...</p>
+          </div>
         </div>
       )}
     </div>
