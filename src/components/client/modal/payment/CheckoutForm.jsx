@@ -1,9 +1,10 @@
+import React, { useEffect, useState } from "react";
 import {
   useStripe,
   useElements,
   PaymentElement,
+  PaymentRequestButtonElement,
 } from "@stripe/react-stripe-js";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
 import { message } from "antd";
@@ -17,6 +18,29 @@ const CheckoutForm = ({ userDetails, paymentId }) => {
 
   const [formMessage, setFormMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [paymentRequest, setPaymentRequest] = useState(null);
+
+  useEffect(() => {
+    if (stripe) {
+      const pr = stripe.paymentRequest({
+        country: "GB",
+        currency: "gbp",
+        total: {
+          label: "Total",
+          amount: userDetails?.amount * 100,
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+      });
+
+      pr.canMakePayment().then((result) => {
+        if (result) {
+          setPaymentRequest(pr);
+        }
+      });
+    }
+  }, [stripe, userDetails]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) {
@@ -88,6 +112,13 @@ const CheckoutForm = ({ userDetails, paymentId }) => {
         onSubmit={handleSubmit}
         className="w-full border p-6 rounded-md shadow-md bg-white flex flex-col gap-4"
       >
+        {paymentRequest && (
+          <PaymentRequestButtonElement
+            options={{ paymentRequest }}
+            className="w-full h-[40px] mb-4"
+          />
+        )}
+
         <div>
           <label className="text-sm font-medium text-gray-700">Card Details</label>
           <div className="p-2 border rounded">
