@@ -164,7 +164,7 @@ const Faq = () => {
                 </p>
                 <div className="mt-5 sm:mt-8">
                   <Link to={"/contact"}><button className="bg-[#403730] px-6 py-3 text-white text-sm font-bold rounded">
-                    Hit a mail us
+                    We’d love to hear from you
                   </button></Link>
                 </div>
               </div>

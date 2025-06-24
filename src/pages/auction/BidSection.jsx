@@ -76,6 +76,7 @@ const BidSection = () => {
         footer={null}
         centered
         width={800}
+        closeIcon={<span className="text-black text-2xl">×</span>}
         destroyOnClose={true} // Completely remove ReactPlayer on close
       >
         {isModalOpen && (

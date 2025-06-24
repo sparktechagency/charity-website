@@ -697,8 +697,9 @@ const AuctionSlider = () => {
           ))}
         </Slider>
       </div>
+
       {/* small device */}
-      <div className=" lg:hidden ">
+      <div className=" lg:hidden lg:px-0 px-4 ">
         <div className="flex flex-col gap-y-7">
           {sliderData.map((slide, index) => (
             <div key={slide.id}>

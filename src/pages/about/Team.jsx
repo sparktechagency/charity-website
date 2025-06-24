@@ -24,7 +24,7 @@ const Team = () => {
 
   return (
     <div className="">
-      <div className="max-w-[1216px] mx-auto">
+      <div className="max-w-[1216px] mx-auto  px-4 lg:px-0 ">
         <div className="lg:py-8 py-9">
           <p className="text-[#403730] font-semibold text-center">The team</p>
           <h1 className="text-[#403730] font-semibold lg:text-5xl text-2xl text-center">
