@@ -62,44 +62,23 @@ const AuctionDetailsModal = ({
           },
         });
 
-        console.log(res)
+        
 
         if (res.data?.success) {
           Swal.fire({
-            title:
-              "<h2 class='text-left font-semibold text-base lg:text-lg'>Auction Under Review</h2>",
             position: "top-end",
-            html: `
-      <p class='text-left text-gray-600 text-sm lg:text-base mt-2'>
-        Your auction listing is currently under review. Once the review is completed, it will be published and you will be notified via your email address.
-      </p>
-    `,
-            showConfirmButton: false,
-            footer: `
-      <div class='flex justify-end pt-4'>
-        <button id='custom-done-btn' class='bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition'>
-          Done
-        </button>
-      </div>
-    `,
-            customClass: {
-              popup: "rounded-xl p-4 lg:p-6 shadow-lg",
-            },
-            didOpen: () => {
-              const btn = document.getElementById("custom-done-btn");
-              if (btn) {
-                btn.addEventListener("click", () => {
-                  Swal.close();
-                });
-              }
-            },
+            icon: "success",
+            title: `<h1>Donation item under review.</h1>`,
+            text: "Your auction listing is under review. Once done, it will be published & we’ll notify you via email.",
+            showConfirmButton: true,
+            timer: 2500,
           });
           setAuctionDetailsModal(false);
           setDonateFull(false);
           form.resetFields();
         }
       } catch (error) {
-        console.log(error)
+        
         Swal.fire({
           position: "top-end",
           icon: "error",
@@ -134,7 +113,7 @@ const AuctionDetailsModal = ({
 
   return (
     <div>
-      <div className="  ">
+      <div className="  overflow-y-auto ">
         <h1 className=" text-[#263234] font-semibold text-2xl leading-8 ">
           Auction details
         </h1>
@@ -292,7 +271,7 @@ const AuctionDetailsModal = ({
           <Form.Item
             label={
               <span className="text-sm text-[#263234] font-medium">
-                I want to receive
+                I want to donate
               </span>
             }
             style={{ marginBottom: 0, marginTop: "16px" }}
@@ -353,8 +332,8 @@ const AuctionDetailsModal = ({
             </Form.Item>
           </div>
           {/* Modal Buttons */}
-          <div className=" flex flex-col md:flex-row md:justify-end justify-start  lg:flex-row  lg:justify-end mt-5 mb-2">
-            <Button onClick={cancelAuctionDetailsModal} className="  navBtn1  ">
+          <div className=" lg:flex lg:justify-end lg:gap-x-6 lg:items-center ">
+            <Button onClick={cancelAuctionDetailsModal} className="  cancelBtn mb-4 lg:mb-0  ">
               Back
             </Button>
             <Button loading={loading} disabled={!verified} className="navBtn2" htmlType="submit">

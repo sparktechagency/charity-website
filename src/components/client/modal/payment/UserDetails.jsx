@@ -8,8 +8,9 @@ import {
   Input,
   Select,
 } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 
 const { Option } = Select;
 
@@ -22,13 +23,13 @@ const UserDetails = () => {
   const [form] = Form.useForm();
 
   const userPayload = {
-    amount: payload.amount,
-    donation_type: payload.donation_type,
-    email: payload.email,
-    frequency: payload.frequency,
-    name: payload.name,
-    remark: payload.remark,
-    phone_number: payload.phone_number,
+    amount: payload?.amount,
+    donation_type: payload?.donation_type,
+    email: payload?.email,
+    frequency: payload?.frequency,
+    name: payload?.name,
+    remark: payload?.remark,
+    phone_number: payload?.phone_number,
   };
 
   const navigateStripeFrom = () => {
@@ -37,34 +38,47 @@ const UserDetails = () => {
 
   const onEdit = () => {
     form.setFieldsValue({
-      name: payload.name,
-      email: payload.email,
-      phone_number: payload.phone_number,
-      remark: payload.remark,
-      donation_type: payload.donation_type,
-      frequency: payload.frequency,
-      amount: payload.amount,
+      name: payload?.name,
+      email: payload?.email,
+      phone_number: payload?.phone_number,
+      remark: payload?.remark,
+      donation_type: payload?.donation_type,
+      frequency: payload?.frequency,
+      amount: payload?.amount,
     });
     setIsModalOpen(true);
   };
 
   const handleFormSubmit = (values) => {
-    payload.name = values.name;
-    payload.email = values.email;
-    payload.phone_number = values.phone_number;
-    payload.remark = values.remark;
-    payload.donation_type = values.donation_type;
-    payload.frequency = values.frequency;
-    payload.amount = values.amount;
+    payload.name = values?.name;
+    payload.email = values?.email;
+    payload.phone_number = values?.phone_number;
+    payload.remark = values?.remark;
+    payload.donation_type = values?.donation_type;
+    payload.frequency = values?.frequency;
+    payload.amount = values?.amount;
     setIsModalOpen(false);
   };
 
   return (
     <div className="flex flex-col lg:flex-row max-w-[1512px] mx-auto mt-20">
       <div className="max-w-2xl border mx-auto p-6 bg-white rounded-2xl w-full shadow-md">
-        <h2 className="text-2xl font-semibold text-center mb-6">
-          Review Donation
-        </h2>
+
+        <div className="bg-white rounded-full p-4  flex items-center justify-center gap-6">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 rounded-full   px-4 py-2   transition"
+          >
+            <span>
+              <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.707 8.00006H4.12097L8.62097 12.5001L7.20697 13.9141L0.292969 7.00006L7.20697 0.0860634L8.62097 1.50006L4.12097 6.00006L15.707 6.00006V8.00006Z" fill="black" />
+              </svg>
+
+            </span>
+            {/* Back */}
+          </Link>
+          <h2 className="text-2xl font-semibold">Review Donation</h2>
+        </div>
 
         <Card className="mb-6 border border-gray-200 shadow-sm">
           <Descriptions
@@ -73,17 +87,17 @@ const UserDetails = () => {
             contentStyle={{ color: "#263234" }}
           >
             <Descriptions.Item label="Donation Type">
-              {payload.donation_type === "one_time_donate"
+              {payload?.donation_type === "one_time_donate"
                 ? "One Time Donate"
                 : "Recurring"}
             </Descriptions.Item>
 
             <Descriptions.Item label="Frequency">
-              {payload.frequency.charAt(0).toUpperCase() +
-                payload.frequency.slice(1)}
+              {payload?.frequency.charAt(0).toUpperCase() +
+                payload?.frequency.slice(1)}
             </Descriptions.Item>
 
-            <Descriptions.Item label="Amount">£ {payload.amount}</Descriptions.Item>
+            <Descriptions.Item label="Amount">£ {payload?.amount}</Descriptions.Item>
           </Descriptions>
         </Card>
 
@@ -95,13 +109,13 @@ const UserDetails = () => {
             labelStyle={{ fontWeight: 600 }}
             contentStyle={{ color: "#263234" }}
           >
-            <Descriptions.Item label="Name">{payload.name}</Descriptions.Item>
-            <Descriptions.Item label="Email">{payload.email}</Descriptions.Item>
-            {payload.phone_number && (
-              <Descriptions.Item label="Phone">{payload.phone_number}</Descriptions.Item>
+            <Descriptions.Item label="Name">{payload?.name}</Descriptions.Item>
+            <Descriptions.Item label="Email">{payload?.email}</Descriptions.Item>
+            {payload?.phone_number && (
+              <Descriptions.Item label="Phone">{payload?.phone_number}</Descriptions.Item>
             )}
-            {payload.remark && (
-              <Descriptions.Item label="Description">{payload.remark}</Descriptions.Item>
+            {payload?.remark && (
+              <Descriptions.Item label="Description">{payload?.remark}</Descriptions.Item>
             )}
           </Descriptions>
         </Card>
@@ -134,17 +148,15 @@ const UserDetails = () => {
         cancelText="Cancel"
         closeIcon={<span className="text-black text-2xl">×</span>}
         okButtonProps={{
-          className: "bg-[#403730] text-white hover:bg-[#2e2723] border-none",
+          className:
+            "!bg-[#403730] !text-white !border-none hover:!bg-[#2e2723] focus:!shadow-none",
         }}
         cancelButtonProps={{
-          className: "bg-[#403730] text-white hover:bg-[#2e2723] border-none",
+          className:
+            "!bg-[#403730] !text-white !border-none hover:!bg-[#2e2723] focus:!shadow-none",
         }}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleFormSubmit}
-        >
+        <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
           <Form.Item
             name="donation_type"
             label="Donation Type"
@@ -162,9 +174,9 @@ const UserDetails = () => {
             rules={[{ required: true, message: "Please select frequency" }]}
           >
             <Select>
-              <Option value="monthly">Monthly</Option>
-              <Option value="weekly">Weekly</Option>
-              <Option value="yearly">Yearly</Option>
+              <Option value="montly">Monthly</Option>
+              <Option value="quantely">Weekly</Option>
+              <Option value="annually">Yearly</Option>
             </Select>
           </Form.Item>
 
@@ -194,21 +206,16 @@ const UserDetails = () => {
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="phone_number"
-            label="Phone Number"
-          >
+          <Form.Item name="phone_number" label="Phone Number">
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="remark"
-            label="Description"
-          >
+          <Form.Item name="remark" label="Description">
             <Input.TextArea />
           </Form.Item>
         </Form>
       </Modal>
+
     </div>
   );
 };

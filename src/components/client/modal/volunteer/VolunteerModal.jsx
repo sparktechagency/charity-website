@@ -50,7 +50,6 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(`response is ${res?.data}`)
       if (res) {
         Swal.fire({
           position: "top-end",
@@ -63,7 +62,6 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
         return setIsVolunterModal(false);
       }
     } catch (error) {
-      console.log(error)
       Swal.fire({
         position: "top-end",
         icon: "error",
@@ -92,7 +90,7 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
   return (
     <div>
       <h1 className="text-[#263234] font-semibold leading-8 text-3xl mb-6">
-        Get Involved as a Volunteer
+        {/* Get Involved as a Volunteer */}
       </h1>
 
       <Form layout="vertical" onFinish={handleSubmit}>
@@ -248,11 +246,14 @@ const VolunteerModal = ({ setIsVolunterModal, setGeneralTerm }) => {
         </Form.Item>
 
         {/* Submit Button */}
-        <div className="flex flex-col md:flex-row md:justify-end justify-start lg:flex-row lg:justify-end mt-5 mb-2">
-          <Button onClick={closeVolunteerModal} className="navBtn1">
+        <div className=" lg:flex-row lg:justify-end lg:items-center lg:gap-x-5  "  >
+          <Button
+            onClick={closeVolunteerModal}
+            className="text-white mb-4 cancelBtn  "
+          >
             Cancel
           </Button>
-          <Button loading={loading} htmlType="submit" className="navBtn2">
+          <Button loading={loading} htmlType="submit" className="navBtn2  ml-10  ">
             Apply now
           </Button>
         </div>

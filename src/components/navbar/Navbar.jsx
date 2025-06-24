@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { DownOutlined, MenuOutlined } from "@ant-design/icons";
 import { Drawer, Modal, Form, Dropdown, Menu, message } from "antd";
@@ -165,7 +165,7 @@ const Navbar = () => {
   }
 
 
-
+  const drawerRef = useRef(null);
 
 
 
@@ -271,100 +271,117 @@ const Navbar = () => {
           Support Survivors
         </button>
 
-        {/* Mobile Menu Button */}
-        <button onClick={toggleDrawer} className="lg:hidden  ">
-          <MdOutlineMenu className="text-2xl text-black bg-[#534B44] " />
+        {/* Drawer Toggle Button */}
+        <button
+          className="lg:hidden fixed top-4 right-4 z-50 bg-[#403730] text-white px-4 py-2 rounded"
+          onClick={() => setOpen(true)}
+        >
+          ☰
         </button>
 
-        {/* Ant Design Drawer */}
+        {/* Overlay */}
+        {open && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-40 z-40"
+            onClick={() => setOpen(false)}
+          />
+        )}
 
-        <Drawer
-          style={{
-            backgroundColor: "white"
-          }}
-          placement="right"
-          onClose={toggleDrawer}
-          open={open}
-          width={260}
-          maskClosable
-          closeIcon={<span className="text-black  text-2xl">×</span>}
+        {/* Drawer */}
+        <div
+          ref={drawerRef}
+          className={`fixed top-0 right-0 h-full w-64 bg-white z-50 shadow-lg transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"
+            }`}
         >
-          <ul className="flex flex-col gap-5">
-            {menuItems.map((item) => (
-              <li key={item.path}>
-                <NavLink
-                  to={`/${item.path}`}
-                  className={({ isActive }) =>
-                    `text-sm block py-3 px-4 transition-all ${isActive ? "font-bold bg-[#e6dede] text-white " : "text-black"
-                    }`
-                  }
-                  onClick={toggleDrawer}
-                >
-                  {item.name}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-
-          {/* Login Button in Drawer (Closes Drawer & Opens Modal) */}
-          <div className="relative block mt-3 lg:hidden">
-            {isLoggedIn ? (
-              <div className="flex items-center">
-                <Dropdown
-                  overlay={
-                    <Menu>
-                      <Menu.Item key="profile">
-                        <button
-                          onClick={openProfileCardModal}
-                          className="w-full text-left"
-                        >
-                          Profile
-                        </button>
-                      </Menu.Item>
-                      <Menu.Item key="logout">
-                        <button onClick={handleLogout} className="w-full text-left">
-                          Logout
-                        </button>
-                      </Menu.Item>
-                    </Menu>
-                  }
-                  trigger={["hover"]}
-                >
-                  <div className="cursor-pointer">
-                    <img
-                      className="w-10 h-10 object-cover border border-green-900 rounded-full"
-                      src={`${imgUrl}/${profileData?.image || "default-image/defaultImage.jpg"}`}
-                      alt="Profile"
-                    />
-                  </div>
-                </Dropdown>
-                <h1 className="text-sm font-medium font-kindsans text-black ml-1">
-                  {profileData?.full_name}
-                </h1>
-              </div>
-            ) : (
-              <button
-                onClick={() => {
-                  closeDrawer?.(); // safe call
-                  openLoginModal();
-                }}
-                className="px-4 py-2.5 text-sm font-medium rounded-md bg-[#403730] text-white transition-all hover:opacity-90"
-              >
-                Login
-              </button>
-            )}
+          {/* Header */}
+          <div className="flex justify-between items-center p-4 border-b">
+            <h2 className="text-lg font-semibold">Menu</h2>
+            <button onClick={() => setOpen(false)} className="text-xl">×</button>
           </div>
 
+          {/* Content */}
+          <div className="p-4 flex flex-col gap-4 overflow-y-auto h-[calc(100%-60px)]">
+            {/* Nav Items */}
+            <ul className="flex flex-col gap-3">
+              {menuItems.map((item) => (
+                <li key={item.path}>
+                  <NavLink
+                    to={`/${item.path}`}
+                    className={({ isActive }) =>
+                      `block py-2 px-4 rounded transition ${isActive
+                        ? "bg-[#403730] text-white font-semibold"
+                        : "text-gray-800 hover:bg-gray-100"
+                      }`
+                    }
+                    onClick={() => setOpen(false)}
+                  >
+                    {item.name}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
 
+            {/* Profile or Login */}
+            <div className="border-t pt-4">
+              {isLoggedIn ? (
+                <div className="flex items-center gap-2    ">
+                  <div className="relative group w-[50%]">
+                    <img
+                      className="w-10 h-10 rounded-full border border-green-800 cursor-pointer"
+                      src={`${imgUrl}/${profileData.image}`}
+                      alt="Profile"
+                    />
+                    {/* Hover Dropdown */}
+                    <div className="absolute hidden group-hover:flex flex-col right-0 mt-2  bg-gray-200 w-full rounded shadow  z-50">
+                      <button
+                        onClick={() => {
+                          openProfileCardModal();
+                          setOpen(false);
+                        }}
+                        className="px-4 py-2 text-sm hover:bg-gray-100 text-left"
+                      >
+                        Profile
+                      </button>
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setOpen(false);
+                        }}
+                        className="px-4 py-2 text-sm hover:bg-gray-100 text-left"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                  <span className="text-sm font-medium -ml-16 text-black">
+                    {profileData.full_name}
+                  </span>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                    openLoginModal();
+                  }}
+                  className="w-full py-2 bg-[#403730] text-white rounded text-sm font-medium py-1 hover:opacity-90"
+                >
+                  Login
+                </button>
+              )}
+            </div>
 
-
-          <button
-            onClick={openSupportModal}
-            className="mt-6 bg-[#403730] w-full py-3 cursor-pointer text-white rounded-md font-medium text-sm hover:opacity-90"
-          >
-            Support Survivors
-          </button>
-        </Drawer>
+            {/* Support Button */}
+            <button
+              onClick={() => {
+                openSupportModal();
+                setOpen(false);
+              }}
+              className="mt-6 bg-[#403730] w-full py-3 text-white rounded-md font-medium text-sm hover:opacity-90"
+            >
+              Support Survivors
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* support modal start  */}
@@ -442,7 +459,6 @@ const Navbar = () => {
         <Modal
           width={"70%"}
           open={termsModal}
-          // onOk={handleOk}
           style={{ top: 0 }}
           onCancel={termModalCanel}
           zIndex={1100}
@@ -462,8 +478,9 @@ const Navbar = () => {
           style={{ top: 0 }}
           zIndex={1100}
           onCancel={donateModalCanel}
-          closeIcon={<span className="text-black text-2xl">×</span>}
+          // closeIcon={<span className="text-black text-2xl">×</span>}
           footer={null} // remove if you want buttons
+          closeIcon={<span className="text-black text-2xl">×</span>}
         >
           <AggrementPage></AggrementPage>
         </Modal>
@@ -484,7 +501,7 @@ const Navbar = () => {
         // width="400px"
         style={{ padding: "15px", top: 0 }}
       >
-        <LoginForm form = {form} setLoginModal={setLoginModal} loginModal={loginModal} />
+        <LoginForm form={form} setLoginModal={setLoginModal} loginModal={loginModal} />
       </Modal>
 
       {/* profile card modal  */}

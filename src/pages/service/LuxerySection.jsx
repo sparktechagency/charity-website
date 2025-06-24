@@ -422,11 +422,11 @@ export const LuxerySection = () => {
           </Form.Item>
 
           {/* Submit Button */}
-          <div className="flex justify-end gap-3">
-            <Button onClick={cancelBookingModal} className="serviceBtn2">
+          <div className="mt-5 lg:flex-row lg:items-center lg:justify-end  ">
+            <Button onClick={cancelBookingModal} className="cancelBtn mb-4 lg:mb-0">
               Cancel
             </Button>
-            <Button disabled={loading} loading={loading} className="serviceBtn3" htmlType="submit">
+            <Button disabled={loading} loading={loading} className="navBtn2" htmlType="submit">
               Proceed next step
             </Button>
           </div>
@@ -444,6 +444,7 @@ export const LuxerySection = () => {
           onCancel={closeGeneralTermModal}
           footer={null}
           zIndex={1100}
+          closeIcon={<span className="text-black text-2xl">×</span>}
         >
           <GeneralTermCondictionModal />
         </Modal>

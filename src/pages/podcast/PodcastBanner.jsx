@@ -14,7 +14,6 @@ const PodcastBanner = () => {
       try {
         setLoading(true);
         const res = await axiosPublic.get("/get-podcast");
-        console.log(res)
         if (res.status === 200) {
           setAudios(res.data?.data?.data || []);
         }

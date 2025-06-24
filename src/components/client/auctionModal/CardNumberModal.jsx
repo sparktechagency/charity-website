@@ -67,7 +67,14 @@ const CardNumberModal = ({
       });
 
       if (res.data?.success) {
-        auctionMsg(); // Show toast or some custom alert
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `<h1>Donation item under review.</h1>`,
+          text: "Your auction listing is under review. Once done, it will be published & we’ll notify you via email.",
+          showConfirmButton: true,
+          timer: 2500,
+        });
       }
     } catch (error) {
       Swal.fire({
@@ -217,11 +224,11 @@ const CardNumberModal = ({
           </Form.Item>
 
           {/* Buttons */}
-          <div className="flex flex-col mt-4 lg:flex-row md:flex-row lg:justify-end lg:gap-8">
-            <Button onClick={backModal} className="missionModalBtn1">
+          <div className=" lg:flex lg:flex-row lg:items-center lg:justify-end gap-x-6 mt-4 ">
+            <Button onClick={backModal} className="cancelBtn mb-4 lg:mb-0 ">
               Go Back
             </Button>
-            <Button loading={loading} htmlType="submit" className="missionModalBtn2">
+            <Button loading={loading} htmlType="submit" className="navBtn2">
               Complete process
             </Button>
           </div>

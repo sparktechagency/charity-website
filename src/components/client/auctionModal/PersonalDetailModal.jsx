@@ -278,11 +278,11 @@ const PersonalDetailModal = ({
           </Upload.Dragger>
         </Form.Item>
 
-        <div className="flex flex-col md:flex-row lg:flex-row lg:justify-end items-center md:items-start gap-3 mt-5 mb-2">
-          <Button onClick={cancelModal} className="missionModalBtn1">
+        <div className=" lg:flex lg:justify-end gap-x-6 lg:items-center ">
+          <Button onClick={cancelModal} className="cancelBtn mb-4 lg:mb-0 ">
             Cancel
           </Button>
-          <Button htmlType="submit" className="missionModalBtn2">
+          <Button htmlType="submit" className="navBtn2">
             Next
           </Button>
         </div>

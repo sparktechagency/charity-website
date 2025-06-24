@@ -1,16 +1,16 @@
+import React, { useEffect, useState } from "react";
 import {
   useStripe,
   useElements,
   PaymentElement,
+  PaymentRequestButtonElement,
 } from "@stripe/react-stripe-js";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
 import { message } from "antd";
-import axios from "axios";
-import Swal from 'sweetalert2'; 
+import Swal from "sweetalert2";
 
-const CheckoutForm = ({userDetails, paymentId }) => {
+const CheckoutForm = ({ userDetails, paymentId }) => {
   const axiosPublic = useAxiosPublic();
   const stripe = useStripe();
   const elements = useElements();
@@ -18,9 +18,28 @@ const CheckoutForm = ({userDetails, paymentId }) => {
 
   const [formMessage, setFormMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [paymentRequest, setPaymentRequest] = useState(null);
 
+  useEffect(() => {
+    if (stripe) {
+      const pr = stripe.paymentRequest({
+        country: "GB",
+        currency: "gbp",
+        total: {
+          label: "Total",
+          amount: userDetails?.amount * 100,
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+      });
 
+      pr.canMakePayment().then((result) => {
+        if (result) {
+          setPaymentRequest(pr);
+        }
+      });
+    }
+  }, [stripe, userDetails]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +55,7 @@ const CheckoutForm = ({userDetails, paymentId }) => {
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: window.location.href, // Optional: redirect on success
+          return_url: window.location.href,
         },
         redirect: "if_required",
       });
@@ -63,17 +82,19 @@ const CheckoutForm = ({userDetails, paymentId }) => {
             payment_gatway: "stripe",
           });
 
-          navigate("/");
-          Swal.fire({
-            position: "top-center",
-            icon: "success",
-            title: "Pyament successfull",
-            showConfirmButton: false,
-            timer: 1500
-          });
-          return;
+          if (res) {
+            navigate("/");
+            Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "Payment successful",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            return;
+          }
         } catch (error) {
-          console.error("Error saving donation:", error);
+          console.error("Error saving donation:", error.response?.data?.message);
           message.error("Payment succeeded, but failed to save donation record.");
         }
       }
@@ -91,10 +112,15 @@ const CheckoutForm = ({userDetails, paymentId }) => {
         onSubmit={handleSubmit}
         className="w-full border p-6 rounded-md shadow-md bg-white flex flex-col gap-4"
       >
+        {paymentRequest && (
+          <PaymentRequestButtonElement
+            options={{ paymentRequest }}
+            className="w-full h-[40px] mb-4"
+          />
+        )}
+
         <div>
-          <label className="text-sm font-medium text-gray-700">
-            Card Details
-          </label>
+          <label className="text-sm font-medium text-gray-700">Card Details</label>
           <div className="p-2 border rounded">
             <PaymentElement />
           </div>
@@ -103,8 +129,30 @@ const CheckoutForm = ({userDetails, paymentId }) => {
         <button
           type="submit"
           disabled={isLoading || !stripe || !elements}
-          className="w-full sm:w-[200px] bg-[#403730] hover:bg-[#27221D] py-3 text-white font-bold rounded-md"
+          className="w-full sm:w-[200px] bg-[#403730] hover:bg-[#27221D] py-3 text-white font-bold rounded-md flex items-center justify-center gap-2"
         >
+          {isLoading && (
+            <svg
+              className="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+              ></path>
+            </svg>
+          )}
           {isLoading ? "Processing..." : "Payment Now"}
         </button>
 
@@ -112,8 +160,6 @@ const CheckoutForm = ({userDetails, paymentId }) => {
           <div className="text-red-500 text-center mt-2">{formMessage}</div>
         )}
       </form>
-
-
     </div>
   );
 };

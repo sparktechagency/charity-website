@@ -38,7 +38,7 @@ const AboutBanner = () => {
         >
           About us
         </Paragraph>
-        <div className="max-w-[960px] mx-auto lg:mt-6 mb-10  lg:mb-24 px-2 lg:px-0 ">
+        <div className="max-w-[960px] mx-auto lg:mt-6 mb-10  lg:mb-24 px-4 lg:px-0 ">
           <h1 className=" lg:text-5xl text-3xl text-[#403730]  text-center  font-semibold ">
             Healing through support and compassion
           </h1>

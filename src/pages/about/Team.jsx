@@ -24,7 +24,7 @@ const Team = () => {
 
   return (
     <div className="">
-      <div className="max-w-[1216px] mx-auto">
+      <div className="max-w-[1216px] mx-auto  px-4 lg:px-0 ">
         <div className="lg:py-8 py-9">
           <p className="text-[#403730] font-semibold text-center">The team</p>
           <h1 className="text-[#403730] font-semibold lg:text-5xl text-2xl text-center">
@@ -56,7 +56,7 @@ const Team = () => {
             <div key={index} className="text-center lg:text-start">
               <div className="lg:mt-16">
                 <img
-                  className="object-cover w-[270px] h-[276px] object-cover mx-auto rounded-lg"
+                  className="object-cover w-[270px] h-[276px]  mx-auto rounded-lg"
                   src={`${imgUrl}/${member?.photo}  `}
                   alt={member?.name}
                 />
@@ -66,7 +66,7 @@ const Team = () => {
                   {member?.name}
                 </h2>
                 <p className="text-[#403730] text-lg">{member?.designation}</p>
-                <p className="text-[#4B5557] mt-4">{member?.work_experience}</p>
+                <p className="text-[#4B5557] h-10 mt-4">{member?.work_experience}</p>
               </div>
               <div>
                 <div className="flex mx-auto items-center justify-center lg:justify-start gap-5 mt-6">

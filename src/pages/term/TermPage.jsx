@@ -3,8 +3,8 @@
 const TermPage = () => {
   window.scrollTo(0, 0);
   return (
-    <div>
-      <div className="lg:pt-20 pt-5 max-w-[1216px] mx-auto pb-5 lg:pb-24 lg:px-4">
+    <div className=" lg:px-0 px-4 " >
+      <div className="lg:pt-20 pt-20 max-w-[1216px] mx-auto pb-5 lg:pb-24 lg:px-4">
         <p className="text-center text-[#403730] font-semibold lg:leading-6 ">
           General Terms and Condition
         </p>
@@ -26,16 +26,14 @@ const TermPage = () => {
 
         {/*1 Eligibility */}
 
-        <div>
-          <p className=" font-semibold text-xl lg:text-2xl lg:leading-9 mt-2 lg:mt-12 ">
-            {" "}
+        <div className="mt-8 lg:mt-12">
+          <h2 className="text-xl lg:text-2xl font-semibold text-gray-900">
             1. Eligibility
+          </h2>
+          <p className="mt-3 text-lg lg:text-xl  text-[#263234] text-justify leading-relaxed">
+            You must be 18 years or older to submit items or participate in auctions through Virtue Hope.
+            By doing so, you confirm you have the legal right to transfer ownership of the donated item(s).
           </p>
-          <span className=" text-justify lg:text-start text-[#263234] lg:leading-8 text-lg lg:text-xl mt-2 lg:mt-5 block ">
-            You must be 18 years or older to submit items or participate in
-            auctions through Virtue Hope. By doing so, you confirm you have the
-            legal right to transfer ownership of the donated item(s).
-          </span>
         </div>
 
         {/* 2. Donation and Revenue Split Policy */}
@@ -46,10 +44,9 @@ const TermPage = () => {
             2. Donation and Revenue Split Policy
           </p>
 
-          <span className=" text-justify lg:text-start text-[#263234] lg:leading-8 text-lg lg:text-xl block lg:mt-5 mt-2 ">
-            We accept donations of high-value items (art, antiques,
-            collectibles, etc.) to support our charitable mission.
-          </span>
+          <p className="mt-2 lg:mt-5 block text-lg lg:text-xl text-[#263234] text-justify lg:text-left leading-relaxed">
+            We accept donations of high-value items (art, antiques, collectibles, etc.) to support our charitable mission.
+          </p>
           <p className="text-[#263234] text-[16px] lg:text-xl leading-8 font-semibold my-1 lg:my-5 ">
             Upon sale of a donated item:
           </p>

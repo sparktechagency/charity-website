@@ -41,12 +41,12 @@ const Faq = () => {
           ) : (
             <>
               {/* FAQ Section */}
-              <div className="w-full lg:w-3/5">
+              <div className="w-full lg:w-3/5 ">
                 <div className="space-y-4">
                   {data.map((item, index) => (
                     <div
                       key={index}
-                      className="bg-white border border-[#A6ABAC] shadow rounded"
+                      className="bg-white border border-[#A6ABAC] shadow   rounded"
                     >
                       <button
                         className="w-full text-left px-4 py-3 font-semibold flex justify-between items-center"
@@ -54,46 +54,50 @@ const Faq = () => {
                           setOpenIndex(openIndex === index ? null : index)
                         }
                       >
-                        <p className="px-2 text-[#263234] text-lg sm:text-xl font-semibold -mt-3! sm:mt-6">
-                          {item?.question} 
+                        <p className="px-2 text-[#263234] text-lg sm:text-xl font-semibold block ">
+                          {item?.question}
                         </p>
                         <span className="cursor-pointer mt-3 ">
                           {openIndex === index ? (
-                            <svg
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M4 12C4 11.4477 4.44772 11 5 11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H5C4.44772 13 4 12.5523 4 12Z"
-                                fill="#4B5557"
-                              />
-                            </svg>
+                            <span className=" block -mt-6 " >
+                              <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M4 12C4 11.4477 4.44772 11 5 11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H5C4.44772 13 4 12.5523 4 12Z"
+                                  fill="#4B5557"
+                                />
+                              </svg>
+                            </span>
                           ) : (
-                            <svg
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M12 4C12.5523 4 13 4.44772 13 5V19C13 19.5523 12.5523 20 12 20C11.4477 20 11 19.5523 11 19V5C11 4.44772 11.4477 4 12 4Z"
-                                fill="#4B5557"
-                              />
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M4 12C4 11.4477 4.44772 11 5 11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H5C4.44772 13 4 12.5523 4 12Z"
-                                fill="#4B5557"
-                              />
-                            </svg>
+                            <p className=" block -mt-3 " >
+                              <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M12 4C12.5523 4 13 4.44772 13 5V19C13 19.5523 12.5523 20 12 20C11.4477 20 11 19.5523 11 19V5C11 4.44772 11.4477 4 12 4Z"
+                                  fill="#4B5557"
+                                />
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M4 12C4 11.4477 4.44772 11 5 11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H5C4.44772 13 4 12.5523 4 12Z"
+                                  fill="#4B5557"
+                                />
+                              </svg>
+                            </p>
                           )}
                         </span>
                       </button>
@@ -160,7 +164,7 @@ const Faq = () => {
                 </p>
                 <div className="mt-5 sm:mt-8">
                   <Link to={"/contact"}><button className="bg-[#403730] px-6 py-3 text-white text-sm font-bold rounded">
-                    Hit a mail us
+                    We’d love to hear from you
                   </button></Link>
                 </div>
               </div>
