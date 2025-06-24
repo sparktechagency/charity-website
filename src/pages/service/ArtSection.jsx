@@ -39,7 +39,7 @@ const ArtSection = () => {
       </div>
 
       {/* small device  */}
-      <div className=" lg:hidden block mb-3.5 ">
+      <div className=" lg:hidden block mb-3.5 px-4 lg:px-0 ">
         <div>
           <h1 className="  text-2xl leading-none p-2 text-center ">
             Art & antique auction

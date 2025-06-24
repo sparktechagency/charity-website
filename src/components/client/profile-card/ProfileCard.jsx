@@ -5,6 +5,7 @@ import { imgUrl } from "../../../helper/imgUrl";
 import { FiUser, FiUpload } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
+import toast, { Toaster } from "react-hot-toast";
 
 const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
   const [updateProfileModal, setUpdateProfileModal] = useState(false);
@@ -63,6 +64,7 @@ const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
       setLoading(true);
       const formData = new FormData();
       formData.append("full_name", data.full_name);
+
       if (file) {
         formData.append("image", file);
       }
@@ -73,15 +75,18 @@ const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
         },
       });
 
+
       if (res) {
         toast.success("Profile updated successfully");
         reset();
         setFile(null);
         setPreviewUrl(null);
-        setUpdateProfileModal(false);
+        setUpdateProfileModal(false); // ✅ Modal closes only on success
+      } else {
+        toast.error("Update failed. Please try again.");
       }
     } catch (error) {
-      toast.error("Update failed");
+      toast.error(error.response?.data?.message || "Update failed");
     } finally {
       setLoading(false);
     }
@@ -111,7 +116,7 @@ const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
             <Button
               icon={<EditOutlined className="text-white" />}
               onClick={openUpdateProfileModal}
-              className=" navBtn2  hover:bg-[#2e2723] text-white font-semibold px-6 py-2 rounded-md border-none mb-4 "
+              className=" navBtn2   hover:bg-[#2e2723] text-white font-semibold px-6 py-2 rounded-md border-none  "
             >
               Edit
             </Button>
@@ -182,6 +187,7 @@ const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
           </button>
         </form>
       </Modal>
+      <Toaster position="top-end"></Toaster>
     </>
   );
 };

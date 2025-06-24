@@ -10,11 +10,8 @@ const Footer = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
 
-  const handleSubmit = async () => {
-    if (!email) {
-      toast.error("Please enter your email!");
-      return;
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent form reload
 
     // Basic email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -135,42 +132,48 @@ const Footer = () => {
             <div className="w-full lg:w-auto
             ml-6 text-center mt-3 lg:text-left">
               {/* <h2 className="text-[#263234] font-semibold text-sm">Stay Up to Date</h2> */}
-              <div className="flex flex-col lg:flex-row items-center gap-3 mt-4">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email address"
-                  className="border border-gray-300 bg-[#f4f5f7] px-3 py-2 shadow-md w-[250px] text-sm focus:outline-none"
-                />
-                <button
-                  onClick={handleSubmit}
-                  disabled={loading}
-                  className="px-6 py-2  rounded text-sm font-bold text-white bg-[#403730] flex items-center justify-center"
-                >
-                  {loading ? (
-                    <span className="flex items-center gap-2">
-                      <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"
-                        />
-                      </svg>
-                      Loading...
-                    </span>
-                  ) : (
-                    "Subscribe"
-                  )}
-                </button>
+              <div className="flex flex-col lg:flex-row items-center gap-3 mt-4 w-full max-w-md mx-auto">
+                <form onSubmit={handleSubmit} className="flex flex-col space-y-4  lg:flex-row gap-x-3 w-full">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    placeholder="Enter your email address"
+                    className="border border-gray-300 bg-[#f4f5f7] px-3 py-2 shadow-md w-full text-sm focus:outline-none rounded"
+                  />
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="px-6 py-2 rounded text-sm font-bold text-white bg-[#403730] flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? (
+                      <span className="flex items-center gap-2">
+                        <svg
+                          className="animate-spin h-4 w-4 text-white"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"
+                          />
+                        </svg>
+                        Loading...
+                      </span>
+                    ) : (
+                      "Subscribe"
+                    )}
+                  </button>
+                </form>
               </div>
 
               {/* Socials can stay the same or you can convert those to HeroIcons or any SVG lib */}
