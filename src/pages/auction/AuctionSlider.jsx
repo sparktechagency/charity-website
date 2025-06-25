@@ -330,6 +330,15 @@ const AuctionSlider = () => {
   };
   const handleBidSubmit = async (index, bidPrice) => {
     try {
+      if (!bidPrice) {
+        return Swal.fire({
+          position: "top-center",
+          icon: "error",
+          title: "Please select a bid price!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
       setLoading(true);
       const auctionId = sliderData[index]?.id;
 
@@ -338,9 +347,9 @@ const AuctionSlider = () => {
         return;
       }
 
-      // if(!token){
-      //   return setOpenLoginModal(true);
-      // }
+      if (!token) {
+        return setOpenLoginModal(true);
+      }
 
       const msg = await bidOnlineMsg();
 
@@ -392,7 +401,6 @@ const AuctionSlider = () => {
     setShowBids(newShowBids);
   };
 
-  const [value, setValue] = useState("")
 
   const handleBidSelect = (index, price) => {
     const newSelectedBids = [...selectedBids];
@@ -914,6 +922,7 @@ const AuctionSlider = () => {
             onCancel={closeLoginModal}
             centered
             maskClosable={false}
+            closeIcon={<span className="text-black text-2xl">×</span>}
           // width="400px"
           // style={{ padding: "15px", top: 0 }}
           >
@@ -1000,6 +1009,7 @@ const AuctionSlider = () => {
             closable={true}
             onCancel={closeRegModal}
             centered
+            closeIcon={<span className="text-black text-2xl">×</span>}
           // width="400px"
           // style={{ padding: "15px", top: 0 }}
           >
@@ -1145,6 +1155,7 @@ const AuctionSlider = () => {
             closable={true}
             onCancel={closeRegOtpModal}
             centered
+            closeIcon={<span className="text-black text-2xl">×</span>}
           // width="400px"
           // style={{ padding: "15px", top: 0 }}
           >
@@ -1210,6 +1221,7 @@ const AuctionSlider = () => {
         onCancel={closeForgetEmailModal}
         maskClosable={false}
         centered
+        closeIcon={<span className="text-black text-2xl">×</span>}
       >
         <Form form={form} onFinish={forgetPasswordEmailSubmit} layout="vertical">
           <Form.Item
@@ -1251,6 +1263,7 @@ const AuctionSlider = () => {
         onCancel={closeForgetOptVerifyModal}
         centered
         maskClosable={false}
+        closeIcon={<span className="text-black text-2xl">×</span>}
         // width="400px"
         style={{ padding: "15px", top: 0 }}
       >
@@ -1304,6 +1317,7 @@ const AuctionSlider = () => {
         onCancel={closeSetNewPasswordModal}
         centered
         maskClosable={false}
+        closeIcon={<span className="text-black text-2xl">×</span>}
       >
         <Form
           name="new_password_set"

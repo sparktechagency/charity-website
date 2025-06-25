@@ -132,15 +132,15 @@ const Footer = () => {
             <div className="w-full lg:w-auto
             ml-6 text-center mt-3 lg:text-left">
               {/* <h2 className="text-[#263234] font-semibold text-sm">Stay Up to Date</h2> */}
-              <div className="flex flex-col lg:flex-row items-center gap-3 mt-4 w-full max-w-md mx-auto">
-                <form onSubmit={handleSubmit} className="flex flex-col space-y-4  lg:flex-row gap-x-3 w-full">
+              <div className="flex flex-col lg:flex-row items-center  gap-3 mt-4 w-full max-w-md mx-auto">
+                <form onSubmit={handleSubmit} className="flex flex-col space-y-4 items-center  lg:flex-row gap-x-3 w-full">
                   <input
                     type="email"
-                    value={email}
+                    value={email} 
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     placeholder="Enter your email address"
-                    className="border border-gray-300 bg-[#f4f5f7] px-3 py-2 shadow-md w-full text-sm focus:outline-none rounded"
+                    className="border border-gray-300 bg-[#f4f5f7] px-3 py-3 mt-4  shadow-md w-full text-sm focus:outline-none rounded"
                   />
                   <button
                     type="submit"

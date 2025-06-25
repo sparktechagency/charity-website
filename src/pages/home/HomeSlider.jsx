@@ -468,6 +468,15 @@ const HomeSlider = () => {
   };
   const handleBidSubmit = async (index, bidPrice) => {
     try {
+      if (!bidPrice) {
+        return Swal.fire({
+          position: "top-center",
+          icon: "error",
+          title: "Please select a bid price!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
       setLoading(true);
       const auctionId = sliderData[index]?.id;
 
@@ -476,9 +485,9 @@ const HomeSlider = () => {
         return;
       }
 
-      // if(!token){
-      //   return setOpenLoginModal(true);
-      // }
+      if (!token) {
+        return setOpenLoginModal(true);
+      }
 
       const msg = await bidOnlineMsg();
 
@@ -742,7 +751,7 @@ const HomeSlider = () => {
                             </div>
 
                             {/* Quote */}
-                            <div className="bg-[#e9ebeb] mt-6 lg:p-6 p-2.5 rounded-lg max-w-2xl mx-auto shadow-md  custom-scrollbar h-64 overflow-y-scroll   ">
+                            <div className="bg-[#e9ebeb] mt-6 lg:p-6 p-2.5 rounded-lg max-w-2xl mx-auto shadow-md  custom-scrollbar h-64 overflow-y-auto   ">
                               <p className="text-lg leading-relaxed pb-14 ">
                                 {slide?.description ||
                                   "I am honored to donate Whispers of Dawn to this auction in support of Healing and Hope for Women. This initiative empowers women facing adversity, providing them with the resources to rebuild their lives. We can create a masterpiece of change."}
@@ -1197,6 +1206,7 @@ const HomeSlider = () => {
           onCancel={donateModalCanel}
           footer={null} // remove if you want buttons
           closeIcon={<span className="text-black text-2xl">×</span>}
+          closeIcon={<span className="text-black text-2xl">×</span>}
         >
           <AggrementPage></AggrementPage>
         </Modal>
@@ -1214,6 +1224,7 @@ const HomeSlider = () => {
             onCancel={closeLoginModal}
             centered
             maskClosable={false}
+            closeIcon={<span className="text-black text-2xl">×</span>}
           // width="400px"
           // style={{ padding: "15px", top: 0 }}
           >
@@ -1299,6 +1310,7 @@ const HomeSlider = () => {
             closable={true}
             onCancel={closeRegModal}
             centered
+            closeIcon={<span className="text-black text-2xl">×</span>}
           // width="400px"
           // style={{ padding: "15px", top: 0 }}
           >
@@ -1445,6 +1457,7 @@ const HomeSlider = () => {
             centered
             maskClosable={false}
             closeIcon={<span className="text-black text-2xl">×</span>}
+            closeIcon={<span className="text-black text-2xl">×</span>}
           // width="400px"
           // style={{ padding: "15px", top: 0 }}
           >
@@ -1510,6 +1523,7 @@ const HomeSlider = () => {
         onCancel={closeForgetEmailModal}
         maskClosable={false}
         centered
+        closeIcon={<span className="text-black text-2xl">×</span>}
       >
         <Form form={form} onFinish={forgetPasswordEmailSubmit} layout="vertical">
           <Form.Item
@@ -1552,6 +1566,7 @@ const HomeSlider = () => {
         centered
         maskClosable={false}
         // width="400px"
+        closeIcon={<span className="text-black text-2xl">×</span>}
         style={{ padding: "15px", top: 0 }}
       >
         <div style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
@@ -1603,6 +1618,7 @@ const HomeSlider = () => {
         closable={true}
         onCancel={closeSetNewPasswordModal}
         centered
+        closeIcon={<span className="text-black text-2xl">×</span>}
         maskClosable={false}
       >
         <Form
