@@ -511,8 +511,8 @@ const Navbar = () => {
         onCancel={closeProfileCardModal}
         footer={null}
         centered
-        width={400}
-        className="rounded-2xl"
+        // width={400}
+        closeIcon={<span className="text-black text-2xl">×</span>}
       >
         <ProfileCard setProfileCard={setProfileCard} profileData={profileData} handleLogout={handleLogout} />
       </Modal>
