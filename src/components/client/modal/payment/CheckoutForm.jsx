@@ -4,6 +4,7 @@ import {
   useElements,
   PaymentElement,
   PaymentRequestButtonElement,
+
 } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../../pages/hooks/useAxiosPublic";
@@ -25,6 +26,9 @@ const CheckoutForm = ({ userDetails, paymentId }) => {
       const pr = stripe.paymentRequest({
         country: "GB",
         currency: "gbp",
+
+        googlePay: true,
+
         total: {
           label: "Total",
           amount: userDetails?.amount * 100,
@@ -106,6 +110,8 @@ const CheckoutForm = ({ userDetails, paymentId }) => {
     }
   };
 
+  console.log(paymentRequest)
+
   return (
     <div className="max-w-4xl mx-auto">
       <form
@@ -114,7 +120,9 @@ const CheckoutForm = ({ userDetails, paymentId }) => {
       >
         {paymentRequest && (
           <PaymentRequestButtonElement
+            allow="payment"
             options={{ paymentRequest }}
+
             className="w-full h-[40px] mb-4"
           />
         )}
