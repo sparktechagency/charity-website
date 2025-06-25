@@ -95,9 +95,9 @@ const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
   return (
     <>
       <Card
-        className="border-none shadow-none"
+        className="border-none shadow-none p-4   "
         cover={
-          <div className="h-28 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-t-2xl"></div>
+          <div className="h-36  px-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500  rounded-t-2xl  "></div>
         }
       >
         <div className="flex flex-col items-center -mt-12">
@@ -112,18 +112,18 @@ const ProfileCard = ({ handleLogout, setProfileCard, profileData }) => {
           </h2>
           <p className="text-gray-500">{profileData?.email || "johndoe@example.com"}</p>
 
-          <div className="mt-5 flex flex-row lg:items-center lg:justify-center  gap-x-3 gap-y-5  ">
+          <div className="mt-5 flex flex-row lg:items-center lg:justify-center px-4   gap-x-3 gap-y-5  ">
             <Button
               icon={<EditOutlined className="text-white" />}
               onClick={openUpdateProfileModal}
-              className=" navBtn2   hover:bg-[#2e2723] text-white font-semibold px-6 py-2 rounded-md border-none  "
+              className=" navBtn2 w-full   hover:bg-[#2e2723] text-white font-semibold px-6 py-2 rounded-md border-none  "
             >
               Edit
             </Button>
             <Button
               icon={<LogoutOutlined className="text-white" />}
               onClick={handleLogout}
-              className="navBtn2  hover:bg-[#2e2723] text-white font-semibold px-6 py-2 rounded-md border-none"
+              className="navBtn2  hover:bg-[#2e2723] w-full text-white font-semibold px-6 py-2 rounded-md border-none"
             >
               Logout
             </Button>

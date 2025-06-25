@@ -125,13 +125,13 @@ export default function PodcastCarousel() {
         {/* Navigation Buttons */}
         <button
           onClick={prevSlide}
-          className="absolute left-0 top-1/2 -translate-y-1/2 bg-white text-black hover:bg-[#403730] hover:text-white p-3 rounded-full shadow transition-all duration-300"
+          className="absolute left-0 top-1/2 -translate-y-1/2 bg-black text-black hover:bg-[#403730] hover:text-white p-3 rounded-full shadow transition-all duration-300"
         >
           <ChevronLeft size={20} />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-0 top-1/2 -translate-y-1/2 bg-white text-black hover:bg-[#403730] hover:text-white p-3 rounded-full shadow transition-all duration-300"
+          className="absolute right-0 top-1/2 -translate-y-1/2 bg-black text-black hover:bg-[#403730] hover:text-white p-3 rounded-full shadow transition-all duration-300"
         >
           <ChevronRight size={20} />
         </button>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import useAxiosPublic from './../hooks/useAxiosPublic';
 
 const items = [
   {
@@ -22,10 +23,12 @@ const items = [
     title: "Estimated price: $59-$200",
     price: "$180",
   },
-  
+
 ];
 
 export default function AutoCarousel() {
+  const axiosPublic = useAxiosPublic();
+  const [items, setItems] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
 
@@ -38,6 +41,24 @@ export default function AutoCarousel() {
     window.addEventListener("resize", updateView);
     return () => window.removeEventListener("resize", updateView);
   }, []);
+
+
+  // fetch data 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axiosPublic.get(`/auction-soltout`);
+        if (res) {
+          setItems(res.data?.data?.contributors)
+        }
+        console.log(res.data?.data?.contributors)
+      } catch (error) {
+        
+      }
+    }
+    fetchData()
+  }, [])
 
   useEffect(() => {
     // Auto-slide every 3 seconds
@@ -58,9 +79,8 @@ export default function AutoCarousel() {
             .map((item) => (
               <div
                 key={item.id}
-                className={`relative ${
-                  visibleCount === 1 ? "w-full" : "w-1/3"
-                }`}
+                className={`relative ${visibleCount === 1 ? "w-full" : "w-1/3"
+                  }`}
               >
                 <button className=" text-[#263234] cursor-pointer text-sm font-medium px-3 bg-white py-1 rounded absolute mt-3 ml-6 " >Sold out</button>
                 <img
