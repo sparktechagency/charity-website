@@ -9,11 +9,14 @@ import "@ant-design/v5-patch-for-react-19";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import { Toaster } from "react-hot-toast";
+import { HelmetProvider } from "react-helmet-async";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-      <Toaster />
-    </Provider>
+    <HelmetProvider  >
+      <Provider store={store}>
+        <RouterProvider router={router} />
+        <Toaster />
+      </Provider>
+    </HelmetProvider>
   </StrictMode>
 );

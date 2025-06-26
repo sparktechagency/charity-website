@@ -12,6 +12,7 @@ import useAxiosPublic from "../../pages/hooks/useAxiosPublic";
 import ProfileCard from "../client/profile-card/ProfileCard";
 import { imgUrl } from "../../helper/imgUrl";
 import { MdOutlineMenu } from "react-icons/md";
+import toast, { Toaster } from "react-hot-toast";
 const Navbar = () => {
   // api and token related function start
   const [profileData, setProfileData] = useState({});
@@ -30,6 +31,7 @@ const Navbar = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("authId");
     window.location.reload();
+    toast.success("Logout successfully");
   };
 
   useEffect(() => {
@@ -516,6 +518,7 @@ const Navbar = () => {
       >
         <ProfileCard setProfileCard={setProfileCard} profileData={profileData} handleLogout={handleLogout} />
       </Modal>
+      <Toaster position="top-center" />
     </nav>
   );
 };

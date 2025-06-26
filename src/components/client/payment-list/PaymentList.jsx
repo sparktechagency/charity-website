@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { FaCcVisa, FaCcMastercard, FaCcAmex, FaPaypal, FaApplePay, FaGooglePay } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAxiosPublic from "../../../pages/hooks/useAxiosPublic";
+import { Helmet } from "react-helmet-async";
 
 const PaymentList = () => {
     const axiosPublic = useAxiosPublic()
@@ -32,9 +33,16 @@ const PaymentList = () => {
             setLoading(false);
         }
     };
+    const handleGooglePay = () => {
+        navigate("/google-pay", { state: payload })
+    }
     return (
         <div className="bg-[#f6f8fb] min-h-screen py-10 lg:px-4">
+
             <div className="max-w-7xl mx-auto">
+                <Helmet>
+                    <title>Virtuehope | Paymentlist</title>
+                </Helmet>
                 <div className=" flex   items-center " >
                     {/* <Link
                         to="/user-details"
@@ -130,7 +138,7 @@ const PaymentList = () => {
                             </div>
 
                             {/* Google Pay */}
-                            <div onClick={handleSubmitStripe} className="border rounded-lg p-4 flex items-center justify-between hover:shadow cursor-pointer">
+                            <div onClick={handleGooglePay} className="border rounded-lg p-4 flex items-center justify-between hover:shadow cursor-pointer">
                                 <span className="text-base font-medium">Google Pay</span>
                                 {/* <FaGooglePay className="text-2xl text-green-600" /> */}
                                 <span>

@@ -11,10 +11,12 @@ import {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import { Helmet } from "react-helmet-async";
 
 const { Option } = Select;
 
 const UserDetails = () => {
+
   const location = useLocation();
   const navigate = useNavigate();
   const payload = location.state;
@@ -62,6 +64,9 @@ const UserDetails = () => {
 
   return (
     <div className="flex flex-col lg:flex-row max-w-[1512px] mx-auto mt-20">
+      <Helmet>
+        <title>Virtuehope | Userdetails</title>
+      </Helmet>
       <div className="max-w-2xl border mx-auto p-6 bg-white rounded-2xl w-full shadow-md">
 
         <div className="bg-white rounded-full p-4  flex items-center justify-center gap-6">
