@@ -24,7 +24,7 @@ const PaymentList = () => {
 
             if (approvalLink) {
                 window.location.href = approvalLink;
-            } else {
+            }else {
                 console.error("PayPal approval link not found in response.");
             }
         } catch (error) {

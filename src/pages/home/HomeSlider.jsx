@@ -642,10 +642,10 @@ const HomeSlider = () => {
       <div className=" hidden 2xl:flex " >
         <div ref={sliderRef} className="keen-slider ">
           <div className="keen-slider__slide number-slide1">
-            <div className="relative   ">
+            <div className="relative    ">
               <img
                 src="/auctionBg-img.jpg"
-                className="w-full  object-cover h-[85vh] rounded-2xl"
+                className="w-full  object-cover h-[81.5vh] rounded-2xl"
                 alt="Auction Background"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/80 to-transparent rounded-2xl"></div>
@@ -726,8 +726,7 @@ const HomeSlider = () => {
                                 <p className="text-[#263234] lg:text-xl font-semibold">
                                   {timeLeft[index] || "time"}
                                 </p>
-                                {/* <p>Created at: {formatDate(slide.updated_at)}</p> */}
-                                {/* <p>Time left: {timeLeft[index]}</p> */}
+                                
                               </div>
                             </div>
 
