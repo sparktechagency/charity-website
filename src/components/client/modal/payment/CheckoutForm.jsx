@@ -98,8 +98,16 @@ const CheckoutForm = ({ userDetails, paymentId }) => {
             return;
           }
         } catch (error) {
-          console.error("Error saving donation:", error.response?.data?.message);
-          message.error("Payment succeeded, but failed to save donation record.");
+          navigate("/")
+          Swal.fire({
+            position: "top-center",
+            icon: "warning",
+            title: "Payment fail",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          // console.error("Error saving donation:", error.response?.data?.message);
+          // message.error("Payment succeeded, but failed to save donation record.");
         }
       }
     } catch (err) {
