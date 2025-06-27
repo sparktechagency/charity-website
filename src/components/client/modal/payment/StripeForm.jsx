@@ -68,7 +68,7 @@ const StripeForm = () => {
     <div className="max-w-[600px] mx-auto py-28 ">
       {clientSecret ? (
         <Elements options={{ clientSecret, appearance }} stripe={stripePromise}>
-          {/* <CheckoutForm paymentId={paymentId} userDetails={userDetails} clientSecret={clientSecret} /> */}
+          
           <CheckoutForm paymentId={paymentId} userDetails={userDetails} clientSecret={clientSecret} />
         </Elements>
       ) : (

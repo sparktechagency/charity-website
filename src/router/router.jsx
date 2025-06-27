@@ -46,6 +46,7 @@ import WinnerPaymentPage from "../pages/winner-payment-page/WinnerPaymentPage";
 import CookiePolicyPage from "../pages/cookie/CookiePolicyPage";
 import PrivacyPage from "../pages/privacy/PrivacyPage";
 import GooglePay from "../components/client/payment-list/GooglePay";
+import GooglePayContainer from "../components/client/payment-list/GooglePayContainer";
 
 
 export const router = createBrowserRouter([
@@ -236,6 +237,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "google-pay",
-    element: <GooglePay></GooglePay>
+    element: <GooglePayContainer></GooglePayContainer>
   }
 ]);

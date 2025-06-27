@@ -110,7 +110,6 @@ const CheckoutForm = ({ userDetails, paymentId }) => {
     }
   };
 
-  console.log(paymentRequest)
 
   return (
     <div className="max-w-4xl mx-auto">
