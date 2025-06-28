@@ -8,7 +8,7 @@ import {
 import axios from 'axios';
 import useAxiosPublic from '../../../pages/hooks/useAxiosPublic';
 
-const GooglePay = ({ clientSecret, user }) => {
+const GooglePay = ({ clientSecret, userDetails, paymentId }) => {
     const stripe = useStripe();
     const elements = useElements();
     const [paymentRequest, setPaymentRequest] = useState(null);
@@ -16,7 +16,7 @@ const GooglePay = ({ clientSecret, user }) => {
 
     useEffect(() => {
         const initPayment = async () => {
-            if (!stripe || !elements || !clientSecret || !user) return;
+            if (!stripe || !elements || !clientSecret || !userDetails) return;
 
             const pr = stripe.paymentRequest({
                 country: 'US',
@@ -34,6 +34,8 @@ const GooglePay = ({ clientSecret, user }) => {
                 ],
             });
 
+            console.log(paymentId, userDetails?.donation_type, userDetails?.frequency, userDetails?.name, userDetails?.email, userDetails?.remark, userDetails?.amount, userDetails?.phone_number,)
+
             const result = await pr.canMakePayment();
             console.log('canMakePayment result:', result);
 
@@ -45,7 +47,7 @@ const GooglePay = ({ clientSecret, user }) => {
                     try {
                         await axiosPublic.post('/donate-money', {
                             transaction_id: paymentId,
-                            payment_type: paymentTypeLocal,
+                            payment_type: "google-pay",
                             donation_type: userDetails?.donation_type,
                             frequency: userDetails?.frequency,
                             name: userDetails?.name,
@@ -83,7 +85,7 @@ const GooglePay = ({ clientSecret, user }) => {
         };
 
         initPayment();
-    }, [stripe, elements, clientSecret, user]);
+    }, [stripe, elements, clientSecret, userDetails]);
 
     if (!paymentRequest)
         return <p className="text-red-500">Google Pay is not available on this device.</p>;

@@ -4,9 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CheckoutForm from './CheckoutForm';
 // Your Stripe publishable key
-const stripePromise = loadStripe(
-  "pk_test_51RLzucIC4wM63k4fYkVbJvppgGxZY61KXU8F0fxBOPYyFmez1J8y26q62vSyIXr5C2t8seOfOBSocn0TvK4UhkgJ00bvXfaKfw"
-);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 
 const StripeForm = () => {
@@ -68,7 +66,6 @@ const StripeForm = () => {
     <div className="max-w-[600px] mx-auto py-28 ">
       {clientSecret ? (
         <Elements options={{ clientSecret, appearance }} stripe={stripePromise}>
-          {/* <CheckoutForm paymentId={paymentId} userDetails={userDetails} clientSecret={clientSecret} /> */}
           <CheckoutForm paymentId={paymentId} userDetails={userDetails} clientSecret={clientSecret} />
         </Elements>
       ) : (
