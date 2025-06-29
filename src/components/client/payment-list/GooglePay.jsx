@@ -5,7 +5,6 @@ import {
     useStripe,
     useElements,
 } from '@stripe/react-stripe-js';
-import axios from 'axios';
 import useAxiosPublic from '../../../pages/hooks/useAxiosPublic';
 
 const GooglePay = ({ clientSecret, userDetails, paymentId }) => {
@@ -20,24 +19,26 @@ const GooglePay = ({ clientSecret, userDetails, paymentId }) => {
 
             const pr = stripe.paymentRequest({
                 country: 'US',
-                currency: 'usd',
+                currency: 'gbp',
                 total: {
                     label: 'Donation',
-                    amount: 500,
+                    amount: userDetails?.amount,
                 },
                 requestPayerName: true,
                 requestPayerEmail: true,
                 supportedPaymentMethods: [
                     {
                         supportedMethods: 'card',
+                        data: {
+                            supportedNetworks: ['visa', 'mastercard', 'amex'],
+                            supportedTypes: ['debit', 'credit'],
+                        },
                     },
                 ],
             });
 
-            console.log(paymentId, userDetails?.donation_type, userDetails?.frequency, userDetails?.name, userDetails?.email, userDetails?.remark, userDetails?.amount, userDetails?.phone_number,)
 
             const result = await pr.canMakePayment();
-            console.log('canMakePayment result:', result);
 
             if (result) {
                 setPaymentRequest(pr);
@@ -73,7 +74,7 @@ const GooglePay = ({ clientSecret, userDetails, paymentId }) => {
                     if (error) {
                         ev.complete('fail');
                         alert('Payment failed!');
-                        console.error(error);
+                        console.log(error);
                     } else {
                         ev.complete('success');
                         alert('Payment successful!');
