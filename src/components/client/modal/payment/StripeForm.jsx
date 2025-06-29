@@ -50,7 +50,7 @@ const StripeForm = () => {
         setPaymentId(data?.data?.id)
       })
       .catch((error) => {
-        navigate("/payment-list")
+        navigate("/")
       });
   }, [userPayload?.amount]);
 

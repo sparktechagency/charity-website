@@ -23,10 +23,10 @@ const GooglePayContainer = () => {
         remark: userPayload?.remark,
         phone_number: userPayload?.phone_number
     };
-
+    console.log(typeof userPayload?.amount)
     useEffect(() => {
         if (!userPayload?.amount) {
-            navigate("/user-details");
+            navigate("/");
             return;
         }
 
