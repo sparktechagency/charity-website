@@ -1,9 +1,13 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const PrivacyPage = () => {
     window.scrollTo(0, 0);
     return (
         <div className=' pt-12 ' >
+            <Helmet>
+                <title>Virtuehope | Privacy</title>
+            </Helmet>
             <div className="max-w-[1216px] mx-auto px-4 py-10 text-gray-800">
                 <h1 className="text-xl lg:text-5xl  font-bold mb-6 text-center text-[#403730]">
                     Privacy Notice - Virtue Hope C.I.C.

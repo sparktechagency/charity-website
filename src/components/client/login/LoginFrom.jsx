@@ -14,7 +14,7 @@ const LoginForm = ({ setLoginModal, loginModal, form }) => {
   const [success, setSuccess] = useState(false);
   const formData = new FormData();
   const [otpFrom] = Form.useForm();
-
+  const [forgetFrom] = Form.useForm();
   // login modal 
 
   const onFinish = async (values) => {
@@ -195,6 +195,7 @@ const LoginForm = ({ setLoginModal, loginModal, form }) => {
 
   const closeForgetPasswordModal = () => {
     setForgetPasswordModal(false);
+    forgetFrom.resetFields();
   };
 
   const [userEmail, setUserEmail] = useState(null);
@@ -207,14 +208,16 @@ const LoginForm = ({ setLoginModal, loginModal, form }) => {
 
       }); // 👈 small fix here too (send object, not just string)
 
+      console.log(res)
+
       if (res.data.success) {
         // ✅ Email verification request successful
-        toast.success("Verification email sent!");
+        toast.success("Verification code sent!");
         setForgetPasswordModal(false);
         setLoginModal(false);
         setIsOtpVerifyModal(true);
         setUserEmail(values.email)
-        form.resetFields();
+        forgetFrom.resetFields();
         return;
       } else {
         toast.error("Failed to send verification email.");
@@ -224,7 +227,7 @@ const LoginForm = ({ setLoginModal, loginModal, form }) => {
     } finally {
 
       setLoading(false);
-      form.resetFields();
+      forgetFrom.resetFields();
       return;
     }
   };

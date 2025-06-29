@@ -778,7 +778,7 @@ const HomeSlider = () => {
                               {/* Bid Button and Dropdown */}
                               <div className="relative flex flex-col items-end w-full">
                                 <div className="flex">
-                                  <button className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-2 py-2.5 transition w-fit">
+                                  <button className="flex items-center gap-2  cursor-pointer bg-[#403730] text-white text-sm font-semibold px-1 py-2.5 transition w-fit">
                                     £ {selectedBids[index]
                                       ? selectedBids[index]
                                       : slide.price}{" "}
@@ -786,7 +786,7 @@ const HomeSlider = () => {
                                   </button>
                                   <button
                                     onClick={() => handleBidSubmit(index, selectedBids[index] || slide.price)}
-                                    className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-4 py-2.5 hover:bg-[#2c241f] transition w-fit"
+                                    className="flex items-center gap-2 cursor-pointer bg-[#403730] text-white text-sm font-semibold px-1 py-2.5 hover:bg-[#2c241f] transition w-fit"
                                   >
                                     Bid online
                                   </button>

@@ -5,6 +5,7 @@ import useAxiosPublic from "../../pages/hooks/useAxiosPublic";
 import toast, { Toaster } from "react-hot-toast";
 import { FaCcApplePay, FaCcPaypal, FaCcVisa, FaFacebookF, FaGooglePay, FaInstagramSquare, FaLinkedin, FaTiktok, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import Swal from "sweetalert2";
 const Footer = () => {
   const axiosPublic = useAxiosPublic();
   const [loading, setLoading] = useState(false);
@@ -32,11 +33,24 @@ const Footer = () => {
       });
 
       if (res.data.success) {
-        toast.success("Subscribed successfully.");
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Subscribe successfully",
+          showConfirmButton: true,
+          timer: 1500
+        });
         setEmail("");
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Subscription failed.");
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: error.response?.data?.message || "Subscription failed.",
+        showConfirmButton: true,
+        timer: 1500
+      });
+      toast.error();
     } finally {
       setLoading(false);
     }
@@ -136,7 +150,7 @@ const Footer = () => {
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-4 items-center  lg:flex-row gap-x-3 w-full">
                   <input
                     type="email"
-                    value={email} 
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     placeholder="Enter your email address"
