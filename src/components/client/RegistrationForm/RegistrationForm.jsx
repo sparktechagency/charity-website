@@ -75,7 +75,7 @@ const RegistrationForm = ({ setIsOpenModal, setLoginModal, isModalOpen, form }) 
       toast.error(error.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
-      form.resetFields();
+      // form.resetFields();
       return;
     }
   };

@@ -1,9 +1,13 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 
 const PrivacyPolicyPage = () => {
     window.scrollTo(0, 0);
     return (
         <div className=" py-10 px-4">
+            <Helmet>
+                <title>Virtuehope | Cookie</title>
+            </Helmet>
             <div className="max-w-[1480px] mx-auto bg-white rounded-lg  p-6 md:p-10">
                 <h1 className="text-3xl font-bold text-center text-black mb-8">
                     Privacy Notice & Cookie Policy - Virtue Hope C.I.C.
