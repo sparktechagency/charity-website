@@ -39,6 +39,7 @@ const StripeForm = () => {
       // No body needed for this API
     })
       .then((res) => {
+        console.log(`response is ${res}`)
 
         if (!res.ok) {
           throw new Error("Network response was not ok");

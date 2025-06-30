@@ -98,6 +98,7 @@ const CheckoutForm = ({ userDetails, paymentId }) => {
             return;
           }
         } catch (error) {
+          console.log(`error is ${error}`)
           navigate("/")
           Swal.fire({
             position: "top-center",

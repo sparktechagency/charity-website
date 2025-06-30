@@ -8,7 +8,18 @@ const WinnerPayment = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
     const location = useLocation();
-    const payload = location.state;
+    const params = new URLSearchParams(window.location.search);
+    const contributorId = params.get("contributor_id");
+    const amount = params.get("amount");
+    const auctionName = params.get("auction_name");
+    const description = params.get("description");
+    const winnerName = params.get("winner_name");
+    const email = params.get("email");
+
+    console.log({ contributorId, amount, auctionName, description, winnerName, email });
+
+    const payload = { contributorId, amount, auctionName, description, winnerName, email };
+
     const handleSubmitStripe = () => {
         navigate("/stripe-from", { state: payload })
     }
@@ -16,7 +27,7 @@ const WinnerPayment = () => {
         try {
             setLoading(true);
             const res = await axios.post(
-                `http://137.59.180.219:8000/api/create-paypal-payment-intent?amount=${payload.amount}&currency=USD`
+                `http://137.59.180.219:8000/api/create-paypal-payment-intent?amount=${amount}&currency=USD`
             );
 
             const approvalLink = res?.data?.approve_link;
@@ -43,7 +54,7 @@ const WinnerPayment = () => {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {/* Credit Card */}
-                            <div onClick={handleSubmitStripe} className="border rounded-lg p-4 flex flex-col gap-2 hover:shadow cursor-pointer">
+                            <div className="border rounded-lg p-4 flex flex-col gap-2 hover:shadow cursor-pointer">
                                 <span className="text-base font-medium"> Card</span>
                                 <div className="flex items-center gap-4 text-2xl text-gray-700">
                                     <FaCcAmex />
@@ -85,15 +96,15 @@ const WinnerPayment = () => {
                                 contentStyle={{ color: "#263234" }}
                             >
                                 <Descriptions.Item label="Auction Name">
-                                    {"Ishan"}
+                                    {auctionName}
                                 </Descriptions.Item>
 
                                 <Descriptions.Item label="Email">
-                                    {"email"}
+                                    {winnerName}
                                 </Descriptions.Item>
 
                                 <Descriptions.Item className="" label="Amount">
-                                    £ {200}
+                                    £ {amount}
                                 </Descriptions.Item>
 
 
@@ -102,7 +113,9 @@ const WinnerPayment = () => {
                             <Descriptions.Item label="Auction Details">
                                 <div className=" leading-relaxed h-[150px] overflow-y-scroll mt-2 " >
                                     <p className=" text-justify " >
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem porro placeat nam aliquam provident! A vel quibusdam commodi, earum iusto vitae laborum voluptatem reiciendis rem ipsam sapiente obcaecati accusamus tempora magnam temporibus facilis mollitia dolore ad eaque voluptatum facere esse ducimus nulla. Magni recusandae placeat nesciunt perferendis animi iste doloribus sequi, natus, culpa reprehenderit ipsam dolores soluta voluptatem perspiciatis. Error iure optio rerum voluptate ratione facilis minima odio dolor officiis porro ex earum veritatis, laborum illum fuga pariatur eius libero explicabo maiores, reprehenderit enim autem qui vel tenetur. Accusantium nesciunt minima quos vitae corrupti maxime nemo molestiae error reiciendis quaerat.
+                                        {
+                                            description
+                                        }
                                     </p>
                                 </div>
                             </Descriptions.Item>
