@@ -10,7 +10,7 @@ import {
 } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+
 import { Helmet } from "react-helmet-async";
 
 const { Option } = Select;
@@ -33,6 +33,8 @@ const UserDetails = () => {
     remark: payload?.remark,
     phone_number: payload?.phone_number,
   };
+
+  console.log("frequency", payload?.frequency,)
 
   const navigateStripeFrom = () => {
     navigate("/payment-list", { state: userPayload });

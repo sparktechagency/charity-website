@@ -9,8 +9,9 @@ const PaymentModal = () => {
   const [donationType, setDonationType] = useState("one_time_donate");
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState("");
-  const [paymentType, setPaymentType] = useState("montly");
+  const [paymentType, setPaymentType] = useState("single_payment");
   const navigate = useNavigate();
+
 
   const presetAmounts = [19.5, 24.5, 45.5, 99.5];
 
@@ -110,7 +111,7 @@ const PaymentModal = () => {
                       defaultValue="monthly"
                       name="frequency"
                     >
-                      <Radio.Button value="montly">Monthly</Radio.Button>
+                      <Radio.Button value="monthly">Monthly</Radio.Button>
                       <Radio.Button value="quantely">Quarterly</Radio.Button>
                       <Radio.Button value="annually">Annually</Radio.Button>
                     </Radio.Group>
